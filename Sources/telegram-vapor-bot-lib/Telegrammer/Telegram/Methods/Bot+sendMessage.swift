@@ -50,17 +50,6 @@ public extension TGBot {
         }
     }
 
-    /**
-     Use this method to send text messages. On success, the sent Message is returned.
-
-     SeeAlso Telegram TGBot API Reference:
-     [SendMessageParams](https://core.telegram.org/bots/api#sendmessage)
-     
-     - Parameters:
-         - params: Parameters container, see `SendMessageParams` struct
-     - Throws: Throws on errors
-     - Returns: Future of `Message` type
-     */
     @discardableResult
     func sendMessage(params: SendMessageParams) throws -> EventLoopFuture<Message> {
         let methodURL: URI = .init(string: getMethodURL("sendMessage"))
