@@ -446,14 +446,14 @@ def generate_method(f, node)
         method_description << "#{ONE} - Parameters:\n"
         method_description << "#{TWO} - params: Parameters container, see `#{method_name_capitalized}` struct\n"
         method_description << "#{ONE} - Throws: Throws on errors\n"
-        method_description << "#{ONE} - Returns: Future of `#{result_type}` type\n"
+        method_description << "#{ONE} - Returns: EventLoopFuture of `#{result_type}` type\n"
         method_description << "#{ONE} */\n"
 
 	if all_params.empty?
 		params_block = "(params: #{method_name_capitalized}? = nil)"
         out.write method_description
         out.write "#{ONE}@discardableResult\n"
-		out.write "#{ONE}func #{method_name}() throws -> Future<#{result_type}> {\n"
+		out.write "#{ONE}func #{method_name}() throws -> EventLoopFuture<#{result_type}> {\n"
 	else
 	
 		encodable_type = "Encodable"
@@ -480,22 +480,21 @@ def generate_method(f, node)
 			params_block = "(params: #{method_name_capitalized}? = nil)"
 		end
         
-        out.write method_description
-        out.write "#{ONE}@discardableResult\n"
-		out.write "#{ONE}func #{method_name}#{params_block} throws -> Future<#{result_type}> {\n"
+    out.write method_description
+    out.write "#{ONE}@discardableResult\n"
+		out.write "#{ONE}func #{method_name}#{params_block} throws -> EventLoopFuture<#{result_type}> {\n"
 
-		out.write "#{TWO}let body = try httpBody(for: params)\n"
-		out.write "#{TWO}let headers = httpHeaders(for: params)\n"
+		out.write "#{TWO}let methodURL: URI = .init(string: getMethodURL(\"#{method_name}\"))\n"
+    if all_params.empty?
+      out.write "#{TWO}let future: EventLoopFuture<#{result_type}> = tgClient.post(methodURL)\n"
+    else
+		  out.write "#{TWO}let future: EventLoopFuture<#{result_type}> = tgClient.post(methodURL, params: params)\n"
+    end
 		body_param = ", body: body, headers: headers"
 	end
 	
-	out.write "#{TWO}return try client\n"\
-              "#{THREE}.request(endpoint: \"#{method_name}\"#{body_param})\n"\
-              "#{THREE}.flatMapThrowing { (container) -> #{result_type} in\n"\
-              "#{FOUR}return try self.processContainer(container)\n"\
-              "#{TWO}}\n"\
-			  "#{ONE}}\n"\
-			  "}\n"
+	out.write "#{TWO}return future\n"\
+			      "}\n"
 	}
 
 end
