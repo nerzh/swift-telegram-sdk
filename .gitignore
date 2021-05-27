@@ -6,3 +6,5 @@ xcuserdata/
 DerivedData/
 .swiftpm
 Package.resolved
+Api/Gemfile.lock
+Api/tg*

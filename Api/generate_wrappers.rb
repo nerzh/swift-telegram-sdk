@@ -8,7 +8,7 @@ require 'fileutils'
 
 HTML_FILE = 'tg-api.html'
 API_DIR = '../Sources/telegram-vapor-bot-lib/Bot/Telegram'
-API_FILE = 'api.txt'
+API_FILE = 'tg-api.txt'
 
 TYPE_HEADER = <<EOT
 // Telegram-vapor-bot-lib - Telegram Bot Swift SDK.
@@ -488,12 +488,17 @@ def generate_method(f, node)
     if all_params.empty?
       out.write "#{TWO}let future: EventLoopFuture<#{result_type}> = tgClient.post(methodURL)\n"
     else
-		  out.write "#{TWO}let future: EventLoopFuture<#{result_type}> = tgClient.post(methodURL, params: params)\n"
+      if has_obligatory_params
+		    out.write "#{TWO}let future: EventLoopFuture<#{result_type}> = tgClient.post(methodURL, params: params)\n"
+      else
+        out.write "#{TWO}let future: EventLoopFuture<#{result_type}> = tgClient.post(methodURL, params: params ?? TGEmptyParams())\n"
+      end
     end
 		body_param = ", body: body, headers: headers"
 	end
 	
 	out.write "#{TWO}return future\n"\
+            "#{ONE}}\n"\
 			      "}\n"
 	}
 
