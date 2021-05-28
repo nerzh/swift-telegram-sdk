@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'rubygems'
+require 'byebug'
 require 'bundler/setup'
 Bundler.require(:default)
 
@@ -64,13 +65,18 @@ end
 
 def make_swift_type_name(var_name, var_type)
 	array_prefix = 'Array of '
-	if var_type.start_with?(array_prefix)
-		var_type.slice! array_prefix
-        
-        if var_type == 'InputMediaPhoto and InputMediaVideo'
-            return "[InputMediaPhotoAndVideo]"
-        end
-		return "[#{var_type}]"
+  if var_type[/#{array_prefix}/i]
+		# var_type.slice! array_prefix
+    var_type.sub!(/#{array_prefix}/i, '')
+    var_type.strip!
+    # if var_type == 'InputMediaPhoto and InputMediaVideo'
+    #     # return "[InputMediaPhotoAndVideo]"
+    #     return "[InputMedia]"
+    # end
+    if var_type[/InputMedia/]
+        return "[InputMedia]"
+    end
+		return "[#{make_swift_type_name(var_name, var_type)}]"
 	end
 
 	case var_type
@@ -130,7 +136,10 @@ def make_init_body(request_name, swift_type_name, var_name, var_type, var_option
 end
 
 def deduce_result_type(description)
-	
+
+  type_name = description[/On success, an (.+)s that were sent is returned/, 1]
+  return type_name unless type_name.nil?
+
 	type_name = description[/invite link as (.+) on success/, 1]
 	return type_name unless type_name.nil?
 	
@@ -163,6 +172,9 @@ def deduce_result_type(description)
 
 	type_name = description[/Returns the uploaded (.+) on success./, 1]
 	return type_name unless type_name.nil?
+
+  type_name = description[/Returns the (.+) of the sent message/, 1]
+  return type_name unless type_name.nil?
 
 	type_name = description[/Returns (.+) on/, 1]
 	return type_name unless type_name.nil?
@@ -244,9 +256,9 @@ def convert_type(var_name, var_desc, var_type, type_name, var_optional)
 			end
 		elsif var_type.start_with?(array_prefix)
 			var_type.slice! array_prefix
-            if var_type == 'Integer'
-                var_type = 'Int'
-            end
+      if var_type == 'Integer'
+          var_type = 'Int'
+      end
 			# Present optional arrays as empty arrays
 			if var_optional
 				return "[#{var_type}]?"
@@ -308,7 +320,7 @@ def generate_model_file(f, node)
 			init_block        << "#{TWO}self.#{var_name_camel} = #{var_name_camel}\n"
 		}
         if type_name == "MaskPosition"
-        #     out.write "import Telegram-vapor-bot-libMultipart\n\n"
+            out.write "import Vapor\n\n"
         end
 
         out.write "/**\n"
@@ -324,7 +336,8 @@ def generate_model_file(f, node)
         var_protocol = "Codable"
 
         if type_name == "MaskPosition"
-            var_protocol += ", MultipartPartConvertible"
+            # var_protocol += ", MultipartPartConvertible"
+            # var_protocol += ", Encodable"
         end
 
         if type_name.start_with?('InputMedia')
@@ -356,6 +369,7 @@ def generate_method(f, node)
 	method_name = current_node.text
 	File.open("#{API_DIR}/#{models_dir}/TGBot+#{method_name}.swift", "wb") { | out |
 		out.write METHOD_HEADER
+    out.write "import Vapor\n\n"
 		out.write "public extension TGBot {\n"
 		out.write "\n"
 
@@ -396,7 +410,7 @@ def generate_method(f, node)
 					has_obligatory_params = true
 				end
 			end
-			
+
 			swift_type_name = make_swift_type_name(var_name, var_type)
 			
 			if swift_type_name == "FileInfo" || swift_type_name == "InputFile"
@@ -428,7 +442,6 @@ def generate_method(f, node)
         method_name_capitalized = method_name.dup
         method_name_capitalized = "#{method_name_capitalized.capitalize_first}Params"
 
-#		body_param = ", body: HTTPBody(), headers: HTTPHeaders()"
         body_param = ""
 
         #Generate description
@@ -483,19 +496,14 @@ def generate_method(f, node)
     out.write method_description
     out.write "#{ONE}@discardableResult\n"
 		out.write "#{ONE}func #{method_name}#{params_block} throws -> EventLoopFuture<#{result_type}> {\n"
-
-		out.write "#{TWO}let methodURL: URI = .init(string: getMethodURL(\"#{method_name}\"))\n"
-    if all_params.empty?
-      out.write "#{TWO}let future: EventLoopFuture<#{result_type}> = tgClient.post(methodURL)\n"
-    else
-      if has_obligatory_params
-		    out.write "#{TWO}let future: EventLoopFuture<#{result_type}> = tgClient.post(methodURL, params: params)\n"
-      else
-        out.write "#{TWO}let future: EventLoopFuture<#{result_type}> = tgClient.post(methodURL, params: params ?? TGEmptyParams())\n"
-      end
-    end
-		body_param = ", body: body, headers: headers"
 	end
+
+  out.write "#{TWO}let methodURL: URI = .init(string: getMethodURL(\"#{method_name}\"))\n"
+  if all_params.empty?
+    out.write "#{TWO}let future: EventLoopFuture<#{result_type}> = tgClient.post(methodURL)\n"
+  else
+    out.write "#{TWO}let future: EventLoopFuture<#{result_type}> = tgClient.post(methodURL, params: params)\n"
+  end
 	
 	out.write "#{TWO}return future\n"\
             "#{ONE}}\n"\

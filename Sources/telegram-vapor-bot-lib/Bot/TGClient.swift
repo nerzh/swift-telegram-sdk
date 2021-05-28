@@ -18,8 +18,8 @@ private struct TGEmptyParams: Encodable {}
 public protocol TGClient {
 
     @discardableResult
-    func get<Params: Encodable, Response: Codable>(_ url: URI, params: Params, as mediaType: Vapor.HTTPMediaType) -> EventLoopFuture<Response>
-    
+    func get<Params: Encodable, Response: Codable>(_ url: URI, params: Params, as mediaType: Vapor.HTTPMediaType?) -> EventLoopFuture<Response>
+
     @discardableResult
     func get<Params: Encodable, Response: Codable>(_ url: URI, params: Params) -> EventLoopFuture<Response>
 
@@ -27,7 +27,7 @@ public protocol TGClient {
     func get<Response: Codable>(_ url: URI) -> EventLoopFuture<Response>
 
     @discardableResult
-    func post<Params: Encodable, Response: Codable>(_ url: URI, params: Params, as mediaType: Vapor.HTTPMediaType) -> EventLoopFuture<Response>
+    func post<Params: Encodable, Response: Codable>(_ url: URI, params: Params, as mediaType: Vapor.HTTPMediaType?) -> EventLoopFuture<Response>
 
     @discardableResult
     func post<Params: Encodable, Response: Codable>(_ url: URI, params: Params) -> EventLoopFuture<Response>
@@ -49,10 +49,10 @@ public final class DefaultTGClient: TGClient {
     (
         _ url: URI,
         params: Params,
-        as mediaType: Vapor.HTTPMediaType
+        as mediaType: Vapor.HTTPMediaType? = nil
     ) -> EventLoopFuture<Response> {
         client.get(url, headers: HTTPHeaders()) { clientRequest in
-            try clientRequest.content.encode(params, as: mediaType)
+            try clientRequest.content.encode(params, as: mediaType ?? .formData)
         }.flatMapThrowing { (clientResponse) throws -> TelegramContainer<Response> in
             try clientResponse.content.decode(TelegramContainer<Response>.self)
         }.flatMapThrowing { [self] telegramContainer in
@@ -62,7 +62,7 @@ public final class DefaultTGClient: TGClient {
 
     @discardableResult
     public func get<Params: Encodable, Response: Codable>(_ url: URI, params: Params) -> EventLoopFuture<Response> {
-        self.get(url, params: params, as: .formData)
+        self.get(url, params: params, as: nil)
     }
 
     @discardableResult
@@ -75,10 +75,10 @@ public final class DefaultTGClient: TGClient {
     (
         _ url: URI,
         params: Params,
-        as mediaType: Vapor.HTTPMediaType
+        as mediaType: Vapor.HTTPMediaType? = nil
     ) -> EventLoopFuture<Response> {
         client.post(url, headers: HTTPHeaders()) { clientRequest in
-            try clientRequest.content.encode(params, as: mediaType)
+            try clientRequest.content.encode(params, as: mediaType ?? .formData)
         }.flatMapThrowing { (clientResponse) throws -> TelegramContainer<Response> in
             try clientResponse.content.decode(TelegramContainer<Response>.self)
         }.flatMapThrowing { [self] telegramContainer in
@@ -88,7 +88,7 @@ public final class DefaultTGClient: TGClient {
 
     @discardableResult
     public func post<Params: Encodable, Response: Codable>(_ url: URI, params: Params) -> EventLoopFuture<Response> {
-        self.post(url, params: params, as: .formData)
+        self.post(url, params: params, as: nil)
     }
 
     @discardableResult

@@ -32,17 +32,17 @@ public enum InputMedia: Encodable {
     }
 }
 
-public enum InputMediaPhotoAndVideo: Encodable {
-    case inputMediaPhoto(InputMediaPhoto)
-    case inputMediaVideo(InputMediaVideo)
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        switch self {
-        case .inputMediaPhoto(let value):
-            try container.encode(value)
-        case .inputMediaVideo(let value):
-            try container.encode(value)
-        }
-    }
-}
+//public enum InputMediaPhotoAndVideo: Encodable {
+//    case inputMediaPhoto(InputMediaPhoto)
+//    case inputMediaVideo(InputMediaVideo)
+//
+//    public func encode(to encoder: Encoder) throws {
+//        var container = encoder.singleValueContainer()
+//        switch self {
+//        case .inputMediaPhoto(let value):
+//            try container.encode(value)
+//        case .inputMediaVideo(let value):
+//            try container.encode(value)
+//        }
+//    }
+//}

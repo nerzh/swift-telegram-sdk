@@ -19,7 +19,7 @@ public extension Message {
      */
     func reply(text: String, from bot: TGBot, parseMode: ParseMode? = nil, replyMarkup: ReplyMarkup? = nil) throws {
         let params = TGBot.SendMessageParams(
-            chatId: .chat(chat.id),
+            chatId: .chat(Int64(chat.id)),
             text: text,
             parseMode: parseMode,
             replyMarkup: replyMarkup

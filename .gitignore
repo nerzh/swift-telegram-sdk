@@ -8,3 +8,4 @@ DerivedData/
 Package.resolved
 Api/Gemfile.lock
 Api/tg*
+.byebug*
