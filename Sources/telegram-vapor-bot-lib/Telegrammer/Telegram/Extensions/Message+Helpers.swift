@@ -38,21 +38,21 @@ public extension Message {
      
      - Throws: Throws on errors
      */
-//    func edit(
-//        text: String,
-//        from bot: TGBot,
-//        parseMode: ParseMode? = nil,
-//        replyMarkup: InlineKeyboardMarkup? = nil
-//    ) throws {
-//        let params = TGBot.EditMessageTextParams(
-//            chatId: .chat(chat.id),
-//            messageId: messageId,
-//            text: text,
-//            parseMode: parseMode,
-//            replyMarkup: replyMarkup
-//        )
-//        try bot.editMessageText(params: params)
-//    }
+    func edit(
+        text: String,
+        from bot: TGBot,
+        parseMode: ParseMode? = nil,
+        replyMarkup: InlineKeyboardMarkup? = nil
+    ) throws {
+        let params = TGBot.EditMessageTextParams(
+            chatId: .chat(Int64(chat.id)),
+            messageId: messageId,
+            text: text,
+            parseMode: parseMode,
+            replyMarkup: replyMarkup
+        )
+        try bot.editMessageText(params: params)
+    }
 
     /**
      Helper method to easy edit message
@@ -62,13 +62,13 @@ public extension Message {
      
      - Throws: Throws on errors
      */
-//    func delete(from bot: TGBot) throws {
-//        let params = TGBot.DeleteMessageParams(
-//            chatId: .chat(chat.id),
-//            messageId: messageId
-//        )
-//        try bot.deleteMessage(params: params)
-//    }
+    func delete(from bot: TGBot) throws {
+        let params = TGBot.DeleteMessageParams(
+            chatId: .chat(Int64(chat.id)),
+            messageId: messageId
+        )
+        try bot.deleteMessage(params: params)
+    }
 
     func contains(command: String) -> Bool {
         guard let text = text, let entities = entities else { return false }
