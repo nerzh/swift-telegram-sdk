@@ -48,7 +48,7 @@ public extension TGBot {
     @discardableResult
     func deleteMessage(params: DeleteMessageParams) throws -> EventLoopFuture<Bool> {
         let methodURL: URI = .init(string: getMethodURL("deleteMessage"))
-        let future: EventLoopFuture<Bool> = tgClient.post(methodURL, params: params)
+        let future: EventLoopFuture<Bool> = tgClient.post(methodURL, params: params, as: nil)
         return future
     }
 }

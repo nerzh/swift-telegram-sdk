@@ -10,7 +10,7 @@
 public final class InlineQueryResultCachedVideo: Codable {
 
     /// Custom keys for coding/decoding `InlineQueryResultCachedVideo` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case type = "type"
         case id = "id"
         case videoFileId = "video_file_id"

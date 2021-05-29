@@ -10,7 +10,7 @@
 public final class Venue: Codable {
 
     /// Custom keys for coding/decoding `Venue` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case location = "location"
         case title = "title"
         case address = "address"

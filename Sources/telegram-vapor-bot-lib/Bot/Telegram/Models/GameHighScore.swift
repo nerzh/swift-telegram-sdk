@@ -10,7 +10,7 @@
 public final class GameHighScore: Codable {
 
     /// Custom keys for coding/decoding `GameHighScore` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case position = "position"
         case user = "user"
         case score = "score"

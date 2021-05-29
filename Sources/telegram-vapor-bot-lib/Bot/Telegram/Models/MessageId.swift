@@ -10,7 +10,7 @@
 public final class MessageId: Codable {
 
     /// Custom keys for coding/decoding `MessageId` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case messageId = "message_id"
     }
 

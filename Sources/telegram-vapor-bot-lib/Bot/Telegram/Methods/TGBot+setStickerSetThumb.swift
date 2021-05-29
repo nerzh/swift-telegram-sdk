@@ -45,7 +45,7 @@ public extension TGBot {
     @discardableResult
     func setStickerSetThumb(params: SetStickerSetThumbParams) throws -> EventLoopFuture<Bool> {
         let methodURL: URI = .init(string: getMethodURL("setStickerSetThumb"))
-        let future: EventLoopFuture<Bool> = tgClient.post(methodURL, params: params)
+        let future: EventLoopFuture<Bool> = tgClient.post(methodURL, params: params, as: nil)
         return future
     }
 }

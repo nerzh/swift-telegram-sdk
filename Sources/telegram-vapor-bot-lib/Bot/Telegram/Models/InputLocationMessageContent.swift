@@ -10,7 +10,7 @@
 public final class InputLocationMessageContent: Codable {
 
     /// Custom keys for coding/decoding `InputLocationMessageContent` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case latitude = "latitude"
         case longitude = "longitude"
         case horizontalAccuracy = "horizontal_accuracy"

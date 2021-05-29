@@ -10,7 +10,7 @@
 public final class InputMediaVideo: Encodable {
 
     /// Custom keys for coding/decoding `InputMediaVideo` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case type = "type"
         case media = "media"
         case thumb = "thumb"

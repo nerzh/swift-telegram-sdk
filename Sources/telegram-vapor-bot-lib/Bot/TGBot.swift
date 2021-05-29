@@ -14,11 +14,14 @@ public final class TGBot {
     public var tgURI: URI
     public var tgClient: TGClient
 
+    var offsetUpdates: Int = 0
+    var newOffsetUpdates: Int { offsetUpdates + 1 }
+    var longPollingQueue: DispatchQueue = .init(label: "com.telegram-vapor-bot-lib.longpolling", qos: .default)
+
     public static let standardTGURL: URI = .init(string: "https://api.telegram.org")
     private static var _shared: TGBot!
     private static var configured: Bool = false
     private static var handlers: Bool = false
-
 
     private init(tgClient: TGClient,
                  tgURI: URI,
@@ -48,10 +51,6 @@ public final class TGBot {
 
     public func getMethodURL(_ methodName: String) -> String {
         "\(tgURI)/bot\(botId)/\(methodName)"
-    }
-
-    public func process() throws {
-
     }
 }
 

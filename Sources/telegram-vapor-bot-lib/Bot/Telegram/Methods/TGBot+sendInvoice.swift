@@ -160,7 +160,7 @@ public extension TGBot {
     @discardableResult
     func sendInvoice(params: SendInvoiceParams) throws -> EventLoopFuture<Message> {
         let methodURL: URI = .init(string: getMethodURL("sendInvoice"))
-        let future: EventLoopFuture<Message> = tgClient.post(methodURL, params: params)
+        let future: EventLoopFuture<Message> = tgClient.post(methodURL, params: params, as: nil)
         return future
     }
 }

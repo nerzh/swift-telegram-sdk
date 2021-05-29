@@ -40,7 +40,7 @@ public extension TGBot {
     @discardableResult
     func setStickerPositionInSet(params: SetStickerPositionInSetParams) throws -> EventLoopFuture<Bool> {
         let methodURL: URI = .init(string: getMethodURL("setStickerPositionInSet"))
-        let future: EventLoopFuture<Bool> = tgClient.post(methodURL, params: params)
+        let future: EventLoopFuture<Bool> = tgClient.post(methodURL, params: params, as: nil)
         return future
     }
 }

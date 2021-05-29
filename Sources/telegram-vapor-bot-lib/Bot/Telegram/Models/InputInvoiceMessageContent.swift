@@ -10,7 +10,7 @@
 public final class InputInvoiceMessageContent: Codable {
 
     /// Custom keys for coding/decoding `InputInvoiceMessageContent` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case title = "title"
         case description = "description"
         case payload = "payload"

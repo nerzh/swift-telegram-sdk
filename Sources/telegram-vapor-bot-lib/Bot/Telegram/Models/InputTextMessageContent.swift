@@ -10,7 +10,7 @@
 public final class InputTextMessageContent: Codable {
 
     /// Custom keys for coding/decoding `InputTextMessageContent` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case messageText = "message_text"
         case parseMode = "parse_mode"
         case entities = "entities"

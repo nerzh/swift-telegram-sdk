@@ -10,7 +10,7 @@
 public final class ShippingAddress: Codable {
 
     /// Custom keys for coding/decoding `ShippingAddress` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case countryCode = "country_code"
         case state = "state"
         case city = "city"

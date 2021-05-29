@@ -50,7 +50,7 @@ public extension TGBot {
     @discardableResult
     func stopMessageLiveLocation(params: StopMessageLiveLocationParams? = nil) throws -> EventLoopFuture<MessageOrBool> {
         let methodURL: URI = .init(string: getMethodURL("stopMessageLiveLocation"))
-        let future: EventLoopFuture<MessageOrBool> = tgClient.post(methodURL, params: params)
+        let future: EventLoopFuture<MessageOrBool> = tgClient.post(methodURL, params: params, as: nil)
         return future
     }
 }

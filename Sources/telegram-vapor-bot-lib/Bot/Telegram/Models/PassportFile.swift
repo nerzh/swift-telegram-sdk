@@ -10,7 +10,7 @@
 public final class PassportFile: Codable {
 
     /// Custom keys for coding/decoding `PassportFile` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case fileId = "file_id"
         case fileUniqueId = "file_unique_id"
         case fileSize = "file_size"

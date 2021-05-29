@@ -10,7 +10,7 @@
 public final class ShippingQuery: Codable {
 
     /// Custom keys for coding/decoding `ShippingQuery` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case id = "id"
         case from = "from"
         case invoicePayload = "invoice_payload"

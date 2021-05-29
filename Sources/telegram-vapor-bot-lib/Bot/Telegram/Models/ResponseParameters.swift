@@ -10,7 +10,7 @@
 public final class ResponseParameters: Codable {
 
     /// Custom keys for coding/decoding `ResponseParameters` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case migrateToChatId = "migrate_to_chat_id"
         case retryAfter = "retry_after"
     }

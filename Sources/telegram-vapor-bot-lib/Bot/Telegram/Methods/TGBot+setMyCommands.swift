@@ -35,7 +35,7 @@ public extension TGBot {
     @discardableResult
     func setMyCommands(params: SetMyCommandsParams) throws -> EventLoopFuture<Bool> {
         let methodURL: URI = .init(string: getMethodURL("setMyCommands"))
-        let future: EventLoopFuture<Bool> = tgClient.post(methodURL, params: params)
+        let future: EventLoopFuture<Bool> = tgClient.post(methodURL, params: params, as: nil)
         return future
     }
 }

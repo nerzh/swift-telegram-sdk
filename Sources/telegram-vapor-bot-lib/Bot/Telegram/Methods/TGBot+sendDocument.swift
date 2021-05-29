@@ -85,7 +85,7 @@ public extension TGBot {
     @discardableResult
     func sendDocument(params: SendDocumentParams) throws -> EventLoopFuture<Message> {
         let methodURL: URI = .init(string: getMethodURL("sendDocument"))
-        let future: EventLoopFuture<Message> = tgClient.post(methodURL, params: params)
+        let future: EventLoopFuture<Message> = tgClient.post(methodURL, params: params, as: nil)
         return future
     }
 }

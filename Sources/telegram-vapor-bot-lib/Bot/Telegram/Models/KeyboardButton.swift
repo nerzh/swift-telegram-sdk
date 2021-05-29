@@ -10,7 +10,7 @@
 public final class KeyboardButton: Codable {
 
     /// Custom keys for coding/decoding `KeyboardButton` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case text = "text"
         case requestContact = "request_contact"
         case requestLocation = "request_location"

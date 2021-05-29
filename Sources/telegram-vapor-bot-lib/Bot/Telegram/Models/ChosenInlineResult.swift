@@ -10,7 +10,7 @@
 public final class ChosenInlineResult: Codable {
 
     /// Custom keys for coding/decoding `ChosenInlineResult` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case resultId = "result_id"
         case from = "from"
         case location = "location"

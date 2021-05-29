@@ -10,7 +10,7 @@
 public final class EncryptedCredentials: Codable {
 
     /// Custom keys for coding/decoding `EncryptedCredentials` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case data = "data"
         case hash = "hash"
         case secret = "secret"

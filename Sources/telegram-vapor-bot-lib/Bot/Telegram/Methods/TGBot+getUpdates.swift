@@ -52,7 +52,7 @@ public extension TGBot {
     @discardableResult
     func getUpdates(params: GetUpdatesParams? = nil) throws -> EventLoopFuture<[Update]> {
         let methodURL: URI = .init(string: getMethodURL("getUpdates"))
-        let future: EventLoopFuture<[Update]> = tgClient.post(methodURL, params: params)
+        let future: EventLoopFuture<[Update]> = tgClient.post(methodURL, params: params, as: nil)
         return future
     }
 }

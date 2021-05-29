@@ -10,7 +10,7 @@
 public final class PassportElementErrorTranslationFile: Codable {
 
     /// Custom keys for coding/decoding `PassportElementErrorTranslationFile` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case source = "source"
         case type = "type"
         case fileHash = "file_hash"

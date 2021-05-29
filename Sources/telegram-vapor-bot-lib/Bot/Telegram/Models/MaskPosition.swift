@@ -12,7 +12,7 @@ import Vapor
 public final class MaskPosition: Codable {
 
     /// Custom keys for coding/decoding `MaskPosition` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case point = "point"
         case xShift = "x_shift"
         case yShift = "y_shift"

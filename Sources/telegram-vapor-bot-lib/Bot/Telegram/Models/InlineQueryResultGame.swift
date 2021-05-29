@@ -10,7 +10,7 @@
 public final class InlineQueryResultGame: Codable {
 
     /// Custom keys for coding/decoding `InlineQueryResultGame` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case type = "type"
         case id = "id"
         case gameShortName = "game_short_name"

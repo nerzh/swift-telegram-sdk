@@ -35,7 +35,7 @@ public extension TGBot {
     @discardableResult
     func getChatAdministrators(params: GetChatAdministratorsParams) throws -> EventLoopFuture<[ChatMember]> {
         let methodURL: URI = .init(string: getMethodURL("getChatAdministrators"))
-        let future: EventLoopFuture<[ChatMember]> = tgClient.post(methodURL, params: params)
+        let future: EventLoopFuture<[ChatMember]> = tgClient.post(methodURL, params: params, as: nil)
         return future
     }
 }

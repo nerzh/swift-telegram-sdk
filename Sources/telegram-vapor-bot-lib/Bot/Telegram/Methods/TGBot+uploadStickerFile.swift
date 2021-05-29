@@ -40,7 +40,7 @@ public extension TGBot {
     @discardableResult
     func uploadStickerFile(params: UploadStickerFileParams) throws -> EventLoopFuture<File> {
         let methodURL: URI = .init(string: getMethodURL("uploadStickerFile"))
-        let future: EventLoopFuture<File> = tgClient.post(methodURL, params: params)
+        let future: EventLoopFuture<File> = tgClient.post(methodURL, params: params, as: nil)
         return future
     }
 }

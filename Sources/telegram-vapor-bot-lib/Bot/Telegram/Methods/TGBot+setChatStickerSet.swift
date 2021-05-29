@@ -40,7 +40,7 @@ public extension TGBot {
     @discardableResult
     func setChatStickerSet(params: SetChatStickerSetParams) throws -> EventLoopFuture<Bool> {
         let methodURL: URI = .init(string: getMethodURL("setChatStickerSet"))
-        let future: EventLoopFuture<Bool> = tgClient.post(methodURL, params: params)
+        let future: EventLoopFuture<Bool> = tgClient.post(methodURL, params: params, as: nil)
         return future
     }
 }

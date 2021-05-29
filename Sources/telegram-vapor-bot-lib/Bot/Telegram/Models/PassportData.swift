@@ -10,7 +10,7 @@
 public final class PassportData: Codable {
 
     /// Custom keys for coding/decoding `PassportData` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case data = "data"
         case credentials = "credentials"
     }

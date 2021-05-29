@@ -10,7 +10,7 @@
 public final class UserProfilePhotos: Codable {
 
     /// Custom keys for coding/decoding `UserProfilePhotos` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case totalCount = "total_count"
         case photos = "photos"
     }

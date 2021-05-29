@@ -10,7 +10,7 @@
 public final class Dice: Codable {
 
     /// Custom keys for coding/decoding `Dice` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case emoji = "emoji"
         case value = "value"
     }

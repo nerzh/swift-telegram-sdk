@@ -80,7 +80,7 @@ public extension TGBot {
     @discardableResult
     func sendVoice(params: SendVoiceParams) throws -> EventLoopFuture<Message> {
         let methodURL: URI = .init(string: getMethodURL("sendVoice"))
-        let future: EventLoopFuture<Message> = tgClient.post(methodURL, params: params)
+        let future: EventLoopFuture<Message> = tgClient.post(methodURL, params: params, as: nil)
         return future
     }
 }

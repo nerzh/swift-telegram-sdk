@@ -95,7 +95,7 @@ public extension TGBot {
     @discardableResult
     func sendVenue(params: SendVenueParams) throws -> EventLoopFuture<Message> {
         let methodURL: URI = .init(string: getMethodURL("sendVenue"))
-        let future: EventLoopFuture<Message> = tgClient.post(methodURL, params: params)
+        let future: EventLoopFuture<Message> = tgClient.post(methodURL, params: params, as: nil)
         return future
     }
 }

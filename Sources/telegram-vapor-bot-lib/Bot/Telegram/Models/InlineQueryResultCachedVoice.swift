@@ -10,7 +10,7 @@
 public final class InlineQueryResultCachedVoice: Codable {
 
     /// Custom keys for coding/decoding `InlineQueryResultCachedVoice` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case type = "type"
         case id = "id"
         case voiceFileId = "voice_file_id"

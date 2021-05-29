@@ -10,7 +10,7 @@
 public final class InlineQueryResultCachedMpeg4Gif: Codable {
 
     /// Custom keys for coding/decoding `InlineQueryResultCachedMpeg4Gif` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case type = "type"
         case id = "id"
         case mpeg4FileId = "mpeg4_file_id"

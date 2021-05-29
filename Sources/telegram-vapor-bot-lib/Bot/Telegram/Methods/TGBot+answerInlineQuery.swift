@@ -68,7 +68,7 @@ public extension TGBot {
     @discardableResult
     func answerInlineQuery(params: AnswerInlineQueryParams) throws -> EventLoopFuture<Bool> {
         let methodURL: URI = .init(string: getMethodURL("answerInlineQuery"))
-        let future: EventLoopFuture<Bool> = tgClient.post(methodURL, params: params)
+        let future: EventLoopFuture<Bool> = tgClient.post(methodURL, params: params, as: nil)
         return future
     }
 }

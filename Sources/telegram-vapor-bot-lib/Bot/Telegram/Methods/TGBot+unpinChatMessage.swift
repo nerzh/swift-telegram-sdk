@@ -40,7 +40,7 @@ public extension TGBot {
     @discardableResult
     func unpinChatMessage(params: UnpinChatMessageParams) throws -> EventLoopFuture<Bool> {
         let methodURL: URI = .init(string: getMethodURL("unpinChatMessage"))
-        let future: EventLoopFuture<Bool> = tgClient.post(methodURL, params: params)
+        let future: EventLoopFuture<Bool> = tgClient.post(methodURL, params: params, as: nil)
         return future
     }
 }

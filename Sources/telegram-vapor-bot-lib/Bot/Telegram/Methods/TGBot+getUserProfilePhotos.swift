@@ -45,7 +45,7 @@ public extension TGBot {
     @discardableResult
     func getUserProfilePhotos(params: GetUserProfilePhotosParams) throws -> EventLoopFuture<UserProfilePhotos> {
         let methodURL: URI = .init(string: getMethodURL("getUserProfilePhotos"))
-        let future: EventLoopFuture<UserProfilePhotos> = tgClient.post(methodURL, params: params)
+        let future: EventLoopFuture<UserProfilePhotos> = tgClient.post(methodURL, params: params, as: nil)
         return future
     }
 }

@@ -35,7 +35,7 @@ public extension TGBot {
     @discardableResult
     func deleteChatPhoto(params: DeleteChatPhotoParams) throws -> EventLoopFuture<Bool> {
         let methodURL: URI = .init(string: getMethodURL("deleteChatPhoto"))
-        let future: EventLoopFuture<Bool> = tgClient.post(methodURL, params: params)
+        let future: EventLoopFuture<Bool> = tgClient.post(methodURL, params: params, as: nil)
         return future
     }
 }

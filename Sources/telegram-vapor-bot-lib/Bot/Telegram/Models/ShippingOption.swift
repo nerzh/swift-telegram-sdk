@@ -10,7 +10,7 @@
 public final class ShippingOption: Codable {
 
     /// Custom keys for coding/decoding `ShippingOption` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case id = "id"
         case title = "title"
         case prices = "prices"

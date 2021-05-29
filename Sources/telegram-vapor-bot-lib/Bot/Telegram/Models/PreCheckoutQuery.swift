@@ -10,7 +10,7 @@
 public final class PreCheckoutQuery: Codable {
 
     /// Custom keys for coding/decoding `PreCheckoutQuery` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case id = "id"
         case from = "from"
         case currency = "currency"

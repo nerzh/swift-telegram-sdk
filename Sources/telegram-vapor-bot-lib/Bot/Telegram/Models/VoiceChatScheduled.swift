@@ -10,7 +10,7 @@
 public final class VoiceChatScheduled: Codable {
 
     /// Custom keys for coding/decoding `VoiceChatScheduled` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case startDate = "start_date"
     }
 

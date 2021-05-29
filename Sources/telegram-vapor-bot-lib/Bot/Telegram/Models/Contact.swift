@@ -10,7 +10,7 @@
 public final class Contact: Codable {
 
     /// Custom keys for coding/decoding `Contact` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case phoneNumber = "phone_number"
         case firstName = "first_name"
         case lastName = "last_name"

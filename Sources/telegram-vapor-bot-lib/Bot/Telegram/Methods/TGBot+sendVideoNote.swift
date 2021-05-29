@@ -75,7 +75,7 @@ public extension TGBot {
     @discardableResult
     func sendVideoNote(params: SendVideoNoteParams) throws -> EventLoopFuture<Message> {
         let methodURL: URI = .init(string: getMethodURL("sendVideoNote"))
-        let future: EventLoopFuture<Message> = tgClient.post(methodURL, params: params)
+        let future: EventLoopFuture<Message> = tgClient.post(methodURL, params: params, as: nil)
         return future
     }
 }

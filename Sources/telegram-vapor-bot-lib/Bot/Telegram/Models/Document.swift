@@ -10,7 +10,7 @@
 public final class Document: Codable {
 
     /// Custom keys for coding/decoding `Document` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case fileId = "file_id"
         case fileUniqueId = "file_unique_id"
         case thumb = "thumb"

@@ -10,7 +10,7 @@
 public final class StickerSet: Codable {
 
     /// Custom keys for coding/decoding `StickerSet` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case name = "name"
         case title = "title"
         case isAnimated = "is_animated"

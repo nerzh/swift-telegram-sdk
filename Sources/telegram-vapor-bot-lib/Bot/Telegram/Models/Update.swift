@@ -11,7 +11,7 @@
 public final class Update: Codable {
 
     /// Custom keys for coding/decoding `Update` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case updateId = "update_id"
         case message = "message"
         case editedMessage = "edited_message"

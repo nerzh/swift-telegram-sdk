@@ -13,7 +13,7 @@
 public final class LoginUrl: Codable {
 
     /// Custom keys for coding/decoding `LoginUrl` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case url = "url"
         case forwardText = "forward_text"
         case botUsername = "bot_username"

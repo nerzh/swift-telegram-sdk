@@ -10,7 +10,7 @@
 public final class InlineQueryResultCachedDocument: Codable {
 
     /// Custom keys for coding/decoding `InlineQueryResultCachedDocument` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case type = "type"
         case id = "id"
         case title = "title"

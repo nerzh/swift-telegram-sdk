@@ -10,7 +10,7 @@
 public final class ReplyKeyboardMarkup: Codable {
 
     /// Custom keys for coding/decoding `ReplyKeyboardMarkup` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case keyboard = "keyboard"
         case resizeKeyboard = "resize_keyboard"
         case oneTimeKeyboard = "one_time_keyboard"

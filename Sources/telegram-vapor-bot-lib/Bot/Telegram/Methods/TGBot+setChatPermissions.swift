@@ -40,7 +40,7 @@ public extension TGBot {
     @discardableResult
     func setChatPermissions(params: SetChatPermissionsParams) throws -> EventLoopFuture<Bool> {
         let methodURL: URI = .init(string: getMethodURL("setChatPermissions"))
-        let future: EventLoopFuture<Bool> = tgClient.post(methodURL, params: params)
+        let future: EventLoopFuture<Bool> = tgClient.post(methodURL, params: params, as: nil)
         return future
     }
 }

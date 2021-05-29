@@ -10,7 +10,7 @@
 public final class InlineQueryResultCachedSticker: Codable {
 
     /// Custom keys for coding/decoding `InlineQueryResultCachedSticker` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case type = "type"
         case id = "id"
         case stickerFileId = "sticker_file_id"

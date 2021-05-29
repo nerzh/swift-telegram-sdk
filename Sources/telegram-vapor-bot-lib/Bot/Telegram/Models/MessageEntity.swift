@@ -10,7 +10,7 @@
 public final class MessageEntity: Codable {
 
     /// Custom keys for coding/decoding `MessageEntity` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case type = "type"
         case offset = "offset"
         case length = "length"

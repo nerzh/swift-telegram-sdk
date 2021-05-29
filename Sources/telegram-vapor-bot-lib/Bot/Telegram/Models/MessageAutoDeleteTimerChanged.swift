@@ -10,7 +10,7 @@
 public final class MessageAutoDeleteTimerChanged: Codable {
 
     /// Custom keys for coding/decoding `MessageAutoDeleteTimerChanged` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case messageAutoDeleteTime = "message_auto_delete_time"
     }
 

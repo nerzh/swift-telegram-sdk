@@ -10,7 +10,7 @@
 public final class WebhookInfo: Codable {
 
     /// Custom keys for coding/decoding `WebhookInfo` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case url = "url"
         case hasCustomCertificate = "has_custom_certificate"
         case pendingUpdateCount = "pending_update_count"

@@ -58,7 +58,7 @@ public extension TGBot {
     @discardableResult
     func answerCallbackQuery(params: AnswerCallbackQueryParams) throws -> EventLoopFuture<Bool> {
         let methodURL: URI = .init(string: getMethodURL("answerCallbackQuery"))
-        let future: EventLoopFuture<Bool> = tgClient.post(methodURL, params: params)
+        let future: EventLoopFuture<Bool> = tgClient.post(methodURL, params: params, as: nil)
         return future
     }
 }

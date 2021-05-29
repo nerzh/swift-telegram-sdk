@@ -80,7 +80,7 @@ public extension TGBot {
     @discardableResult
     func copyMessage(params: CopyMessageParams) throws -> EventLoopFuture<MessageId> {
         let methodURL: URI = .init(string: getMethodURL("copyMessage"))
-        let future: EventLoopFuture<MessageId> = tgClient.post(methodURL, params: params)
+        let future: EventLoopFuture<MessageId> = tgClient.post(methodURL, params: params, as: nil)
         return future
     }
 }

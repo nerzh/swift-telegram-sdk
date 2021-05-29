@@ -10,7 +10,7 @@
 public final class Poll: Codable {
 
     /// Custom keys for coding/decoding `Poll` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case id = "id"
         case question = "question"
         case options = "options"

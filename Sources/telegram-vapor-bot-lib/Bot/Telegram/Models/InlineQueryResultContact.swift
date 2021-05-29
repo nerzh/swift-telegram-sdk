@@ -10,7 +10,7 @@
 public final class InlineQueryResultContact: Codable {
 
     /// Custom keys for coding/decoding `InlineQueryResultContact` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case type = "type"
         case id = "id"
         case phoneNumber = "phone_number"

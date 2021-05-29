@@ -10,7 +10,7 @@
 public final class InlineQueryResultArticle: Codable {
 
     /// Custom keys for coding/decoding `InlineQueryResultArticle` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case type = "type"
         case id = "id"
         case title = "title"

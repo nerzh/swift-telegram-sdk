@@ -10,7 +10,7 @@
 public final class PassportElementErrorUnspecified: Codable {
 
     /// Custom keys for coding/decoding `PassportElementErrorUnspecified` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case source = "source"
         case type = "type"
         case elementHash = "element_hash"

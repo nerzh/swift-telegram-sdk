@@ -347,7 +347,7 @@ def generate_model_file(f, node)
         
         if keys_block != ""
             out.write "#{ONE}/// Custom keys for coding/decoding `#{type_name}` struct\n"\
-            "#{ONE}enum CodingKeys: String, CodingKey {\n"\
+            "#{ONE}public enum CodingKeys: String, CodingKey {\n"\
             "#{keys_block}"\
             "#{ONE}}\n"\
             "\n"\
@@ -502,7 +502,7 @@ def generate_method(f, node)
   if all_params.empty?
     out.write "#{TWO}let future: EventLoopFuture<#{result_type}> = tgClient.post(methodURL)\n"
   else
-    out.write "#{TWO}let future: EventLoopFuture<#{result_type}> = tgClient.post(methodURL, params: params)\n"
+    out.write "#{TWO}let future: EventLoopFuture<#{result_type}> = tgClient.post(methodURL, params: params, as: nil)\n"
   end
 	
 	out.write "#{TWO}return future\n"\

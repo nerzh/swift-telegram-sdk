@@ -10,7 +10,7 @@
 public final class ProximityAlertTriggered: Codable {
 
     /// Custom keys for coding/decoding `ProximityAlertTriggered` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case traveler = "traveler"
         case watcher = "watcher"
         case distance = "distance"

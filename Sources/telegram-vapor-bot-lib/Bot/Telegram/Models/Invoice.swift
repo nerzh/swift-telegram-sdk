@@ -10,7 +10,7 @@
 public final class Invoice: Codable {
 
     /// Custom keys for coding/decoding `Invoice` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case title = "title"
         case description = "description"
         case startParameter = "start_parameter"

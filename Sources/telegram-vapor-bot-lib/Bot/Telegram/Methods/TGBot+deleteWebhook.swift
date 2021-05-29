@@ -35,7 +35,7 @@ public extension TGBot {
     @discardableResult
     func deleteWebhook(params: DeleteWebhookParams? = nil) throws -> EventLoopFuture<Bool> {
         let methodURL: URI = .init(string: getMethodURL("deleteWebhook"))
-        let future: EventLoopFuture<Bool> = tgClient.post(methodURL, params: params)
+        let future: EventLoopFuture<Bool> = tgClient.post(methodURL, params: params, as: nil)
         return future
     }
 }

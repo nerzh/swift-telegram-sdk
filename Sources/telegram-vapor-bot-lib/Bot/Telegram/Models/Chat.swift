@@ -10,7 +10,7 @@
 public final class Chat: Codable {
 
     /// Custom keys for coding/decoding `Chat` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case id = "id"
         case type = "type"
         case title = "title"

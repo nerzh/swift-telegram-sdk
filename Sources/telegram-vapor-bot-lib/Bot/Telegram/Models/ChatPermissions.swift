@@ -10,7 +10,7 @@
 public final class ChatPermissions: Codable {
 
     /// Custom keys for coding/decoding `ChatPermissions` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case canSendMessages = "can_send_messages"
         case canSendMediaMessages = "can_send_media_messages"
         case canSendPolls = "can_send_polls"

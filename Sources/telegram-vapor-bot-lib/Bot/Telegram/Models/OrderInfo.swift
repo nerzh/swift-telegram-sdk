@@ -10,7 +10,7 @@
 public final class OrderInfo: Codable {
 
     /// Custom keys for coding/decoding `OrderInfo` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case name = "name"
         case phoneNumber = "phone_number"
         case email = "email"

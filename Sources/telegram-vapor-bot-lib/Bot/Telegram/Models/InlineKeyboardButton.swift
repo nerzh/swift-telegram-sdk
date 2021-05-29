@@ -10,7 +10,7 @@
 public final class InlineKeyboardButton: Codable {
 
     /// Custom keys for coding/decoding `InlineKeyboardButton` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case text = "text"
         case url = "url"
         case loginUrl = "login_url"

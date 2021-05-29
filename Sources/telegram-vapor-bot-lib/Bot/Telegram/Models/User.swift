@@ -10,7 +10,7 @@
 public final class User: Codable {
 
     /// Custom keys for coding/decoding `User` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case id = "id"
         case isBot = "is_bot"
         case firstName = "first_name"

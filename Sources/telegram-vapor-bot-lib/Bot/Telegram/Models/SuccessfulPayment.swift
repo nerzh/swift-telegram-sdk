@@ -10,7 +10,7 @@
 public final class SuccessfulPayment: Codable {
 
     /// Custom keys for coding/decoding `SuccessfulPayment` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case currency = "currency"
         case totalAmount = "total_amount"
         case invoicePayload = "invoice_payload"

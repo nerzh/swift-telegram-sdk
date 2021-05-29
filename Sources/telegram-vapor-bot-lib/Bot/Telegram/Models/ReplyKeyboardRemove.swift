@@ -10,7 +10,7 @@
 public final class ReplyKeyboardRemove: Codable {
 
     /// Custom keys for coding/decoding `ReplyKeyboardRemove` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case removeKeyboard = "remove_keyboard"
         case selective = "selective"
     }

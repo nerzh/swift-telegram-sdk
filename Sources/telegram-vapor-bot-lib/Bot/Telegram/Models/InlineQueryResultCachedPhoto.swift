@@ -10,7 +10,7 @@
 public final class InlineQueryResultCachedPhoto: Codable {
 
     /// Custom keys for coding/decoding `InlineQueryResultCachedPhoto` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case type = "type"
         case id = "id"
         case photoFileId = "photo_file_id"

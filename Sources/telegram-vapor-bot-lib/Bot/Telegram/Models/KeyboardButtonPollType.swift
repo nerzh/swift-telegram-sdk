@@ -10,7 +10,7 @@
 public final class KeyboardButtonPollType: Codable {
 
     /// Custom keys for coding/decoding `KeyboardButtonPollType` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case type = "type"
     }
 

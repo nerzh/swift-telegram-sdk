@@ -10,7 +10,7 @@
 public final class ChatLocation: Codable {
 
     /// Custom keys for coding/decoding `ChatLocation` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case location = "location"
         case address = "address"
     }

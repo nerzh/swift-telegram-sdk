@@ -10,7 +10,7 @@
 public final class BotCommand: Codable {
 
     /// Custom keys for coding/decoding `BotCommand` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case command = "command"
         case description = "description"
     }

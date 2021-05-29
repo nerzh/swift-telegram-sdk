@@ -10,7 +10,7 @@
 public final class Game: Codable {
 
     /// Custom keys for coding/decoding `Game` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case title = "title"
         case description = "description"
         case photo = "photo"

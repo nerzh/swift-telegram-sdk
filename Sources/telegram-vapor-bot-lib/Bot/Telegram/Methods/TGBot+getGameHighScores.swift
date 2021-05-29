@@ -51,7 +51,7 @@ public extension TGBot {
     @discardableResult
     func getGameHighScores(params: GetGameHighScoresParams) throws -> EventLoopFuture<[GameHighScore]> {
         let methodURL: URI = .init(string: getMethodURL("getGameHighScores"))
-        let future: EventLoopFuture<[GameHighScore]> = tgClient.post(methodURL, params: params)
+        let future: EventLoopFuture<[GameHighScore]> = tgClient.post(methodURL, params: params, as: nil)
         return future
     }
 }

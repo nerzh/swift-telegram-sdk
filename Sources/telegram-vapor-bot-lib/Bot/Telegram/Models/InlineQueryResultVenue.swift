@@ -10,7 +10,7 @@
 public final class InlineQueryResultVenue: Codable {
 
     /// Custom keys for coding/decoding `InlineQueryResultVenue` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case type = "type"
         case id = "id"
         case latitude = "latitude"

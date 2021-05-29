@@ -10,7 +10,7 @@
 public final class ChatInviteLink: Codable {
 
     /// Custom keys for coding/decoding `ChatInviteLink` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case inviteLink = "invite_link"
         case creator = "creator"
         case isPrimary = "is_primary"

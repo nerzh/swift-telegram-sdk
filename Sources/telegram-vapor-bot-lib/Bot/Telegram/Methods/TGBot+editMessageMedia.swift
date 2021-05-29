@@ -55,7 +55,7 @@ public extension TGBot {
     @discardableResult
     func editMessageMedia(params: EditMessageMediaParams) throws -> EventLoopFuture<MessageOrBool> {
         let methodURL: URI = .init(string: getMethodURL("editMessageMedia"))
-        let future: EventLoopFuture<MessageOrBool> = tgClient.post(methodURL, params: params)
+        let future: EventLoopFuture<MessageOrBool> = tgClient.post(methodURL, params: params, as: nil)
         return future
     }
 }

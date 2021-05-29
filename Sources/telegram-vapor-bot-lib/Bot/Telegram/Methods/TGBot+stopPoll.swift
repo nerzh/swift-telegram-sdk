@@ -45,7 +45,7 @@ public extension TGBot {
     @discardableResult
     func stopPoll(params: StopPollParams) throws -> EventLoopFuture<Poll> {
         let methodURL: URI = .init(string: getMethodURL("stopPoll"))
-        let future: EventLoopFuture<Poll> = tgClient.post(methodURL, params: params)
+        let future: EventLoopFuture<Poll> = tgClient.post(methodURL, params: params, as: nil)
         return future
     }
 }

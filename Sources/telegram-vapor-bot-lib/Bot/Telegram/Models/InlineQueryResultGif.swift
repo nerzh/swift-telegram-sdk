@@ -10,7 +10,7 @@
 public final class InlineQueryResultGif: Codable {
 
     /// Custom keys for coding/decoding `InlineQueryResultGif` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case type = "type"
         case id = "id"
         case gifUrl = "gif_url"

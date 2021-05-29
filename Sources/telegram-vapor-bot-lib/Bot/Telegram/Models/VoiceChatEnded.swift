@@ -10,7 +10,7 @@
 public final class VoiceChatEnded: Codable {
 
     /// Custom keys for coding/decoding `VoiceChatEnded` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case duration = "duration"
     }
 

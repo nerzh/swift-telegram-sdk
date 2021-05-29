@@ -10,7 +10,7 @@
 public final class ForceReply: Codable {
 
     /// Custom keys for coding/decoding `ForceReply` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case forceReply = "force_reply"
         case selective = "selective"
     }

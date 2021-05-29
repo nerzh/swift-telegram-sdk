@@ -10,7 +10,7 @@
 public final class CallbackQuery: Codable {
 
     /// Custom keys for coding/decoding `CallbackQuery` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case id = "id"
         case from = "from"
         case message = "message"

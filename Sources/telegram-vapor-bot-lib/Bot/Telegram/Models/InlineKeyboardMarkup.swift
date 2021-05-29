@@ -10,7 +10,7 @@
 public final class InlineKeyboardMarkup: Codable {
 
     /// Custom keys for coding/decoding `InlineKeyboardMarkup` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case inlineKeyboard = "inline_keyboard"
     }
 

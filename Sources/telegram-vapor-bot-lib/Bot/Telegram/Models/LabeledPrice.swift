@@ -10,7 +10,7 @@
 public final class LabeledPrice: Codable {
 
     /// Custom keys for coding/decoding `LabeledPrice` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case label = "label"
         case amount = "amount"
     }

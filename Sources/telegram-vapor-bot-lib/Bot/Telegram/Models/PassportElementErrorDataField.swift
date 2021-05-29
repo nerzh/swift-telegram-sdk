@@ -10,7 +10,7 @@
 public final class PassportElementErrorDataField: Codable {
 
     /// Custom keys for coding/decoding `PassportElementErrorDataField` struct
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case source = "source"
         case type = "type"
         case fieldName = "field_name"
