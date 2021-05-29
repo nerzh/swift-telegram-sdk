@@ -9,6 +9,7 @@ require 'fileutils'
 
 HTML_FILE = 'tg-api.html'
 API_DIR = '../Sources/telegram-vapor-bot-lib/Bot/Telegram'
+LIB_DIR = '../Sources/telegram-vapor-bot-lib'
 API_FILE = 'tg-api.txt'
 
 TYPE_HEADER = <<EOT
@@ -384,10 +385,10 @@ end
 
 def generate_method(f, node)
 	models_dir = 'Methods'
-  methods_signatures_for_bot_protocol = []
 	FileUtils.mkpath "#{API_DIR}/#{models_dir}"
 
 	current_node = node
+  methods_signature = ""
 
 	method_name = current_node.text
 	File.open("#{API_DIR}/#{models_dir}/#{method_name.capitalize_first}.swift", "wb") do | out |
@@ -489,9 +490,9 @@ def generate_method(f, node)
       out.write "\n"
       out.write method_description
       method_signature = "#{ONE}@discardableResult\n"
-      method_signature = "#{ONE}func #{method_name}() throws -> EventLoopFuture<#{result_type}>"
+      method_signature << "#{ONE}func #{method_name}() throws -> EventLoopFuture<#{result_type}>"
       out.write "#{method_signature} {\n"
-      methods_signatures_for_bot_protocol << method_signature
+      methods_signature << method_signature
     else
   		encodable_type = "Encodable"
   	
@@ -522,9 +523,9 @@ def generate_method(f, node)
       out.write "\n"
       out.write method_description
       method_signature = "#{ONE}@discardableResult\n"
-      method_signature = "#{ONE}func #{method_name}#{params_block} throws -> EventLoopFuture<#{result_type}>"
+      method_signature << "#{ONE}func #{method_name}#{params_block} throws -> EventLoopFuture<#{result_type}>"
       out.write "#{method_signature} {\n"
-      methods_signatures_for_bot_protocol << method_signature
+      methods_signature << method_signature.gsub(/ = nil/, '')
     end
 
     out.write "#{TWO}let methodURL: URI = .init(string: getMethodURL(\"#{method_name}\"))\n"
@@ -538,6 +539,26 @@ def generate_method(f, node)
               "#{ONE}}\n"\
   			      "}\n"
 	end
+
+  methods_signature
+end
+
+def make_bot_protocol(signatures)
+  protocol = METHOD_HEADER
+  protocol << "import Vapor\n\n"
+  protocol << "public protocol #{PREFIX_LIB}BotPrtcl {\n\n"
+  protocol << "#{ONE}var botId: String { get set }\n"
+  protocol << "#{ONE}var tgURI: URI { get set }\n"
+  protocol << "#{ONE}var tgClient: TGClientPrtcl { get set }\n"
+  protocol << "#{ONE}var connection: TGConnectionPrtcl  { get }\n\n"
+  protocol << "#{ONE}static var shared: Self { get }\n\n"
+  protocol << "#{ONE}func start() throws\n\n"
+  signatures.each { |signature| protocol << "#{signature}\n\n" }
+  protocol << "}\n\n"
+
+  File.open("#{LIB_DIR}/Bot/#{PREFIX_LIB}BotPrtcl.swift", "wb") do | out |
+    out.write protocol
+  end
 end
 
 def main
@@ -549,6 +570,7 @@ def main
 
 		doc.css("br").each { |node| node.replace("\n") }
 		
+    methods_signatures_for_bot_protocol = []
 		doc.search("h4").each do |node|
 			title = node.text.strip
 			next unless title.split.count == 1
@@ -563,11 +585,13 @@ def main
 			if kind == :type
         generate_model_file(f, node)
 			else
-		    generate_method(f, node)
+        method_signature = generate_method(f, node)
+        methods_signatures_for_bot_protocol << method_signature
 			end
 
 			f.write "\n"
 		end
+    make_bot_protocol(methods_signatures_for_bot_protocol)
 	end
 
 	puts 'Finished'

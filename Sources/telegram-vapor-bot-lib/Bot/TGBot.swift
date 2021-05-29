@@ -8,19 +8,6 @@
 import Foundation
 import Vapor
 
-public protocol TGBotPrtcl {
-
-    var botId: String { get set }
-    var tgURI: URI { get set }
-    var tgClient: TGClientPrtcl { get set }
-    var connection: TGConnectionPrtcl  { get }
-
-    static var shared: Self { get }
-
-    func start() throws
-//    func add(_ handler: TGHandlerPrtcl)
-}
-
 public final class TGBot: TGBotPrtcl {
 
     public var botId: String
