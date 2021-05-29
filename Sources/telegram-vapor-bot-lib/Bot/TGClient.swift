@@ -15,7 +15,7 @@ public enum TGHTTPMediaType: String, Equatable {
 
 private struct TGEmptyParams: Encodable {}
 
-public protocol TGClient {
+public protocol TGClientPrtcl {
 
     @discardableResult
     func get<Params: Encodable, Response: Codable>(_ url: URI, params: Params?, as mediaType: Vapor.HTTPMediaType?) -> EventLoopFuture<Response>
@@ -30,7 +30,7 @@ public protocol TGClient {
     func post<Response: Codable>(_ url: URI) -> EventLoopFuture<Response>
 }
 
-public final class DefaultTGClient: TGClient {
+public final class DefaultTGClient: TGClientPrtcl {
     
     private let client: Vapor.Client
 

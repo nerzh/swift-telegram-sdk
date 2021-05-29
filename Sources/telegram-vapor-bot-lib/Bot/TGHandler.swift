@@ -7,6 +7,8 @@
 
 import Foundation
 
-final class TGhandler {
+protocol TGHandlerPrtcl {}
+
+public final class TGHandler {
     
 }
