@@ -45,6 +45,7 @@ public final class TGBot: TGBotPrtcl {
     public static func configure(connection: TGConnectionPrtcl, botId: String, tgURI: URI = TGBot.standardTGURL, tgClient: TGClientPrtcl) {
         if configured { return }
         Self._shared = Self.init(connection: connection, tgClient: tgClient, tgURI: tgURI, botId: botId)
+        Self._shared.connection.bot = Self._shared
     }
 
     public static func configure(connection: TGConnectionPrtcl, botId: String, tgURI: URI = TGBot.standardTGURL, vaporClient: Vapor.Client) {

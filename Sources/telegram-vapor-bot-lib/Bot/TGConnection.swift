@@ -11,6 +11,7 @@ import Vapor
 
 public protocol TGConnectionPrtcl {
 
+    var bot: TGBot! { get set }
     var dispatcher: TGDispatcherPrtcl { get }
 
     @discardableResult
@@ -20,6 +21,7 @@ public protocol TGConnectionPrtcl {
 
 public final class TGLongPollingConnection: TGConnectionPrtcl {
 
+    public weak var bot: TGBot!
     public var dispatcher: TGDispatcherPrtcl
     public var limit: Int?
     public var timeout: Int? = 10
@@ -39,7 +41,7 @@ public final class TGLongPollingConnection: TGConnectionPrtcl {
     public func start() throws -> Bool {
         /// delete webhook because: You will not be able to receive updates using getUpdates for as long as an outgoing webhook is set up.
         let deleteWebHookParams: TGDeleteWebhookParams = .init(dropPendingUpdates: false)
-        let future: EventLoopFuture<Bool> = try TGBot.shared.deleteWebhook(params: deleteWebHookParams)
+        let future: EventLoopFuture<Bool> = try bot.deleteWebhook(params: deleteWebHookParams)
         var result: Bool = false
         future.whenComplete { [weak self] response in
             switch response {
@@ -67,7 +69,7 @@ public final class TGLongPollingConnection: TGConnectionPrtcl {
                                                    limit: limit,
                                                    timeout: timeout,
                                                    allowedUpdates: allowedUpdates)
-        try TGBot.shared.getUpdates(params: params).whenComplete { [weak self] response in
+        try bot.getUpdates(params: params).whenComplete { [weak self] response in
             switch response {
             case let .success(updates):
                 if let lastUpdate: TGUpdate = updates.last {
@@ -94,6 +96,7 @@ public final class TGLongPollingConnection: TGConnectionPrtcl {
 
 public final class TGWebHookConnection: TGConnectionPrtcl {
 
+    public weak var bot: TGBot!
     public var dispatcher: TGDispatcherPrtcl
     public var webHookURL: URI
 
@@ -105,7 +108,7 @@ public final class TGWebHookConnection: TGConnectionPrtcl {
     @discardableResult
     public func start() throws -> Bool {
         let webHookParams: TGSetWebhookParams = .init(url: webHookURL.path)
-        let future: EventLoopFuture<Bool> = try TGBot.shared.setWebhook(params: webHookParams)
+        let future: EventLoopFuture<Bool> = try bot.setWebhook(params: webHookParams)
         var result: Bool = false
         future.whenComplete { response in
             switch response {
