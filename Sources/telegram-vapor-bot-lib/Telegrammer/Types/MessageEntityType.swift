@@ -8,7 +8,7 @@
 import Foundation
 
 /// Type of the entity. Can be mention (@username), hashtag, bot_command, url, email, bold (bold text), italic (italic text), code (monowidth string), pre (monowidth block), text_link (for clickable text URLs), text_mention (for users without usernames)
-public enum MessageEntityType: String, Codable {
+public enum TGMessageEntityType: String, Codable {
     case mention     = "mention"
     case hashtag     = "hashtag"
     case botCommand  = "bot_command"
@@ -26,7 +26,7 @@ public enum MessageEntityType: String, Codable {
 
     public init(from decoder: Decoder) throws {
         let value = try decoder.singleValueContainer().decode(String.self)
-        guard let type = MessageEntityType(rawValue: value) else {
+        guard let type = TGMessageEntityType(rawValue: value) else {
             self = .undefined
             return
         }

@@ -8,7 +8,7 @@
 import Foundation
 
 /// Type of chat, can be either “private”, “group”, “supergroup” or “channel”
-public enum ChatType: String, Codable {
+public enum TGChatType: String, Codable {
     case `private`
     case group
     case supergroup
@@ -17,7 +17,7 @@ public enum ChatType: String, Codable {
 
     public init(from decoder: Decoder) throws {
         let value = try decoder.singleValueContainer().decode(String.self)
-        guard let type = ChatType(rawValue: value) else {
+        guard let type = TGChatType(rawValue: value) else {
             self = .undefined
             return
         }

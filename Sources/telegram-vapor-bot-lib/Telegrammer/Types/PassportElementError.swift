@@ -13,13 +13,13 @@
  SeeAlso Telegram TGBot API Reference:
  [PassportElementError](https://core.telegram.org/bots/api#passportelementerror)
  */
-public enum PassportElementError: Codable {
-    case dataField(PassportElementErrorDataField)
-    case file(PassportElementErrorFile)
-    case files(PassportElementErrorFiles)
-    case frontSide(PassportElementErrorFrontSide)
-    case reverseSide(PassportElementErrorReverseSide)
-    case selfie(PassportElementErrorSelfie)
+public enum TGPassportElementError: Codable {
+    case dataField(TGPassportElementErrorDataField)
+    case file(TGPassportElementErrorFile)
+    case files(TGPassportElementErrorFiles)
+    case frontSide(TGPassportElementErrorFrontSide)
+    case reverseSide(TGPassportElementErrorReverseSide)
+    case selfie(TGPassportElementErrorSelfie)
     case unknown
 
     public func encode(to encoder: Encoder) throws {
@@ -43,27 +43,27 @@ public enum PassportElementError: Codable {
     }
 
     public init(from decoder: Decoder) throws {
-        if let value = try? decoder.singleValueContainer().decode(PassportElementErrorDataField.self) {
+        if let value = try? decoder.singleValueContainer().decode(TGPassportElementErrorDataField.self) {
             self = .dataField(value)
             return
         }
-        if let value = try? decoder.singleValueContainer().decode(PassportElementErrorFile.self) {
+        if let value = try? decoder.singleValueContainer().decode(TGPassportElementErrorFile.self) {
             self = .file(value)
             return
         }
-        if let value = try? decoder.singleValueContainer().decode(PassportElementErrorFiles.self) {
+        if let value = try? decoder.singleValueContainer().decode(TGPassportElementErrorFiles.self) {
             self = .files(value)
             return
         }
-        if let value = try? decoder.singleValueContainer().decode(PassportElementErrorFrontSide.self) {
+        if let value = try? decoder.singleValueContainer().decode(TGPassportElementErrorFrontSide.self) {
             self = .frontSide(value)
             return
         }
-        if let value = try? decoder.singleValueContainer().decode(PassportElementErrorReverseSide.self) {
+        if let value = try? decoder.singleValueContainer().decode(TGPassportElementErrorReverseSide.self) {
             self = .reverseSide(value)
             return
         }
-        if let value = try? decoder.singleValueContainer().decode(PassportElementErrorSelfie.self) {
+        if let value = try? decoder.singleValueContainer().decode(TGPassportElementErrorSelfie.self) {
             self = .selfie(value)
             return
         }

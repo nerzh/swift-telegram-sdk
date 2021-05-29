@@ -5,7 +5,7 @@
 //  Created by Givi Pataridze on 09/06/2018.
 //
 
-public extension Message {
+public extension TGMessage {
 
     /**
      Helper method to easy reply to message
@@ -17,8 +17,8 @@ public extension Message {
      
      - Throws: Throws on errors
      */
-    func reply(text: String, from bot: TGBot, parseMode: ParseMode? = nil, replyMarkup: ReplyMarkup? = nil) throws {
-        let params = TGBot.SendMessageParams(
+    func reply(text: String, from bot: TGBot, parseMode: TGParseMode? = nil, replyMarkup: TGReplyMarkup? = nil) throws {
+        let params = TGSendMessageParams(
             chatId: .chat(Int64(chat.id)),
             text: text,
             parseMode: parseMode,
@@ -41,10 +41,10 @@ public extension Message {
     func edit(
         text: String,
         from bot: TGBot,
-        parseMode: ParseMode? = nil,
-        replyMarkup: InlineKeyboardMarkup? = nil
+        parseMode: TGParseMode? = nil,
+        replyMarkup: TGInlineKeyboardMarkup? = nil
     ) throws {
-        let params = TGBot.EditMessageTextParams(
+        let params = TGEditMessageTextParams(
             chatId: .chat(Int64(chat.id)),
             messageId: messageId,
             text: text,
@@ -63,7 +63,7 @@ public extension Message {
      - Throws: Throws on errors
      */
     func delete(from bot: TGBot) throws {
-        let params = TGBot.DeleteMessageParams(
+        let params = TGDeleteMessageParams(
             chatId: .chat(Int64(chat.id)),
             messageId: messageId
         )

@@ -8,107 +8,107 @@
 // swiftlint:disable all
 
 /// This enum represents one result of an inline query. Telegram clients currently support results of the following 20 types
-public enum InlineQueryResult: Codable {
-    case cachedAudio(InlineQueryResultAudio)
-    case cachedDocument(InlineQueryResultCachedDocument)
-    case cachedGif(InlineQueryResultCachedGif)
-    case cachedMpeg4Gif(InlineQueryResultCachedMpeg4Gif)
-    case cachedPhoto(InlineQueryResultCachedPhoto)
-    case cachedSticker(InlineQueryResultCachedSticker)
-    case cachedVideo(InlineQueryResultCachedVideo)
-    case cachedVoice(InlineQueryResultCachedVoice)
-    case article(InlineQueryResultArticle)
-    case audio(InlineQueryResultAudio)
-    case contact(InlineQueryResultContact)
-    case game(InlineQueryResultGame)
-    case document(InlineQueryResultDocument)
-    case gif(InlineQueryResultGif)
-    case location(InlineQueryResultLocation)
-    case mpeg4Gif(InlineQueryResultMpeg4Gif)
-    case photo(InlineQueryResultPhoto)
-    case venue(InlineQueryResultVenue)
-    case video(InlineQueryResultVideo)
-    case voice(InlineQueryResultVoice)
+public enum TGInlineQueryResult: Codable {
+    case cachedAudio(TGInlineQueryResultAudio)
+    case cachedDocument(TGInlineQueryResultCachedDocument)
+    case cachedGif(TGInlineQueryResultCachedGif)
+    case cachedMpeg4Gif(TGInlineQueryResultCachedMpeg4Gif)
+    case cachedPhoto(TGInlineQueryResultCachedPhoto)
+    case cachedSticker(TGInlineQueryResultCachedSticker)
+    case cachedVideo(TGInlineQueryResultCachedVideo)
+    case cachedVoice(TGInlineQueryResultCachedVoice)
+    case article(TGInlineQueryResultArticle)
+    case audio(TGInlineQueryResultAudio)
+    case contact(TGInlineQueryResultContact)
+    case game(TGInlineQueryResultGame)
+    case document(TGInlineQueryResultDocument)
+    case gif(TGInlineQueryResultGif)
+    case location(TGInlineQueryResultLocation)
+    case mpeg4Gif(TGInlineQueryResultMpeg4Gif)
+    case photo(TGInlineQueryResultPhoto)
+    case venue(TGInlineQueryResultVenue)
+    case video(TGInlineQueryResultVideo)
+    case voice(TGInlineQueryResultVoice)
     case undefined
 
     public init(from decoder: Decoder) throws {
-        if let value = try? decoder.singleValueContainer().decode(InlineQueryResultAudio.self) {
+        if let value = try? decoder.singleValueContainer().decode(TGInlineQueryResultAudio.self) {
             self = .cachedAudio(value)
             return
         }
-        if let value = try? decoder.singleValueContainer().decode(InlineQueryResultCachedDocument.self) {
+        if let value = try? decoder.singleValueContainer().decode(TGInlineQueryResultCachedDocument.self) {
             self = .cachedDocument(value)
             return
         }
-        if let value = try? decoder.singleValueContainer().decode(InlineQueryResultCachedGif.self) {
+        if let value = try? decoder.singleValueContainer().decode(TGInlineQueryResultCachedGif.self) {
             self = .cachedGif(value)
             return
         }
-        if let value = try? decoder.singleValueContainer().decode(InlineQueryResultCachedMpeg4Gif.self) {
+        if let value = try? decoder.singleValueContainer().decode(TGInlineQueryResultCachedMpeg4Gif.self) {
             self = .cachedMpeg4Gif(value)
             return
         }
-        if let value = try? decoder.singleValueContainer().decode(InlineQueryResultCachedPhoto.self) {
+        if let value = try? decoder.singleValueContainer().decode(TGInlineQueryResultCachedPhoto.self) {
             self = .cachedPhoto(value)
             return
         }
-        if let value = try? decoder.singleValueContainer().decode(InlineQueryResultCachedSticker.self) {
+        if let value = try? decoder.singleValueContainer().decode(TGInlineQueryResultCachedSticker.self) {
             self = .cachedSticker(value)
             return
         }
-        if let value = try? decoder.singleValueContainer().decode(InlineQueryResultCachedVideo.self) {
+        if let value = try? decoder.singleValueContainer().decode(TGInlineQueryResultCachedVideo.self) {
             self = .cachedVideo(value)
             return
         }
-        if let value = try? decoder.singleValueContainer().decode(InlineQueryResultCachedVoice.self) {
+        if let value = try? decoder.singleValueContainer().decode(TGInlineQueryResultCachedVoice.self) {
             self = .cachedVoice(value)
             return
         }
-        if let value = try? decoder.singleValueContainer().decode(InlineQueryResultArticle.self) {
+        if let value = try? decoder.singleValueContainer().decode(TGInlineQueryResultArticle.self) {
             self = .article(value)
             return
         }
-        if let value = try? decoder.singleValueContainer().decode(InlineQueryResultAudio.self) {
+        if let value = try? decoder.singleValueContainer().decode(TGInlineQueryResultAudio.self) {
             self = .audio(value)
             return
         }
-        if let value = try? decoder.singleValueContainer().decode(InlineQueryResultContact.self) {
+        if let value = try? decoder.singleValueContainer().decode(TGInlineQueryResultContact.self) {
             self = .contact(value)
             return
         }
-        if let value = try? decoder.singleValueContainer().decode(InlineQueryResultGame.self) {
+        if let value = try? decoder.singleValueContainer().decode(TGInlineQueryResultGame.self) {
             self = .game(value)
             return
         }
-        if let value = try? decoder.singleValueContainer().decode(InlineQueryResultDocument.self) {
+        if let value = try? decoder.singleValueContainer().decode(TGInlineQueryResultDocument.self) {
             self = .document(value)
             return
         }
-        if let value = try? decoder.singleValueContainer().decode(InlineQueryResultGif.self) {
+        if let value = try? decoder.singleValueContainer().decode(TGInlineQueryResultGif.self) {
             self = .gif(value)
             return
         }
-        if let value = try? decoder.singleValueContainer().decode(InlineQueryResultLocation.self) {
+        if let value = try? decoder.singleValueContainer().decode(TGInlineQueryResultLocation.self) {
             self = .location(value)
             return
         }
-        if let value = try? decoder.singleValueContainer().decode(InlineQueryResultMpeg4Gif.self) {
+        if let value = try? decoder.singleValueContainer().decode(TGInlineQueryResultMpeg4Gif.self) {
             self = .mpeg4Gif(value)
             return
         }
-        if let value = try? decoder.singleValueContainer().decode(InlineQueryResultPhoto.self) {
+        if let value = try? decoder.singleValueContainer().decode(TGInlineQueryResultPhoto.self) {
             self = .photo(value)
             return
         }
-        if let value = try? decoder.singleValueContainer().decode(InlineQueryResultVenue.self) {
+        if let value = try? decoder.singleValueContainer().decode(TGInlineQueryResultVenue.self) {
             self = .venue(value)
             return
         }
-        if let value = try? decoder.singleValueContainer().decode(InlineQueryResultVideo.self) {
+        if let value = try? decoder.singleValueContainer().decode(TGInlineQueryResultVideo.self) {
             self = .video(value)
             return
         }
-        if let value = try? decoder.singleValueContainer().decode(InlineQueryResultVoice.self) {
+        if let value = try? decoder.singleValueContainer().decode(TGInlineQueryResultVoice.self) {
             self = .voice(value)
             return
         }

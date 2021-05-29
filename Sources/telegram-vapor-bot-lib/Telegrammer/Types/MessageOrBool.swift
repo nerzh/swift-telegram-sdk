@@ -6,8 +6,8 @@
 //
 
 /// Sometimes bot methods returns objects On success, otherwise returns False
-public enum MessageOrBool: Codable {
-    case message(Message)
+public enum TGMessageOrBool: Codable {
+    case message(TGMessage)
     case bool(Bool)
 
     public func encode(to encoder: Encoder) throws {
@@ -24,7 +24,7 @@ public enum MessageOrBool: Codable {
         if let value = try? decoder.singleValueContainer().decode(Bool.self) {
             self = .bool(value)
         } else {
-            let message = try decoder.singleValueContainer().decode(Message.self)
+            let message = try decoder.singleValueContainer().decode(TGMessage.self)
             self = .message(message)
         }
     }

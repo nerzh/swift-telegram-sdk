@@ -19,11 +19,11 @@ import Foundation
  SeeAlso Telegram TGBot API Reference:
  [Sending Files](https://core.telegram.org/bots/api#sending-files)
  */
-public enum FileInfo: Encodable {
+public enum TGFileInfo: Encodable {
 
     case fileId(String)
     case url(String)
-    case file(InputFile)
+    case file(TGInputFile)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()

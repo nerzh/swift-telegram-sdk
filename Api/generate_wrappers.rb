@@ -27,8 +27,10 @@ ONE   = "    "
 TWO   = "        "
 THREE = "            "
 FOUR  = "                "
+PREFIX_LIB = "TG"
 
 class String
+
 	def camel_case_lower
 		self.split('_').inject([]){ |buffer,e| buffer.push(buffer.empty? ? e : e.capitalize) }.join
 	end
@@ -37,11 +39,29 @@ class String
   	return self if self !~ /_/ && self =~ /[A-Z]+.*/
   	split('_').map{|e| e.capitalize}.join
 	end
-	def capitalize_first
+
+	def capitalize_first!
 		result = self
  		result[0] = result[0].upcase
  	 	return result
 	end
+
+  def capitalize_first
+    result = self.dup
+    result[0] = result[0].upcase
+    return result
+  end
+end
+
+def swift_type?(type_name)
+  swift_types = [
+    'Int',
+    'Int64',
+    'Float',
+    'String',
+    'Bool'
+  ]
+  swift_types.include?(type_name)
 end
 
 # Some of the variables have more convenient manually created helper methods,
@@ -50,7 +70,7 @@ def make_getter_name(type_name, var_name, var_type, var_desc)
 	case [type_name, var_name]
 	#when ['Chat', 'type']
 	#    return 'type_string'
-	when ['ChatMember', 'status']
+	when ["#{PREFIX_LIB}ChatMember", 'status']
 			return 'status_string'
 	else
 		if var_name == 'type' && var_type == 'String'
@@ -72,7 +92,7 @@ def make_swift_type_name(var_name, var_type)
     #     # return "[InputMediaPhotoAndVideo]"
     #     return "[InputMedia]"
     # end
-    return "[InputMedia]" if var_type[/InputMedia/]
+    return "[#{PREFIX_LIB}InputMedia]" if var_type[/InputMedia/]
     return "[#{make_swift_type_name(var_name, var_type)}]"
   end
 
@@ -88,29 +108,112 @@ def make_swift_type_name(var_name, var_type)
 	when 'Float number'
 		return 'Float'
 	when 'Integer or String'
-    return 'ChatId' if var_name.include?('chat_id')
+    return "#{PREFIX_LIB}ChatId" if var_name.include?('chat_id')
 		return 'String'
 	when 'InputFile or String'
-		return 'FileInfo'
+		return "#{PREFIX_LIB}FileInfo"
 	when 'InlineKeyboardMarkup or ReplyKeyboardMarkup or ReplyKeyboardRemove or ForceReply'
-		return 'ReplyMarkup'
+		return "#{PREFIX_LIB}ReplyMarkup"
 	when 'MessageOrBoolean'
-		return 'MessageOrBool'
+		return "#{PREFIX_LIB}MessageOrBool"
 	when 'Messages'
-		return '[Message]'
+		return "[#{PREFIX_LIB}Message]"
   when 'String'
-    return 'ParseMode' if var_name.include?('parse_mode')
+    return "#{PREFIX_LIB}ParseMode" if var_name.include?('parse_mode')
     return 'String'
 	end
-	return var_type
+
+  if swift_type?(var_type)
+    return var_type
+  else
+    return "#{PREFIX_LIB}#{var_type}"
+  end
+end
+
+def convert_type(var_name, var_desc, var_type, type_name, var_optional)
+  if var_name == "type"
+    return "#{PREFIX_LIB}ChatType" if var_desc.include?("Type of chat")
+    return "#{PREFIX_LIB}MessageEntityType" if var_desc.include?("Type of the entity")
+  end
+    
+  case [var_type, var_optional]
+  when ['String', true]
+    return "String?"
+  when ['String', false]
+    return "String"
+  when ['InputFile or String', true]
+    return "#{PREFIX_LIB}FileInfo?"
+  when ['InputFile or String', false]
+    return "#{PREFIX_LIB}FileInfo"
+  when ['Integer', true]
+    is64bit = var_name.include?("user_id") || 
+              var_name.include?("chat_id") || 
+              var_desc.include?("64 bit integer") ||
+              (type_name == 'User' && var_name == 'id')
+    suffix = is64bit ? '64' : ''
+    return "Int#{suffix}?"
+  when ['Integer', false]
+    is64bit = var_name.include?("user_id") ||
+              var_name.include?("chat_id") ||
+              var_desc.include?("64 bit integer") ||
+              (type_name == 'User' && var_name == 'id')
+    suffix = is64bit ? '64' : ''
+    return "Int#{suffix}"
+  when ['Float number', true], ['Float', true]
+    return "Float?"
+  when ['Float number', false], ['Float', false]
+    return "Float"
+  when ['Boolean', true], ['True', true]
+    return "Bool?"
+  when ['Boolean', false], ['True', false]
+    if var_type == 'True'
+      return "Bool = true"
+    else 
+      return "Bool"
+    end
+  else
+    two_d_array_prefix = 'Array of Array of '
+    array_prefix = 'Array of '
+    if var_type.start_with?(two_d_array_prefix)
+      var_type.slice! two_d_array_prefix
+      var_type = "#{PREFIX_LIB}#{var_type}" if !swift_type?(var_type)
+      # Present optional arrays as empty arrays
+      if var_optional
+        return "[[#{var_type}]]?"
+      else
+        return "[[#{var_type}]]"
+      end
+    elsif var_type.start_with?(array_prefix)
+      var_type.slice! array_prefix
+      if var_type == 'Integer'
+          var_type = 'Int'
+      end
+
+      var_type = "#{PREFIX_LIB}#{var_type}" if !swift_type?(var_type)
+      # Present optional arrays as empty arrays
+      if var_optional
+        return "[#{var_type}]?"
+      else
+        return "[#{var_type}]"
+      end
+    else
+      var_type = "#{PREFIX_LIB}#{var_type}" if !swift_type?(var_type)
+
+      if var_optional
+        return "#{var_type}?"
+      else
+        return "#{var_type}"
+      end
+    end
+  end
 end
 
 def make_request_parameter(request_name, swift_type_name, var_name, var_type, var_optional, var_desc)
   parameters = ""
   var_desc.each_line do |line|
-    parameters << "#{TWO}/// #{line.strip}\n"
+    parameters << "#{ONE}/// #{line.strip}\n"
   end
-  parameters << "#{TWO}var #{var_name.camel_case_lower}: #{swift_type_name}#{var_optional ? '?' : ''}\n\n"
+  parameters << "#{ONE}public var #{var_name.camel_case_lower}: #{swift_type_name}#{var_optional ? '?' : ''}\n\n"
   return parameters
 end
 
@@ -193,79 +296,6 @@ def fetch_description(current_node)
 	return description, current_node
 end
 
-def convert_type(var_name, var_desc, var_type, type_name, var_optional)
-  if var_name == "type"
-    return "ChatType" if var_desc.include?("Type of chat")
-    return "MessageEntityType" if var_desc.include?("Type of the entity")
-  end
-    
-	case [var_type, var_optional]
-	when ['String', true]
-		return "String?"
-	when ['String', false]
-    return "String"
-  when ['InputFile or String', true]
-    return "FileInfo?"
-  when ['InputFile or String', false]
-    return "FileInfo"
-	when ['Integer', true]
-		is64bit = var_name.include?("user_id") || 
-              var_name.include?("chat_id") || 
-              var_desc.include?("64 bit integer") ||
-							(type_name == 'User' && var_name == 'id')
-		suffix = is64bit ? '64' : ''
-		return "Int#{suffix}?"
-	when ['Integer', false]
-		is64bit = var_name.include?("user_id") ||
-              var_name.include?("chat_id") ||
-              var_desc.include?("64 bit integer") ||
-              (type_name == 'User' && var_name == 'id')
-		suffix = is64bit ? '64' : ''
-		return "Int#{suffix}"
-	when ['Float number', true], ['Float', true]
-		return "Float?"
-	when ['Float number', false], ['Float', false]
-		return "Float"
-	when ['Boolean', true], ['True', true]
-		return "Bool?"
-	when ['Boolean', false], ['True', false]
-		if var_type == 'True'
-			return "Bool = true"
-		else 
-			return "Bool"
-		end
-	else
-		two_d_array_prefix = 'Array of Array of '
-		array_prefix = 'Array of '
-		if var_type.start_with?(two_d_array_prefix)
-			var_type.slice! two_d_array_prefix
-			# Present optional arrays as empty arrays
-			if var_optional
-				return "[[#{var_type}]]?"
-			else
-				return "[[#{var_type}]]"
-			end
-		elsif var_type.start_with?(array_prefix)
-			var_type.slice! array_prefix
-      if var_type == 'Integer'
-          var_type = 'Int'
-      end
-			# Present optional arrays as empty arrays
-			if var_optional
-				return "[#{var_type}]?"
-			else
-				return "[#{var_type}]"
-			end
-		else
-			if var_optional
-				return "#{var_type}?"
-			else
-				return "#{var_type}"
-			end
-		end
-	end
-end
-
 def generate_model_file(f, node)
 	models_dir = 'Models'
 	FileUtils.mkpath "#{API_DIR}/#{models_dir}"
@@ -273,7 +303,7 @@ def generate_model_file(f, node)
 	current_node = node
 
 	type_name = current_node.text
-	File.open("#{API_DIR}/#{models_dir}/#{type_name}.swift", "wb") do | out |
+	File.open("#{API_DIR}/#{models_dir}/#{PREFIX_LIB}#{type_name}.swift", "wb") do | out |
 		out.write TYPE_HEADER
 		
 		current_node = current_node.next_element
@@ -295,7 +325,7 @@ def generate_model_file(f, node)
 			var_desc = td[2].text
 			var_optional = var_desc.start_with? "Optional"
 			f.write "PARAM: #{var_name} [#{var_type}#{var_optional ? '?' : ''}]: #{var_desc}\n"
-            
+      
 			correct_var_type = convert_type(var_name, var_desc, var_type, type_name, var_optional)
 			correct_var_type_init = correct_var_type[-1] == "?" ? correct_var_type + " = nil" : correct_var_type
 			var_name_camel = var_name.camel_case_lower
@@ -335,7 +365,7 @@ def generate_model_file(f, node)
     if type_name.start_with?('InputMedia')
         var_protocol = "Encodable"
     end
-    out.write  "public final class #{type_name}: #{var_protocol} {\n\n"
+    out.write  "public final class #{PREFIX_LIB}#{type_name}: #{var_protocol} {\n\n"
     
     if keys_block != ""
       out.write "#{ONE}/// Custom keys for coding/decoding `#{type_name}` struct\n"\
@@ -354,16 +384,15 @@ end
 
 def generate_method(f, node)
 	models_dir = 'Methods'
+  methods_signatures_for_bot_protocol = []
 	FileUtils.mkpath "#{API_DIR}/#{models_dir}"
 
 	current_node = node
 
 	method_name = current_node.text
-	File.open("#{API_DIR}/#{models_dir}/TGBot+#{method_name}.swift", "wb") do | out |
+	File.open("#{API_DIR}/#{models_dir}/#{method_name.capitalize_first}.swift", "wb") do | out |
 		out.write METHOD_HEADER
     out.write "import Vapor\n\n"
-		out.write "public extension TGBot {\n"
-		out.write "\n"
 
 		current_node = current_node.next_element
 		description, current_node = fetch_description(current_node)
@@ -374,7 +403,7 @@ def generate_method(f, node)
 		codable_params_struct = ""
 		codable_params_enum = ""
 		
-		f.write "DESCRIPTION:\n#{description}\n"
+    out.write "/// DESCRIPTION:\n/// #{description.gsub(/\n/, "\n/// ")}\n\n\n"
 
 		anchor = method_name.downcase
 
@@ -405,7 +434,7 @@ def generate_method(f, node)
 
 			swift_type_name = make_swift_type_name(var_name, var_type)
 			
-			if swift_type_name == "FileInfo" || swift_type_name == "InputFile"
+			if swift_type_name == "#{PREFIX_LIB}FileInfo" || swift_type_name == "#{PREFIX_LIB}InputFile"
 				has_upload_type = true
 			end
 			
@@ -438,55 +467,64 @@ def generate_method(f, node)
 
     #Generate description
     method_description = ""
-    method_description << "#{ONE}/**\n"
+    method_description << "/**\n"
     
-    description.each_line { |line|
-        method_description << "#{ONE} #{line.strip}\n"
-    }
+    description.each_line do |line|
+        method_description << " #{line.strip}\n"
+    end
     
     method_description << "\n"
-    method_description << "#{ONE} SeeAlso Telegram Bot API Reference:\n"
-    method_description << "#{ONE} [#{method_name_capitalized}](https://core.telegram.org/bots/api\##{anchor})\n"
-    method_description << "#{ONE} \n"
-    method_description << "#{ONE} - Parameters:\n"
-    method_description << "#{TWO} - params: Parameters container, see `#{method_name_capitalized}` struct\n"
-    method_description << "#{ONE} - Throws: Throws on errors\n"
-    method_description << "#{ONE} - Returns: EventLoopFuture of `#{result_type}` type\n"
-    method_description << "#{ONE} */\n"
+    method_description << " SeeAlso Telegram Bot API Reference:\n"
+    method_description << " [#{method_name_capitalized}](https://core.telegram.org/bots/api\##{anchor})\n"
+    method_description << " \n"
+    method_description << " - Parameters:\n"
+    method_description << "#{ONE} - params: Parameters container, see `#{method_name_capitalized}` struct\n"
+    method_description << " - Throws: Throws on errors\n"
+    method_description << " - Returns: EventLoopFuture of `#{result_type}` type\n"
+    method_description << " */\n"
 
     if all_params.empty?
-    	params_block = "(params: #{method_name_capitalized}? = nil)"
-          out.write method_description
-          out.write "#{ONE}@discardableResult\n"
-    	out.write "#{ONE}func #{method_name}() throws -> EventLoopFuture<#{result_type}> {\n"
+      out.write "\n"
+      out.write "public extension #{PREFIX_LIB}Bot {\n"
+      out.write "\n"
+      out.write method_description
+      method_signature = "#{ONE}@discardableResult\n"
+      method_signature = "#{ONE}func #{method_name}() throws -> EventLoopFuture<#{result_type}>"
+      out.write "#{method_signature} {\n"
+      methods_signatures_for_bot_protocol << method_signature
     else
   		encodable_type = "Encodable"
   	
   		if has_upload_type
   			encodable_type = "Encodable"
   		end
-      out.write "#{ONE}/// Parameters container struct for `#{method_name}` method\n"
-  		out.write "#{ONE}struct #{method_name_capitalized}: #{encodable_type} {\n\n"
+      out.write "/// Parameters container struct for `#{method_name}` method\n"
+  		out.write "public struct #{PREFIX_LIB}#{method_name_capitalized}: #{encodable_type} {\n\n"
   		out.write "#{all_params}"
-      out.write "#{TWO}/// Custom keys for coding/decoding `#{method_name_capitalized}` struct\n"
-  		out.write "#{TWO}enum CodingKeys: String, CodingKey {\n"
+      out.write "#{ONE}/// Custom keys for coding/decoding `#{method_name_capitalized}` struct\n"
+  		out.write "#{ONE}public enum CodingKeys: String, CodingKey {\n"
   		out.write "#{all_enums}"
-  		out.write "#{TWO}}\n"
-  		out.write "\n"
-  		out.write "#{TWO}public init(#{init_params.chomp(', ')}) {\n"
-  		out.write "#{init_params_body}"
-  		out.write "#{TWO}}\n"
   		out.write "#{ONE}}\n"
   		out.write "\n"
+  		out.write "#{ONE}public init(#{init_params.chomp(', ')}) {\n"
+  		out.write "#{init_params_body}"
+  		out.write "#{ONE}}\n"
+  		out.write "}\n"
+  		out.write "\n"
   		if has_obligatory_params
-  			params_block = "(params: #{method_name_capitalized})"
+  			params_block = "(params: #{PREFIX_LIB}#{method_name_capitalized})"
   		else
-  			params_block = "(params: #{method_name_capitalized}? = nil)"
+  			params_block = "(params: #{PREFIX_LIB}#{method_name_capitalized}? = nil)"
   		end
-        
+      
+      out.write "\n"
+      out.write "public extension #{PREFIX_LIB}Bot {\n"
+      out.write "\n"
       out.write method_description
-      out.write "#{ONE}@discardableResult\n"
-  		out.write "#{ONE}func #{method_name}#{params_block} throws -> EventLoopFuture<#{result_type}> {\n"
+      method_signature = "#{ONE}@discardableResult\n"
+      method_signature = "#{ONE}func #{method_name}#{params_block} throws -> EventLoopFuture<#{result_type}>"
+      out.write "#{method_signature} {\n"
+      methods_signatures_for_bot_protocol << method_signature
     end
 
     out.write "#{TWO}let methodURL: URI = .init(string: getMethodURL(\"#{method_name}\"))\n"
@@ -523,9 +561,9 @@ def main
 			f.write "NAME: #{title} [#{kind}]\n"
 
 			if kind == :type
-                generate_model_file f, node
+        generate_model_file(f, node)
 			else
-		        generate_method f, node
+		    generate_method(f, node)
 			end
 
 			f.write "\n"

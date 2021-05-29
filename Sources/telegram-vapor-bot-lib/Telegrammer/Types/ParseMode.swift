@@ -12,7 +12,7 @@ import Foundation
  SeeAlso Telegram TGBot API Reference:
  [Formatting Options](https://core.telegram.org/bots/api#formatting-options)
  */
-public enum ParseMode: String, Codable {
+public enum TGParseMode: String, Codable {
     case markdownV2 = "MarkdownV2"
     @available(*, deprecated, message: "This is a legacy mode, retained for backward compatibility.", renamed: "markdownV2")
     case markdown  = "Markdown"
@@ -21,7 +21,7 @@ public enum ParseMode: String, Codable {
 
     public init(from decoder: Decoder) throws {
         let value = try decoder.singleValueContainer().decode(String.self)
-        guard let type = ParseMode(rawValue: value) else {
+        guard let type = TGParseMode(rawValue: value) else {
             self = .undefined
             return
         }

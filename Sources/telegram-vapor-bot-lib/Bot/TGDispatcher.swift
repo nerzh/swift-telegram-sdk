@@ -10,7 +10,7 @@ import Foundation
 public protocol TGDispatcherPrtcl {
 
     func add(_ handler: TGHandler) throws
-    func process(_ updates: [Update]) throws
+    func process(_ updates: [TGUpdate]) throws
 }
 
 public final class TGDispatcher: TGDispatcherPrtcl {
@@ -21,7 +21,7 @@ public final class TGDispatcher: TGDispatcherPrtcl {
 
     }
 
-    public func process(_ updates: [Update]) throws {
+    public func process(_ updates: [TGUpdate]) throws {
 
     }
 }

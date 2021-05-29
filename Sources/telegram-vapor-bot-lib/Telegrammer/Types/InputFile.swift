@@ -8,7 +8,7 @@
 import Foundation
 import Vapor
 
-public struct InputFile: Encodable {
+public struct TGInputFile: Encodable {
     var filename: String
     var data: Data
     var mimeType: String?
@@ -21,7 +21,7 @@ public struct InputFile: Encodable {
 }
 
 
-extension InputFile: MultipartPartConvertible {
+extension TGInputFile: MultipartPartConvertible {
 
     public var multipart: MultipartPart? {
         guard let multipartData = data.multipart else {

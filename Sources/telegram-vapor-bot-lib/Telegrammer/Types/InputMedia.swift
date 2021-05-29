@@ -8,12 +8,12 @@
 import Foundation
 
 /// This enum represents the content of a media message to be sent.
-public enum InputMedia: Encodable {
-    case inputMediaPhoto(InputMediaPhoto)
-    case inputMediaVideo(InputMediaVideo)
-    case inputMediaAnimation(InputMediaAnimation)
-    case inputMediaAudio(InputMediaAudio)
-    case inputMediaDocument(InputMediaDocument)
+public enum TGInputMedia: Encodable {
+    case inputMediaPhoto(TGInputMediaPhoto)
+    case inputMediaVideo(TGInputMediaVideo)
+    case inputMediaAnimation(TGInputMediaAnimation)
+    case inputMediaAudio(TGInputMediaAudio)
+    case inputMediaDocument(TGInputMediaDocument)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()

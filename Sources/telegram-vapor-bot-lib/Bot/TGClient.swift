@@ -47,8 +47,8 @@ public final class DefaultTGClient: TGClientPrtcl {
     ) -> EventLoopFuture<Response> {
         client.get(url, headers: HTTPHeaders()) { clientRequest in
             try clientRequest.content.encode(params ?? (TGEmptyParams() as! Params), as: mediaType ?? .formData)
-        }.flatMapThrowing { (clientResponse) throws -> TelegramContainer<Response> in
-            try clientResponse.content.decode(TelegramContainer<Response>.self)
+        }.flatMapThrowing { (clientResponse) throws -> TGTelegramContainer<Response> in
+            try clientResponse.content.decode(TGTelegramContainer<Response>.self)
         }.flatMapThrowing { [self] telegramContainer in
             try processContainer(telegramContainer)
         }
@@ -68,8 +68,8 @@ public final class DefaultTGClient: TGClientPrtcl {
     ) -> EventLoopFuture<Response> {
         client.post(url, headers: HTTPHeaders()) { clientRequest in
             try clientRequest.content.encode(params ?? (TGEmptyParams() as! Params), as: mediaType ?? .formData)
-        }.flatMapThrowing { (clientResponse) throws -> TelegramContainer<Response> in
-            try clientResponse.content.decode(TelegramContainer<Response>.self)
+        }.flatMapThrowing { (clientResponse) throws -> TGTelegramContainer<Response> in
+            try clientResponse.content.decode(TGTelegramContainer<Response>.self)
         }.flatMapThrowing { [self] telegramContainer in
             try processContainer(telegramContainer)
         }
@@ -80,7 +80,7 @@ public final class DefaultTGClient: TGClientPrtcl {
         self.post(url, params: TGEmptyParams(), as: nil)
     }
 
-    private func processContainer<T: Codable>(_ container: TelegramContainer<T>) throws -> T {
+    private func processContainer<T: Codable>(_ container: TGTelegramContainer<T>) throws -> T {
         guard container.ok else {
             let desc = """
             Response marked as `not Ok`, it seems something wrong with request

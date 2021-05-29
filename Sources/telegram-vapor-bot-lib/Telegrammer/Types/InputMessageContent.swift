@@ -8,11 +8,11 @@
 import Foundation
 
 /// This object represents the content of a message to be sent as a result of an inline query. Telegram clients currently support the following 4 types
-public enum InputMessageContent: Codable {
-    case inputTextMessageContent(InputTextMessageContent)
-    case inputLocationMessageContent(InputLocationMessageContent)
-    case inputVenueMessageContent(InputVenueMessageContent)
-    case inputContactMessageContent(InputContactMessageContent)
+public enum TGInputMessageContent: Codable {
+    case inputTextMessageContent(TGInputTextMessageContent)
+    case inputLocationMessageContent(TGInputLocationMessageContent)
+    case inputVenueMessageContent(TGInputVenueMessageContent)
+    case inputContactMessageContent(TGInputContactMessageContent)
     case undefined
 
     public func encode(to encoder: Encoder) throws {
@@ -31,19 +31,19 @@ public enum InputMessageContent: Codable {
         }
     }
     public init(from decoder: Decoder) throws {
-        if let value = try? decoder.singleValueContainer().decode(InputTextMessageContent.self) {
+        if let value = try? decoder.singleValueContainer().decode(TGInputTextMessageContent.self) {
             self = .inputTextMessageContent(value)
             return
         }
-        if let value = try? decoder.singleValueContainer().decode(InputLocationMessageContent.self) {
+        if let value = try? decoder.singleValueContainer().decode(TGInputLocationMessageContent.self) {
             self = .inputLocationMessageContent(value)
             return
         }
-        if let value = try? decoder.singleValueContainer().decode(InputVenueMessageContent.self) {
+        if let value = try? decoder.singleValueContainer().decode(TGInputVenueMessageContent.self) {
             self = .inputVenueMessageContent(value)
             return
         }
-        if let value = try? decoder.singleValueContainer().decode(InputContactMessageContent.self) {
+        if let value = try? decoder.singleValueContainer().decode(TGInputContactMessageContent.self) {
             self = .inputContactMessageContent(value)
             return
         }

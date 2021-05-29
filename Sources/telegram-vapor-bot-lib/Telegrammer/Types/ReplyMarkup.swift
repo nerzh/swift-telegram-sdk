@@ -12,11 +12,11 @@
  SeeAlso Telegram TGBot API Reference:
  [Reply Markups](https://core.telegram.org/bots/2-0-intro#new-inline-keyboards)
  */
-public enum ReplyMarkup: Codable {
-    case inlineKeyboardMarkup(InlineKeyboardMarkup)
-    case replyKeyboardMarkup(ReplyKeyboardMarkup)
-    case replyKeyboardRemove(ReplyKeyboardRemove)
-    case forceReply(ForceReply)
+public enum TGReplyMarkup: Codable {
+    case inlineKeyboardMarkup(TGInlineKeyboardMarkup)
+    case replyKeyboardMarkup(TGReplyKeyboardMarkup)
+    case replyKeyboardRemove(TGReplyKeyboardRemove)
+    case forceReply(TGForceReply)
     case undefined
 
     public func encode(to encoder: Encoder) throws {
@@ -36,19 +36,19 @@ public enum ReplyMarkup: Codable {
     }
 
     public init(from decoder: Decoder) throws {
-        if let value = try? decoder.singleValueContainer().decode(InlineKeyboardMarkup.self) {
+        if let value = try? decoder.singleValueContainer().decode(TGInlineKeyboardMarkup.self) {
             self = .inlineKeyboardMarkup(value)
             return
         }
-        if let value = try? decoder.singleValueContainer().decode(ReplyKeyboardMarkup.self) {
+        if let value = try? decoder.singleValueContainer().decode(TGReplyKeyboardMarkup.self) {
             self = .replyKeyboardMarkup(value)
             return
         }
-        if let value = try? decoder.singleValueContainer().decode(ReplyKeyboardRemove.self) {
+        if let value = try? decoder.singleValueContainer().decode(TGReplyKeyboardRemove.self) {
             self = .replyKeyboardRemove(value)
             return
         }
-        if let value = try? decoder.singleValueContainer().decode(ForceReply.self) {
+        if let value = try? decoder.singleValueContainer().decode(TGForceReply.self) {
             self = .forceReply(value)
             return
         }
