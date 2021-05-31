@@ -126,7 +126,7 @@ public final class TGWebHookConnection: TGConnectionPrtcl {
 
     @discardableResult
     public func start() throws -> Bool {
-        let webHookParams: TGSetWebhookParams = .init(url: webHookURL.path)
+        let webHookParams: TGSetWebhookParams = .init(url: webHookURL.description)
         let future: EventLoopFuture<Bool> = try bot.setWebhook(params: webHookParams)
         var result: Bool = false
         future.whenComplete { response in
@@ -137,7 +137,7 @@ public final class TGWebHookConnection: TGConnectionPrtcl {
                 log.critical(error.logMessage)
             }
         }
-        _ = try future.wait()
+        _ = try? future.wait()
 
         return result
     }
