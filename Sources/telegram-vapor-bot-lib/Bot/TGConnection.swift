@@ -137,7 +137,7 @@ public final class TGWebHookConnection: TGConnectionPrtcl {
                 log.critical(error.logMessage)
             }
         }
-        _ = try? future.wait()
+        _ = try future.wait()
 
         return result
     }
