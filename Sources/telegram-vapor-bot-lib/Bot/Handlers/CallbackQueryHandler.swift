@@ -1,0 +1,46 @@
+//
+//  CallbackQueryHandler.swift
+//  Telegrammer
+//
+//  Created by Givi Pataridze on 23.04.2018.
+//
+
+import Foundation
+
+/// Handler for CallbackQuery updates
+public class TGCallbackQueryHandler: TGHandlerPrtcl {
+
+    public var id: Int = 0
+
+    public var name: String
+
+    let pattern: String
+    let callback: TGHandlerCallback
+
+    public init(
+        pattern: String,
+        callback: @escaping TGHandlerCallback,
+        name: String = String(describing: TGCallbackQueryHandler.self)
+        ) {
+        self.pattern = pattern
+        self.callback = callback
+        self.name = name
+    }
+
+    public func check(update: TGUpdate) -> Bool {
+        guard let callbackQuery = update.callbackQuery else { return false }
+        if let data = callbackQuery.data,
+            !data.matchRegexp(pattern: pattern) {
+            return false
+        }
+        return true
+    }
+
+    public func handle(update: TGUpdate, bot: TGBotPrtcl) {
+        do {
+            try callback(update, bot)
+        } catch {
+            log.error(error.logMessage)
+        }
+    }
+}

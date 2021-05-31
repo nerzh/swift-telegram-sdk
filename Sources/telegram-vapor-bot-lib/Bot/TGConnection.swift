@@ -21,17 +21,31 @@ public protocol TGConnectionPrtcl {
 
 public final class TGLongPollingConnection: TGConnectionPrtcl {
 
-    public weak var bot: TGBot!
+    public weak var bot: TGBot! {
+        get { _bot }
+        set {
+            _bot = newValue
+            dispatcher.bot = newValue
+        }
+    }
     public var dispatcher: TGDispatcherPrtcl
     public var limit: Int?
     public var timeout: Int? = 10
     public var allowedUpdates: [TGUpdate.CodingKeys]?
 
+    private var _bot: TGBot!
     private var offsetUpdates: Int = 0
     private var newOffsetUpdates: Int { offsetUpdates + 1 }
 
     public init(dispatcher: TGDispatcherPrtcl, limit: Int? = nil, timeout: Int? = nil, allowedUpdates: [TGUpdate.CodingKeys]? = nil) {
         self.dispatcher = dispatcher
+        self.limit = limit
+        self.timeout = timeout
+        self.allowedUpdates = allowedUpdates
+    }
+
+    public init(limit: Int? = nil, timeout: Int? = nil, allowedUpdates: [TGUpdate.CodingKeys]? = nil) {
+        self.dispatcher = TGDispatcher()
         self.limit = limit
         self.timeout = timeout
         self.allowedUpdates = allowedUpdates
@@ -103,6 +117,11 @@ public final class TGWebHookConnection: TGConnectionPrtcl {
     public init(webHookURL: URI, dispatcher: TGDispatcherPrtcl) {
         self.webHookURL = webHookURL
         self.dispatcher = dispatcher
+    }
+
+    public init(webHookURL: URI) {
+        self.webHookURL = webHookURL
+        self.dispatcher = TGDispatcher()
     }
 
     @discardableResult

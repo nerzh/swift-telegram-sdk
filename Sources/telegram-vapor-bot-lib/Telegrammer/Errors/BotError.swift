@@ -8,8 +8,6 @@
 import Foundation
 import Logging
 
-public class BotError: Error {}
-
 public class CoreError: Error {
     public enum `Type` {
         case `internal`

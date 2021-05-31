@@ -14,7 +14,7 @@ public extension TGMessage {
         - bot: TGBot from which send reply
         - parseMode: Optional. Text format
         - replyMarkup: Optional. Reply Markup
-     
+
      - Throws: Throws on errors
      */
     func reply(text: String, from bot: TGBot, parseMode: TGParseMode? = nil, replyMarkup: TGReplyMarkup? = nil) throws {
@@ -29,13 +29,13 @@ public extension TGMessage {
 
     /**
      Helper method to easy edit message
-     
+
      - Parameters:
         - text: Text to send in reply
         - bot: TGBot from which send reply
         - parseMode: Optional. Text format
         - replyMarkup: Optional. Reply Markup
-     
+
      - Throws: Throws on errors
      */
     func edit(
@@ -56,10 +56,10 @@ public extension TGMessage {
 
     /**
      Helper method to easy edit message
-     
+
      - Parameters:
         - bot: TGBot from which send reply
-     
+
      - Throws: Throws on errors
      */
     func delete(from bot: TGBot) throws {

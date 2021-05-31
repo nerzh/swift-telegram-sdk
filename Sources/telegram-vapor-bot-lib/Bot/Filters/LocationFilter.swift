@@ -1,0 +1,22 @@
+//
+//  LocationFilter.swift
+//  Telegrammer
+//
+//  Created by Givi Pataridze on 21.04.2018.
+//
+
+import Foundation
+
+/// Messages that contain `Location`
+public struct LocationFilter: Filter {
+
+    public var name: String = "location"
+
+    public func filter(message: TGMessage) -> Bool {
+        return message.location != nil
+    }
+}
+
+public extension Filters {
+    static var location = Filters(filter: LocationFilter())
+}

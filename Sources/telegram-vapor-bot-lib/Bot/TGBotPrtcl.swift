@@ -5,9 +5,9 @@ import Vapor
 
 public protocol TGBotPrtcl {
 
-    var botId: String { get set }
-    var tgURI: URI { get set }
-    var tgClient: TGClientPrtcl { get set }
+    var botId: String { get }
+    var tgURI: URI { get }
+    var tgClient: TGClientPrtcl { get }
     var connection: TGConnectionPrtcl  { get }
 
     static var shared: Self { get }
