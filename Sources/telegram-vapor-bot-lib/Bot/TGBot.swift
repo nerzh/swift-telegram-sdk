@@ -5,25 +5,28 @@
 //  Created by Oleh Hudeichuk on 21.05.2021.
 //
 
-import Foundation
 import Vapor
 
 public final class TGBot: TGBotPrtcl {
 
+    public var app: Vapor.Application
+    public var connection: TGConnectionPrtcl
     public var botId: String
     public var tgURI: URI
     public var tgClient: TGClientPrtcl
-    public var connection: TGConnectionPrtcl
+
 
     public static let standardTGURL: URI = .init(string: "https://api.telegram.org")
     private static var _shared: TGBot!
     private static var configured: Bool = false
 
-    private init(connection: TGConnectionPrtcl,
+    private init(app: Vapor.Application,
+                 connection: TGConnectionPrtcl,
                  tgClient: TGClientPrtcl,
                  tgURI: URI,
                  botId: String
     ) {
+        self.app = app
         self.connection = connection
         self.botId = botId
         self.tgURI = tgURI
@@ -42,14 +45,14 @@ public final class TGBot: TGBotPrtcl {
         return Self._shared
     }
 
-    public static func configure(connection: TGConnectionPrtcl, botId: String, tgURI: URI = TGBot.standardTGURL, tgClient: TGClientPrtcl) {
+    public static func configure(app: Vapor.Application, connection: TGConnectionPrtcl, botId: String, tgURI: URI = TGBot.standardTGURL, tgClient: TGClientPrtcl) {
         if configured { return }
-        Self._shared = Self.init(connection: connection, tgClient: tgClient, tgURI: tgURI, botId: botId)
+        Self._shared = Self.init(app: app, connection: connection, tgClient: tgClient, tgURI: tgURI, botId: botId)
         Self._shared.connection.bot = Self._shared
     }
 
-    public static func configure(connection: TGConnectionPrtcl, botId: String, tgURI: URI = TGBot.standardTGURL, vaporClient: Vapor.Client) {
-        configure(connection: connection, botId: botId, tgURI: tgURI, tgClient: DefaultTGClient(client: vaporClient))
+    public static func configure(app: Vapor.Application, connection: TGConnectionPrtcl, botId: String, tgURI: URI = TGBot.standardTGURL) {
+        configure(app: app, connection: connection, botId: botId, tgURI: tgURI, tgClient: DefaultTGClient(client: app.client))
     }
 
     public func getMethodURL(_ methodName: String) -> String {

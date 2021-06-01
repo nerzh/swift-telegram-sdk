@@ -80,9 +80,9 @@ public final class TGLongPollingConnection: TGConnectionPrtcl {
     private func getUpdates() throws {
         let allowedUpdates: [String] = (allowedUpdates ?? []).map { $0.rawValue }
         let params: TGGetUpdatesParams = .init(offset: newOffsetUpdates,
-                                                   limit: limit,
-                                                   timeout: timeout,
-                                                   allowedUpdates: allowedUpdates)
+                                               limit: limit,
+                                               timeout: timeout,
+                                               allowedUpdates: allowedUpdates)
         try bot.getUpdates(params: params).whenComplete { [weak self] response in
             switch response {
             case let .success(updates):

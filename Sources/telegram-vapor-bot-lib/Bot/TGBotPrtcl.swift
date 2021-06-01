@@ -5,6 +5,7 @@ import Vapor
 
 public protocol TGBotPrtcl {
 
+    var app: Vapor.Application { get }
     var botId: String { get }
     var tgURI: URI { get }
     var tgClient: TGClientPrtcl { get }

@@ -547,6 +547,7 @@ def make_bot_protocol(signatures)
   protocol = METHOD_HEADER
   protocol << "import Vapor\n\n"
   protocol << "public protocol #{PREFIX_LIB}BotPrtcl {\n\n"
+  protocol << "#{ONE}var app: Vapor.Application { get }\n"
   protocol << "#{ONE}var botId: String { get set }\n"
   protocol << "#{ONE}var tgURI: URI { get set }\n"
   protocol << "#{ONE}var tgClient: TGClientPrtcl { get set }\n"
