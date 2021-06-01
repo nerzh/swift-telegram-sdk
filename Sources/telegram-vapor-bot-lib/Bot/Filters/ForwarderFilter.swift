@@ -1,17 +1,17 @@
 //
-//  ForwarderFilter.swift
-//  Telegrammer
 //
-//  Created by Givi Pataridze on 21.04.2018.
+//
+//  Created by Oleh Hudeichuk on 02.06.2021.
 //
 
 import Foundation
 
 /// Messages that are forwarded.
-public struct ForwarderFilter: Filter {
+public class ForwarderFilter: TGFilter {
 
     public var name: String = "forwarded"
 
+    override
     public func filter(message: TGMessage) -> Bool {
         return message.forwardDate != nil ||
         message.forwardFrom != nil ||
@@ -21,6 +21,6 @@ public struct ForwarderFilter: Filter {
     }
 }
 
-public extension Filters {
-    static var forwarded = Filters(filter: ForwarderFilter())
+public extension TGFilter {
+    static var forwarded = ForwarderFilter()
 }

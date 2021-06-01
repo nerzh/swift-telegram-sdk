@@ -9,19 +9,19 @@ import Foundation
 import Logging
 
 public class TGLoggerHandler: TGHandlerPrtcl {
-
+    
     public var id: Int = 0
-
+    
     let logLevel: Logger.Level
-
+    
     public init(level: Logger.Level) {
         self.logLevel = level
     }
-
+    
     public func check(update: TGUpdate) -> Bool {
         return true
     }
-
+    
     public func handle(update: TGUpdate, bot: TGBotPrtcl) {
         log.log(level: logLevel, update.logMessage)
     }
@@ -29,10 +29,10 @@ public class TGLoggerHandler: TGHandlerPrtcl {
 
 extension TGUpdate {
     var description: String {
-
+        
         //TODO: Improve description algorithm, serialization/deserialization too heavy
         var resultString = "[]"
-
+        
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
         do {
@@ -45,7 +45,7 @@ extension TGUpdate {
         }
         return resultString
     }
-
+    
     var logMessage: Logger.Message {
         return Logger.Message(stringLiteral: description)
     }

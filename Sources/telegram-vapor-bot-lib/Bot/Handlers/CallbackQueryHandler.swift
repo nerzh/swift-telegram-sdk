@@ -21,7 +21,7 @@ public class TGCallbackQueryHandler: TGHandlerPrtcl {
         pattern: String,
         callback: @escaping TGHandlerCallback,
         name: String = String(describing: TGCallbackQueryHandler.self)
-        ) {
+    ) {
         self.pattern = pattern
         self.callback = callback
         self.name = name
@@ -30,7 +30,7 @@ public class TGCallbackQueryHandler: TGHandlerPrtcl {
     public func check(update: TGUpdate) -> Bool {
         guard let callbackQuery = update.callbackQuery else { return false }
         if let data = callbackQuery.data,
-            !data.matchRegexp(pattern: pattern) {
+           !data.matchRegexp(pattern: pattern) {
             return false
         }
         return true

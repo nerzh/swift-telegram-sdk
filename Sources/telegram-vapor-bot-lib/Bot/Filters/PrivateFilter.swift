@@ -1,22 +1,22 @@
 //
-//  PrivateFilter.swift
-//  Telegrammer
 //
-//  Created by Givi Pataridze on 21.04.2018.
+//
+//  Created by Oleh Hudeichuk on 02.06.2021.
 //
 
 import Foundation
 
 /// Messages sent in a private chat
-public struct PrivateFilter: Filter {
+public class PrivateFilter: TGFilter {
 
     public var name: String = "private"
 
+    override
     public func filter(message: TGMessage) -> Bool {
         return message.chat.type == .private
     }
 }
 
-public extension Filters {
-    static var `private` = Filters(filter: PrivateFilter())
+public extension TGFilter {
+    static var `private` = PrivateFilter()
 }

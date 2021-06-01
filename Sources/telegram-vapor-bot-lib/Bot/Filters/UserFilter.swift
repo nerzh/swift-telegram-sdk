@@ -1,14 +1,13 @@
 //
-//  UserFilter.swift
-//  Telegrammer
 //
-//  Created by Givi Pataridze on 21.04.2018.
+//
+//  Created by Oleh Hudeichuk on 02.06.2021.
 //
 
 import Foundation
 
 /// Filters messages to allow only those which are from specified user ID.
-public struct UserFilter: Filter {
+public class UserFilter: TGFilter {
 
     var userIds: Set<Int64>?
     var usernames: Set<String>?
@@ -18,6 +17,7 @@ public struct UserFilter: Filter {
      */
     public init(userId: Int64) {
         self.userIds = Set<Int64>([userId])
+        super.init()
     }
 
     /**
@@ -27,6 +27,7 @@ public struct UserFilter: Filter {
      */
     public init(username: String) {
         self.usernames = Set<String>([username])
+        super.init()
     }
 
     /**
@@ -34,6 +35,7 @@ public struct UserFilter: Filter {
      */
     public init(userIds: [Int64]) {
         self.userIds = Set(userIds)
+        super.init()
     }
 
     /**
@@ -43,6 +45,7 @@ public struct UserFilter: Filter {
      */
     public init(usernames: [String]) {
         self.usernames = Set(usernames)
+        super.init()
     }
 
     /**
@@ -53,10 +56,16 @@ public struct UserFilter: Filter {
     public init(userIds: [Int64], usernames: [String]) {
         self.userIds = Set(userIds)
         self.usernames = Set(usernames)
+        super.init()
     }
-
+    
+//    required init(lhs: TGFilter, rhs: TGFilter, op: Operation) {
+//        super.init(lhs: lhs, rhs: rhs, op: op)
+//    }
+    
     public var name: String = "user"
 
+    override
     public func filter(message: TGMessage) -> Bool {
         guard let user = message.from else { return false }
 
@@ -75,24 +84,24 @@ public struct UserFilter: Filter {
     }
 }
 
-public extension Filters {
-    static func user(userId: Int64) -> Filters {
-        return Filters(filter: UserFilter(userId: userId))
+public extension TGFilter {
+    static func user(userId: Int64) -> TGFilter {
+        return UserFilter(userId: userId)
     }
 
-    static func user(username: String) -> Filters {
-        return Filters(filter: UserFilter(username: username))
+    static func user(username: String) -> TGFilter {
+        return UserFilter(username: username)
     }
 
-    static func user(userIds: [Int64]) -> Filters {
-        return Filters(filter: UserFilter(userIds: userIds))
+    static func user(userIds: [Int64]) -> TGFilter {
+        return UserFilter(userIds: userIds)
     }
 
-    static func user(usernames: [String]) -> Filters {
-        return Filters(filter: UserFilter(usernames: usernames))
+    static func user(usernames: [String]) -> TGFilter {
+        return UserFilter(usernames: usernames)
     }
 
-    static func user(userIds: [Int64], usernames: [String]) -> Filters {
-        return Filters(filter: UserFilter(userIds: userIds, usernames: usernames))
+    static func user(userIds: [Int64], usernames: [String]) -> TGFilter {
+        return UserFilter(userIds: userIds, usernames: usernames)
     }
 }

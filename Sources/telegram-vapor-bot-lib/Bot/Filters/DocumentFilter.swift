@@ -1,22 +1,22 @@
 //
-//  DocumentFilter.swift
-//  Telegrammer
 //
-//  Created by Givi Pataridze on 21.04.2018.
+//
+//  Created by Oleh Hudeichuk on 02.06.2021.
 //
 
 import Foundation
 
 /// Messages that contain `Document`
-public struct DocumentFilter: Filter {
+public class DocumentFilter: TGFilter {
 
     public var name: String = "document"
 
+    override
     public func filter(message: TGMessage) -> Bool {
         return message.document != nil
     }
 }
 
-public extension Filters {
-    static var document = Filters(filter: DocumentFilter())
+public extension TGFilter {
+    static var document = DocumentFilter()
 }

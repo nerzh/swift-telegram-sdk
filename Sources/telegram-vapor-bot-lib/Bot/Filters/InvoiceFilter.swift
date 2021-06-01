@@ -1,22 +1,22 @@
 //
-//  InvoiceFilter.swift
-//  Telegrammer
 //
-//  Created by Givi Pataridze on 21.04.2018.
+//
+//  Created by Oleh Hudeichuk on 02.06.2021.
 //
 
 import Foundation
 
 /// Messages that contain `Invoice`
-public struct InvoiceFilter: Filter {
+public class InvoiceFilter: TGFilter {
 
     public var name: String = "invoice"
 
+    override
     public func filter(message: TGMessage) -> Bool {
         return message.invoice != nil
     }
 }
 
-public extension Filters {
-    static var invoice = Filters(filter: InvoiceFilter())
+public extension TGFilter {
+    static var invoice = InvoiceFilter()
 }

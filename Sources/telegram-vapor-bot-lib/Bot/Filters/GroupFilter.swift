@@ -1,22 +1,22 @@
 //
-//  GroupFilter.swift
-//  Telegrammer
 //
-//  Created by Givi Pataridze on 21.04.2018.
+//
+//  Created by Oleh Hudeichuk on 02.06.2021.
 //
 
 import Foundation
 
 /// Messages sent in a group chat
-public struct GroupFilter: Filter {
+public class GroupFilter: TGFilter {
 
     public var name: String = "group"
 
+    override
     public func filter(message: TGMessage) -> Bool {
         return message.chat.type != .private
     }
 }
 
-public extension Filters {
-    static var group = Filters(filter: GroupFilter())
+public extension TGFilter {
+    static var group = GroupFilter()
 }

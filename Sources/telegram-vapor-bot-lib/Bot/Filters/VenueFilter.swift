@@ -1,22 +1,22 @@
 //
-//  VenueFilter.swift
-//  Telegrammer
 //
-//  Created by Givi Pataridze on 21.04.2018.
+//
+//  Created by Oleh Hudeichuk on 02.06.2021.
 //
 
 import Foundation
 
 /// Messages that contain `Vanue`
-public struct VenueFilter: Filter {
+public class VenueFilter: TGFilter {
 
     public var name: String = "venue"
 
+    override
     public func filter(message: TGMessage) -> Bool {
         return message.venue != nil
     }
 }
 
-public extension Filters {
-    static var venue = Filters(filter: VenueFilter())
+public extension TGFilter {
+    static var venue = VenueFilter()
 }

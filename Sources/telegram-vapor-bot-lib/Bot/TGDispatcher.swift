@@ -13,7 +13,8 @@ public protocol TGDispatcherPrtcl {
     var handlersGroup: [[TGHandlerPrtcl]] { get set }
 
     /// The higher level has the highest priority
-    func add(_ handler: TGHandlerPrtcl, at level: Int?)
+    func add(_ handler: TGHandlerPrtcl, priority: Int)
+    func add(_ handler: TGHandlerPrtcl)
     func remove(_ handler: TGHandlerPrtcl, from level: Int?)
     func process(_ updates: [TGUpdate]) throws
 }
@@ -42,7 +43,7 @@ public final class TGDispatcher: TGDispatcherPrtcl {
     private typealias Position = Int
     private var handlersIndex: [Level: [IndexId: Position]] = .init()
 
-    private func add(_ handler: TGHandlerPrtcl, at level: Int) {
+    public func add(_ handler: TGHandlerPrtcl, priority level: Int) {
         processQueue.async(flags: .barrier) { [weak self] in
             guard let self = self else { return }
 
@@ -52,26 +53,23 @@ public final class TGDispatcher: TGDispatcherPrtcl {
 
             /// add handler
             var handlerPosition: Int = 0
-            if self.handlersGroup.count > level && level >= 0 {
-                self.handlersGroup[level].append(handler)
-                handlerPosition = self.handlersGroup[level].count - 1
+            let correctLevel: Int = level >= 0 ? level : 0
+            if self.handlersGroup.count > correctLevel {
+                self.handlersGroup[correctLevel].append(handler)
+                handlerPosition = self.handlersGroup[correctLevel].count - 1
             } else {
-                if self.handlersGroup.count > 0 {
-                    self.handlersGroup[0].append(handler)
-                    handlerPosition = self.handlersGroup[0].count - 1
-                } else {
-                    self.handlersGroup.append([handler])
-                    handlerPosition = 0
-                }
+                self.handlersGroup.append([handler])
+                handlerPosition = self.handlersGroup[self.handlersGroup.count - 1].count - 1
             }
+            
             /// add handler to index
             if self.handlersIndex[level] == nil { self.handlersIndex[level] = .init() }
             self.handlersIndex[level]?[handler.id] = handlerPosition
         }
     }
 
-    public func add(_ handler: TGHandlerPrtcl, at level: Int?) {
-        add(handler, at: level ?? 0)
+    public func add(_ handler: TGHandlerPrtcl) {
+        add(handler, priority: 0)
     }
 
     public func remove(_ handler: TGHandlerPrtcl, from level: Int?) {

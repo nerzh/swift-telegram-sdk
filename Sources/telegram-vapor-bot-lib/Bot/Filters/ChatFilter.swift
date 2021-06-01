@@ -1,14 +1,13 @@
 //
-//  ChatFilter.swift
-//  Telegrammer
 //
-//  Created by Givi Pataridze on 21.04.2018.
+//
+//  Created by Oleh Hudeichuk on 02.06.2021.
 //
 
 import Foundation
 
 /// Filters messages to allow only those which are from specified chat ID.
-public struct ChatFilter: Filter {
+public class ChatFilter: TGFilter {
 
     var chatId: Int64
     var username: String?
@@ -16,10 +15,12 @@ public struct ChatFilter: Filter {
     public init(chatId: Int64, username: String? = nil) {
         self.chatId = chatId
         self.username = username
+        super.init()
     }
 
     public var name: String = "chat"
 
+    override
     public func filter(message: TGMessage) -> Bool {
         guard message.chat.id == chatId else { return false }
         guard let desiredUsername = username else { return true }
@@ -28,8 +29,8 @@ public struct ChatFilter: Filter {
     }
 }
 
-public extension Filters {
-    static func chat(chatId: Int64, username: String? = nil) -> Filters {
-        return Filters(filter: ChatFilter(chatId: chatId, username: username))
+public extension TGFilter {
+    static func chat(chatId: Int64, username: String? = nil) -> TGFilter {
+        return ChatFilter(chatId: chatId, username: username)
     }
 }

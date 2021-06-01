@@ -1,8 +1,7 @@
 //
-//  StatusUpdateFilters.swift
-//  Telegrammer
 //
-//  Created by Givi Pataridze on 21.04.2018.
+//
+//  Created by Oleh Hudeichuk on 02.06.2021.
 //
 
 import Foundation
@@ -14,35 +13,36 @@ import Foundation
  */
 public struct StatusUpdateFilters {
     /// Messages that contain Message.groupChatCreated, Message.supergroupChatCreated or Message.channelChatCreated
-    public static var chatCreated: Filters { return Filters(filter: ChatCreatedFilter()) }
+    public static var chatCreated: TGFilter { return ChatCreatedFilter() }
 
     /// Messages that contain Message.deleteChatPhoto
-    public static var deleteChatPhoto: Filters { return Filters(filter: DeleteChatPhotoFilter()) }
+    public static var deleteChatPhoto: TGFilter { return DeleteChatPhotoFilter() }
 
     /// Messages that contain Message.leftChatMember
-    public static var leftChatMember: Filters { return Filters(filter: LeftChatMemberFilter()) }
+    public static var leftChatMember: TGFilter { return LeftChatMemberFilter() }
 
     /// Messages that contain Message.migrateFromChatId
-    public static var migrate: Filters { return Filters(filter: MigrateFilter()) }
+    public static var migrate: TGFilter { return MigrateFilter() }
 
     /// Messages that contain Message.newChatMembers
-    public static var newChatMembers: Filters { return Filters(filter: NewChatMembersFilter()) }
+    public static var newChatMembers: TGFilter { return NewChatMembersFilter() }
 
     /// Messages that contain Message.newChatPhoto
-    public static var newChatPhoto: Filters { return Filters(filter: NewChatPhotoFilter()) }
+    public static var newChatPhoto: TGFilter { return NewChatPhotoFilter() }
 
     /// Messages that contain Message.newChatTitle
-    public static var newChatTitle: Filters { return Filters(filter: NewChatTitleFilter()) }
+    public static var newChatTitle: TGFilter { return NewChatTitleFilter() }
 
     /// Messages that contain Message.pinnedMessage
-    public static var pinnedMessage: Filters { return Filters(filter: PinnedMessageFilter()) }
+    public static var pinnedMessage: TGFilter { return PinnedMessageFilter() }
 }
 
 /// Messages that contain Message.groupChatCreated, Message.supergroupChatCreated or Message.channelChatCreated
-public struct ChatCreatedFilter: Filter {
+public class ChatCreatedFilter: TGFilter {
 
     public var name: String = "chat_created"
 
+    override
     public func filter(message: TGMessage) -> Bool {
         return message.channelChatCreated != nil ||
             message.supergroupChatCreated != nil ||
@@ -51,30 +51,33 @@ public struct ChatCreatedFilter: Filter {
 }
 
 /// Messages that contain Message.deleteChatPhoto
-public struct DeleteChatPhotoFilter: Filter {
+public class DeleteChatPhotoFilter: TGFilter {
 
     public var name: String = "delete_chat_photo"
 
+    override
     public func filter(message: TGMessage) -> Bool {
         return message.deleteChatPhoto != nil
     }
 }
 
 /// Messages that contain Message.leftChatMember
-public struct LeftChatMemberFilter: Filter {
+public class LeftChatMemberFilter: TGFilter {
 
     public var name: String = "left_chat_member"
 
+    override
     public func filter(message: TGMessage) -> Bool {
         return message.leftChatMember != nil
     }
 }
 
 /// Messages that contain Message.migrateFromChatId
-public struct MigrateFilter: Filter {
+public class MigrateFilter: TGFilter {
 
     public var name: String = "migrate"
 
+    override
     public func filter(message: TGMessage) -> Bool {
         return message.migrateFromChatId != nil ||
             message.migrateToChatId != nil
@@ -82,20 +85,22 @@ public struct MigrateFilter: Filter {
 }
 
 /// Messages that contain Message.newChatMembers
-public struct NewChatMembersFilter: Filter {
+public class NewChatMembersFilter: TGFilter {
 
     public var name: String = "new_chat_members"
 
+    override
     public func filter(message: TGMessage) -> Bool {
         return message.newChatMembers != nil
     }
 }
 
 /// Messages that contain Message.newChatPhoto
-public struct NewChatPhotoFilter: Filter {
+public class NewChatPhotoFilter: TGFilter {
 
     public var name: String = "new_chat_photo"
 
+    override
     public func filter(message: TGMessage) -> Bool {
         guard let photos = message.newChatPhoto else { return false }
         return !photos.isEmpty
@@ -103,20 +108,22 @@ public struct NewChatPhotoFilter: Filter {
 }
 
 /// Messages that contain Message.newChatTitle
-public struct NewChatTitleFilter: Filter {
+public class NewChatTitleFilter: TGFilter {
 
     public var name: String = "new_chat_title"
 
+    override
     public func filter(message: TGMessage) -> Bool {
         return message.newChatTitle != nil
     }
 }
 
 /// Messages that contain Message.pinnedMessage
-public struct PinnedMessageFilter: Filter {
+public class PinnedMessageFilter: TGFilter {
 
     public var name: String = "pinned_message"
 
+    override
     public func filter(message: TGMessage) -> Bool {
         return message.pinnedMessage != nil
     }
