@@ -17,7 +17,7 @@ public extension TGMessage {
 
      - Throws: Throws on errors
      */
-    func reply(text: String, from bot: TGBot, parseMode: TGParseMode? = nil, replyMarkup: TGReplyMarkup? = nil) throws {
+    func reply(text: String, bot: TGBotPrtcl, parseMode: TGParseMode? = nil, replyMarkup: TGReplyMarkup? = nil) throws {
         let params = TGSendMessageParams(
             chatId: .chat(Int64(chat.id)),
             text: text,
@@ -40,7 +40,7 @@ public extension TGMessage {
      */
     func edit(
         text: String,
-        from bot: TGBot,
+        bot: TGBotPrtcl,
         parseMode: TGParseMode? = nil,
         replyMarkup: TGInlineKeyboardMarkup? = nil
     ) throws {
@@ -62,7 +62,7 @@ public extension TGMessage {
 
      - Throws: Throws on errors
      */
-    func delete(from bot: TGBot) throws {
+    func delete(bot: TGBotPrtcl) throws {
         let params = TGDeleteMessageParams(
             chatId: .chat(Int64(chat.id)),
             messageId: messageId

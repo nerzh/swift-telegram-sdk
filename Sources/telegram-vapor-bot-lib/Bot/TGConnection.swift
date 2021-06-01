@@ -110,7 +110,14 @@ public final class TGLongPollingConnection: TGConnectionPrtcl {
 
 public final class TGWebHookConnection: TGConnectionPrtcl {
 
-    public weak var bot: TGBot!
+    private var _bot: TGBot!
+    public weak var bot: TGBot! {
+        get { _bot }
+        set {
+            _bot = newValue
+            dispatcher.bot = newValue
+        }
+    }
     public var dispatcher: TGDispatcherPrtcl
     public var webHookURL: URI
 
