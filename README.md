@@ -39,6 +39,24 @@ final class DefaultBotHandlers {
 
 
 
+### Use with LongPolling
+
+#### for longpolling you should only configure vapor **configure.swift**
+
+```swift
+let tgApi: String = "XXXXXXXXXX:YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
+let connection: TGConnectionPrtcl = TGLongPollingConnection()
+TGBot.configure(connection: connection, botId: tgApi, vaporClient: app.client)
+try TGBot.shared.start()
+
+/// set level of debug if you needed 
+TGBot.log.logLevel = .error
+
+DefaultBotHandlers.addHandlers(app: app, bot: TGBot.shared)
+```
+
+
+
 ### Use with Webhooks
 
 #### vapor **configure.swift**
@@ -78,22 +96,6 @@ func routes(_ app: Application) throws {
 ```
 
 
-
-### Use with LongPolling
-
-#### for longpolling you should only configure vapor **configure.swift**
-
-```swift
-let tgApi: String = "XXXXXXXXXX:YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
-let connection: TGConnectionPrtcl = TGLongPollingConnection()
-TGBot.configure(connection: connection, botId: tgApi, vaporClient: app.client)
-try TGBot.shared.start()
-
-/// set level of debug if you needed 
-TGBot.log.logLevel = .error
-
-DefaultBotHandlers.addHandlers(app: app, bot: TGBot.shared)
-```
 
 ### Add to your Vapor project with Swift Package Manager
 add to yor Package.json
