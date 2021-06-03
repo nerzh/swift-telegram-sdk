@@ -1,8 +1,8 @@
 # telegram-vapor-bot-lib
 
-### Usage
+### Usage 
 
-create folder with your handlers **TGHandlers/DefaultBotHandlers.swift**
+#### create folder with your handlers **TGHandlers/DefaultBotHandlers.swift**
 ```swift
 import Vapor
 import telegram_vapor_bot_lib
@@ -16,7 +16,8 @@ final class DefaultBotHandlers {
 
     private static func defaultHandler(app: Vapor.Application, bot: TGBotPrtcl) {
         let handler = TGMessageHandler(filters: (.all && !.command.names(["/ping"]))) { update, bot in
-            try update.message?.reply(text: "Success", bot: bot)
+            let params: TGSendMessageParams = .init(chatId: .chat(update.message!.chat.id), text: "Success")
+            try bot.sendMessage(params: params)
         }
         bot.connection.dispatcher.add(handler)
     }
@@ -31,19 +32,24 @@ final class DefaultBotHandlers {
 
 ```
 
-vapor **configure.swift**
+
+
+### Use with Webhooks
+
+#### vapor **configure.swift**
 
 ```swift
-/// let connection: TGConnectionPrtcl = TGLongPollingConnection()
 let connection: TGConnectionPrtcl = TGWebHookConnection(webHookURL: "https://your_domain/some_webhook_route")
 TGBot.configure(connection: connection, botId: tgApi, vaporClient: app.client)
 try TGBot.shared.start()
-DefaultBotHandlers.addHandlers(app: app, bot: TGBot.shared)
+
 /// set level of debug if you needed 
 TGBot.log.logLevel = .error
+
+DefaultBotHandlers.addHandlers(app: app, bot: TGBot.shared)
 ```
 
-vapor **routes.swift**
+#### vapor **routes.swift**
 
 ```swift
 import Vapor
@@ -66,3 +72,18 @@ func routes(_ app: Application) throws {
 ```
 
 
+
+### Use with LongPolling
+
+#### for longpolling you should only configure vapor **configure.swift**
+
+```swift
+let connection: TGConnectionPrtcl = TGLongPollingConnection()
+TGBot.configure(connection: connection, botId: tgApi, vaporClient: app.client)
+try TGBot.shared.start()
+
+/// set level of debug if you needed 
+TGBot.log.logLevel = .error
+
+DefaultBotHandlers.addHandlers(app: app, bot: TGBot.shared)
+```
