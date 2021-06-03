@@ -1,5 +1,7 @@
 # telegram-vapor-bot-lib
 
+## Please support Telegram Vapor Bot Lib development by giving a ⭐️
+
 ### Usage 
 
 #### create folder with your handlers **TGHandlers/DefaultBotHandlers.swift**
