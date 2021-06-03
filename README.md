@@ -2,7 +2,7 @@
 
 ### Usage
 
-vapor **TGHandlers/DefaultBotHandlers.swift**
+create folder with your handlers **TGHandlers/DefaultBotHandlers.swift**
 ```swift
 import Vapor
 import telegram_vapor_bot_lib
