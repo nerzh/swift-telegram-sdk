@@ -18,5 +18,5 @@ public class PrivateFilter: TGFilter {
 }
 
 public extension TGFilter {
-    static var `private` = PrivateFilter()
+    static var `private`: PrivateFilter { PrivateFilter() }
 }

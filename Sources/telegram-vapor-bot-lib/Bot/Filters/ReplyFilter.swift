@@ -18,5 +18,5 @@ public class ReplyFilter: TGFilter {
 }
 
 public extension TGFilter {
-    static var reply = ReplyFilter()
+    static var reply: ReplyFilter { ReplyFilter() }
 }

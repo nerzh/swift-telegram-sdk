@@ -17,5 +17,5 @@ public class AllFilter: TGFilter {
 }
 
 public extension TGFilter {
-    static var all = AllFilter()
+    static var all: AllFilter { AllFilter() }
 }

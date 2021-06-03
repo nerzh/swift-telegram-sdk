@@ -18,5 +18,5 @@ public class DocumentFilter: TGFilter {
 }
 
 public extension TGFilter {
-    static var document = DocumentFilter()
+    static var document: DocumentFilter { DocumentFilter() }
 }

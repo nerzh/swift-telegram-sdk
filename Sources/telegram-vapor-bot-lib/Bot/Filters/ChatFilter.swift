@@ -30,7 +30,7 @@ public class ChatFilter: TGFilter {
 }
 
 public extension TGFilter {
-    static func chat(chatId: Int64, username: String? = nil) -> TGFilter {
+    static func chat(chatId: Int64, username: String? = nil) -> ChatFilter {
         return ChatFilter(chatId: chatId, username: username)
     }
 }

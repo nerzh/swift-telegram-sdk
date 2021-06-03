@@ -18,5 +18,5 @@ public class VideoFilter: TGFilter {
 }
 
 public extension TGFilter {
-    static var video = VideoFilter()
+    static var video: VideoFilter { VideoFilter() }
 }

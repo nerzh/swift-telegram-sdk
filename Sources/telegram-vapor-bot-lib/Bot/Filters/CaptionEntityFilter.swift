@@ -28,7 +28,7 @@ public class CaptionEntityFilter: TGFilter {
 }
 
 public extension TGFilter {
-    static func captionEntity(type: TGMessageEntityType) -> TGFilter {
+    static func captionEntity(type: TGMessageEntityType) -> CaptionEntityFilter {
         return CaptionEntityFilter(type: type)
     }
 }

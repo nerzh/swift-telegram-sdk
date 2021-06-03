@@ -19,5 +19,5 @@ public class PhotoFilter: TGFilter {
 }
 
 public extension TGFilter {
-    static var photo = PhotoFilter()
+    static var photo: PhotoFilter { PhotoFilter() }
 }

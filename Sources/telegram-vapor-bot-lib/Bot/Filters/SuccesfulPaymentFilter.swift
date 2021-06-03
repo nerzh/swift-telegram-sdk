@@ -18,5 +18,5 @@ public class SuccesfulPaymentFilter: TGFilter {
 }
 
 public extension TGFilter {
-    static var successfulPayment = SuccesfulPaymentFilter()
+    static var successfulPayment: SuccesfulPaymentFilter { SuccesfulPaymentFilter() }
 }

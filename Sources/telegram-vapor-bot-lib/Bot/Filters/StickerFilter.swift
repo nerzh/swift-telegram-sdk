@@ -18,5 +18,5 @@ public class StickerFilter: TGFilter {
 }
 
 public extension TGFilter {
-    static var sticker = StickerFilter()
+    static var sticker: StickerFilter { StickerFilter() }
 }

@@ -85,23 +85,23 @@ public class UserFilter: TGFilter {
 }
 
 public extension TGFilter {
-    static func user(userId: Int64) -> TGFilter {
+    static func user(userId: Int64) -> UserFilter {
         return UserFilter(userId: userId)
     }
 
-    static func user(username: String) -> TGFilter {
+    static func user(username: String) -> UserFilter {
         return UserFilter(username: username)
     }
 
-    static func user(userIds: [Int64]) -> TGFilter {
+    static func user(userIds: [Int64]) -> UserFilter {
         return UserFilter(userIds: userIds)
     }
 
-    static func user(usernames: [String]) -> TGFilter {
+    static func user(usernames: [String]) -> UserFilter {
         return UserFilter(usernames: usernames)
     }
 
-    static func user(userIds: [Int64], usernames: [String]) -> TGFilter {
+    static func user(userIds: [Int64], usernames: [String]) -> UserFilter {
         return UserFilter(userIds: userIds, usernames: usernames)
     }
 }

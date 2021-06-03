@@ -28,7 +28,7 @@ public class LanguageFilter: TGFilter {
 }
 
 public extension TGFilter {
-    static func language(_ lang: String) -> TGFilter {
+    static func language(_ lang: String) -> LanguageFilter {
         return LanguageFilter(lang: lang)
     }
 }

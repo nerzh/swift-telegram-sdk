@@ -19,5 +19,5 @@ public class TextFilter: TGFilter {
 }
 
 public extension TGFilter {
-    static var text = TextFilter()
+    static var text: TextFilter { TextFilter() }
 }

@@ -18,5 +18,5 @@ public class GroupFilter: TGFilter {
 }
 
 public extension TGFilter {
-    static var group = GroupFilter()
+    static var group: GroupFilter { GroupFilter() }
 }

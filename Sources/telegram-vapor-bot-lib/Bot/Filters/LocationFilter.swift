@@ -18,5 +18,5 @@ public class LocationFilter: TGFilter {
 }
 
 public extension TGFilter {
-    static var location = LocationFilter()
+    static var location: LocationFilter { LocationFilter() }
 }

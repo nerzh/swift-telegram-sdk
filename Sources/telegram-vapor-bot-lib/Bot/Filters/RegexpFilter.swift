@@ -30,7 +30,7 @@ public class RegexpFilter: TGFilter {
 }
 
 public extension TGFilter {
-    static func regexp(pattern: String, options: NSRegularExpression.Options = []) -> TGFilter {
+    static func regexp(pattern: String, options: NSRegularExpression.Options = []) -> RegexpFilter {
         return RegexpFilter(pattern: pattern, options: options)
     }
 }

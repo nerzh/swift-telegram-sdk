@@ -13,28 +13,28 @@ import Foundation
  */
 public struct StatusUpdateFilters {
     /// Messages that contain Message.groupChatCreated, Message.supergroupChatCreated or Message.channelChatCreated
-    public static var chatCreated: TGFilter { return ChatCreatedFilter() }
+    public static var chatCreated: ChatCreatedFilter { return ChatCreatedFilter() }
 
     /// Messages that contain Message.deleteChatPhoto
-    public static var deleteChatPhoto: TGFilter { return DeleteChatPhotoFilter() }
+    public static var deleteChatPhoto: DeleteChatPhotoFilter { return DeleteChatPhotoFilter() }
 
     /// Messages that contain Message.leftChatMember
-    public static var leftChatMember: TGFilter { return LeftChatMemberFilter() }
+    public static var leftChatMember: LeftChatMemberFilter { return LeftChatMemberFilter() }
 
     /// Messages that contain Message.migrateFromChatId
-    public static var migrate: TGFilter { return MigrateFilter() }
+    public static var migrate: MigrateFilter { return MigrateFilter() }
 
     /// Messages that contain Message.newChatMembers
-    public static var newChatMembers: TGFilter { return NewChatMembersFilter() }
+    public static var newChatMembers: NewChatMembersFilter { return NewChatMembersFilter() }
 
     /// Messages that contain Message.newChatPhoto
-    public static var newChatPhoto: TGFilter { return NewChatPhotoFilter() }
+    public static var newChatPhoto: NewChatPhotoFilter { return NewChatPhotoFilter() }
 
     /// Messages that contain Message.newChatTitle
-    public static var newChatTitle: TGFilter { return NewChatTitleFilter() }
+    public static var newChatTitle: NewChatTitleFilter { return NewChatTitleFilter() }
 
     /// Messages that contain Message.pinnedMessage
-    public static var pinnedMessage: TGFilter { return PinnedMessageFilter() }
+    public static var pinnedMessage: PinnedMessageFilter { return PinnedMessageFilter() }
 }
 
 /// Messages that contain Message.groupChatCreated, Message.supergroupChatCreated or Message.channelChatCreated

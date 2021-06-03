@@ -18,5 +18,5 @@ public class ContactFilter: TGFilter {
 }
 
 public extension TGFilter {
-    static var contact = ContactFilter()
+    static var contact: ContactFilter { ContactFilter() }
 }

@@ -27,7 +27,7 @@ public class EntityFilter: TGFilter {
 }
 
 public extension TGFilter {
-    static func entity(types: [TGMessageEntityType]) -> TGFilter {
+    static func entity(types: [TGMessageEntityType]) -> EntityFilter {
         return EntityFilter(types: types)
     }
 }

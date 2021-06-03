@@ -18,5 +18,5 @@ public class GameFilter: TGFilter {
 }
 
 public extension TGFilter {
-    static var game = GameFilter()
+    static var game: GameFilter { GameFilter() }
 }

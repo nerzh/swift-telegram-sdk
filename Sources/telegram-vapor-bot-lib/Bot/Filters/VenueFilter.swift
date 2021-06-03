@@ -18,5 +18,5 @@ public class VenueFilter: TGFilter {
 }
 
 public extension TGFilter {
-    static var venue = VenueFilter()
+    static var venue: VenueFilter { VenueFilter() }
 }

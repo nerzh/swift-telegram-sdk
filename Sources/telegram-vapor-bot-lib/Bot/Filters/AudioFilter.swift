@@ -17,5 +17,5 @@ public class AudioFilter: TGFilter {
 }
 
 public extension TGFilter {
-    static var audio = AudioFilter()
+    static var audio: AudioFilter { AudioFilter() } 
 }

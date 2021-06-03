@@ -25,8 +25,10 @@ public class CommandFilter: TGFilter {
             for name in names {
                 if message.contains(command: name) {
                     trigger = true
+                    break
                 }
             }
+
             return entity.contains(where: { $0.type == .botCommand }) && trigger
         } else {
             return entity.contains(where: { $0.type == .botCommand })
@@ -35,5 +37,5 @@ public class CommandFilter: TGFilter {
 }
 
 public extension TGFilter {
-    static var command = CommandFilter()
+    static var command: CommandFilter { CommandFilter() }
 }

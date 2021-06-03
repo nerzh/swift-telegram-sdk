@@ -18,5 +18,5 @@ public class InvoiceFilter: TGFilter {
 }
 
 public extension TGFilter {
-    static var invoice = InvoiceFilter()
+    static var invoice: InvoiceFilter { InvoiceFilter() }
 }

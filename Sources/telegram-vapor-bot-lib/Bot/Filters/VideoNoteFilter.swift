@@ -18,5 +18,5 @@ public class VideoNoteFilter: TGFilter {
 }
 
 public extension TGFilter {
-    static var videoNote = VideoNoteFilter()
+    static var videoNote: VideoNoteFilter { VideoNoteFilter() }
 }

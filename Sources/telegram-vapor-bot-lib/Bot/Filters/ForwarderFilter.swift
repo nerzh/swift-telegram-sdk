@@ -22,5 +22,5 @@ public class ForwarderFilter: TGFilter {
 }
 
 public extension TGFilter {
-    static var forwarded = ForwarderFilter()
+    static var forwarded: ForwarderFilter { ForwarderFilter() }
 }
