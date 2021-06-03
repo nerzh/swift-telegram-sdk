@@ -18,6 +18,7 @@ let package = Package(
                 .product(name: "Vapor", package: "vapor"),
                 .product(name: "telegram-vapor-bot-lib", package: "telegram-vapor-bot-lib"),
             ]
+        )
     ]
 )
 
