@@ -39,6 +39,7 @@ final class DefaultBotHandlers {
 #### vapor **configure.swift**
 
 ```swift
+let tgApi: String = "XXXXXXXXXX:YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
 let connection: TGConnectionPrtcl = TGWebHookConnection(webHookURL: "https://your_domain/some_webhook_route")
 TGBot.configure(connection: connection, botId: tgApi, vaporClient: app.client)
 try TGBot.shared.start()
@@ -78,6 +79,7 @@ func routes(_ app: Application) throws {
 #### for longpolling you should only configure vapor **configure.swift**
 
 ```swift
+let tgApi: String = "XXXXXXXXXX:YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
 let connection: TGConnectionPrtcl = TGLongPollingConnection()
 TGBot.configure(connection: connection, botId: tgApi, vaporClient: app.client)
 try TGBot.shared.start()
