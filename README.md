@@ -39,6 +39,8 @@ let connection: TGConnectionPrtcl = TGWebHookConnection(webHookURL: "https://you
 TGBot.configure(connection: connection, botId: tgApi, vaporClient: app.client)
 try TGBot.shared.start()
 DefaultBotHandlers.addHandlers(app: app, bot: TGBot.shared)
+/// set level of debug if you needed 
+TGBot.log.logLevel = .error
 ```
 
 vapor **routes.swift**
