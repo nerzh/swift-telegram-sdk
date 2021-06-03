@@ -95,7 +95,7 @@ public final class TGDispatcher: TGDispatcherPrtcl {
                 do {
                     try self.processByHandler(update)
                 } catch {
-                    log.critical("TGDispatcher process: \(error.logMessage)")
+                    TGBot.log.critical("TGDispatcher process: \(error.logMessage)")
                 }
             }
         }

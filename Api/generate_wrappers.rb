@@ -552,6 +552,7 @@ def make_bot_protocol(signatures)
   protocol << "#{ONE}var tgClient: TGClientPrtcl { get set }\n"
   protocol << "#{ONE}var connection: TGConnectionPrtcl  { get }\n\n"
   protocol << "#{ONE}static var shared: Self { get }\n\n"
+  protocol << "#{ONE}static var log: Logger { get }\n\n"
   protocol << "#{ONE}func start() throws\n\n"
   signatures.each { |signature| protocol << "#{signature}\n\n" }
   protocol << "}\n\n"

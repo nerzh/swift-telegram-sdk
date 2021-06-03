@@ -70,7 +70,7 @@ public class TGMessageHandler: TGHandlerPrtcl {
         do {
             try callback(update, bot)
         } catch {
-            log.error(error.logMessage)
+            TGBot.log.error(error.logMessage)
         }
     }
 }

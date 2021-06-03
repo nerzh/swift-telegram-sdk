@@ -45,8 +45,28 @@ public final class DefaultTGClient: TGClientPrtcl {
         params: Params? = nil,
         as mediaType: Vapor.HTTPMediaType? = nil
     ) -> EventLoopFuture<Response> {
-        client.get(url, headers: HTTPHeaders()) { clientRequest in
-            try clientRequest.content.encode(params ?? (TGEmptyParams() as! Params), as: mediaType ?? .formData)
+        #warning("THIS CODE FOR FAST FIX, BECAUSE https://github.com/vapor/multipart-kit/issues/63 not accepted yet")
+        var rawMultipart: (body: NSMutableData, boundary: String)!
+        do {
+            /// Content-Disposition: form-data; name="nested_object"
+            ///
+            /// { json string }
+            rawMultipart = try (params ?? (TGEmptyParams() as! Params)).toMultiPartFormData()
+        } catch {
+            TGBot.log.critical(error.logMessage)
+        }
+        var headers: HTTPHeaders = .init()
+        if mediaType == .formData || mediaType == nil {
+            headers.add(name: "Content-Type", value: "multipart/form-data; boundary=\(rawMultipart.boundary)")
+        }
+        return client.get(url, headers: HTTPHeaders()) { clientRequest in
+            if mediaType == .formData || mediaType == nil {
+                let buffer = ByteBuffer.init(data: rawMultipart.body as Data)
+                clientRequest.body = buffer
+//                TGBot.log.critical("\(String(decoding: rawMultipart.body, as: UTF8.self))")
+            } else {
+                try clientRequest.content.encode(params ?? (TGEmptyParams() as! Params), as: mediaType ?? .json)
+            }
         }.flatMapThrowing { (clientResponse) throws -> TGTelegramContainer<Response> in
             try clientResponse.content.decode(TGTelegramContainer<Response>.self)
         }.flatMapThrowing { [self] telegramContainer in
@@ -66,8 +86,28 @@ public final class DefaultTGClient: TGClientPrtcl {
         params: Params? = nil,
         as mediaType: Vapor.HTTPMediaType? = nil
     ) -> EventLoopFuture<Response> {
-        client.post(url, headers: HTTPHeaders()) { clientRequest in
-            try clientRequest.content.encode(params ?? (TGEmptyParams() as! Params), as: mediaType ?? .formData)
+        #warning("THIS CODE FOR FAST FIX, BECAUSE https://github.com/vapor/multipart-kit/issues/63 not accepted yet")
+        var rawMultipart: (body: NSMutableData, boundary: String)!
+        do {
+            /// Content-Disposition: form-data; name="nested_object"
+            ///
+            /// { json string }
+            rawMultipart = try (params ?? (TGEmptyParams() as! Params)).toMultiPartFormData()
+        } catch {
+            TGBot.log.critical(error.logMessage)
+        }
+        var headers: HTTPHeaders = .init()
+        if mediaType == .formData || mediaType == nil {
+            headers.add(name: "Content-Type", value: "multipart/form-data; boundary=\(rawMultipart.boundary)")
+        }
+        return client.post(url, headers: headers) { clientRequest in
+            if mediaType == .formData || mediaType == nil {
+                let buffer = ByteBuffer.init(data: rawMultipart.body as Data)
+                clientRequest.body = buffer
+//                TGBot.log.critical("\(String(decoding: rawMultipart.body, as: UTF8.self))")
+            } else {
+                try clientRequest.content.encode(params ?? (TGEmptyParams() as! Params), as: mediaType ?? .json)
+            }
         }.flatMapThrowing { (clientResponse) throws -> TGTelegramContainer<Response> in
             try clientResponse.content.decode(TGTelegramContainer<Response>.self)
         }.flatMapThrowing { [self] telegramContainer in
@@ -91,7 +131,7 @@ public final class DefaultTGClient: TGClientPrtcl {
                 type: .server,
                 description: desc
             )
-            log.error(error.logMessage)
+            TGBot.log.error(error.logMessage)
             throw error
         }
 
@@ -100,7 +140,7 @@ public final class DefaultTGClient: TGClientPrtcl {
                 type: .server,
                 reason: "Response marked as `Ok`, but doesn't contain `result` field."
             )
-            log.error(error.logMessage)
+            TGBot.log.error(error.logMessage)
             throw error
         }
 
@@ -112,7 +152,7 @@ public final class DefaultTGClient: TGClientPrtcl {
         Description: \(container.description ?? "Empty")
 
         """
-        log.info(logString.logMessage)
+        TGBot.log.info(logString.logMessage)
         return result
     }
 }

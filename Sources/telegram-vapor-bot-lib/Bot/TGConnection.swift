@@ -30,7 +30,7 @@ public final class TGLongPollingConnection: TGConnectionPrtcl {
     }
     public var dispatcher: TGDispatcherPrtcl
     public var limit: Int?
-    public var timeout: Int? = 10
+    public var timeout: Int? = 15
     public var allowedUpdates: [TGUpdate.CodingKeys]?
 
     private var _bot: TGBot!
@@ -40,14 +40,14 @@ public final class TGLongPollingConnection: TGConnectionPrtcl {
     public init(dispatcher: TGDispatcherPrtcl, limit: Int? = nil, timeout: Int? = nil, allowedUpdates: [TGUpdate.CodingKeys]? = nil) {
         self.dispatcher = dispatcher
         self.limit = limit
-        self.timeout = timeout
+        self.timeout = timeout ?? self.timeout
         self.allowedUpdates = allowedUpdates
     }
 
     public init(limit: Int? = nil, timeout: Int? = nil, allowedUpdates: [TGUpdate.CodingKeys]? = nil) {
         self.dispatcher = TGDispatcher()
         self.limit = limit
-        self.timeout = timeout
+        self.timeout = timeout ?? self.timeout
         self.allowedUpdates = allowedUpdates
     }
 
@@ -62,14 +62,14 @@ public final class TGLongPollingConnection: TGConnectionPrtcl {
             case .success(_):
                 result = true
             case let .failure(error):
-                log.critical(error.logMessage)
+                TGBot.log.critical(error.logMessage)
             }
 
             do {
                 try self?.getUpdates()
-                log.info("LongPolling Start")
+                TGBot.log.info("LongPolling Start")
             } catch {
-                log.critical(error.logMessage)
+                TGBot.log.critical(error.logMessage)
             }
         }
         _ = try future.wait()
@@ -92,15 +92,15 @@ public final class TGLongPollingConnection: TGConnectionPrtcl {
                 do {
                     try self?.dispatcher.process(updates)
                 } catch {
-                    log.critical(error.logMessage)
+                    TGBot.log.critical(error.logMessage)
                 }
             case let .failure(error):
-                log.critical(error.logMessage)
+                TGBot.log.critical(error.logMessage)
             }
             do {
                 try self?.getUpdates()
             } catch {
-                log.critical(error.logMessage)
+                TGBot.log.critical(error.logMessage)
             }
         }
     }
@@ -141,7 +141,7 @@ public final class TGWebHookConnection: TGConnectionPrtcl {
             case .success(_):
                 result = true
             case let .failure(error):
-                log.critical(error.logMessage)
+                TGBot.log.critical(error.logMessage)
             }
         }
         _ = try future.wait()

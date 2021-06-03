@@ -18,6 +18,7 @@ public final class TGBot: TGBotPrtcl {
     public static let standardTGURL: URI = .init(string: "https://api.telegram.org")
     private static var _shared: TGBot!
     private static var configured: Bool = false
+    public static var log = Logger(label: "com.tgbot")
 
     private init(connection: TGConnectionPrtcl,
                  tgClient: TGClientPrtcl,

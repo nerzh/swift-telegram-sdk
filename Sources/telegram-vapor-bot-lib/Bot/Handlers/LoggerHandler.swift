@@ -23,7 +23,7 @@ public class TGLoggerHandler: TGHandlerPrtcl {
     }
     
     public func handle(update: TGUpdate, bot: TGBotPrtcl) {
-        log.log(level: logLevel, update.logMessage)
+        TGBot.log.log(level: logLevel, update.logMessage)
     }
 }
 
@@ -41,7 +41,7 @@ extension TGUpdate {
                 resultString = json
             }
         } catch {
-            log.error(error.logMessage)
+            TGBot.log.error(error.logMessage)
         }
         return resultString
     }
