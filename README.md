@@ -1,6 +1,6 @@
 # telegram-vapor-bot-lib
 
-## Please support Telegram Vapor Bot Lib development by giving a ⭐️
+## Please support Swift Telegram Vapor Bot Lib development by giving a ⭐️
 
 ### Example Here
 [Telegram-bot-example](https://github.com/nerzh/telegram-vapor-bot-lib/tree/master/Telegram-bot-example)
