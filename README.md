@@ -2,6 +2,9 @@
 
 ## Please support Telegram Vapor Bot Lib development by giving a ⭐️
 
+### Example Here
+[Telegram-bot-example](https://github.com/nerzh/telegram-vapor-bot-lib/tree/master/Telegram-bot-example)
+
 ### Usage 
 
 #### create folder with your handlers **TGHandlers/DefaultBotHandlers.swift**
@@ -90,4 +93,33 @@ try TGBot.shared.start()
 TGBot.log.logLevel = .error
 
 DefaultBotHandlers.addHandlers(app: app, bot: TGBot.shared)
+```
+
+### Add to your Vapor project with Swift Package Manager
+add to yor Package.json
+
+```swift
+// swift-tools-version:5.3
+
+import PackageDescription
+
+let package = Package(
+    name: "Telegram-bot-example",
+    platforms: [
+       .macOS(.v10_15)
+    ],
+    dependencies: [
+        .package(name: "vapor", url: "https://github.com/vapor/vapor.git", .upToNextMajor(from: "4.45.0")),
+        .package(name: "telegram-vapor-bot-lib", url: "https://github.com/nerzh/telegram-vapor-bot-lib", .upToNextMajor(from: "1.0.2")),
+    ],
+    targets: [
+        .target(
+            name: "Telegram-bot-example",
+            dependencies: [
+                .product(name: "Vapor", package: "vapor"),
+                .product(name: "telegram-vapor-bot-lib", package: "telegram-vapor-bot-lib"),
+            ]
+        )
+    ]
+)
 ```
