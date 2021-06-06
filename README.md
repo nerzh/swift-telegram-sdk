@@ -125,3 +125,7 @@ let package = Package(
     ]
 )
 ```
+
+### Acknowledgments
+
+Inspired by [Telegrammer](https://github.com/givip/Telegrammer)
