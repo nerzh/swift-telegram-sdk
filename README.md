@@ -1,16 +1,18 @@
-# telegram-vapor-bot-lib
+# Telegram Vapor Bot
 
 ## Please support Swift Telegram Vapor Bot Lib development by giving a ⭐️
 
+### Telegram Bot based on Swift Vapor.
+
 ### Example Here
-[Telegram-bot-example](https://github.com/nerzh/telegram-vapor-bot-lib/tree/master/Telegram-bot-example)
+[Telegram-bot-example](https://github.com/nerzh/telegram-vapor-bot/tree/master/Telegram-bot-example)
 
 ### Usage 
 
 #### create folder with your handlers **TGHandlers/DefaultBotHandlers.swift**
 ```swift
 import Vapor
-import telegram_vapor_bot_lib
+import telegram_vapor_bot
 
 final class DefaultBotHandlers {
 
@@ -44,6 +46,8 @@ final class DefaultBotHandlers {
 #### for longpolling you should only configure vapor **configure.swift**
 
 ```swift
+import telegram_vapor_bot
+
 let tgApi: String = "XXXXXXXXXX:YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
 let connection: TGConnectionPrtcl = TGLongPollingConnection()
 TGBot.configure(connection: connection, botId: tgApi, vaporClient: app.client)
@@ -62,6 +66,8 @@ DefaultBotHandlers.addHandlers(app: app, bot: TGBot.shared)
 #### vapor **configure.swift**
 
 ```swift
+import telegram_vapor_bot
+
 let tgApi: String = "XXXXXXXXXX:YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
 let connection: TGConnectionPrtcl = TGWebHookConnection(webHookURL: "https://your_domain/some_webhook_route")
 TGBot.configure(connection: connection, botId: tgApi, vaporClient: app.client)
@@ -77,7 +83,7 @@ DefaultBotHandlers.addHandlers(app: app, bot: TGBot.shared)
 
 ```swift
 import Vapor
-import telegram_vapor_bot_lib
+import telegram_vapor_bot
 
 
 func routes(_ app: Application) throws {
@@ -125,3 +131,7 @@ let package = Package(
     ]
 )
 ```
+
+### Acknowledgments
+
+Inspired by [Telegrammer](https://github.com/givip/Telegrammer)
