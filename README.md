@@ -2,6 +2,8 @@
 
 ## Please support Swift Telegram Vapor Bot Lib development by giving a ⭐️
 
+### Telegram Bot based on Swift Vapor.
+
 ### Example Here
 [Telegram-bot-example](https://github.com/nerzh/telegram-vapor-bot-lib/tree/master/Telegram-bot-example)
 
