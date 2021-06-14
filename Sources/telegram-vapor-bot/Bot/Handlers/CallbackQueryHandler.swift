@@ -18,9 +18,9 @@ public class TGCallbackQueryHandler: TGHandlerPrtcl {
     let callback: TGHandlerCallback
 
     public init(
+        name: String = String(describing: TGCallbackQueryHandler.self),
         pattern: String,
-        callback: @escaping TGHandlerCallback,
-        name: String = String(describing: TGCallbackQueryHandler.self)
+        _ callback: @escaping TGHandlerCallback
     ) {
         self.pattern = pattern
         self.callback = callback

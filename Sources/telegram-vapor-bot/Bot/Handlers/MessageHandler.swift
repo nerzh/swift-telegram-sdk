@@ -37,7 +37,7 @@ public class TGMessageHandler: TGHandlerPrtcl {
         name: String = String(describing: TGMessageHandler.self),
         filters: TGFilter = .all,
         options: Options = [.messageUpdates, .channelPostUpdates],
-        callback: @escaping TGHandlerCallback
+        _ callback: @escaping TGHandlerCallback
     ) {
         self.filters = filters
         self.callback = callback

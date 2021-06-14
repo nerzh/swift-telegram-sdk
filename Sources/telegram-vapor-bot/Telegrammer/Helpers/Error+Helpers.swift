@@ -31,4 +31,8 @@ public extension Error {
         }
         return Logger.Message(stringLiteral: errorDescription)
     }
+
+    var rawMessage: Logger.Message {
+        "\(self.localizedDescription)"
+    }
 }

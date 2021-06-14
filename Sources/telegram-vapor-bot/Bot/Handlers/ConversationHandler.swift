@@ -43,7 +43,7 @@ public class TGConversationHandler: TGHandlerPrtcl {
         name: String = String(describing: TGConversationHandler.self),
         options: Options = [],
         conversationTimeout: TimeAmount? = nil,
-        callback: @escaping TGHandlerCallback
+        _ callback: @escaping TGHandlerCallback
     ) {
         self.name = name
         self.options = options

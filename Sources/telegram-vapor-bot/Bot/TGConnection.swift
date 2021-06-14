@@ -11,7 +11,7 @@ import Vapor
 
 public protocol TGConnectionPrtcl {
 
-    var bot: TGBot! { get set }
+    var bot: TGBot? { get set }
     var dispatcher: TGDispatcherPrtcl { get }
 
     @discardableResult
@@ -21,7 +21,7 @@ public protocol TGConnectionPrtcl {
 
 public final class TGLongPollingConnection: TGConnectionPrtcl {
 
-    public weak var bot: TGBot! {
+    public weak var bot: TGBot? {
         get { _bot }
         set {
             _bot = newValue
@@ -33,7 +33,7 @@ public final class TGLongPollingConnection: TGConnectionPrtcl {
     public var timeout: Int? = 15
     public var allowedUpdates: [TGUpdate.CodingKeys]?
 
-    private var _bot: TGBot!
+    private weak var _bot: TGBot?
     private var offsetUpdates: Int = 0
     private var newOffsetUpdates: Int { offsetUpdates + 1 }
 
@@ -45,7 +45,7 @@ public final class TGLongPollingConnection: TGConnectionPrtcl {
     }
 
     public init(limit: Int? = nil, timeout: Int? = nil, allowedUpdates: [TGUpdate.CodingKeys]? = nil) {
-        self.dispatcher = TGDispatcher()
+        self.dispatcher = TGDefaultDispatcher()
         self.limit = limit
         self.timeout = timeout ?? self.timeout
         self.allowedUpdates = allowedUpdates
@@ -55,6 +55,7 @@ public final class TGLongPollingConnection: TGConnectionPrtcl {
     public func start() throws -> Bool {
         /// delete webhook because: You will not be able to receive updates using getUpdates for as long as an outgoing webhook is set up.
         let deleteWebHookParams: TGDeleteWebhookParams = .init(dropPendingUpdates: false)
+        guard let bot = bot else { return false }
         let future: EventLoopFuture<Bool> = try bot.deleteWebhook(params: deleteWebHookParams)
         var result: Bool = false
         future.whenComplete { [weak self] response in
@@ -83,7 +84,7 @@ public final class TGLongPollingConnection: TGConnectionPrtcl {
                                                    limit: limit,
                                                    timeout: timeout,
                                                    allowedUpdates: allowedUpdates)
-        try bot.getUpdates(params: params).whenComplete { [weak self] response in
+        try bot?.getUpdates(params: params).whenComplete { [weak self] response in
             switch response {
             case let .success(updates):
                 if let lastUpdate: TGUpdate = updates.last {
@@ -110,8 +111,8 @@ public final class TGLongPollingConnection: TGConnectionPrtcl {
 
 public final class TGWebHookConnection: TGConnectionPrtcl {
 
-    private var _bot: TGBot!
-    public weak var bot: TGBot! {
+    private weak var _bot: TGBot?
+    public weak var bot: TGBot? {
         get { _bot }
         set {
             _bot = newValue
@@ -128,12 +129,13 @@ public final class TGWebHookConnection: TGConnectionPrtcl {
 
     public init(webHookURL: URI) {
         self.webHookURL = webHookURL
-        self.dispatcher = TGDispatcher()
+        self.dispatcher = TGDefaultDispatcher()
     }
 
     @discardableResult
     public func start() throws -> Bool {
         let webHookParams: TGSetWebhookParams = .init(url: webHookURL.description)
+        guard let bot = bot else { return false }
         let future: EventLoopFuture<Bool> = try bot.setWebhook(params: webHookParams)
         var result: Bool = false
         future.whenComplete { response in

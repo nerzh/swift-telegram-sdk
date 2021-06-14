@@ -19,7 +19,7 @@ public class TGRegexpHandler: TGHandlerPrtcl {
         name: String = String(describing: TGRegexpHandler.self),
         regexp: NSRegularExpression,
         filters: TGFilter = .all,
-        callback: @escaping TGHandlerCallback
+        _ callback: @escaping TGHandlerCallback
     ) {
         self.name = name
         self.regexp = regexp
@@ -31,7 +31,7 @@ public class TGRegexpHandler: TGHandlerPrtcl {
         name: String = String(describing: TGRegexpHandler.self),
         pattern: String,
         filters: TGFilter = .all,
-        callback: @escaping TGHandlerCallback
+        _ callback: @escaping TGHandlerCallback
     ) {
         guard let regexp = try? NSRegularExpression(pattern: pattern, options: []) else {
             return nil
@@ -40,7 +40,7 @@ public class TGRegexpHandler: TGHandlerPrtcl {
             name: name,
             regexp: regexp,
             filters: filters,
-            callback: callback
+            callback
         )
     }
     

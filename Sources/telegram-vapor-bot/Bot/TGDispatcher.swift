@@ -6,22 +6,24 @@
 //
 
 import Foundation
+import Vapor
 
 public protocol TGDispatcherPrtcl {
 
-    var bot: TGBot! { get set }
+    var bot: TGBot? { get set }
     var handlersGroup: [[TGHandlerPrtcl]] { get set }
 
     /// The higher level has the highest priority
     func add(_ handler: TGHandlerPrtcl, priority: Int)
     func add(_ handler: TGHandlerPrtcl)
+    func addBeforeAllCallback(_ callback: @escaping ([TGUpdate], @escaping ([TGUpdate]) throws -> Void) throws -> Void)
     func remove(_ handler: TGHandlerPrtcl, from level: Int?)
     func process(_ updates: [TGUpdate]) throws
 }
 
-public final class TGDispatcher: TGDispatcherPrtcl {
+open class TGDefaultDispatcher: TGDispatcherPrtcl {
 
-    public weak var bot: TGBot!
+    public weak var bot: TGBot?
     private var processQueue: DispatchQueue = .init(label: "com.telegram-vapor-bot-lib.dispatcher.processQueue",
                                                     qos: .default,
                                                     attributes: .concurrent)
@@ -31,6 +33,9 @@ public final class TGDispatcher: TGDispatcherPrtcl {
                                                     attributes: .concurrent)
 
     public var handlersGroup: [[TGHandlerPrtcl]] = []
+    private var beforeAllCallback: ([TGUpdate], @escaping ([TGUpdate]) throws -> Void) throws -> Void = { updates, callback in
+        try callback(updates)
+    }
     private var handlersId: Int = 0
     private var nextHandlerId: Int {
         handlersId += 1
@@ -43,8 +48,10 @@ public final class TGDispatcher: TGDispatcherPrtcl {
     private typealias Position = Int
     private var handlersIndex: [Level: [IndexId: Position]] = .init()
 
+    public init() {}
+
     public func add(_ handler: TGHandlerPrtcl, priority level: Int) {
-        processQueue.async(flags: .barrier) { [weak self] in
+        processQueue.sync(flags: .barrier) { [weak self] in
             guard let self = self else { return }
 
             /// add uniq index id
@@ -72,8 +79,12 @@ public final class TGDispatcher: TGDispatcherPrtcl {
         add(handler, priority: 0)
     }
 
+    public func addBeforeAllCallback(_ callback: @escaping ([TGUpdate], @escaping ([TGUpdate]) throws -> Void) throws -> Void) {
+        beforeAllCallback = callback
+    }
+
     public func remove(_ handler: TGHandlerPrtcl, from level: Int?) {
-        processQueue.async(flags: .barrier) { [weak self] in
+        processQueue.sync(flags: .barrier) { [weak self] in
             guard let self = self else { return }
             let level: Level = level ?? 0
             let indexId: IndexId = handler.id
@@ -90,20 +101,29 @@ public final class TGDispatcher: TGDispatcherPrtcl {
 
     public func process(_ updates: [TGUpdate]) throws {
         processQueue.async { [weak self] in
-            guard let self = self else { return }
-            for update in updates {
-                do {
-                    try self.processByHandler(update)
-                } catch {
-                    TGBot.log.critical("TGDispatcher process: \(error.logMessage)")
+            guard let self = self else {
+                TGBot.log.error("TGDispatcher was deinited")
+                return
+            }
+            do {
+                try self.beforeAllCallback(updates) { updates in
+                    for update in updates {
+                        try self.processByHandler(update)
+                    }
                 }
+            } catch {
+                TGBot.log.critical("TGDispatcher process: \(error.logMessage)")
             }
         }
     }
 
     func processByHandler(_ update: TGUpdate) throws {
         processQueue.async { [weak self] in
-            guard let self = self, let bot = self.bot else { return }
+            guard let self = self, let bot = self.bot, self.handlersGroup.count > 0 else {
+                if self == nil { TGBot.log.error("TGDispatcher was deinited"); return }
+                if self?.bot == nil { TGBot.log.error("TGBot not set to dispatcher"); return }
+                return
+            }
             for i in 1...self.handlersGroup.count {
                 for handler in self.handlersGroup[self.handlersGroup.count - i] {
                     if handler.check(update: update) {

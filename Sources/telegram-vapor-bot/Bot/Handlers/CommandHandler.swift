@@ -43,7 +43,7 @@ public class TGCommandHandler: TGHandlerPrtcl {
         filters: TGFilter = .all,
         options: Options = [],
         botUsername: String? = nil,
-        callback: @escaping TGHandlerCallback
+        _ callback: @escaping TGHandlerCallback
     ) {
         self.name = name
         self.commands = Set(commands)
