@@ -32,7 +32,7 @@ public final class TGChat: Codable {
     }
 
     /// Unique identifier for this chat. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this identifier.
-    public var id: Int
+    public var id: Int64
 
     /// Type of chat, can be either “private”, “group”, “supergroup” or “channel”
     public var type: TGChatType
@@ -85,7 +85,7 @@ public final class TGChat: Codable {
     /// Optional. For supergroups, the location to which the supergroup is connected. Returned only in getChat.
     public var location: TGChatLocation?
 
-    public init (id: Int, type: TGChatType, title: String? = nil, username: String? = nil, firstName: String? = nil, lastName: String? = nil, photo: TGChatPhoto? = nil, bio: String? = nil, description: String? = nil, inviteLink: String? = nil, pinnedMessage: TGMessage? = nil, permissions: TGChatPermissions? = nil, slowModeDelay: Int? = nil, messageAutoDeleteTime: Int? = nil, stickerSetName: String? = nil, canSetStickerSet: Bool? = nil, linkedChatId: Int64? = nil, location: TGChatLocation? = nil) {
+    public init (id: Int64, type: TGChatType, title: String? = nil, username: String? = nil, firstName: String? = nil, lastName: String? = nil, photo: TGChatPhoto? = nil, bio: String? = nil, description: String? = nil, inviteLink: String? = nil, pinnedMessage: TGMessage? = nil, permissions: TGChatPermissions? = nil, slowModeDelay: Int? = nil, messageAutoDeleteTime: Int? = nil, stickerSetName: String? = nil, canSetStickerSet: Bool? = nil, linkedChatId: Int64? = nil, location: TGChatLocation? = nil) {
         self.id = id
         self.type = type
         self.title = title

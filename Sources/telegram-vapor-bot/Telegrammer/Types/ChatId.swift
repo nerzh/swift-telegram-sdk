@@ -10,7 +10,7 @@ import Foundation
 /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
 public enum TGChatId: Codable {
 
-    case chat(Int)
+    case chat(Int64)
     case username(String)
     case undefined
 
@@ -27,7 +27,7 @@ public enum TGChatId: Codable {
     }
 
     public init(from decoder: Decoder) throws {
-        if let value = try? decoder.singleValueContainer().decode(Int.self) {
+        if let value = try? decoder.singleValueContainer().decode(Int64.self) {
             self = .chat(value)
             return
         }
