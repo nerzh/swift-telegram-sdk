@@ -10,11 +10,20 @@ import Foundation
 public class TextFilter: TGFilter {
 
     public var name: String = "text"
+    private var value: String? = nil
 
     override
     public func filter(message: TGMessage) -> Bool {
         guard let text = message.text else { return false }
+        if let value = value {
+            return text == value
+        }
         return !text.isEmpty
+    }
+
+    public func value(_ value: String) -> Self {
+        self.value = value
+        return self
     }
 }
 
