@@ -101,7 +101,7 @@ def make_swift_type_name(var_name, var_type)
 	when 'Boolean', 'True'
 		return 'Bool'
 	when 'Integer'
-		if var_name.include?('user_id') || var_name.include?('chat_id') || var_name == 'id'
+		if var_name.include?('user_id') || var_name.include?('chat_id')
 			return 'Int64'
 		else
 			return 'Int'
@@ -150,14 +150,16 @@ def convert_type(var_name, var_desc, var_type, type_name, var_optional)
     is64bit = var_name.include?("user_id") || 
               var_name.include?("chat_id") || 
               var_desc.include?("64 bit integer") ||
-              (type_name == 'User' && var_name == 'id')
+              (type_name == 'User' && var_name == 'id') ||
+              (type_name == 'Chat' && var_name == 'id')
     suffix = is64bit ? '64' : ''
     return "Int#{suffix}?"
   when ['Integer', false]
     is64bit = var_name.include?("user_id") ||
               var_name.include?("chat_id") ||
               var_desc.include?("64 bit integer") ||
-              (type_name == 'User' && var_name == 'id')
+              (type_name == 'User' && var_name == 'id') ||
+              (type_name == 'Chat' && var_name == 'id')
     suffix = is64bit ? '64' : ''
     return "Int#{suffix}"
   when ['Float number', true], ['Float', true]
