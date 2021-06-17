@@ -118,14 +118,14 @@ let package = Package(
     ],
     dependencies: [
         .package(name: "vapor", url: "https://github.com/vapor/vapor.git", .upToNextMajor(from: "4.45.0")),
-        .package(name: "telegram-vapor-bot-lib", url: "https://github.com/nerzh/telegram-vapor-bot-lib", .upToNextMajor(from: "1.0.2")),
+        .package(name: "telegram-vapor-bot", url: "https://github.com/nerzh/telegram-vapor-bot", .upToNextMajor(from: "1.2.2")),
     ],
     targets: [
         .target(
             name: "Telegram-bot-example",
             dependencies: [
                 .product(name: "Vapor", package: "vapor"),
-                .product(name: "telegram-vapor-bot-lib", package: "telegram-vapor-bot-lib"),
+                .product(name: "telegram-vapor-bot", package: "telegram-vapor-bot"),
             ]
         )
     ]
