@@ -19,6 +19,8 @@ final class DefaultBotHandlers {
     static func addHandlers(app: Vapor.Application, bot: TGBotPrtcl) {
         defaultHandler(app: app, bot: bot)
         commandPingHandler(app: app, bot: bot)
+        commandShowButtonsHandler(app: app, bot: bot)
+        buttonsActionHandler(app: app, bot: bot)
     }
 
     private static func defaultHandler(app: Vapor.Application, bot: TGBotPrtcl) {
@@ -35,6 +37,35 @@ final class DefaultBotHandlers {
         }
         bot.connection.dispatcher.add(handler)
     }
+    
+    private static func commandShowButtonsHandler(app: Vapor.Application, bot: TGBotPrtcl) {
+        let handler = TGCommandHandler(commands: ["/show_buttons"]) { update, bot in
+            guard let userId = update.message?.from.id else { fatalError("user id not found") }
+            let buttons: [[TGInlineKeyboardButton]] = [
+                [.init(text: "Button 1", callbackData: "press 1"), .init(text: "Button 1", callbackData: "press 2")]
+            ]
+            let keyboard: TGInlineKeyboardMarkup = .init(inlineKeyboard: buttons)
+            let params: TGSendMessageParams = .init(chatId: .chat(userId),
+                                                    text: "Keyboard activ",
+                                                    replyMarkup: .inlineKeyboardMarkup(keyboard))
+            try bot.sendMessage(params: params)
+        }
+        bot.connection.dispatcher.add(handler)
+    }
+    
+    private static func buttonsActionHandler(app: Vapor.Application, bot: TGBotPrtcl) {
+        let handler = TGCallbackQueryHandler(pattern: "press 1") { update, bot in
+            try update.message?.reply(text: update.callbackQuery?.data ?? "data not exist", bot: bot)
+        }
+        
+        let handler2 = TGCallbackQueryHandler(pattern: "press 2") { update, bot in
+            try update.message?.reply(text: update.callbackQuery?.data ?? "data not exist", bot: bot)
+        }
+        
+        bot.connection.dispatcher.add(handler)
+        bot.connection.dispatcher.add(handler2)
+    }
+
 }
 
 ```
