@@ -42,7 +42,7 @@ final class DefaultBotHandlers {
         let handler = TGCommandHandler(commands: ["/show_buttons"]) { update, bot in
             guard let userId = update.message?.from.id else { fatalError("user id not found") }
             let buttons: [[TGInlineKeyboardButton]] = [
-                [.init(text: "Button 1", callbackData: "press 1"), .init(text: "Button 1", callbackData: "press 2")]
+                [.init(text: "Button 1", callbackData: "press 1"), .init(text: "Button 2", callbackData: "press 2")]
             ]
             let keyboard: TGInlineKeyboardMarkup = .init(inlineKeyboard: buttons)
             let params: TGSendMessageParams = .init(chatId: .chat(userId),
