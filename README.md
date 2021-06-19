@@ -3,8 +3,11 @@
 ## Please support Swift Telegram Vapor Bot Lib development by giving a ⭐️
 
 ### Telegram Bot based on Swift Vapor.
+[Ukraine / Russian / CIS Telegram Chat for Swift Server Side Community](https://t.me/server_side_swift)
 
-### Example Here
+[My TG Contact @nerzh](https://t.me/nerzh)
+
+### Example Telegram Bot based on Swift Telegram Vapor Bot - Here
 [Telegram-bot-example](https://github.com/nerzh/telegram-vapor-bot/tree/master/Telegram-bot-example)
 
 ### Usage 
