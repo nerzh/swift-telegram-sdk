@@ -116,7 +116,7 @@ public final class DefaultTGClient: TGClientPrtcl {
                 let buffer = ByteBuffer.init(data: rawMultipart.body as Data)
                 clientRequest.body = buffer
                 /// Debug
-                TGBot.log.critical("url: \(url)\n\(String(decoding: rawMultipart.body, as: UTF8.self))")
+//                TGBot.log.critical("url: \(url)\n\(String(decoding: rawMultipart.body, as: UTF8.self))")
             } else {
                 try clientRequest.content.encode(params ?? (TGEmptyParams() as! Params), as: mediaType ?? .json)
             }
