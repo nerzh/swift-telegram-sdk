@@ -68,7 +68,9 @@ public class NetMultipartData {
     }
 
     private func finalizeBody() {
-        body.appendString(finishBoundary)
+        if !body.isEmpty {
+            body.appendString(finishBoundary)
+        }
     }
 
     public func toTelegramMultipartData(_ anyObject: Dictionary<String, Any>) -> NSMutableData {

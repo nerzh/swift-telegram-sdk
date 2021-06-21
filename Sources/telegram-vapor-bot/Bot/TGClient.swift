@@ -24,10 +24,16 @@ public protocol TGClientPrtcl {
     func get<Response: Codable>(_ url: URI) -> EventLoopFuture<Response>
 
     @discardableResult
+    func get<Response: Codable>(_ url: URI, as mediaType: Vapor.HTTPMediaType) -> EventLoopFuture<Response>
+
+    @discardableResult
     func post<Params: Encodable, Response: Codable>(_ url: URI, params: Params?, as mediaType: Vapor.HTTPMediaType?) -> EventLoopFuture<Response>
 
     @discardableResult
     func post<Response: Codable>(_ url: URI) -> EventLoopFuture<Response>
+
+    @discardableResult
+    func post<Response: Codable>(_ url: URI, as mediaType: Vapor.HTTPMediaType) -> EventLoopFuture<Response>
 }
 
 public final class DefaultTGClient: TGClientPrtcl {
@@ -80,6 +86,11 @@ public final class DefaultTGClient: TGClientPrtcl {
     }
 
     @discardableResult
+    public func get<Response: Codable>(_ url: URI, as mediaType: Vapor.HTTPMediaType) -> EventLoopFuture<Response> {
+        self.get(url, params: TGEmptyParams(), as: mediaType)
+    }
+
+    @discardableResult
     public func post<Params: Encodable, Response: Codable>
     (
         _ url: URI,
@@ -104,7 +115,8 @@ public final class DefaultTGClient: TGClientPrtcl {
             if mediaType == .formData || mediaType == nil {
                 let buffer = ByteBuffer.init(data: rawMultipart.body as Data)
                 clientRequest.body = buffer
-//                TGBot.log.critical("\(String(decoding: rawMultipart.body, as: UTF8.self))")
+                /// Debug
+                TGBot.log.critical("url: \(url)\n\(String(decoding: rawMultipart.body, as: UTF8.self))")
             } else {
                 try clientRequest.content.encode(params ?? (TGEmptyParams() as! Params), as: mediaType ?? .json)
             }
@@ -118,6 +130,11 @@ public final class DefaultTGClient: TGClientPrtcl {
     @discardableResult
     public func post<Response: Codable>(_ url: URI) -> EventLoopFuture<Response> {
         self.post(url, params: TGEmptyParams(), as: nil)
+    }
+
+    @discardableResult
+    public func post<Response: Codable>(_ url: URI, as mediaType: Vapor.HTTPMediaType) -> EventLoopFuture<Response> {
+        self.post(url, params: TGEmptyParams(), as: mediaType)
     }
 
     private func processContainer<T: Codable>(_ container: TGTelegramContainer<T>) throws -> T {
