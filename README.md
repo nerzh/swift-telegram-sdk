@@ -3,8 +3,11 @@
 ## Please support Swift Telegram Vapor Bot Lib development by giving a ⭐️
 
 ### Telegram Bot based on Swift Vapor.
+[Swift Server Side Community - Ukraine / Russian / CIS Telegram Chat](https://t.me/server_side_swift)
 
-### Example Here
+[My TG Contact - @nerzh](https://t.me/nerzh)
+
+### Example Telegram Bot based on Swift Telegram Vapor Bot - Here
 [Telegram-bot-example](https://github.com/nerzh/telegram-vapor-bot/tree/master/Telegram-bot-example)
 
 ### Usage 
@@ -19,6 +22,8 @@ final class DefaultBotHandlers {
     static func addHandlers(app: Vapor.Application, bot: TGBotPrtcl) {
         defaultHandler(app: app, bot: bot)
         commandPingHandler(app: app, bot: bot)
+        commandShowButtonsHandler(app: app, bot: bot)
+        buttonsActionHandler(app: app, bot: bot)
     }
 
     private static func defaultHandler(app: Vapor.Application, bot: TGBotPrtcl) {
@@ -35,6 +40,35 @@ final class DefaultBotHandlers {
         }
         bot.connection.dispatcher.add(handler)
     }
+    
+    private static func commandShowButtonsHandler(app: Vapor.Application, bot: TGBotPrtcl) {
+        let handler = TGCommandHandler(commands: ["/show_buttons"]) { update, bot in
+            guard let userId = update.message?.from.id else { fatalError("user id not found") }
+            let buttons: [[TGInlineKeyboardButton]] = [
+                [.init(text: "Button 1", callbackData: "press 1"), .init(text: "Button 2", callbackData: "press 2")]
+            ]
+            let keyboard: TGInlineKeyboardMarkup = .init(inlineKeyboard: buttons)
+            let params: TGSendMessageParams = .init(chatId: .chat(userId),
+                                                    text: "Keyboard activ",
+                                                    replyMarkup: .inlineKeyboardMarkup(keyboard))
+            try bot.sendMessage(params: params)
+        }
+        bot.connection.dispatcher.add(handler)
+    }
+    
+    private static func buttonsActionHandler(app: Vapor.Application, bot: TGBotPrtcl) {
+        let handler = TGCallbackQueryHandler(pattern: "press 1") { update, bot in
+            try update.message?.reply(text: update.callbackQuery?.data ?? "data not exist", bot: bot)
+        }
+        
+        let handler2 = TGCallbackQueryHandler(pattern: "press 2") { update, bot in
+            try update.message?.reply(text: update.callbackQuery?.data ?? "data not exist", bot: bot)
+        }
+        
+        bot.connection.dispatcher.add(handler)
+        bot.connection.dispatcher.add(handler2)
+    }
+
 }
 
 ```
@@ -118,14 +152,14 @@ let package = Package(
     ],
     dependencies: [
         .package(name: "vapor", url: "https://github.com/vapor/vapor.git", .upToNextMajor(from: "4.45.0")),
-        .package(name: "telegram-vapor-bot-lib", url: "https://github.com/nerzh/telegram-vapor-bot-lib", .upToNextMajor(from: "1.0.2")),
+        .package(name: "telegram-vapor-bot", url: "https://github.com/nerzh/telegram-vapor-bot", .upToNextMajor(from: "1.2.2")),
     ],
     targets: [
         .target(
             name: "Telegram-bot-example",
             dependencies: [
                 .product(name: "Vapor", package: "vapor"),
-                .product(name: "telegram-vapor-bot-lib", package: "telegram-vapor-bot-lib"),
+                .product(name: "telegram-vapor-bot", package: "telegram-vapor-bot"),
             ]
         )
     ]
