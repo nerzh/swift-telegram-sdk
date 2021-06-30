@@ -6,7 +6,7 @@
 //
 
 import Vapor
-import telegram_vapor_bot_lib
+import telegram_vapor_bot
 
 
 func routes(_ app: Application) throws {

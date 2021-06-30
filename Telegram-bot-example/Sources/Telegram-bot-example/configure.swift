@@ -7,7 +7,7 @@
 
 import Foundation
 import Vapor
-import telegram_vapor_bot_lib
+import telegram_vapor_bot
 
 public func configure(_ app: Application) throws {
     let tgApi: String = "XXXXXXXXXX:YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
