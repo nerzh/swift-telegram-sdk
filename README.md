@@ -1,6 +1,6 @@
 # Telegram Vapor Bot
 
-## Please support Swift Telegram Vapor Bot Lib development by giving a ⭐️
+## ⭐️ Please, support Swift Telegram Vapor Bot development by giving a ⭐️
 
 ### Telegram Bot based on Swift Vapor.
 [Swift Server Side Community - Ukraine / Russian / CIS Telegram Chat](https://t.me/server_side_swift)
