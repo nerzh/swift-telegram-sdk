@@ -343,6 +343,14 @@ def generate_model_file(f, node)
 			init_params_block << "#{var_name_camel}: #{correct_var_type_init}, "
 			init_block << "#{TWO}self.#{var_name_camel} = #{var_name_camel}\n"
 		end
+
+    if block_given?
+      model_blocks = yield
+      keys_block = model_blocks[:keys_block]
+      vars_block = model_blocks[:vars_block]
+      init_params_block = model_blocks[:init_params_block]
+      init_block = model_blocks[:init_block]
+    end
     
     if type_name == "MaskPosition"
       out.write "import Vapor\n\n"
@@ -564,6 +572,84 @@ def make_bot_protocol(signatures)
   end
 end
 
+def makeChatMemberType(f)
+  html = File.open(HTML_FILE, "rb").read
+  doc = Nokogiri::HTML(html)
+
+  doc.css("br").each { |node| node.replace("\n") }
+  
+  keys_block = []
+  vars_block = []
+  init_params_block = []
+  init_block = []
+
+  doc.search("h4").each do |node|
+    title = node.text.strip
+    next unless title.split.count == 1
+
+    if [
+        'ChatMemberOwner',
+        'ChatMemberAdministrator',
+        'ChatMemberMember',
+        'ChatMemberRestricted',
+        'ChatMemberLeft',
+        'ChatMemberBanned'
+       ].include?(title)
+    then
+      current_node = node
+      current_node.search('tr').each do |node|
+        td = node.search('td')
+        next unless !(td[0].nil? || td[0] == 0) && (td[0].text != 'Field' && td[0].text != 'Parameters')
+
+        var_name = td[0].text
+        var_type = td[1].text
+        var_desc = td[2].text
+        var_optional = var_desc.start_with? "Optional"
+        f.write "PARAM: #{var_name} [#{var_type}#{var_optional ? '?' : ''}]: #{var_desc}\n"
+        
+        correct_var_type = convert_type(var_name, var_desc, var_type, type_name, var_optional)
+        correct_var_type_init = correct_var_type[-1] == "?" ? correct_var_type + " = nil" : correct_var_type
+        var_name_camel = var_name.camel_case_lower
+
+        keys_block << "#{TWO}case #{var_name_camel} = \"#{var_name}\"\n"
+              
+        var_desc.each_line do |line|
+          vars_block << "#{ONE}/// #{line.strip}\n"
+        end
+              
+        vars_block << "#{ONE}public var #{var_name_camel}: #{correct_var_type}?\n\n"
+        init_params_block << "#{var_name_camel}: #{correct_var_type_init}, "
+        init_block << "#{TWO}self.#{var_name_camel} = #{var_name_camel}\n"
+      end
+    end
+
+    f.write "\n"
+  end
+
+  keys_block = keys_block.uniq!&.join('') || ''
+  vars_block = vars_block.uniq!&.join('') || ''
+  init_params_block = init_params_block.uniq!&.join('') || ''
+  init_block = init_block.uniq!&.join('') || ''
+
+  doc.search("h4").each do |node|
+    title = node.text.strip
+    next unless title.split.count == 1
+
+    if title == 'ChatMember'
+      generate_model_file(f, node) do
+        {
+          keys_block: keys_block,
+          vars_block: vars_block,
+          init_params_block: init_params_block,
+          init_block: init_block
+        }
+      end
+    end
+  end
+end
+
+
+
 def main
 	STDOUT.sync = true
 
@@ -579,7 +665,14 @@ def main
 			next unless title.split.count == 1
 
 			# These types are complex and created manually:
-			next unless !['InlineQueryResult', 'InputFile', 'InputMedia', 'InputMessageContent', 'PassportElementError'].include?(title)
+			next unless ![
+        'InlineQueryResult', 
+        'InputFile', 
+        'InputMedia', 
+        'InputMessageContent', 
+        'PassportElementError', 
+        'ChatMember'
+      ].include?(title)
 
 			kind = (title.chars.first == title.chars.first.upcase) ? :type : :method
 
@@ -594,7 +687,9 @@ def main
 
 			f.write "\n"
 		end
+
     make_bot_protocol(methods_signatures_for_bot_protocol)
+    # makeChatMemberType(f)
 	end
 
 	puts 'Finished'
