@@ -51,7 +51,7 @@ public final class DefaultTGClient: TGClientPrtcl {
         params: Params? = nil,
         as mediaType: Vapor.HTTPMediaType? = nil
     ) -> EventLoopFuture<Response> {
-        #warning("THIS CODE FOR FAST FIX, BECAUSE https://github.com/vapor/multipart-kit/issues/63 not accepted yet")
+//        #warning("THIS CODE FOR FAST FIX, BECAUSE https://github.com/vapor/multipart-kit/issues/63 not accepted yet")
         var rawMultipart: (body: NSMutableData, boundary: String)!
         do {
             /// Content-Disposition: form-data; name="nested_object"

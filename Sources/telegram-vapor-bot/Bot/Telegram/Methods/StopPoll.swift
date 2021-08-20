@@ -4,7 +4,7 @@
 import Vapor
 
 /// DESCRIPTION:
-/// Use this method to stop a poll which was sent by the bot. On success, the stopped Poll with the final results is returned.
+/// Use this method to stop a poll which was sent by the bot. On success, the stopped Poll is returned.
 
 
 /// Parameters container struct for `stopPoll` method
@@ -37,7 +37,7 @@ public struct TGStopPollParams: Encodable {
 public extension TGBot {
 
 /**
- Use this method to stop a poll which was sent by the bot. On success, the stopped Poll with the final results is returned.
+ Use this method to stop a poll which was sent by the bot. On success, the stopped Poll is returned.
 
  SeeAlso Telegram Bot API Reference:
  [StopPollParams](https://core.telegram.org/bots/api#stoppoll)

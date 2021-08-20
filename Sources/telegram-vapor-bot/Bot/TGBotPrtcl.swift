@@ -101,7 +101,7 @@ public protocol TGBotPrtcl {
     func getFile(params: TGGetFileParams) throws -> EventLoopFuture<TGFile>
 
     @discardableResult
-    func kickChatMember(params: TGKickChatMemberParams) throws -> EventLoopFuture<Bool>
+    func banChatMember(params: TGBanChatMemberParams) throws -> EventLoopFuture<Bool>
 
     @discardableResult
     func unbanChatMember(params: TGUnbanChatMemberParams) throws -> EventLoopFuture<Bool>
@@ -161,7 +161,7 @@ public protocol TGBotPrtcl {
     func getChatAdministrators(params: TGGetChatAdministratorsParams) throws -> EventLoopFuture<[TGChatMember]>
 
     @discardableResult
-    func getChatMembersCount(params: TGGetChatMembersCountParams) throws -> EventLoopFuture<Int>
+    func getChatMemberCount(params: TGGetChatMemberCountParams) throws -> EventLoopFuture<Int>
 
     @discardableResult
     func getChatMember(params: TGGetChatMemberParams) throws -> EventLoopFuture<TGChatMember>
@@ -179,7 +179,10 @@ public protocol TGBotPrtcl {
     func setMyCommands(params: TGSetMyCommandsParams) throws -> EventLoopFuture<Bool>
 
     @discardableResult
-    func getMyCommands() throws -> EventLoopFuture<[TGBotCommand]>
+    func deleteMyCommands(params: TGDeleteMyCommandsParams?) throws -> EventLoopFuture<Bool>
+
+    @discardableResult
+    func getMyCommands(params: TGGetMyCommandsParams?) throws -> EventLoopFuture<[TGBotCommand]>
 
     @discardableResult
     func editMessageText(params: TGEditMessageTextParams) throws -> EventLoopFuture<TGMessageOrBool>
@@ -242,7 +245,7 @@ public protocol TGBotPrtcl {
     func sendGame(params: TGSendGameParams) throws -> EventLoopFuture<TGMessage>
 
     @discardableResult
-    func setGameScore(params: TGSetGameScoreParams) throws -> EventLoopFuture<Bool>
+    func setGameScore(params: TGSetGameScoreParams) throws -> EventLoopFuture<TGMessageOrBool>
 
     @discardableResult
     func getGameHighScores(params: TGGetGameHighScoresParams) throws -> EventLoopFuture<[TGGameHighScore]>

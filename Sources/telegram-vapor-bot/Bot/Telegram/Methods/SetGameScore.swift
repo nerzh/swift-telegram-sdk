@@ -4,7 +4,7 @@
 import Vapor
 
 /// DESCRIPTION:
-/// Use this method to set the score of the specified user in a game. On success, if the message was sent by the bot, returns the edited Message, otherwise returns True. Returns an error, if the new score is not greater than the user's current score in the chat and force is False.
+/// Use this method to set the score of the specified user in a game message. On success, if the message is not an inline message, the Message is returned, otherwise True is returned. Returns an error, if the new score is not greater than the user's current score in the chat and force is False.
 
 
 /// Parameters container struct for `setGameScore` method
@@ -57,7 +57,7 @@ public struct TGSetGameScoreParams: Encodable {
 public extension TGBot {
 
 /**
- Use this method to set the score of the specified user in a game. On success, if the message was sent by the bot, returns the edited Message, otherwise returns True. Returns an error, if the new score is not greater than the user's current score in the chat and force is False.
+ Use this method to set the score of the specified user in a game message. On success, if the message is not an inline message, the Message is returned, otherwise True is returned. Returns an error, if the new score is not greater than the user's current score in the chat and force is False.
 
  SeeAlso Telegram Bot API Reference:
  [SetGameScoreParams](https://core.telegram.org/bots/api#setgamescore)
@@ -65,12 +65,12 @@ public extension TGBot {
  - Parameters:
      - params: Parameters container, see `SetGameScoreParams` struct
  - Throws: Throws on errors
- - Returns: EventLoopFuture of `Bool` type
+ - Returns: EventLoopFuture of `TGMessageOrBool` type
  */
     @discardableResult
-    func setGameScore(params: TGSetGameScoreParams) throws -> EventLoopFuture<Bool> {
+    func setGameScore(params: TGSetGameScoreParams) throws -> EventLoopFuture<TGMessageOrBool> {
         let methodURL: URI = .init(string: getMethodURL("setGameScore"))
-        let future: EventLoopFuture<Bool> = tgClient.post(methodURL, params: params, as: nil)
+        let future: EventLoopFuture<TGMessageOrBool> = tgClient.post(methodURL, params: params, as: nil)
         return future
     }
 }

@@ -4,7 +4,7 @@
 import Vapor
 
 /// DESCRIPTION:
-/// Use this method to stop updating a live location message before live_period expires. On success, if the message was sent by the bot, the sent Message is returned, otherwise True is returned.
+/// Use this method to stop updating a live location message before live_period expires. On success, if the message is not an inline message, the edited Message is returned, otherwise True is returned.
 
 
 /// Parameters container struct for `stopMessageLiveLocation` method
@@ -42,7 +42,7 @@ public struct TGStopMessageLiveLocationParams: Encodable {
 public extension TGBot {
 
 /**
- Use this method to stop updating a live location message before live_period expires. On success, if the message was sent by the bot, the sent Message is returned, otherwise True is returned.
+ Use this method to stop updating a live location message before live_period expires. On success, if the message is not an inline message, the edited Message is returned, otherwise True is returned.
 
  SeeAlso Telegram Bot API Reference:
  [StopMessageLiveLocationParams](https://core.telegram.org/bots/api#stopmessagelivelocation)
