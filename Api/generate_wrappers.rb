@@ -86,13 +86,8 @@ end
 def make_swift_type_name(var_name, var_type)
 	array_prefix = 'Array of '
   if var_type[/#{array_prefix}/i]
-  	# var_type.slice! array_prefix
     var_type.sub!(/#{array_prefix}/i, '')
     var_type.strip!
-    # if var_type == 'InputMediaPhoto and InputMediaVideo'
-    #     # return "[InputMediaPhotoAndVideo]"
-    #     return "[InputMedia]"
-    # end
     return "[#{PREFIX_LIB}InputMedia]" if var_type[/InputMedia/]
     return "[#{make_swift_type_name(var_name, var_type)}]"
   end
@@ -136,8 +131,14 @@ def convert_type(var_name, var_desc, var_type, type_name, var_optional)
     return "#{PREFIX_LIB}ChatType" if var_desc.include?("Type of chat")
     return "#{PREFIX_LIB}MessageEntityType" if var_desc.include?("Type of the entity")
   end
-    
+  
   case [var_type, var_optional]
+  when ['Integer or String', true]
+    return "#{PREFIX_LIB}ChatId?" if var_name.include?('chat_id')
+    return 'String?'
+  when ['Integer or String', false]
+    return "#{PREFIX_LIB}ChatId" if var_name.include?('chat_id')
+    return 'String'
   when ['String', true]
     return "String?"
   when ['String', false]
@@ -235,6 +236,8 @@ def make_init_body(request_name, swift_type_name, var_name, var_type, var_option
 end
 
 def deduce_result_type(description)
+  type_name = description[/Returns (Array of\s+\w+)/, 1]
+  return type_name unless type_name.nil?
 
   type_name = description[/On success, an (.+)s that were sent is returned/, 1]
   return type_name unless type_name.nil?
@@ -286,8 +289,7 @@ end
 
 def fetch_description(current_node)
 	description = ''
-	while !current_node.nil? && current_node.name != 'table' &&
-		current_node.name != 'h4' do
+	while !current_node.nil? && current_node.name != 'table' && current_node.name != 'h4' do
 		text = current_node.text.strip
 
 		if description.length != 0
@@ -296,101 +298,14 @@ def fetch_description(current_node)
 		description += text
 		current_node = current_node.next_element
 	end
-	return description, current_node
+	return description
 end
 
-def generate_model_file(f, node)
-	models_dir = 'Models'
-	FileUtils.mkpath "#{API_DIR}/#{models_dir}"
-
-	current_node = node
-
-	type_name = current_node.text
-	File.open("#{API_DIR}/#{models_dir}/#{PREFIX_LIB}#{type_name}.swift", "wb") do | out |
-		out.write TYPE_HEADER
-		
-		current_node = current_node.next_element
-		description, current_node = fetch_description(current_node)
-
-		f.write "DESCRIPTION:\n#{description}\n"
-        
-		keys_block = ""
-		vars_block = ""
-		init_params_block = ""
-		init_block = ""
-
-		current_node.search('tr').each do |node|
-			td = node.search('td')
-			next unless !(td[0].nil? || td[0] == 0) && (td[0].text != 'Field' && td[0].text != 'Parameters')
-
-			var_name = td[0].text
-			var_type = td[1].text
-			var_desc = td[2].text
-			var_optional = var_desc.start_with? "Optional"
-			f.write "PARAM: #{var_name} [#{var_type}#{var_optional ? '?' : ''}]: #{var_desc}\n"
-      
-			correct_var_type = convert_type(var_name, var_desc, var_type, type_name, var_optional)
-			correct_var_type_init = correct_var_type[-1] == "?" ? correct_var_type + " = nil" : correct_var_type
-			var_name_camel = var_name.camel_case_lower
-
-			keys_block << "#{TWO}case #{var_name_camel} = \"#{var_name}\"\n"
-            
-      var_desc.each_line do |line|
-        vars_block << "#{ONE}/// #{line.strip}\n"
-      end
-            
-			vars_block << "#{ONE}public var #{var_name_camel}: #{correct_var_type}\n\n"
-			init_params_block << "#{var_name_camel}: #{correct_var_type_init}, "
-			init_block << "#{TWO}self.#{var_name_camel} = #{var_name_camel}\n"
-		end
-
-    if block_given?
-      model_blocks = yield
-      keys_block = model_blocks[:keys_block]
-      vars_block = model_blocks[:vars_block]
-      init_params_block = model_blocks[:init_params_block]
-      init_block = model_blocks[:init_block]
-    end
-    
-    if type_name == "MaskPosition"
-      out.write "import Vapor\n\n"
-    end
-
-    out.write "/**\n"
-    description.each_line do |line|
-      out.write " #{line.strip}\n"
-    end
-    out.write "\n"
-    
-    out.write " SeeAlso Telegram Bot API Reference:\n"
-    out.write " [#{type_name}](https://core.telegram.org/bots/api\##{type_name.downcase})\n"
-    out.write " */\n"
-
-    var_protocol = "Codable"
-
-    if type_name == "MaskPosition"
-      # var_protocol += ", MultipartPartConvertible"
-      # var_protocol += ", Encodable"
-    end
-
-    if type_name.start_with?('InputMedia')
-        var_protocol = "Encodable"
-    end
-    out.write  "public final class #{PREFIX_LIB}#{type_name}: #{var_protocol} {\n\n"
-    
-    if keys_block != ""
-      out.write "#{ONE}/// Custom keys for coding/decoding `#{type_name}` struct\n"\
-      "#{ONE}public enum CodingKeys: String, CodingKey {\n"\
-      "#{keys_block}"\
-      "#{ONE}}\n"\
-      "\n"\
-      "#{vars_block}"\
-      "#{ONE}public init (#{init_params_block.chomp(', ')}) {\n"\
-      "#{init_block}"\
-      "#{ONE}}\n"
-    end
-    out.write  "}\n"
-	end
+def get_table_node(current_node)
+  while !current_node.nil? && current_node.name != 'table' && current_node.name != 'h4' do
+    current_node = current_node.next_element
+  end
+  current_node
 end
 
 def generate_method(f, node)
@@ -406,7 +321,8 @@ def generate_method(f, node)
     out.write "import Vapor\n\n"
 
 		current_node = current_node.next_element
-		description, current_node = fetch_description(current_node)
+		description = fetch_description(current_node)
+    current_node = get_table_node(current_node)
 
 		result_type = deduce_result_type(description)
 		result_type = make_swift_type_name('', result_type)
@@ -572,6 +488,111 @@ def make_bot_protocol(signatures)
   end
 end
 
+
+
+def generate_model_file(f, node)
+  models_dir = 'Models'
+  FileUtils.mkpath "#{API_DIR}/#{models_dir}"
+
+  current_node = node
+
+  type_name = current_node.text
+  # byebug if type_name == 'ChatMemberOwner'
+  File.open("#{API_DIR}/#{models_dir}/#{PREFIX_LIB}#{type_name}.swift", "wb") do | out |
+    out.write TYPE_HEADER
+
+
+    # byebug if current_node.text.strip == 'ChatMemberOwner'
+    
+    current_node = current_node.next_element
+    description = fetch_description(current_node)
+
+    f.write "DESCRIPTION:\n#{description}\n"
+
+    keys_block = ""
+    vars_block = ""
+    init_params_block = ""
+    init_block = ""
+
+    current_node = get_table_node(current_node)
+    # byebug if (current_node.name != 'table' && current_node.name != 'h4')
+
+    current_node.search('tr').each do |node|
+
+      td = node.search('td')
+      next unless !(td[0].nil? || td[0] == 0) && (td[0].text != 'Field' && td[0].text != 'Parameters')
+
+      var_name = td[0].text
+      var_type = td[1].text
+      var_desc = td[2].text
+      var_optional = var_desc.start_with? "Optional"
+      f.write "PARAM: #{var_name} [#{var_type}#{var_optional ? '?' : ''}]: #{var_desc}\n"
+      
+      correct_var_type = convert_type(var_name, var_desc, var_type, type_name, var_optional)
+      correct_var_type_init = correct_var_type[-1] == "?" ? correct_var_type + " = nil" : correct_var_type
+      var_name_camel = var_name.camel_case_lower
+
+      keys_block << "#{TWO}case #{var_name_camel} = \"#{var_name}\"\n"
+            
+      var_desc.each_line do |line|
+        vars_block << "#{ONE}/// #{line.strip}\n"
+      end
+            
+      vars_block << "#{ONE}public var #{var_name_camel}: #{correct_var_type}\n\n"
+      init_params_block << "#{var_name_camel}: #{correct_var_type_init}, "
+      init_block << "#{TWO}self.#{var_name_camel} = #{var_name_camel}\n"
+    end
+
+    if block_given?
+      model_blocks = yield
+      keys_block = model_blocks[:keys_block]
+      vars_block = model_blocks[:vars_block]
+      init_params_block = model_blocks[:init_params_block]
+      init_block = model_blocks[:init_block]
+    end
+    
+    if type_name == "MaskPosition"
+      out.write "import Vapor\n\n"
+    end
+
+    out.write "/**\n"
+    description.each_line do |line|
+      out.write " #{line.strip}\n"
+    end
+    out.write "\n"
+    
+    out.write " SeeAlso Telegram Bot API Reference:\n"
+    out.write " [#{type_name}](https://core.telegram.org/bots/api\##{type_name.downcase})\n"
+    out.write " */\n"
+
+    var_protocol = "Codable"
+
+    if type_name == "MaskPosition"
+      # var_protocol += ", MultipartPartConvertible"
+      # var_protocol += ", Encodable"
+    end
+
+    if type_name.start_with?('InputMedia')
+        var_protocol = "Encodable"
+    end
+    out.write  "public final class #{PREFIX_LIB}#{type_name}: #{var_protocol} {\n\n"
+    
+    if keys_block != ""
+      out.write "#{ONE}/// Custom keys for coding/decoding `#{type_name}` struct\n"\
+      "#{ONE}public enum CodingKeys: String, CodingKey {\n"\
+      "#{keys_block}"\
+      "#{ONE}}\n"\
+      "\n"\
+      "#{vars_block}"\
+      "#{ONE}public init (#{init_params_block.chomp(', ')}) {\n"\
+      "#{init_block}"\
+      "#{ONE}}\n"
+    end
+    out.write  "}\n"
+  end
+end
+
+
 def makeChatMemberType(f)
   html = File.open(HTML_FILE, "rb").read
   doc = Nokogiri::HTML(html)
@@ -596,7 +617,9 @@ def makeChatMemberType(f)
         'ChatMemberBanned'
        ].include?(title)
     then
-      current_node = node
+      type_name = node.text
+      current_node = node.next_element
+      current_node = get_table_node(current_node)
       current_node.search('tr').each do |node|
         td = node.search('td')
         next unless !(td[0].nil? || td[0] == 0) && (td[0].text != 'Field' && td[0].text != 'Parameters')
@@ -608,7 +631,7 @@ def makeChatMemberType(f)
         f.write "PARAM: #{var_name} [#{var_type}#{var_optional ? '?' : ''}]: #{var_desc}\n"
         
         correct_var_type = convert_type(var_name, var_desc, var_type, type_name, var_optional)
-        correct_var_type_init = correct_var_type[-1] == "?" ? correct_var_type + " = nil" : correct_var_type
+        correct_var_type_init = correct_var_type
         var_name_camel = var_name.camel_case_lower
 
         keys_block << "#{TWO}case #{var_name_camel} = \"#{var_name}\"\n"
@@ -616,9 +639,19 @@ def makeChatMemberType(f)
         var_desc.each_line do |line|
           vars_block << "#{ONE}/// #{line.strip}\n"
         end
-              
-        vars_block << "#{ONE}public var #{var_name_camel}: #{correct_var_type}?\n\n"
-        init_params_block << "#{var_name_camel}: #{correct_var_type_init}, "
+        
+        if var_name_camel == 'user' || var_name_camel == 'status'
+          vars_block << "#{ONE}public var #{var_name_camel}: #{correct_var_type}\n\n"
+        else
+          vars_block << "#{ONE}public var #{var_name_camel}: #{correct_var_type[/\?$/] ? correct_var_type : "#{correct_var_type}?"}\n\n"
+        end
+
+        if var_name_camel == 'user' || var_name_camel == 'status'
+          init_params_block << "#{var_name_camel}: #{correct_var_type_init}, "
+        else
+          init_params_block << "#{var_name_camel}: #{correct_var_type_init[/\?$/] ? correct_var_type_init : "#{correct_var_type_init}?"}, "
+        end
+
         init_block << "#{TWO}self.#{var_name_camel} = #{var_name_camel}\n"
       end
     end
@@ -689,7 +722,7 @@ def main
 		end
 
     make_bot_protocol(methods_signatures_for_bot_protocol)
-    # makeChatMemberType(f)
+    makeChatMemberType(f)
 	end
 
 	puts 'Finished'
