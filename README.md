@@ -26,7 +26,7 @@ final class DefaultBotHandlers {
         buttonsActionHandler(app: app, bot: bot)
     }
 
-    /// add hendler for all messages unless command "/ping" 
+    /// add handler for all messages unless command "/ping" 
     private static func defaultHandler(app: Vapor.Application, bot: TGBotPrtcl) {
         let handler = TGMessageHandler(filters: (.all && !.command.names(["/ping"]))) { update, bot in
             let params: TGSendMessageParams = .init(chatId: .chat(update.message!.chat.id), text: "Success")
@@ -35,7 +35,7 @@ final class DefaultBotHandlers {
         bot.connection.dispatcher.add(handler)
     }
 
-    /// add hendler for command "/ping"
+    /// add handler for command "/ping"
     private static func commandPingHandler(app: Vapor.Application, bot: TGBotPrtcl) {
         let handler = TGCommandHandler(commands: ["/ping"]) { update, bot in
             try update.message?.reply(text: "pong", bot: bot)
@@ -43,7 +43,7 @@ final class DefaultBotHandlers {
         bot.connection.dispatcher.add(handler)
     }
     
-    /// add hendler for command "/show_buttons" - show message with buttons
+    /// add handler for command "/show_buttons" - show message with buttons
     private static func commandShowButtonsHandler(app: Vapor.Application, bot: TGBotPrtcl) {
         let handler = TGCommandHandler(commands: ["/show_buttons"]) { update, bot in
             guard let userId = update.message?.from.id else { fatalError("user id not found") }
