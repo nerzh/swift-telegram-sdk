@@ -71,7 +71,11 @@ public final class DefaultTGClient: TGClientPrtcl {
                 clientRequest.body = buffer
 //                TGBot.log.critical("\(String(decoding: rawMultipart.body, as: UTF8.self))")
             } else {
-                try clientRequest.content.encode(params ?? (TGEmptyParams() as! Params), as: mediaType ?? .json)
+                if let currentParams: Params = params {
+                    try clientRequest.content.encode(currentParams, as: mediaType ?? .json)
+                } else {
+                    try clientRequest.content.encode(TGEmptyParams(), as: mediaType ?? .json)
+                }
             }
         }.flatMapThrowing { (clientResponse) throws -> TGTelegramContainer<Response> in
             try clientResponse.content.decode(TGTelegramContainer<Response>.self)
@@ -97,13 +101,17 @@ public final class DefaultTGClient: TGClientPrtcl {
         params: Params? = nil,
         as mediaType: Vapor.HTTPMediaType? = nil
     ) -> EventLoopFuture<Response> {
-        #warning("THIS CODE FOR FAST FIX, BECAUSE https://github.com/vapor/multipart-kit/issues/63 not accepted yet")
+        // #warning("THIS CODE FOR FAST FIX, BECAUSE https://github.com/vapor/multipart-kit/issues/63 not accepted yet")
         var rawMultipart: (body: NSMutableData, boundary: String)!
         do {
             /// Content-Disposition: form-data; name="nested_object"
             ///
             /// { json string }
-            rawMultipart = try (params ?? (TGEmptyParams() as! Params)).toMultiPartFormData()
+            if let currentParams: Params = params {
+                rawMultipart = try currentParams.toMultiPartFormData()
+            } else {
+                rawMultipart = try TGEmptyParams().toMultiPartFormData()
+            }
         } catch {
             TGBot.log.critical(error.logMessage)
         }
