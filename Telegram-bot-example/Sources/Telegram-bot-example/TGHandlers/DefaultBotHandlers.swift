@@ -36,11 +36,11 @@ final class DefaultBotHandlers {
         let handler = TGCommandHandler(commands: ["/show_buttons"]) { update, bot in
             guard let userId = update.message?.from?.id else { fatalError("user id not found") }
             let buttons: [[TGInlineKeyboardButton]] = [
-                [.init(text: "Button 1", callbackData: "press 1"), .init(text: "Button 2", callbackData: "press 2")]
+                [.init(text: "Button 1", callbackData: "/press1"), .init(text: "Button 2", callbackData: "/press2")]
             ]
             let keyboard: TGInlineKeyboardMarkup = .init(inlineKeyboard: buttons)
             let params: TGSendMessageParams = .init(chatId: .chat(userId),
-                                                    text: "Keyboard activ",
+                                                    text: "Keyboard active",
                                                     replyMarkup: .inlineKeyboardMarkup(keyboard))
             try bot.sendMessage(params: params)
         }
@@ -48,12 +48,14 @@ final class DefaultBotHandlers {
     }
 
     private static func buttonsActionHandler(app: Vapor.Application, bot: TGBotPrtcl) {
-        let handler = TGCallbackQueryHandler(pattern: "press 1") { update, bot in
+        let handler = TGCallbackQueryHandler(pattern: "/press1") { update, bot in
             try update.callbackQuery?.message?.reply(text: update.callbackQuery?.data ?? "data not exist", bot: bot)
+            try bot.answerCallbackQuery(params: TGAnswerCallbackQueryParams(callbackQueryId: update.callbackQuery?.id ?? "0"))
         }
 
-        let handler2 = TGCallbackQueryHandler(pattern: "press 2") { update, bot in
+        let handler2 = TGCallbackQueryHandler(pattern: "/press2") { update, bot in
             try update.callbackQuery?.message?.reply(text: update.callbackQuery?.data ?? "data not exist", bot: bot)
+            try bot.answerCallbackQuery(params: TGAnswerCallbackQueryParams(callbackQueryId: update.callbackQuery?.id ?? "0"))
         }
 
         bot.connection.dispatcher.add(handler)
