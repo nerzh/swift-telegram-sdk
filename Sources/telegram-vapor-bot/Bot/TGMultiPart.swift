@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import MultipartKit
 
 // MARK: Extension NSMutableData
 extension NSMutableData {
@@ -23,6 +24,33 @@ public protocol NetSessionFilePrtcl {
     var fileName: String { get set }
     var data: Data { get set }
     var mimeType: String? { get set }
+}
+
+private struct FileContainer {
+    
+    let fileName: String
+    let data: Data
+    let mimeType: String?
+    
+    init?(dictionary: [String: Any]) {
+        guard let fileName = dictionary["fileName"] as? String else {
+            return nil
+        }
+        
+        guard let data = dictionary["data"] as? String else {
+            return nil
+        }
+        
+        guard let rawData = Data(base64Encoded: data) else {
+            return nil
+        }
+        
+        let mimeType = dictionary["dictionary"] as? String
+        
+        self.fileName = fileName
+        self.data = rawData
+        self.mimeType = mimeType
+    }
 }
 
 // MARK: Multipart
@@ -84,7 +112,12 @@ public class NetMultipartData {
                     TGBot.log.critical("\(error.logMessage)")
                 }
             } else if let dictionary = anyObject as? Dictionary<String, Any> {
-                if parentName.count == 0 {
+                if parentName == "document", let file = FileContainer(dictionary: dictionary) {
+                    appendFile(parentName,
+                               file.data,
+                               file.fileName,
+                               mimeType: file.mimeType ?? "")
+                } else if parentName.isEmpty {
                     for key in dictionary.keys {
                         let newNodeName = "\(key)"
                         checkValue(newNodeName, dictionary[key]!)
@@ -112,6 +145,11 @@ public class NetMultipartData {
     }
 }
 
+public struct TGMultipartForm {
+    
+    let body: NSMutableData
+    let boundary: String
+}
 
 public extension Encodable {
 

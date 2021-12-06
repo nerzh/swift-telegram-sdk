@@ -108,7 +108,8 @@ public final class DefaultTGClient: TGClientPrtcl {
             ///
             /// { json string }
             if let currentParams: Params = params {
-                rawMultipart = try currentParams.toMultiPartFormData()
+                let multipart = try currentParams.toMultiPartFormData()
+                rawMultipart = (multipart.body, multipart.boundary)
             } else {
                 rawMultipart = try TGEmptyParams().toMultiPartFormData()
             }
