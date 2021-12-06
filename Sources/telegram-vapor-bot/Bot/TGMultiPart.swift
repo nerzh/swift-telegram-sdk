@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import MultipartKit
 
 // MARK: Extension NSMutableData
 extension NSMutableData {
@@ -26,6 +25,11 @@ public protocol NetSessionFilePrtcl {
     var mimeType: String? { get set }
 }
 
+// MARK: - FileContainer
+
+/// временный объект для хранения файлов
+///
+/// по-сути обертка над словарем, чтобы в checkValue этим не заниматься
 private struct FileContainer {
     
     let fileName: String
@@ -53,7 +57,8 @@ private struct FileContainer {
     }
 }
 
-// MARK: Multipart
+// MARK: - Multipart
+
 public class NetMultipartData {
     public var body            : NSMutableData = NSMutableData()
     private var _boundary      : String        = ""
@@ -143,12 +148,6 @@ public class NetMultipartData {
         checkValue("", anyObject as Any)
         return finalizeBodyAndGetData()
     }
-}
-
-public struct TGMultipartForm {
-    
-    let body: NSMutableData
-    let boundary: String
 }
 
 public extension Encodable {
