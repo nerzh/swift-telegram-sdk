@@ -137,11 +137,7 @@ public class NetMultipartData {
                     }
                 }
             } else {
-                if let file = anyObject as? TGInputFile {
-                    appendFile(parentName, file.data, file.fileName, mimeType: file.mimeType ?? "")
-                } else {
-                    append(parentName, anyObject)
-                }
+                append(parentName, anyObject)
             }
         }
 
