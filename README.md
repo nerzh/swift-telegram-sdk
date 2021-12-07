@@ -10,7 +10,7 @@
 ### Example Telegram Bot based on Swift Telegram Vapor Bot - Here
 [Telegram-bot-example](https://github.com/nerzh/telegram-vapor-bot/tree/master/Telegram-bot-example)
 
-### Usage 
+### Usage
 
 #### create folder with your handlers **TGHandlers/DefaultBotHandlers.swift**
 ```swift
@@ -62,11 +62,13 @@ final class DefaultBotHandlers {
     /// add two handlers for callbacks buttons
     private static func buttonsActionHandler(app: Vapor.Application, bot: TGBotPrtcl) {
         let handler = TGCallbackQueryHandler(pattern: "press 1") { update, bot in
-            try update.message?.reply(text: update.callbackQuery?.data ?? "data not exist", bot: bot)
+            try update.callbackQuery?.message?.reply(text: update.callbackQuery?.data ?? "data not exist", bot: bot)
+            try bot.answerCallbackQuery(params: TGAnswerCallbackQueryParams(callbackQueryId: update.callbackQuery?.id ?? "0"))
         }
-        
+
         let handler2 = TGCallbackQueryHandler(pattern: "press 2") { update, bot in
-            try update.message?.reply(text: update.callbackQuery?.data ?? "data not exist", bot: bot)
+            try update.callbackQuery?.message?.reply(text: update.callbackQuery?.data ?? "data not exist", bot: bot)
+            try bot.answerCallbackQuery(params: TGAnswerCallbackQueryParams(callbackQueryId: update.callbackQuery?.id ?? "0"))
         }
         
         bot.connection.dispatcher.add(handler)
@@ -76,8 +78,6 @@ final class DefaultBotHandlers {
 }
 
 ```
-
-
 
 ### Use with LongPolling
 

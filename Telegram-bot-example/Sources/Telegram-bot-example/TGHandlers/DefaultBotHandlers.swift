@@ -40,7 +40,7 @@ final class DefaultBotHandlers {
             ]
             let keyboard: TGInlineKeyboardMarkup = .init(inlineKeyboard: buttons)
             let params: TGSendMessageParams = .init(chatId: .chat(userId),
-                                                    text: "Keyboard activ",
+                                                    text: "Keyboard active",
                                                     replyMarkup: .inlineKeyboardMarkup(keyboard))
             try bot.sendMessage(params: params)
         }
@@ -50,10 +50,12 @@ final class DefaultBotHandlers {
     private static func buttonsActionHandler(app: Vapor.Application, bot: TGBotPrtcl) {
         let handler = TGCallbackQueryHandler(pattern: "press 1") { update, bot in
             try update.callbackQuery?.message?.reply(text: update.callbackQuery?.data ?? "data not exist", bot: bot)
+            try bot.answerCallbackQuery(params: TGAnswerCallbackQueryParams(callbackQueryId: update.callbackQuery?.id ?? "0"))
         }
 
         let handler2 = TGCallbackQueryHandler(pattern: "press 2") { update, bot in
             try update.callbackQuery?.message?.reply(text: update.callbackQuery?.data ?? "data not exist", bot: bot)
+            try bot.answerCallbackQuery(params: TGAnswerCallbackQueryParams(callbackQueryId: update.callbackQuery?.id ?? "0"))
         }
 
         bot.connection.dispatcher.add(handler)
