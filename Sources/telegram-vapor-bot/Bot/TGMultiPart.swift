@@ -25,7 +25,40 @@ public protocol NetSessionFilePrtcl {
     var mimeType: String? { get set }
 }
 
-// MARK: Multipart
+// MARK: - FileContainer
+
+/// временный объект для хранения файлов
+///
+/// по-сути обертка над словарем, чтобы в checkValue этим не заниматься
+private struct FileContainer {
+    
+    let fileName: String
+    let data: Data
+    let mimeType: String?
+    
+    init?(dictionary: [String: Any]) {
+        guard let fileName = dictionary["fileName"] as? String else {
+            return nil
+        }
+        
+        guard let data = dictionary["data"] as? String else {
+            return nil
+        }
+        
+        guard let rawData = Data(base64Encoded: data) else {
+            return nil
+        }
+        
+        let mimeType = dictionary["dictionary"] as? String
+        
+        self.fileName = fileName
+        self.data = rawData
+        self.mimeType = mimeType
+    }
+}
+
+// MARK: - Multipart
+
 public class NetMultipartData {
     public var body            : NSMutableData = NSMutableData()
     private var _boundary      : String        = ""
@@ -84,7 +117,12 @@ public class NetMultipartData {
                     TGBot.log.critical("\(error.logMessage)")
                 }
             } else if let dictionary = anyObject as? Dictionary<String, Any> {
-                if parentName.count == 0 {
+                if parentName == "document", let file = FileContainer(dictionary: dictionary) {
+                    appendFile(parentName,
+                               file.data,
+                               file.fileName,
+                               mimeType: file.mimeType ?? "")
+                } else if parentName.isEmpty {
                     for key in dictionary.keys {
                         let newNodeName = "\(key)"
                         checkValue(newNodeName, dictionary[key]!)
@@ -99,11 +137,7 @@ public class NetMultipartData {
                     }
                 }
             } else {
-                if let file = anyObject as? TGInputFile {
-                    appendFile(parentName, file.data, file.fileName, mimeType: file.mimeType ?? "")
-                } else {
-                    append(parentName, anyObject)
-                }
+                append(parentName, anyObject)
             }
         }
 
@@ -111,7 +145,6 @@ public class NetMultipartData {
         return finalizeBodyAndGetData()
     }
 }
-
 
 public extension Encodable {
 
