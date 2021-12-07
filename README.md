@@ -10,6 +10,9 @@
 ### Example Telegram Bot based on Swift Telegram Vapor Bot - Here
 [Telegram-bot-example](https://github.com/nerzh/telegram-vapor-bot/tree/master/Telegram-bot-example)
 
+### Detailed usage article for beginners from telegram Swift Server Side Community member @dimabiserov
+[Article on Medium](https://dimabiserov.medium.com/how-to-create-a-telegram-bot-with-swift-using-vapor-a4d4480219ca)
+
 ### Usage
 
 #### create folder with your handlers **TGHandlers/DefaultBotHandlers.swift**
