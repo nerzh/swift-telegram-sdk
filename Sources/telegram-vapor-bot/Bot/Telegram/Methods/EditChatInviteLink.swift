@@ -4,7 +4,7 @@
 import Vapor
 
 /// DESCRIPTION:
-/// Use this method to edit a non-primary invite link created by the bot. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Returns the edited invite link as a ChatInviteLink object.
+/// Use this method to edit a non-primary invite link created by the bot. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns the edited invite link as a ChatInviteLink object.
 
 
 /// Parameters container struct for `editChatInviteLink` method
@@ -16,25 +16,35 @@ public struct TGEditChatInviteLinkParams: Encodable {
     /// The invite link to edit
     public var inviteLink: String
 
+    /// Invite link name; 0-32 characters
+    public var name: String?
+
     /// Point in time (Unix timestamp) when the link will expire
     public var expireDate: Int?
 
     /// Maximum number of users that can be members of the chat simultaneously after joining the chat via this invite link; 1-99999
     public var memberLimit: Int?
 
+    /// True, if users joining the chat via the link need to be approved by chat administrators. If True, member_limit can't be specified
+    public var createsJoinRequest: Bool?
+
     /// Custom keys for coding/decoding `EditChatInviteLinkParams` struct
     public enum CodingKeys: String, CodingKey {
             case chatId = "chat_id"
             case inviteLink = "invite_link"
+            case name = "name"
             case expireDate = "expire_date"
             case memberLimit = "member_limit"
+            case createsJoinRequest = "creates_join_request"
     }
 
-    public init(chatId: TGChatId, inviteLink: String, expireDate: Int? = nil, memberLimit: Int? = nil) {
+    public init(chatId: TGChatId, inviteLink: String, name: String? = nil, expireDate: Int? = nil, memberLimit: Int? = nil, createsJoinRequest: Bool? = nil) {
             self.chatId = chatId
             self.inviteLink = inviteLink
+            self.name = name
             self.expireDate = expireDate
             self.memberLimit = memberLimit
+            self.createsJoinRequest = createsJoinRequest
     }
 }
 
@@ -42,7 +52,7 @@ public struct TGEditChatInviteLinkParams: Encodable {
 public extension TGBot {
 
 /**
- Use this method to edit a non-primary invite link created by the bot. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Returns the edited invite link as a ChatInviteLink object.
+ Use this method to edit a non-primary invite link created by the bot. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns the edited invite link as a ChatInviteLink object.
 
  SeeAlso Telegram Bot API Reference:
  [EditChatInviteLinkParams](https://core.telegram.org/bots/api#editchatinvitelink)

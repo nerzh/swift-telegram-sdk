@@ -38,7 +38,7 @@ public final class TGInputMediaDocument: Encodable {
     /// Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
     public var captionEntities: [TGMessageEntity]?
 
-    /// Optional. Disables automatic server-side content type detection for files uploaded using multipart/form-data. Always true, if the document is sent as part of an album.
+    /// Optional. Disables automatic server-side content type detection for files uploaded using multipart/form-data. Always True, if the document is sent as part of an album.
     public var disableContentTypeDetection: Bool?
 
     public init (type: String, media: String, thumb: TGFileInfo? = nil, caption: String? = nil, parseMode: String? = nil, captionEntities: [TGMessageEntity]? = nil, disableContentTypeDetection: Bool? = nil) {

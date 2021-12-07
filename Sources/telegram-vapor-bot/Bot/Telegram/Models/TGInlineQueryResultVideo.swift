@@ -41,7 +41,7 @@ public final class TGInlineQueryResultVideo: Codable {
     /// Mime type of the content of video url, “text/html” or “video/mp4”
     public var mimeType: String
 
-    /// URL of the thumbnail (jpeg only) for the video
+    /// URL of the thumbnail (JPEG only) for the video
     public var thumbUrl: String
 
     /// Title for the result

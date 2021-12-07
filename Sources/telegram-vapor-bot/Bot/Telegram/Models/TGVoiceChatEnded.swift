@@ -14,7 +14,7 @@ public final class TGVoiceChatEnded: Codable {
         case duration = "duration"
     }
 
-    /// Voice chat duration; in seconds
+    /// Voice chat duration in seconds
     public var duration: Int
 
     public init (duration: Int) {

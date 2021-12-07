@@ -4,7 +4,7 @@
 import Vapor
 
 /// DESCRIPTION:
-/// Use this method to set a new group sticker set for a supergroup. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Use the field can_set_sticker_set optionally returned in getChat requests to check if the bot can use this method. Returns True on success.
+/// Use this method to set a new group sticker set for a supergroup. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Use the field can_set_sticker_set optionally returned in getChat requests to check if the bot can use this method. Returns True on success.
 
 
 /// Parameters container struct for `setChatStickerSet` method
@@ -32,7 +32,7 @@ public struct TGSetChatStickerSetParams: Encodable {
 public extension TGBot {
 
 /**
- Use this method to set a new group sticker set for a supergroup. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Use the field can_set_sticker_set optionally returned in getChat requests to check if the bot can use this method. Returns True on success.
+ Use this method to set a new group sticker set for a supergroup. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Use the field can_set_sticker_set optionally returned in getChat requests to check if the bot can use this method. Returns True on success.
 
  SeeAlso Telegram Bot API Reference:
  [SetChatStickerSetParams](https://core.telegram.org/bots/api#setchatstickerset)

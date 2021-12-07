@@ -60,7 +60,7 @@ public final class TGInlineQueryResultDocument: Codable {
     /// Optional. Content of the message to be sent instead of the file
     public var inputMessageContent: TGInputMessageContent?
 
-    /// Optional. URL of the thumbnail (jpeg only) for the file
+    /// Optional. URL of the thumbnail (JPEG only) for the file
     public var thumbUrl: String?
 
     /// Optional. Thumbnail width

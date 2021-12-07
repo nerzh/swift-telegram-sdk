@@ -34,7 +34,7 @@ public final class TGDocument: Codable {
     /// Optional. MIME type of the file as defined by sender
     public var mimeType: String?
 
-    /// Optional. File size
+    /// Optional. File size in bytes
     public var fileSize: Int?
 
     public init (fileId: String, fileUniqueId: String, thumb: TGPhotoSize? = nil, fileName: String? = nil, mimeType: String? = nil, fileSize: Int? = nil) {

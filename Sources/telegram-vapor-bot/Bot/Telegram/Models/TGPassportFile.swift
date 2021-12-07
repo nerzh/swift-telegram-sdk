@@ -23,7 +23,7 @@ public final class TGPassportFile: Codable {
     /// Unique identifier for this file, which is supposed to be the same over time and for different bots. Can't be used to download or reuse the file.
     public var fileUniqueId: String
 
-    /// File size
+    /// File size in bytes
     public var fileSize: Int
 
     /// Unix time when the file was uploaded

@@ -46,7 +46,7 @@ public final class TGVideo: Codable {
     /// Optional. Mime type of a file as defined by sender
     public var mimeType: String?
 
-    /// Optional. File size
+    /// Optional. File size in bytes
     public var fileSize: Int?
 
     public init (fileId: String, fileUniqueId: String, width: Int, height: Int, duration: Int, thumb: TGPhotoSize? = nil, fileName: String? = nil, mimeType: String? = nil, fileSize: Int? = nil) {

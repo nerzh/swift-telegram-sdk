@@ -28,7 +28,7 @@ public final class TGLocation: Codable {
     /// Optional. The radius of uncertainty for the location, measured in meters; 0-1500
     public var horizontalAccuracy: Float?
 
-    /// Optional. Time relative to the message sending date, during which the location can be updated, in seconds. For active live locations only.
+    /// Optional. Time relative to the message sending date, during which the location can be updated; in seconds. For active live locations only.
     public var livePeriod: Int?
 
     /// Optional. The direction in which user is moving, in degrees; 1-360. For active live locations only.

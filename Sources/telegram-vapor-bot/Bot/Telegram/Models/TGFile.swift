@@ -24,7 +24,7 @@ public final class TGFile: Codable {
     /// Unique identifier for this file, which is supposed to be the same over time and for different bots. Can't be used to download or reuse the file.
     public var fileUniqueId: String
 
-    /// Optional. File size, if known
+    /// Optional. File size in bytes, if known
     public var fileSize: Int?
 
     /// Optional. File path. Use https://api.telegram.org/file/bot<token>/<file_path> to get the file.

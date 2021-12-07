@@ -131,6 +131,12 @@ public protocol TGBotPrtcl {
     func revokeChatInviteLink(params: TGRevokeChatInviteLinkParams) throws -> EventLoopFuture<Bool>
 
     @discardableResult
+    func approveChatJoinRequest(params: TGApproveChatJoinRequestParams) throws -> EventLoopFuture<Bool>
+
+    @discardableResult
+    func declineChatJoinRequest(params: TGDeclineChatJoinRequestParams) throws -> EventLoopFuture<Bool>
+
+    @discardableResult
     func setChatPhoto(params: TGSetChatPhotoParams) throws -> EventLoopFuture<Bool>
 
     @discardableResult

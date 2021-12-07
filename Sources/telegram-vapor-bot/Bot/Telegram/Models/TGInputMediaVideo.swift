@@ -47,7 +47,7 @@ public final class TGInputMediaVideo: Encodable {
     /// Optional. Video height
     public var height: Int?
 
-    /// Optional. Video duration
+    /// Optional. Video duration in seconds
     public var duration: Int?
 
     /// Optional. Pass True, if the uploaded video is suitable for streaming

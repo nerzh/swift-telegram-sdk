@@ -46,7 +46,7 @@ public final class TGInputMediaAnimation: Encodable {
     /// Optional. Animation height
     public var height: Int?
 
-    /// Optional. Animation duration
+    /// Optional. Animation duration in seconds
     public var duration: Int?
 
     public init (type: String, media: String, thumb: TGFileInfo? = nil, caption: String? = nil, parseMode: String? = nil, captionEntities: [TGMessageEntity]? = nil, width: Int? = nil, height: Int? = nil, duration: Int? = nil) {

@@ -34,7 +34,7 @@ public final class TGVideoNote: Codable {
     /// Optional. Video thumbnail
     public var thumb: TGPhotoSize?
 
-    /// Optional. File size
+    /// Optional. File size in bytes
     public var fileSize: Int?
 
     public init (fileId: String, fileUniqueId: String, length: Int, duration: Int, thumb: TGPhotoSize? = nil, fileSize: Int? = nil) {

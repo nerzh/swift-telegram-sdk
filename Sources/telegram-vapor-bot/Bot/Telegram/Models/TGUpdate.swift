@@ -26,6 +26,7 @@ public final class TGUpdate: Codable {
         case pollAnswer = "poll_answer"
         case myChatMember = "my_chat_member"
         case chatMember = "chat_member"
+        case chatJoinRequest = "chat_join_request"
     }
 
     /// The update's unique identifier. Update identifiers start from a certain positive number and increase sequentially. This ID becomes especially handy if you're using Webhooks, since it allows you to ignore repeated updates or to restore the correct update sequence, should they get out of order. If there are no new updates for at least a week, then identifier of the next update will be chosen randomly instead of sequentially.
@@ -70,7 +71,10 @@ public final class TGUpdate: Codable {
     /// Optional. A chat member's status was updated in a chat. The bot must be an administrator in the chat and must explicitly specify “chat_member” in the list of allowed_updates to receive these updates.
     public var chatMember: TGChatMemberUpdated?
 
-    public init (updateId: Int, message: TGMessage? = nil, editedMessage: TGMessage? = nil, channelPost: TGMessage? = nil, editedChannelPost: TGMessage? = nil, inlineQuery: TGInlineQuery? = nil, chosenInlineResult: TGChosenInlineResult? = nil, callbackQuery: TGCallbackQuery? = nil, shippingQuery: TGShippingQuery? = nil, preCheckoutQuery: TGPreCheckoutQuery? = nil, poll: TGPoll? = nil, pollAnswer: TGPollAnswer? = nil, myChatMember: TGChatMemberUpdated? = nil, chatMember: TGChatMemberUpdated? = nil) {
+    /// Optional. A request to join the chat has been sent. The bot must have the can_invite_users administrator right in the chat to receive these updates.
+    public var chatJoinRequest: TGChatJoinRequest?
+
+    public init (updateId: Int, message: TGMessage? = nil, editedMessage: TGMessage? = nil, channelPost: TGMessage? = nil, editedChannelPost: TGMessage? = nil, inlineQuery: TGInlineQuery? = nil, chosenInlineResult: TGChosenInlineResult? = nil, callbackQuery: TGCallbackQuery? = nil, shippingQuery: TGShippingQuery? = nil, preCheckoutQuery: TGPreCheckoutQuery? = nil, poll: TGPoll? = nil, pollAnswer: TGPollAnswer? = nil, myChatMember: TGChatMemberUpdated? = nil, chatMember: TGChatMemberUpdated? = nil, chatJoinRequest: TGChatJoinRequest? = nil) {
         self.updateId = updateId
         self.message = message
         self.editedMessage = editedMessage
@@ -85,5 +89,6 @@ public final class TGUpdate: Codable {
         self.pollAnswer = pollAnswer
         self.myChatMember = myChatMember
         self.chatMember = chatMember
+        self.chatJoinRequest = chatJoinRequest
     }
 }

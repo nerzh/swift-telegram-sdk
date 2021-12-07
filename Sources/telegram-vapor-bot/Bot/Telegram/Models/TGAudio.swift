@@ -43,7 +43,7 @@ public final class TGAudio: Codable {
     /// Optional. MIME type of the file as defined by sender
     public var mimeType: String?
 
-    /// Optional. File size
+    /// Optional. File size in bytes
     public var fileSize: Int?
 
     /// Optional. Thumbnail of the album cover to which the music file belongs

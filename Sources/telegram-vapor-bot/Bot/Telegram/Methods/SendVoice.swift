@@ -22,7 +22,7 @@ public struct TGSendVoiceParams: Encodable {
     /// Mode for parsing entities in the voice message caption. See formatting options for more details.
     public var parseMode: TGParseMode?
 
-    /// List of special entities that appear in the caption, which can be specified instead of parse_mode
+    /// A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
     public var captionEntities: [TGMessageEntity]?
 
     /// Duration of the voice message in seconds

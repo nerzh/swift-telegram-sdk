@@ -25,7 +25,7 @@ public struct TGSendDocumentParams: Encodable {
     /// Mode for parsing entities in the document caption. See formatting options for more details.
     public var parseMode: TGParseMode?
 
-    /// List of special entities that appear in the caption, which can be specified instead of parse_mode
+    /// A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
     public var captionEntities: [TGMessageEntity]?
 
     /// Disables automatic server-side content type detection for files uploaded using multipart/form-data

@@ -32,7 +32,7 @@ public final class TGInlineQueryResultPhoto: Codable {
     /// Unique identifier for this result, 1-64 bytes
     public var id: String
 
-    /// A valid URL of the photo. Photo must be in jpeg format. Photo size must not exceed 5MB
+    /// A valid URL of the photo. Photo must be in JPEG format. Photo size must not exceed 5MB
     public var photoUrl: String
 
     /// URL of the thumbnail for the photo

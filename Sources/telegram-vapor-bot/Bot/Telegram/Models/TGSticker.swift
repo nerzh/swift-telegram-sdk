@@ -50,7 +50,7 @@ public final class TGSticker: Codable {
     /// Optional. For mask stickers, the position where the mask should be placed
     public var maskPosition: TGMaskPosition?
 
-    /// Optional. File size
+    /// Optional. File size in bytes
     public var fileSize: Int?
 
     public init (fileId: String, fileUniqueId: String, width: Int, height: Int, isAnimated: Bool, thumb: TGPhotoSize? = nil, emoji: String? = nil, setName: String? = nil, maskPosition: TGMaskPosition? = nil, fileSize: Int? = nil) {

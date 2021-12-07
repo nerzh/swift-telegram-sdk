@@ -14,7 +14,7 @@ public final class TGMessageAutoDeleteTimerChanged: Codable {
         case messageAutoDeleteTime = "message_auto_delete_time"
     }
 
-    /// New auto-delete time for messages in the chat
+    /// New auto-delete time for messages in the chat; in seconds
     public var messageAutoDeleteTime: Int
 
     public init (messageAutoDeleteTime: Int) {

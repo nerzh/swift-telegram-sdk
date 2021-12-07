@@ -30,7 +30,7 @@ public final class TGPhotoSize: Codable {
     /// Photo height
     public var height: Int
 
-    /// Optional. File size
+    /// Optional. File size in bytes
     public var fileSize: Int?
 
     public init (fileId: String, fileUniqueId: String, width: Int, height: Int, fileSize: Int? = nil) {

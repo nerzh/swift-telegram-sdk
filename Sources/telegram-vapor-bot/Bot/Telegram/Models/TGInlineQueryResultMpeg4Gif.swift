@@ -42,7 +42,7 @@ public final class TGInlineQueryResultMpeg4Gif: Codable {
     /// Optional. Video height
     public var mpeg4Height: Int?
 
-    /// Optional. Video duration
+    /// Optional. Video duration in seconds
     public var mpeg4Duration: Int?
 
     /// URL of the static (JPEG or GIF) or animated (MPEG4) thumbnail for the result
