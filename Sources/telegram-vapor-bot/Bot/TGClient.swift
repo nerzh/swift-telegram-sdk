@@ -51,25 +51,21 @@ public final class DefaultTGClient: TGClientPrtcl {
         params: Params? = nil,
         as mediaType: Vapor.HTTPMediaType? = nil
     ) -> EventLoopFuture<Response> {
-//        #warning("THIS CODE FOR FAST FIX, BECAUSE https://github.com/vapor/multipart-kit/issues/63 not accepted yet")
-        var rawMultipart: (body: NSMutableData, boundary: String)!
-        do {
-            /// Content-Disposition: form-data; name="nested_object"
-            ///
-            /// { json string }
-            rawMultipart = try (params ?? (TGEmptyParams() as! Params)).toMultiPartFormData()
-        } catch {
-            TGBot.log.critical(error.logMessage)
-        }
-        var headers: HTTPHeaders = .init()
-        if mediaType == .formData || mediaType == nil {
-            headers.add(name: "Content-Type", value: "multipart/form-data; boundary=\(rawMultipart.boundary)")
-        }
         return client.get(url, headers: HTTPHeaders()) { clientRequest in
             if mediaType == .formData || mediaType == nil {
+//                #warning("THIS CODE FOR FAST FIX, BECAUSE https://github.com/vapor/multipart-kit/issues/63 not accepted yet")
+                var rawMultipart: (body: NSMutableData, boundary: String)!
+                do {
+                    /// Content-Disposition: form-data; name="nested_object"
+                    ///
+                    /// { json string }
+                    rawMultipart = try (params ?? (TGEmptyParams() as! Params)).toMultiPartFormData()
+                } catch {
+                    TGBot.log.critical(error.logMessage)
+                }
+                clientRequest.headers.add(name: "Content-Type", value: "multipart/form-data; boundary=\(rawMultipart.boundary)")
                 let buffer = ByteBuffer.init(data: rawMultipart.body as Data)
                 clientRequest.body = buffer
-//                TGBot.log.critical("\(String(decoding: rawMultipart.body, as: UTF8.self))")
             } else {
                 if let currentParams: Params = params {
                     try clientRequest.content.encode(currentParams, as: mediaType ?? .json)
@@ -101,26 +97,24 @@ public final class DefaultTGClient: TGClientPrtcl {
         params: Params? = nil,
         as mediaType: Vapor.HTTPMediaType? = nil
     ) -> EventLoopFuture<Response> {
-        // #warning("THIS CODE FOR FAST FIX, BECAUSE https://github.com/vapor/multipart-kit/issues/63 not accepted yet")
-        var rawMultipart: (body: NSMutableData, boundary: String)!
-        do {
-            /// Content-Disposition: form-data; name="nested_object"
-            ///
-            /// { json string }
-            if let currentParams: Params = params {
-                rawMultipart = try currentParams.toMultiPartFormData()
-            } else {
-                rawMultipart = try TGEmptyParams().toMultiPartFormData()
-            }
-        } catch {
-            TGBot.log.critical(error.logMessage)
-        }
-        var headers: HTTPHeaders = .init()
-        if mediaType == .formData || mediaType == nil {
-            headers.add(name: "Content-Type", value: "multipart/form-data; boundary=\(rawMultipart.boundary)")
-        }
-        return client.post(url, headers: headers) { clientRequest in
+        return client.post(url, headers: HTTPHeaders()) { clientRequest in
             if mediaType == .formData || mediaType == nil {
+                TGBot.log.critical("\(params) - is Params")
+//                #warning("THIS CODE FOR FAST FIX, BECAUSE https://github.com/vapor/multipart-kit/issues/63 not accepted yet")
+                var rawMultipart: (body: NSMutableData, boundary: String)!
+                do {
+                    /// Content-Disposition: form-data; name="nested_object"
+                    ///
+                    /// { json string }
+                    if let currentParams: Params = params {
+                        rawMultipart = try currentParams.toMultiPartFormData()
+                    } else {
+                        rawMultipart = try TGEmptyParams().toMultiPartFormData()
+                    }
+                } catch {
+                    TGBot.log.critical(error.logMessage)
+                }
+                clientRequest.headers.add(name: "Content-Type", value: "multipart/form-data; boundary=\(rawMultipart.boundary)")
                 let buffer = ByteBuffer.init(data: rawMultipart.body as Data)
                 clientRequest.body = buffer
                 /// Debug
