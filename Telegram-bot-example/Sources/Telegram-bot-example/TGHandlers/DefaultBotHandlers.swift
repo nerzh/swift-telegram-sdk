@@ -49,13 +49,21 @@ final class DefaultBotHandlers {
 
     private static func buttonsActionHandler(app: Vapor.Application, bot: TGBotPrtcl) {
         let handler = TGCallbackQueryHandler(pattern: "press 1") { update, bot in
-            try update.callbackQuery?.message?.reply(text: update.callbackQuery?.data ?? "data not exist", bot: bot)
-            try bot.answerCallbackQuery(params: TGAnswerCallbackQueryParams(callbackQueryId: update.callbackQuery?.id ?? "0"))
+            let params: TGAnswerCallbackQueryParams = .init(callbackQueryId: update.callbackQuery?.id ?? "0",
+                                                            text: update.callbackQuery?.data  ?? "data not exist",
+                                                            showAlert: nil,
+                                                            url: nil,
+                                                            cacheTime: nil)
+            try bot.answerCallbackQuery(params: params)
         }
 
         let handler2 = TGCallbackQueryHandler(pattern: "press 2") { update, bot in
-            try update.callbackQuery?.message?.reply(text: update.callbackQuery?.data ?? "data not exist", bot: bot)
-            try bot.answerCallbackQuery(params: TGAnswerCallbackQueryParams(callbackQueryId: update.callbackQuery?.id ?? "0"))
+            let params: TGAnswerCallbackQueryParams = .init(callbackQueryId: update.callbackQuery?.id ?? "0",
+                                                            text: update.callbackQuery?.data  ?? "data not exist",
+                                                            showAlert: nil,
+                                                            url: nil,
+                                                            cacheTime: nil)
+            try bot.answerCallbackQuery(params: params)
         }
 
         bot.connection.dispatcher.add(handler)
