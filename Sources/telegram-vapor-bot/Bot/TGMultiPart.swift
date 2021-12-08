@@ -117,7 +117,7 @@ public class NetMultipartData {
                     TGBot.log.critical("\(error.logMessage)")
                 }
             } else if let dictionary = anyObject as? Dictionary<String, Any> {
-                if parentName == "document", let file = FileContainer(dictionary: dictionary) {
+                if let file = FileContainer(dictionary: dictionary) {
                     appendFile(parentName,
                                file.data,
                                file.fileName,
