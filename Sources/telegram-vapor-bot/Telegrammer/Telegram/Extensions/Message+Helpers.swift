@@ -71,7 +71,7 @@ public extension TGMessage {
     }
 
     func contains(command: String) -> Bool {
-        guard let text = text, let entities = entities else { return false }
+        guard let text = text?.utf16, let entities = entities else { return false }
         let commands = entities.compactMap { (entity) -> String? in
             guard entity.type == .botCommand else { return nil }
             let start = text.index(text.startIndex, offsetBy: entity.offset)

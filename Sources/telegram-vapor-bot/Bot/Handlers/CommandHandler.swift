@@ -62,25 +62,23 @@ public class TGCommandHandler: TGHandlerPrtcl {
         
         guard let message = update.message,
               filters.check(message),
-              let text = message.text,
+              let text = message.text?.utf16,
               let entities = message.entities else { return false }
         
         let types = entities.compactMap { (entity) -> String? in
             let start = text.index(text.startIndex, offsetBy: entity.offset)
             let end = text.index(start, offsetBy: entity.length-1)
-            let command = text[start...end]
+            let command = String(text[start...end])
             // If the user specifies the bot using "@"
             // and `botUsername` is not nil,
             // check the bot name and then ignore it for further match.
-            let split = command.split(separator: "@")
-            if split.count == 2,
-               let username = botUsername {
+            let split = command?.split(separator: "@") ?? []
+            if split.count == 2, let username = botUsername {
                 let commandWithoutMention = split[0]
                 let specifiedBot = split[1]
-                return specifiedBot == username
-                    ? String(commandWithoutMention) : nil
+                return specifiedBot == username ? String(commandWithoutMention) : nil
             } else {
-                return String(command)
+                return command
             }
         }
         return !commands.intersection(types).isEmpty
