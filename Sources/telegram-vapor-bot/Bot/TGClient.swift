@@ -99,7 +99,6 @@ public final class DefaultTGClient: TGClientPrtcl {
     ) -> EventLoopFuture<Response> {
         return client.post(url, headers: HTTPHeaders()) { clientRequest in
             if mediaType == .formData || mediaType == nil {
-                TGBot.log.critical("\(params) - is Params")
 //                #warning("THIS CODE FOR FAST FIX, BECAUSE https://github.com/vapor/multipart-kit/issues/63 not accepted yet")
                 var rawMultipart: (body: NSMutableData, boundary: String)!
                 do {
@@ -112,7 +111,7 @@ public final class DefaultTGClient: TGClientPrtcl {
                         rawMultipart = try TGEmptyParams().toMultiPartFormData()
                     }
                 } catch {
-                    TGBot.log.critical(error.logMessage)
+                    TGBot.log.critical("Post request error: \(error.logMessage)")
                 }
                 clientRequest.headers.add(name: "Content-Type", value: "multipart/form-data; boundary=\(rawMultipart.boundary)")
                 let buffer = ByteBuffer.init(data: rawMultipart.body as Data)
