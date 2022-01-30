@@ -76,7 +76,7 @@ public extension Int {
 public extension String {
     func matchRegexp(pattern: String) -> Bool {
         guard let regexp = try? NSRegularExpression(pattern: pattern, options: []) else { return false }
-        let range = NSRange(location: 0, length: self.count)
+        let range = NSRange(location: 0, length: self.count + 1)
         return regexp.numberOfMatches(in: self, options: [], range: range) != 0
     }
 }
