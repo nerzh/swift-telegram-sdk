@@ -40,6 +40,9 @@ public struct TGSendVenueParams: Encodable {
     /// Sends the message silently. Users will receive a notification with no sound.
     public var disableNotification: Bool?
 
+    /// Protects the contents of the sent message from forwarding and saving
+    public var protectContent: Bool?
+
     /// If the message is a reply, ID of the original message
     public var replyToMessageId: Int?
 
@@ -61,12 +64,13 @@ public struct TGSendVenueParams: Encodable {
             case googlePlaceId = "google_place_id"
             case googlePlaceType = "google_place_type"
             case disableNotification = "disable_notification"
+            case protectContent = "protect_content"
             case replyToMessageId = "reply_to_message_id"
             case allowSendingWithoutReply = "allow_sending_without_reply"
             case replyMarkup = "reply_markup"
     }
 
-    public init(chatId: TGChatId, latitude: Float, longitude: Float, title: String, address: String, foursquareId: String? = nil, foursquareType: String? = nil, googlePlaceId: String? = nil, googlePlaceType: String? = nil, disableNotification: Bool? = nil, replyToMessageId: Int? = nil, allowSendingWithoutReply: Bool? = nil, replyMarkup: TGReplyMarkup? = nil) {
+    public init(chatId: TGChatId, latitude: Float, longitude: Float, title: String, address: String, foursquareId: String? = nil, foursquareType: String? = nil, googlePlaceId: String? = nil, googlePlaceType: String? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyToMessageId: Int? = nil, allowSendingWithoutReply: Bool? = nil, replyMarkup: TGReplyMarkup? = nil) {
             self.chatId = chatId
             self.latitude = latitude
             self.longitude = longitude
@@ -77,6 +81,7 @@ public struct TGSendVenueParams: Encodable {
             self.googlePlaceId = googlePlaceId
             self.googlePlaceType = googlePlaceType
             self.disableNotification = disableNotification
+            self.protectContent = protectContent
             self.replyToMessageId = replyToMessageId
             self.allowSendingWithoutReply = allowSendingWithoutReply
             self.replyMarkup = replyMarkup

@@ -116,6 +116,12 @@ public protocol TGBotPrtcl {
     func setChatAdministratorCustomTitle(params: TGSetChatAdministratorCustomTitleParams) throws -> EventLoopFuture<Bool>
 
     @discardableResult
+    func banChatSenderChat(params: TGBanChatSenderChatParams) throws -> EventLoopFuture<Bool>
+
+    @discardableResult
+    func unbanChatSenderChat(params: TGUnbanChatSenderChatParams) throws -> EventLoopFuture<Bool>
+
+    @discardableResult
     func setChatPermissions(params: TGSetChatPermissionsParams) throws -> EventLoopFuture<Bool>
 
     @discardableResult

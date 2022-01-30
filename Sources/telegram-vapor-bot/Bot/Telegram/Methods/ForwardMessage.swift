@@ -19,6 +19,9 @@ public struct TGForwardMessageParams: Encodable {
     /// Sends the message silently. Users will receive a notification with no sound.
     public var disableNotification: Bool?
 
+    /// Protects the contents of the forwarded message from forwarding and saving
+    public var protectContent: Bool?
+
     /// Message identifier in the chat specified in from_chat_id
     public var messageId: Int
 
@@ -27,13 +30,15 @@ public struct TGForwardMessageParams: Encodable {
             case chatId = "chat_id"
             case fromChatId = "from_chat_id"
             case disableNotification = "disable_notification"
+            case protectContent = "protect_content"
             case messageId = "message_id"
     }
 
-    public init(chatId: TGChatId, fromChatId: TGChatId, disableNotification: Bool? = nil, messageId: Int) {
+    public init(chatId: TGChatId, fromChatId: TGChatId, disableNotification: Bool? = nil, protectContent: Bool? = nil, messageId: Int) {
             self.chatId = chatId
             self.fromChatId = fromChatId
             self.disableNotification = disableNotification
+            self.protectContent = protectContent
             self.messageId = messageId
     }
 }

@@ -5,6 +5,7 @@
 //
 
 import Foundation
+import SwiftRegularExpression
 
 public class TGRegexpHandler: TGHandlerPrtcl {
     
@@ -46,8 +47,7 @@ public class TGRegexpHandler: TGHandlerPrtcl {
     
     public func check(update: TGUpdate) -> Bool {
         guard let text = update.message?.text else { return false }
-        let range = NSRange(location: 0, length: text.count)
-        return regexp.numberOfMatches(in: text, options: [], range: range) > 0
+        return text.regexp(regexp.pattern, regexp.options).keys.count > 0
     }
     
     public func handle(update: TGUpdate, bot: TGBotPrtcl) {

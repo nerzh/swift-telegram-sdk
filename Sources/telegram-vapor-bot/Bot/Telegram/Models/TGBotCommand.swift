@@ -15,10 +15,10 @@ public final class TGBotCommand: Codable {
         case description = "description"
     }
 
-    /// Text of the command, 1-32 characters. Can contain only lowercase English letters, digits and underscores.
+    /// Text of the command; 1-32 characters. Can contain only lowercase English letters, digits and underscores.
     public var command: String
 
-    /// Description of the command, 3-256 characters.
+    /// Description of the command; 1-256 characters.
     public var description: String
 
     public init (command: String, description: String) {

@@ -41,6 +41,9 @@ public struct TGSendAudioParams: Encodable {
     /// Sends the message silently. Users will receive a notification with no sound.
     public var disableNotification: Bool?
 
+    /// Protects the contents of the sent message from forwarding and saving
+    public var protectContent: Bool?
+
     /// If the message is a reply, ID of the original message
     public var replyToMessageId: Int?
 
@@ -62,12 +65,13 @@ public struct TGSendAudioParams: Encodable {
             case title = "title"
             case thumb = "thumb"
             case disableNotification = "disable_notification"
+            case protectContent = "protect_content"
             case replyToMessageId = "reply_to_message_id"
             case allowSendingWithoutReply = "allow_sending_without_reply"
             case replyMarkup = "reply_markup"
     }
 
-    public init(chatId: TGChatId, audio: TGFileInfo, caption: String? = nil, parseMode: TGParseMode? = nil, captionEntities: [TGMessageEntity]? = nil, duration: Int? = nil, performer: String? = nil, title: String? = nil, thumb: TGFileInfo? = nil, disableNotification: Bool? = nil, replyToMessageId: Int? = nil, allowSendingWithoutReply: Bool? = nil, replyMarkup: TGReplyMarkup? = nil) {
+    public init(chatId: TGChatId, audio: TGFileInfo, caption: String? = nil, parseMode: TGParseMode? = nil, captionEntities: [TGMessageEntity]? = nil, duration: Int? = nil, performer: String? = nil, title: String? = nil, thumb: TGFileInfo? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyToMessageId: Int? = nil, allowSendingWithoutReply: Bool? = nil, replyMarkup: TGReplyMarkup? = nil) {
             self.chatId = chatId
             self.audio = audio
             self.caption = caption
@@ -78,6 +82,7 @@ public struct TGSendAudioParams: Encodable {
             self.title = title
             self.thumb = thumb
             self.disableNotification = disableNotification
+            self.protectContent = protectContent
             self.replyToMessageId = replyToMessageId
             self.allowSendingWithoutReply = allowSendingWithoutReply
             self.replyMarkup = replyMarkup

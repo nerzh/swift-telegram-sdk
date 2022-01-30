@@ -28,6 +28,9 @@ public struct TGSendPhotoParams: Encodable {
     /// Sends the message silently. Users will receive a notification with no sound.
     public var disableNotification: Bool?
 
+    /// Protects the contents of the sent message from forwarding and saving
+    public var protectContent: Bool?
+
     /// If the message is a reply, ID of the original message
     public var replyToMessageId: Int?
 
@@ -45,18 +48,20 @@ public struct TGSendPhotoParams: Encodable {
             case parseMode = "parse_mode"
             case captionEntities = "caption_entities"
             case disableNotification = "disable_notification"
+            case protectContent = "protect_content"
             case replyToMessageId = "reply_to_message_id"
             case allowSendingWithoutReply = "allow_sending_without_reply"
             case replyMarkup = "reply_markup"
     }
 
-    public init(chatId: TGChatId, photo: TGFileInfo, caption: String? = nil, parseMode: TGParseMode? = nil, captionEntities: [TGMessageEntity]? = nil, disableNotification: Bool? = nil, replyToMessageId: Int? = nil, allowSendingWithoutReply: Bool? = nil, replyMarkup: TGReplyMarkup? = nil) {
+    public init(chatId: TGChatId, photo: TGFileInfo, caption: String? = nil, parseMode: TGParseMode? = nil, captionEntities: [TGMessageEntity]? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyToMessageId: Int? = nil, allowSendingWithoutReply: Bool? = nil, replyMarkup: TGReplyMarkup? = nil) {
             self.chatId = chatId
             self.photo = photo
             self.caption = caption
             self.parseMode = parseMode
             self.captionEntities = captionEntities
             self.disableNotification = disableNotification
+            self.protectContent = protectContent
             self.replyToMessageId = replyToMessageId
             self.allowSendingWithoutReply = allowSendingWithoutReply
             self.replyMarkup = replyMarkup

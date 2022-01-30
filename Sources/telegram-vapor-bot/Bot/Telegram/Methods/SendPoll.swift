@@ -52,6 +52,9 @@ public struct TGSendPollParams: Encodable {
     /// Sends the message silently. Users will receive a notification with no sound.
     public var disableNotification: Bool?
 
+    /// Protects the contents of the sent message from forwarding and saving
+    public var protectContent: Bool?
+
     /// If the message is a reply, ID of the original message
     public var replyToMessageId: Int?
 
@@ -77,12 +80,13 @@ public struct TGSendPollParams: Encodable {
             case closeDate = "close_date"
             case isClosed = "is_closed"
             case disableNotification = "disable_notification"
+            case protectContent = "protect_content"
             case replyToMessageId = "reply_to_message_id"
             case allowSendingWithoutReply = "allow_sending_without_reply"
             case replyMarkup = "reply_markup"
     }
 
-    public init(chatId: TGChatId, question: String, options: [String], isAnonymous: Bool? = nil, type: String? = nil, allowsMultipleAnswers: Bool? = nil, correctOptionId: Int? = nil, explanation: String? = nil, explanationParseMode: TGParseMode? = nil, explanationEntities: [TGMessageEntity]? = nil, openPeriod: Int? = nil, closeDate: Int? = nil, isClosed: Bool? = nil, disableNotification: Bool? = nil, replyToMessageId: Int? = nil, allowSendingWithoutReply: Bool? = nil, replyMarkup: TGReplyMarkup? = nil) {
+    public init(chatId: TGChatId, question: String, options: [String], isAnonymous: Bool? = nil, type: String? = nil, allowsMultipleAnswers: Bool? = nil, correctOptionId: Int? = nil, explanation: String? = nil, explanationParseMode: TGParseMode? = nil, explanationEntities: [TGMessageEntity]? = nil, openPeriod: Int? = nil, closeDate: Int? = nil, isClosed: Bool? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyToMessageId: Int? = nil, allowSendingWithoutReply: Bool? = nil, replyMarkup: TGReplyMarkup? = nil) {
             self.chatId = chatId
             self.question = question
             self.options = options
@@ -97,6 +101,7 @@ public struct TGSendPollParams: Encodable {
             self.closeDate = closeDate
             self.isClosed = isClosed
             self.disableNotification = disableNotification
+            self.protectContent = protectContent
             self.replyToMessageId = replyToMessageId
             self.allowSendingWithoutReply = allowSendingWithoutReply
             self.replyMarkup = replyMarkup

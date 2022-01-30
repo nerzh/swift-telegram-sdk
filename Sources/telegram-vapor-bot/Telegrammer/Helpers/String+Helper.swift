@@ -7,6 +7,7 @@
 
 import Foundation
 import Logging
+import SwiftRegularExpression
 #if os(Linux)
 import Glibc
 #endif
@@ -75,9 +76,7 @@ public extension Int {
 
 public extension String {
     func matchRegexp(pattern: String) -> Bool {
-        guard let regexp = try? NSRegularExpression(pattern: pattern, options: []) else { return false }
-        let range = NSRange(location: 0, length: self.utf16.count)
-        return regexp.numberOfMatches(in: self, options: [], range: range) != 0
+        self.regexp(pattern).keys.count > 0
     }
 }
 

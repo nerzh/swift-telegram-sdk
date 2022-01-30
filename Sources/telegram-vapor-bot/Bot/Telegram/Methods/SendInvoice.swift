@@ -79,6 +79,9 @@ public struct TGSendInvoiceParams: Encodable {
     /// Sends the message silently. Users will receive a notification with no sound.
     public var disableNotification: Bool?
 
+    /// Protects the contents of the sent message from forwarding and saving
+    public var protectContent: Bool?
+
     /// If the message is a reply, ID of the original message
     public var replyToMessageId: Int?
 
@@ -113,12 +116,13 @@ public struct TGSendInvoiceParams: Encodable {
             case sendEmailToProvider = "send_email_to_provider"
             case isFlexible = "is_flexible"
             case disableNotification = "disable_notification"
+            case protectContent = "protect_content"
             case replyToMessageId = "reply_to_message_id"
             case allowSendingWithoutReply = "allow_sending_without_reply"
             case replyMarkup = "reply_markup"
     }
 
-    public init(chatId: TGChatId, title: String, description: String, payload: String, providerToken: String, currency: String, prices: [TGLabeledPrice], maxTipAmount: Int? = nil, suggestedTipAmounts: [Int]? = nil, startParameter: String? = nil, providerData: String? = nil, photoUrl: String? = nil, photoSize: Int? = nil, photoWidth: Int? = nil, photoHeight: Int? = nil, needName: Bool? = nil, needPhoneNumber: Bool? = nil, needEmail: Bool? = nil, needShippingAddress: Bool? = nil, sendPhoneNumberToProvider: Bool? = nil, sendEmailToProvider: Bool? = nil, isFlexible: Bool? = nil, disableNotification: Bool? = nil, replyToMessageId: Int? = nil, allowSendingWithoutReply: Bool? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil) {
+    public init(chatId: TGChatId, title: String, description: String, payload: String, providerToken: String, currency: String, prices: [TGLabeledPrice], maxTipAmount: Int? = nil, suggestedTipAmounts: [Int]? = nil, startParameter: String? = nil, providerData: String? = nil, photoUrl: String? = nil, photoSize: Int? = nil, photoWidth: Int? = nil, photoHeight: Int? = nil, needName: Bool? = nil, needPhoneNumber: Bool? = nil, needEmail: Bool? = nil, needShippingAddress: Bool? = nil, sendPhoneNumberToProvider: Bool? = nil, sendEmailToProvider: Bool? = nil, isFlexible: Bool? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyToMessageId: Int? = nil, allowSendingWithoutReply: Bool? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil) {
             self.chatId = chatId
             self.title = title
             self.description = description
@@ -142,6 +146,7 @@ public struct TGSendInvoiceParams: Encodable {
             self.sendEmailToProvider = sendEmailToProvider
             self.isFlexible = isFlexible
             self.disableNotification = disableNotification
+            self.protectContent = protectContent
             self.replyToMessageId = replyToMessageId
             self.allowSendingWithoutReply = allowSendingWithoutReply
             self.replyMarkup = replyMarkup

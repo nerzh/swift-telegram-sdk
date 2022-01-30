@@ -22,9 +22,11 @@ public final class TGMessage: Codable {
         case forwardSignature = "forward_signature"
         case forwardSenderName = "forward_sender_name"
         case forwardDate = "forward_date"
+        case isAutomaticForward = "is_automatic_forward"
         case replyToMessage = "reply_to_message"
         case viaBot = "via_bot"
         case editDate = "edit_date"
+        case hasProtectedContent = "has_protected_content"
         case mediaGroupId = "media_group_id"
         case authorSignature = "author_signature"
         case text = "text"
@@ -72,10 +74,10 @@ public final class TGMessage: Codable {
     /// Unique message identifier inside this chat
     public var messageId: Int
 
-    /// Optional. Sender, empty for messages sent to channels
+    /// Optional. Sender of the message; empty for messages sent to channels. For backward compatibility, the field contains a fake sender user in non-channel chats, if the message was sent on behalf of a chat.
     public var from: TGUser?
 
-    /// Optional. Sender of the message, sent on behalf of a chat. The channel itself for channel messages. The supergroup itself for messages from anonymous group administrators. The linked channel for messages automatically forwarded to the discussion group
+    /// Optional. Sender of the message, sent on behalf of a chat. For example, the channel itself for channel posts, the supergroup itself for messages from anonymous group administrators, the linked channel for messages automatically forwarded to the discussion group.  For backward compatibility, the field from contains a fake sender user in non-channel chats, if the message was sent on behalf of a chat.
     public var senderChat: TGChat?
 
     /// Date the message was sent in Unix time
@@ -93,7 +95,7 @@ public final class TGMessage: Codable {
     /// Optional. For messages forwarded from channels, identifier of the original message in the channel
     public var forwardFromMessageId: Int?
 
-    /// Optional. For messages forwarded from channels, signature of the post author if present
+    /// Optional. For forwarded messages that were originally sent in channels or by an anonymous chat administrator, signature of the message sender if present
     public var forwardSignature: String?
 
     /// Optional. Sender's name for messages forwarded from users who disallow adding a link to their account in forwarded messages
@@ -101,6 +103,9 @@ public final class TGMessage: Codable {
 
     /// Optional. For forwarded messages, date the original message was sent in Unix time
     public var forwardDate: Int?
+
+    /// Optional. True, if the message is a channel post that was automatically forwarded to the connected discussion group
+    public var isAutomaticForward: Bool?
 
     /// Optional. For replies, the original message. Note that the Message object in this field will not contain further reply_to_message fields even if it itself is a reply.
     public var replyToMessage: TGMessage?
@@ -110,6 +115,9 @@ public final class TGMessage: Codable {
 
     /// Optional. Date the message was last edited in Unix time
     public var editDate: Int?
+
+    /// Optional. True, if the message can't be forwarded
+    public var hasProtectedContent: Bool?
 
     /// Optional. The unique identifier of a media message group this message belongs to
     public var mediaGroupId: String?
@@ -237,7 +245,7 @@ public final class TGMessage: Codable {
     /// Optional. Inline keyboard attached to the message. login_url buttons are represented as ordinary url buttons.
     public var replyMarkup: TGInlineKeyboardMarkup?
 
-    public init (messageId: Int, from: TGUser? = nil, senderChat: TGChat? = nil, date: Int, chat: TGChat, forwardFrom: TGUser? = nil, forwardFromChat: TGChat? = nil, forwardFromMessageId: Int? = nil, forwardSignature: String? = nil, forwardSenderName: String? = nil, forwardDate: Int? = nil, replyToMessage: TGMessage? = nil, viaBot: TGUser? = nil, editDate: Int? = nil, mediaGroupId: String? = nil, authorSignature: String? = nil, text: String? = nil, entities: [TGMessageEntity]? = nil, animation: TGAnimation? = nil, audio: TGAudio? = nil, document: TGDocument? = nil, photo: [TGPhotoSize]? = nil, sticker: TGSticker? = nil, video: TGVideo? = nil, videoNote: TGVideoNote? = nil, voice: TGVoice? = nil, caption: String? = nil, captionEntities: [TGMessageEntity]? = nil, contact: TGContact? = nil, dice: TGDice? = nil, game: TGGame? = nil, poll: TGPoll? = nil, venue: TGVenue? = nil, location: TGLocation? = nil, newChatMembers: [TGUser]? = nil, leftChatMember: TGUser? = nil, newChatTitle: String? = nil, newChatPhoto: [TGPhotoSize]? = nil, deleteChatPhoto: Bool? = nil, groupChatCreated: Bool? = nil, supergroupChatCreated: Bool? = nil, channelChatCreated: Bool? = nil, messageAutoDeleteTimerChanged: TGMessageAutoDeleteTimerChanged? = nil, migrateToChatId: Int64? = nil, migrateFromChatId: Int64? = nil, pinnedMessage: TGMessage? = nil, invoice: TGInvoice? = nil, successfulPayment: TGSuccessfulPayment? = nil, connectedWebsite: String? = nil, passportData: TGPassportData? = nil, proximityAlertTriggered: TGProximityAlertTriggered? = nil, voiceChatScheduled: TGVoiceChatScheduled? = nil, voiceChatStarted: TGVoiceChatStarted? = nil, voiceChatEnded: TGVoiceChatEnded? = nil, voiceChatParticipantsInvited: TGVoiceChatParticipantsInvited? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil) {
+    public init (messageId: Int, from: TGUser? = nil, senderChat: TGChat? = nil, date: Int, chat: TGChat, forwardFrom: TGUser? = nil, forwardFromChat: TGChat? = nil, forwardFromMessageId: Int? = nil, forwardSignature: String? = nil, forwardSenderName: String? = nil, forwardDate: Int? = nil, isAutomaticForward: Bool? = nil, replyToMessage: TGMessage? = nil, viaBot: TGUser? = nil, editDate: Int? = nil, hasProtectedContent: Bool? = nil, mediaGroupId: String? = nil, authorSignature: String? = nil, text: String? = nil, entities: [TGMessageEntity]? = nil, animation: TGAnimation? = nil, audio: TGAudio? = nil, document: TGDocument? = nil, photo: [TGPhotoSize]? = nil, sticker: TGSticker? = nil, video: TGVideo? = nil, videoNote: TGVideoNote? = nil, voice: TGVoice? = nil, caption: String? = nil, captionEntities: [TGMessageEntity]? = nil, contact: TGContact? = nil, dice: TGDice? = nil, game: TGGame? = nil, poll: TGPoll? = nil, venue: TGVenue? = nil, location: TGLocation? = nil, newChatMembers: [TGUser]? = nil, leftChatMember: TGUser? = nil, newChatTitle: String? = nil, newChatPhoto: [TGPhotoSize]? = nil, deleteChatPhoto: Bool? = nil, groupChatCreated: Bool? = nil, supergroupChatCreated: Bool? = nil, channelChatCreated: Bool? = nil, messageAutoDeleteTimerChanged: TGMessageAutoDeleteTimerChanged? = nil, migrateToChatId: Int64? = nil, migrateFromChatId: Int64? = nil, pinnedMessage: TGMessage? = nil, invoice: TGInvoice? = nil, successfulPayment: TGSuccessfulPayment? = nil, connectedWebsite: String? = nil, passportData: TGPassportData? = nil, proximityAlertTriggered: TGProximityAlertTriggered? = nil, voiceChatScheduled: TGVoiceChatScheduled? = nil, voiceChatStarted: TGVoiceChatStarted? = nil, voiceChatEnded: TGVoiceChatEnded? = nil, voiceChatParticipantsInvited: TGVoiceChatParticipantsInvited? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil) {
         self.messageId = messageId
         self.from = from
         self.senderChat = senderChat
@@ -249,9 +257,11 @@ public final class TGMessage: Codable {
         self.forwardSignature = forwardSignature
         self.forwardSenderName = forwardSenderName
         self.forwardDate = forwardDate
+        self.isAutomaticForward = isAutomaticForward
         self.replyToMessage = replyToMessage
         self.viaBot = viaBot
         self.editDate = editDate
+        self.hasProtectedContent = hasProtectedContent
         self.mediaGroupId = mediaGroupId
         self.authorSignature = authorSignature
         self.text = text

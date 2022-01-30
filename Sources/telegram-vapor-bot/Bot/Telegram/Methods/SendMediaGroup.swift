@@ -19,6 +19,9 @@ public struct TGSendMediaGroupParams: Encodable {
     /// Sends messages silently. Users will receive a notification with no sound.
     public var disableNotification: Bool?
 
+    /// Protects the contents of the sent messages from forwarding and saving
+    public var protectContent: Bool?
+
     /// If the messages are a reply, ID of the original message
     public var replyToMessageId: Int?
 
@@ -30,14 +33,16 @@ public struct TGSendMediaGroupParams: Encodable {
             case chatId = "chat_id"
             case media = "media"
             case disableNotification = "disable_notification"
+            case protectContent = "protect_content"
             case replyToMessageId = "reply_to_message_id"
             case allowSendingWithoutReply = "allow_sending_without_reply"
     }
 
-    public init(chatId: TGChatId, media: [TGInputMedia], disableNotification: Bool? = nil, replyToMessageId: Int? = nil, allowSendingWithoutReply: Bool? = nil) {
+    public init(chatId: TGChatId, media: [TGInputMedia], disableNotification: Bool? = nil, protectContent: Bool? = nil, replyToMessageId: Int? = nil, allowSendingWithoutReply: Bool? = nil) {
             self.chatId = chatId
             self.media = media
             self.disableNotification = disableNotification
+            self.protectContent = protectContent
             self.replyToMessageId = replyToMessageId
             self.allowSendingWithoutReply = allowSendingWithoutReply
     }

@@ -24,7 +24,7 @@ public final class TGInlineKeyboardButton: Codable {
     /// Label text on the button
     public var text: String
 
-    /// Optional. HTTP or tg:// url to be opened when button is pressed
+    /// Optional. HTTP or tg:// url to be opened when the button is pressed. Links tg://user?id=<user_id> can be used to mention a user by their ID without using a username, if this is allowed by their privacy settings.
     public var url: String?
 
     /// Optional. An HTTP URL used to automatically authorize the user. Can be used as a replacement for the Telegram Login Widget.
@@ -50,7 +50,7 @@ public final class TGInlineKeyboardButton: Codable {
 
     /// Optional. Specify True, to send a Pay button.
     /// 
-    /// NOTE: This type of button must always be the first button in the first row.
+    /// NOTE: This type of button must always be the first button in the first row and can only be used in invoice messages.
     public var pay: Bool?
 
     public init (text: String, url: String? = nil, loginUrl: TGLoginUrl? = nil, callbackData: String? = nil, switchInlineQuery: String? = nil, switchInlineQueryCurrentChat: String? = nil, callbackGame: TGCallbackGame? = nil, pay: Bool? = nil) {
