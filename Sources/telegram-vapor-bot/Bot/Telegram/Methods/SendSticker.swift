@@ -4,7 +4,7 @@
 import Vapor
 
 /// DESCRIPTION:
-/// Use this method to send static .WEBP or animated .TGS stickers. On success, the sent Message is returned.
+/// Use this method to send static .WEBP, animated .TGS, or video .WEBM stickers. On success, the sent Message is returned.
 
 
 /// Parameters container struct for `sendSticker` method
@@ -57,7 +57,7 @@ public struct TGSendStickerParams: Encodable {
 public extension TGBot {
 
 /**
- Use this method to send static .WEBP or animated .TGS stickers. On success, the sent Message is returned.
+ Use this method to send static .WEBP, animated .TGS, or video .WEBM stickers. On success, the sent Message is returned.
 
  SeeAlso Telegram Bot API Reference:
  [SendStickerParams](https://core.telegram.org/bots/api#sendsticker)

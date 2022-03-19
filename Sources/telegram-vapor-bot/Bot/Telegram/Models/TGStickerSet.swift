@@ -14,6 +14,7 @@ public final class TGStickerSet: Codable {
         case name = "name"
         case title = "title"
         case isAnimated = "is_animated"
+        case isVideo = "is_video"
         case containsMasks = "contains_masks"
         case stickers = "stickers"
         case thumb = "thumb"
@@ -28,19 +29,23 @@ public final class TGStickerSet: Codable {
     /// True, if the sticker set contains animated stickers
     public var isAnimated: Bool
 
+    /// True, if the sticker set contains video stickers
+    public var isVideo: Bool
+
     /// True, if the sticker set contains masks
     public var containsMasks: Bool
 
     /// List of all set stickers
     public var stickers: [TGSticker]
 
-    /// Optional. Sticker set thumbnail in the .WEBP or .TGS format
+    /// Optional. Sticker set thumbnail in the .WEBP, .TGS, or .WEBM format
     public var thumb: TGPhotoSize?
 
-    public init (name: String, title: String, isAnimated: Bool, containsMasks: Bool, stickers: [TGSticker], thumb: TGPhotoSize? = nil) {
+    public init (name: String, title: String, isAnimated: Bool, isVideo: Bool, containsMasks: Bool, stickers: [TGSticker], thumb: TGPhotoSize? = nil) {
         self.name = name
         self.title = title
         self.isAnimated = isAnimated
+        self.isVideo = isVideo
         self.containsMasks = containsMasks
         self.stickers = stickers
         self.thumb = thumb

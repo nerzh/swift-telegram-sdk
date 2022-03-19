@@ -16,6 +16,7 @@ public final class TGSticker: Codable {
         case width = "width"
         case height = "height"
         case isAnimated = "is_animated"
+        case isVideo = "is_video"
         case thumb = "thumb"
         case emoji = "emoji"
         case setName = "set_name"
@@ -38,6 +39,9 @@ public final class TGSticker: Codable {
     /// True, if the sticker is animated
     public var isAnimated: Bool
 
+    /// True, if the sticker is a video sticker
+    public var isVideo: Bool
+
     /// Optional. Sticker thumbnail in the .WEBP or .JPG format
     public var thumb: TGPhotoSize?
 
@@ -53,12 +57,13 @@ public final class TGSticker: Codable {
     /// Optional. File size in bytes
     public var fileSize: Int?
 
-    public init (fileId: String, fileUniqueId: String, width: Int, height: Int, isAnimated: Bool, thumb: TGPhotoSize? = nil, emoji: String? = nil, setName: String? = nil, maskPosition: TGMaskPosition? = nil, fileSize: Int? = nil) {
+    public init (fileId: String, fileUniqueId: String, width: Int, height: Int, isAnimated: Bool, isVideo: Bool, thumb: TGPhotoSize? = nil, emoji: String? = nil, setName: String? = nil, maskPosition: TGMaskPosition? = nil, fileSize: Int? = nil) {
         self.fileId = fileId
         self.fileUniqueId = fileUniqueId
         self.width = width
         self.height = height
         self.isAnimated = isAnimated
+        self.isVideo = isVideo
         self.thumb = thumb
         self.emoji = emoji
         self.setName = setName

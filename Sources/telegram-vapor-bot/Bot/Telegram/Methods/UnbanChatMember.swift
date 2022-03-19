@@ -10,7 +10,7 @@ import Vapor
 /// Parameters container struct for `unbanChatMember` method
 public struct TGUnbanChatMemberParams: Encodable {
 
-    /// Unique identifier for the target group or username of the target supergroup or channel (in the format @username)
+    /// Unique identifier for the target group or username of the target supergroup or channel (in the format @channelusername)
     public var chatId: TGChatId
 
     /// Unique identifier of the target user
