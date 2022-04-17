@@ -197,6 +197,18 @@ public protocol TGBotPrtcl {
     func getMyCommands(params: TGGetMyCommandsParams?) throws -> EventLoopFuture<[TGBotCommand]>
 
     @discardableResult
+    func setChatMenuButton(params: TGSetChatMenuButtonParams?) throws -> EventLoopFuture<Bool>
+
+    @discardableResult
+    func getChatMenuButton(params: TGGetChatMenuButtonParams?) throws -> EventLoopFuture<TGMenuButton>
+
+    @discardableResult
+    func setMyDefaultAdministratorRights(params: TGSetMyDefaultAdministratorRightsParams?) throws -> EventLoopFuture<Bool>
+
+    @discardableResult
+    func getMyDefaultAdministratorRights(params: TGGetMyDefaultAdministratorRightsParams?) throws -> EventLoopFuture<TGChatAdministratorRights>
+
+    @discardableResult
     func editMessageText(params: TGEditMessageTextParams) throws -> EventLoopFuture<TGMessageOrBool>
 
     @discardableResult
@@ -240,6 +252,9 @@ public protocol TGBotPrtcl {
 
     @discardableResult
     func answerInlineQuery(params: TGAnswerInlineQueryParams) throws -> EventLoopFuture<Bool>
+
+    @discardableResult
+    func answerWebAppQuery(params: TGAnswerWebAppQueryParams) throws -> EventLoopFuture<TGSentWebAppMessage>
 
     @discardableResult
     func sendInvoice(params: TGSendInvoiceParams) throws -> EventLoopFuture<TGMessage>

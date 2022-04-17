@@ -17,6 +17,7 @@ public final class TGWebhookInfo: Codable {
         case ipAddress = "ip_address"
         case lastErrorDate = "last_error_date"
         case lastErrorMessage = "last_error_message"
+        case lastSynchronizationErrorDate = "last_synchronization_error_date"
         case maxConnections = "max_connections"
         case allowedUpdates = "allowed_updates"
     }
@@ -39,19 +40,23 @@ public final class TGWebhookInfo: Codable {
     /// Optional. Error message in human-readable format for the most recent error that happened when trying to deliver an update via webhook
     public var lastErrorMessage: String?
 
+    /// Optional. Unix time of the most recent error that happened when trying to synchronize available updates with Telegram datacenters
+    public var lastSynchronizationErrorDate: Int?
+
     /// Optional. Maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery
     public var maxConnections: Int?
 
     /// Optional. A list of update types the bot is subscribed to. Defaults to all update types except chat_member
     public var allowedUpdates: [String]?
 
-    public init (url: String, hasCustomCertificate: Bool, pendingUpdateCount: Int, ipAddress: String? = nil, lastErrorDate: Int? = nil, lastErrorMessage: String? = nil, maxConnections: Int? = nil, allowedUpdates: [String]? = nil) {
+    public init (url: String, hasCustomCertificate: Bool, pendingUpdateCount: Int, ipAddress: String? = nil, lastErrorDate: Int? = nil, lastErrorMessage: String? = nil, lastSynchronizationErrorDate: Int? = nil, maxConnections: Int? = nil, allowedUpdates: [String]? = nil) {
         self.url = url
         self.hasCustomCertificate = hasCustomCertificate
         self.pendingUpdateCount = pendingUpdateCount
         self.ipAddress = ipAddress
         self.lastErrorDate = lastErrorDate
         self.lastErrorMessage = lastErrorMessage
+        self.lastSynchronizationErrorDate = lastSynchronizationErrorDate
         self.maxConnections = maxConnections
         self.allowedUpdates = allowedUpdates
     }

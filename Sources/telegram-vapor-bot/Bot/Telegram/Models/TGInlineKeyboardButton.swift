@@ -13,8 +13,9 @@ public final class TGInlineKeyboardButton: Codable {
     public enum CodingKeys: String, CodingKey {
         case text = "text"
         case url = "url"
-        case loginUrl = "login_url"
         case callbackData = "callback_data"
+        case webApp = "web_app"
+        case loginUrl = "login_url"
         case switchInlineQuery = "switch_inline_query"
         case switchInlineQueryCurrentChat = "switch_inline_query_current_chat"
         case callbackGame = "callback_game"
@@ -27,11 +28,14 @@ public final class TGInlineKeyboardButton: Codable {
     /// Optional. HTTP or tg:// url to be opened when the button is pressed. Links tg://user?id=<user_id> can be used to mention a user by their ID without using a username, if this is allowed by their privacy settings.
     public var url: String?
 
-    /// Optional. An HTTP URL used to automatically authorize the user. Can be used as a replacement for the Telegram Login Widget.
-    public var loginUrl: TGLoginUrl?
-
     /// Optional. Data to be sent in a callback query to the bot when button is pressed, 1-64 bytes
     public var callbackData: String?
+
+    /// Optional. Description of the Web App that will be launched when the user presses the button. The Web App will be able to send an arbitrary message on behalf of the user using the method answerWebAppQuery. Available only in private chats between a user and the bot.
+    public var webApp: TGWebAppInfo?
+
+    /// Optional. An HTTP URL used to automatically authorize the user. Can be used as a replacement for the Telegram Login Widget.
+    public var loginUrl: TGLoginUrl?
 
     /// Optional. If set, pressing the button will prompt the user to select one of their chats, open that chat and insert the bot's username and the specified inline query in the input field. Can be empty, in which case just the bot's username will be inserted.
     /// 
@@ -53,11 +57,12 @@ public final class TGInlineKeyboardButton: Codable {
     /// NOTE: This type of button must always be the first button in the first row and can only be used in invoice messages.
     public var pay: Bool?
 
-    public init (text: String, url: String? = nil, loginUrl: TGLoginUrl? = nil, callbackData: String? = nil, switchInlineQuery: String? = nil, switchInlineQueryCurrentChat: String? = nil, callbackGame: TGCallbackGame? = nil, pay: Bool? = nil) {
+    public init (text: String, url: String? = nil, callbackData: String? = nil, webApp: TGWebAppInfo? = nil, loginUrl: TGLoginUrl? = nil, switchInlineQuery: String? = nil, switchInlineQueryCurrentChat: String? = nil, callbackGame: TGCallbackGame? = nil, pay: Bool? = nil) {
         self.text = text
         self.url = url
-        self.loginUrl = loginUrl
         self.callbackData = callbackData
+        self.webApp = webApp
+        self.loginUrl = loginUrl
         self.switchInlineQuery = switchInlineQuery
         self.switchInlineQueryCurrentChat = switchInlineQueryCurrentChat
         self.callbackGame = callbackGame

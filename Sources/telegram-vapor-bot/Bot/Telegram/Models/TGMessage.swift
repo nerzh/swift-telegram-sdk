@@ -64,10 +64,11 @@ public final class TGMessage: Codable {
         case connectedWebsite = "connected_website"
         case passportData = "passport_data"
         case proximityAlertTriggered = "proximity_alert_triggered"
-        case voiceChatScheduled = "voice_chat_scheduled"
-        case voiceChatStarted = "voice_chat_started"
-        case voiceChatEnded = "voice_chat_ended"
-        case voiceChatParticipantsInvited = "voice_chat_participants_invited"
+        case videoChatScheduled = "video_chat_scheduled"
+        case videoChatStarted = "video_chat_started"
+        case videoChatEnded = "video_chat_ended"
+        case videoChatParticipantsInvited = "video_chat_participants_invited"
+        case webAppData = "web_app_data"
         case replyMarkup = "reply_markup"
     }
 
@@ -230,22 +231,25 @@ public final class TGMessage: Codable {
     /// Optional. Service message. A user in the chat triggered another user's proximity alert while sharing Live Location.
     public var proximityAlertTriggered: TGProximityAlertTriggered?
 
-    /// Optional. Service message: voice chat scheduled
-    public var voiceChatScheduled: TGVoiceChatScheduled?
+    /// Optional. Service message: video chat scheduled
+    public var videoChatScheduled: TGVideoChatScheduled?
 
-    /// Optional. Service message: voice chat started
-    public var voiceChatStarted: TGVoiceChatStarted?
+    /// Optional. Service message: video chat started
+    public var videoChatStarted: TGVideoChatStarted?
 
-    /// Optional. Service message: voice chat ended
-    public var voiceChatEnded: TGVoiceChatEnded?
+    /// Optional. Service message: video chat ended
+    public var videoChatEnded: TGVideoChatEnded?
 
-    /// Optional. Service message: new participants invited to a voice chat
-    public var voiceChatParticipantsInvited: TGVoiceChatParticipantsInvited?
+    /// Optional. Service message: new participants invited to a video chat
+    public var videoChatParticipantsInvited: TGVideoChatParticipantsInvited?
+
+    /// Optional. Service message: data sent by a Web App
+    public var webAppData: TGWebAppData?
 
     /// Optional. Inline keyboard attached to the message. login_url buttons are represented as ordinary url buttons.
     public var replyMarkup: TGInlineKeyboardMarkup?
 
-    public init (messageId: Int, from: TGUser? = nil, senderChat: TGChat? = nil, date: Int, chat: TGChat, forwardFrom: TGUser? = nil, forwardFromChat: TGChat? = nil, forwardFromMessageId: Int? = nil, forwardSignature: String? = nil, forwardSenderName: String? = nil, forwardDate: Int? = nil, isAutomaticForward: Bool? = nil, replyToMessage: TGMessage? = nil, viaBot: TGUser? = nil, editDate: Int? = nil, hasProtectedContent: Bool? = nil, mediaGroupId: String? = nil, authorSignature: String? = nil, text: String? = nil, entities: [TGMessageEntity]? = nil, animation: TGAnimation? = nil, audio: TGAudio? = nil, document: TGDocument? = nil, photo: [TGPhotoSize]? = nil, sticker: TGSticker? = nil, video: TGVideo? = nil, videoNote: TGVideoNote? = nil, voice: TGVoice? = nil, caption: String? = nil, captionEntities: [TGMessageEntity]? = nil, contact: TGContact? = nil, dice: TGDice? = nil, game: TGGame? = nil, poll: TGPoll? = nil, venue: TGVenue? = nil, location: TGLocation? = nil, newChatMembers: [TGUser]? = nil, leftChatMember: TGUser? = nil, newChatTitle: String? = nil, newChatPhoto: [TGPhotoSize]? = nil, deleteChatPhoto: Bool? = nil, groupChatCreated: Bool? = nil, supergroupChatCreated: Bool? = nil, channelChatCreated: Bool? = nil, messageAutoDeleteTimerChanged: TGMessageAutoDeleteTimerChanged? = nil, migrateToChatId: Int64? = nil, migrateFromChatId: Int64? = nil, pinnedMessage: TGMessage? = nil, invoice: TGInvoice? = nil, successfulPayment: TGSuccessfulPayment? = nil, connectedWebsite: String? = nil, passportData: TGPassportData? = nil, proximityAlertTriggered: TGProximityAlertTriggered? = nil, voiceChatScheduled: TGVoiceChatScheduled? = nil, voiceChatStarted: TGVoiceChatStarted? = nil, voiceChatEnded: TGVoiceChatEnded? = nil, voiceChatParticipantsInvited: TGVoiceChatParticipantsInvited? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil) {
+    public init (messageId: Int, from: TGUser? = nil, senderChat: TGChat? = nil, date: Int, chat: TGChat, forwardFrom: TGUser? = nil, forwardFromChat: TGChat? = nil, forwardFromMessageId: Int? = nil, forwardSignature: String? = nil, forwardSenderName: String? = nil, forwardDate: Int? = nil, isAutomaticForward: Bool? = nil, replyToMessage: TGMessage? = nil, viaBot: TGUser? = nil, editDate: Int? = nil, hasProtectedContent: Bool? = nil, mediaGroupId: String? = nil, authorSignature: String? = nil, text: String? = nil, entities: [TGMessageEntity]? = nil, animation: TGAnimation? = nil, audio: TGAudio? = nil, document: TGDocument? = nil, photo: [TGPhotoSize]? = nil, sticker: TGSticker? = nil, video: TGVideo? = nil, videoNote: TGVideoNote? = nil, voice: TGVoice? = nil, caption: String? = nil, captionEntities: [TGMessageEntity]? = nil, contact: TGContact? = nil, dice: TGDice? = nil, game: TGGame? = nil, poll: TGPoll? = nil, venue: TGVenue? = nil, location: TGLocation? = nil, newChatMembers: [TGUser]? = nil, leftChatMember: TGUser? = nil, newChatTitle: String? = nil, newChatPhoto: [TGPhotoSize]? = nil, deleteChatPhoto: Bool? = nil, groupChatCreated: Bool? = nil, supergroupChatCreated: Bool? = nil, channelChatCreated: Bool? = nil, messageAutoDeleteTimerChanged: TGMessageAutoDeleteTimerChanged? = nil, migrateToChatId: Int64? = nil, migrateFromChatId: Int64? = nil, pinnedMessage: TGMessage? = nil, invoice: TGInvoice? = nil, successfulPayment: TGSuccessfulPayment? = nil, connectedWebsite: String? = nil, passportData: TGPassportData? = nil, proximityAlertTriggered: TGProximityAlertTriggered? = nil, videoChatScheduled: TGVideoChatScheduled? = nil, videoChatStarted: TGVideoChatStarted? = nil, videoChatEnded: TGVideoChatEnded? = nil, videoChatParticipantsInvited: TGVideoChatParticipantsInvited? = nil, webAppData: TGWebAppData? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil) {
         self.messageId = messageId
         self.from = from
         self.senderChat = senderChat
@@ -299,10 +303,11 @@ public final class TGMessage: Codable {
         self.connectedWebsite = connectedWebsite
         self.passportData = passportData
         self.proximityAlertTriggered = proximityAlertTriggered
-        self.voiceChatScheduled = voiceChatScheduled
-        self.voiceChatStarted = voiceChatStarted
-        self.voiceChatEnded = voiceChatEnded
-        self.voiceChatParticipantsInvited = voiceChatParticipantsInvited
+        self.videoChatScheduled = videoChatScheduled
+        self.videoChatStarted = videoChatStarted
+        self.videoChatEnded = videoChatEnded
+        self.videoChatParticipantsInvited = videoChatParticipantsInvited
+        self.webAppData = webAppData
         self.replyMarkup = replyMarkup
     }
 }

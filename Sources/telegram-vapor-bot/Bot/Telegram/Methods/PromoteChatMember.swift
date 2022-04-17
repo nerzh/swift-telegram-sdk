@@ -31,8 +31,8 @@ public struct TGPromoteChatMemberParams: Encodable {
     /// Pass True, if the administrator can delete messages of other users
     public var canDeleteMessages: Bool?
 
-    /// Pass True, if the administrator can manage voice chats
-    public var canManageVoiceChats: Bool?
+    /// Pass True, if the administrator can manage video chats
+    public var canManageVideoChats: Bool?
 
     /// Pass True, if the administrator can restrict, ban or unban chat members
     public var canRestrictMembers: Bool?
@@ -58,7 +58,7 @@ public struct TGPromoteChatMemberParams: Encodable {
             case canPostMessages = "can_post_messages"
             case canEditMessages = "can_edit_messages"
             case canDeleteMessages = "can_delete_messages"
-            case canManageVoiceChats = "can_manage_voice_chats"
+            case canManageVideoChats = "can_manage_video_chats"
             case canRestrictMembers = "can_restrict_members"
             case canPromoteMembers = "can_promote_members"
             case canChangeInfo = "can_change_info"
@@ -66,7 +66,7 @@ public struct TGPromoteChatMemberParams: Encodable {
             case canPinMessages = "can_pin_messages"
     }
 
-    public init(chatId: TGChatId, userId: Int64, isAnonymous: Bool? = nil, canManageChat: Bool? = nil, canPostMessages: Bool? = nil, canEditMessages: Bool? = nil, canDeleteMessages: Bool? = nil, canManageVoiceChats: Bool? = nil, canRestrictMembers: Bool? = nil, canPromoteMembers: Bool? = nil, canChangeInfo: Bool? = nil, canInviteUsers: Bool? = nil, canPinMessages: Bool? = nil) {
+    public init(chatId: TGChatId, userId: Int64, isAnonymous: Bool? = nil, canManageChat: Bool? = nil, canPostMessages: Bool? = nil, canEditMessages: Bool? = nil, canDeleteMessages: Bool? = nil, canManageVideoChats: Bool? = nil, canRestrictMembers: Bool? = nil, canPromoteMembers: Bool? = nil, canChangeInfo: Bool? = nil, canInviteUsers: Bool? = nil, canPinMessages: Bool? = nil) {
             self.chatId = chatId
             self.userId = userId
             self.isAnonymous = isAnonymous
@@ -74,7 +74,7 @@ public struct TGPromoteChatMemberParams: Encodable {
             self.canPostMessages = canPostMessages
             self.canEditMessages = canEditMessages
             self.canDeleteMessages = canDeleteMessages
-            self.canManageVoiceChats = canManageVoiceChats
+            self.canManageVideoChats = canManageVideoChats
             self.canRestrictMembers = canRestrictMembers
             self.canPromoteMembers = canPromoteMembers
             self.canChangeInfo = canChangeInfo

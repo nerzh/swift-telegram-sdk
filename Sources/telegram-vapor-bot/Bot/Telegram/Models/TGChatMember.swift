@@ -24,7 +24,7 @@ public final class TGChatMember: Codable {
         case canBeEdited = "can_be_edited"
         case canManageChat = "can_manage_chat"
         case canDeleteMessages = "can_delete_messages"
-        case canManageVoiceChats = "can_manage_voice_chats"
+        case canManageVideoChats = "can_manage_video_chats"
         case canRestrictMembers = "can_restrict_members"
         case canPromoteMembers = "can_promote_members"
         case canChangeInfo = "can_change_info"
@@ -63,8 +63,8 @@ public final class TGChatMember: Codable {
     /// True, if the administrator can delete messages of other users
     public var canDeleteMessages: Bool?
 
-    /// True, if the administrator can manage voice chats
-    public var canManageVoiceChats: Bool?
+    /// True, if the administrator can manage video chats
+    public var canManageVideoChats: Bool?
 
     /// True, if the administrator can restrict, ban or unban chat members
     public var canRestrictMembers: Bool?
@@ -114,7 +114,7 @@ public final class TGChatMember: Codable {
     /// The member's status in the chat, always “left”
     /// The member's status in the chat, always “kicked”
     /// Date when restrictions will be lifted for this user; unix time. If 0, then the user is banned forever
-    public init (status: String, user: TGUser, isAnonymous: Bool?, customTitle: String?, canBeEdited: Bool?, canManageChat: Bool?, canDeleteMessages: Bool?, canManageVoiceChats: Bool?, canRestrictMembers: Bool?, canPromoteMembers: Bool?, canChangeInfo: Bool?, canInviteUsers: Bool?, canPostMessages: Bool?, canEditMessages: Bool?, canPinMessages: Bool?, isMember: Bool?, canSendMessages: Bool?, canSendMediaMessages: Bool?, canSendPolls: Bool?, canSendOtherMessages: Bool?, canAddWebPagePreviews: Bool?, untilDate: Int?) {
+    public init (status: String, user: TGUser, isAnonymous: Bool?, customTitle: String?, canBeEdited: Bool?, canManageChat: Bool?, canDeleteMessages: Bool?, canManageVideoChats: Bool?, canRestrictMembers: Bool?, canPromoteMembers: Bool?, canChangeInfo: Bool?, canInviteUsers: Bool?, canPostMessages: Bool?, canEditMessages: Bool?, canPinMessages: Bool?, isMember: Bool?, canSendMessages: Bool?, canSendMediaMessages: Bool?, canSendPolls: Bool?, canSendOtherMessages: Bool?, canAddWebPagePreviews: Bool?, untilDate: Int?) {
         self.status = status
         self.user = user
         self.isAnonymous = isAnonymous
@@ -122,7 +122,7 @@ public final class TGChatMember: Codable {
         self.canBeEdited = canBeEdited
         self.canManageChat = canManageChat
         self.canDeleteMessages = canDeleteMessages
-        self.canManageVoiceChats = canManageVoiceChats
+        self.canManageVideoChats = canManageVideoChats
         self.canRestrictMembers = canRestrictMembers
         self.canPromoteMembers = canPromoteMembers
         self.canChangeInfo = canChangeInfo
