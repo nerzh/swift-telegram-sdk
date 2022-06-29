@@ -2,6 +2,8 @@
 
 ## ⭐️ Please, support Swift Telegram Vapor Bot development by giving a ⭐️
 
+🤖 The best wrapper for the Telegram Bot API written in Swift with Vapor. It's not a framework. There is no special syntax here. This is a library that implements all [Telegram Bot API methods](https://core.telegram.org/bots/api#available-methods), which is available to you to work with Vapor.
+
 ### Telegram Bot based on Swift Vapor.
 [Swift Server Side Community - Ukraine / Russian / CIS Telegram Chat](https://t.me/server_side_swift)
 
