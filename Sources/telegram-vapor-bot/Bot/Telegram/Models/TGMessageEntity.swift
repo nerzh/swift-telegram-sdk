@@ -28,7 +28,7 @@ public final class TGMessageEntity: Codable {
     /// Length of the entity in UTF-16 code units
     public var length: Int
 
-    /// Optional. For “text_link” only, url that will be opened after user taps on the text
+    /// Optional. For “text_link” only, URL that will be opened after user taps on the text
     public var url: String?
 
     /// Optional. For “text_mention” only, the mentioned user

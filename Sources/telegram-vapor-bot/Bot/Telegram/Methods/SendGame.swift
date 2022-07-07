@@ -13,7 +13,7 @@ public struct TGSendGameParams: Encodable {
     /// Unique identifier for the target chat
     public var chatId: Int64
 
-    /// Short name of the game, serves as the unique identifier for the game. Set up your games via Botfather.
+    /// Short name of the game, serves as the unique identifier for the game. Set up your games via @BotFather.
     public var gameShortName: String
 
     /// Sends the message silently. Users will receive a notification with no sound.

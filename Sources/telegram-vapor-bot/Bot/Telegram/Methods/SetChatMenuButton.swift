@@ -13,7 +13,7 @@ public struct TGSetChatMenuButtonParams: Encodable {
     /// Unique identifier for the target private chat. If not specified, default bot's menu button will be changed
     public var chatId: Int64?
 
-    /// A JSON-serialized object for the new bot's menu button. Defaults to MenuButtonDefault
+    /// A JSON-serialized object for the bot's new menu button. Defaults to MenuButtonDefault
     public var menuButton: TGMenuButton?
 
     /// Custom keys for coding/decoding `SetChatMenuButtonParams` struct

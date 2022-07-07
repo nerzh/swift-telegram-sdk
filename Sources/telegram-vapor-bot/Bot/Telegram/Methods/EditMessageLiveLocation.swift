@@ -31,7 +31,7 @@ public struct TGEditMessageLiveLocationParams: Encodable {
     /// Direction in which the user is moving, in degrees. Must be between 1 and 360 if specified.
     public var heading: Int?
 
-    /// Maximum distance for proximity alerts about approaching another chat member, in meters. Must be between 1 and 100000 if specified.
+    /// The maximum distance for proximity alerts about approaching another chat member, in meters. Must be between 1 and 100000 if specified.
     public var proximityAlertRadius: Int?
 
     /// A JSON-serialized object for a new inline keyboard.

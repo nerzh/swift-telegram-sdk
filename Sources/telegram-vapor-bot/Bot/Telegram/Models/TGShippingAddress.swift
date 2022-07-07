@@ -19,7 +19,7 @@ public final class TGShippingAddress: Codable {
         case postCode = "post_code"
     }
 
-    /// ISO 3166-1 alpha-2 country code
+    /// Two-letter ISO 3166-1 alpha-2 country code
     public var countryCode: String
 
     /// State, if applicable

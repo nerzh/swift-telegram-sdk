@@ -20,6 +20,7 @@ public final class TGSticker: Codable {
         case thumb = "thumb"
         case emoji = "emoji"
         case setName = "set_name"
+        case premiumAnimation = "premium_animation"
         case maskPosition = "mask_position"
         case fileSize = "file_size"
     }
@@ -51,13 +52,16 @@ public final class TGSticker: Codable {
     /// Optional. Name of the sticker set to which the sticker belongs
     public var setName: String?
 
+    /// Optional. Premium animation for the sticker, if the sticker is premium
+    public var premiumAnimation: TGFile?
+
     /// Optional. For mask stickers, the position where the mask should be placed
     public var maskPosition: TGMaskPosition?
 
     /// Optional. File size in bytes
     public var fileSize: Int?
 
-    public init (fileId: String, fileUniqueId: String, width: Int, height: Int, isAnimated: Bool, isVideo: Bool, thumb: TGPhotoSize? = nil, emoji: String? = nil, setName: String? = nil, maskPosition: TGMaskPosition? = nil, fileSize: Int? = nil) {
+    public init (fileId: String, fileUniqueId: String, width: Int, height: Int, isAnimated: Bool, isVideo: Bool, thumb: TGPhotoSize? = nil, emoji: String? = nil, setName: String? = nil, premiumAnimation: TGFile? = nil, maskPosition: TGMaskPosition? = nil, fileSize: Int? = nil) {
         self.fileId = fileId
         self.fileUniqueId = fileUniqueId
         self.width = width
@@ -67,6 +71,7 @@ public final class TGSticker: Codable {
         self.thumb = thumb
         self.emoji = emoji
         self.setName = setName
+        self.premiumAnimation = premiumAnimation
         self.maskPosition = maskPosition
         self.fileSize = fileSize
     }

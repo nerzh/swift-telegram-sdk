@@ -38,7 +38,7 @@ public final class TGPreCheckoutQuery: Codable {
     /// Optional. Identifier of the shipping option chosen by the user
     public var shippingOptionId: String?
 
-    /// Optional. Order info provided by the user
+    /// Optional. Order information provided by the user
     public var orderInfo: TGOrderInfo?
 
     public init (id: String, from: TGUser, currency: String, totalAmount: Int, invoicePayload: String, shippingOptionId: String? = nil, orderInfo: TGOrderInfo? = nil) {

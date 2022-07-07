@@ -20,6 +20,8 @@ public final class TGChat: Codable {
         case photo = "photo"
         case bio = "bio"
         case hasPrivateForwards = "has_private_forwards"
+        case joinToSendMessages = "join_to_send_messages"
+        case joinByRequest = "join_by_request"
         case description = "description"
         case inviteLink = "invite_link"
         case pinnedMessage = "pinned_message"
@@ -60,6 +62,12 @@ public final class TGChat: Codable {
     /// Optional. True, if privacy settings of the other party in the private chat allows to use tg://user?id=<user_id> links only in chats with the user. Returned only in getChat.
     public var hasPrivateForwards: Bool?
 
+    /// Optional. True, if users need to join the supergroup before they can send messages. Returned only in getChat.
+    public var joinToSendMessages: Bool?
+
+    /// Optional. True, if all users directly joining the supergroup need to be approved by supergroup administrators. Returned only in getChat.
+    public var joinByRequest: Bool?
+
     /// Optional. Description, for groups, supergroups and channel chats. Returned only in getChat.
     public var description: String?
 
@@ -93,7 +101,7 @@ public final class TGChat: Codable {
     /// Optional. For supergroups, the location to which the supergroup is connected. Returned only in getChat.
     public var location: TGChatLocation?
 
-    public init (id: Int64, type: TGChatType, title: String? = nil, username: String? = nil, firstName: String? = nil, lastName: String? = nil, photo: TGChatPhoto? = nil, bio: String? = nil, hasPrivateForwards: Bool? = nil, description: String? = nil, inviteLink: String? = nil, pinnedMessage: TGMessage? = nil, permissions: TGChatPermissions? = nil, slowModeDelay: Int? = nil, messageAutoDeleteTime: Int? = nil, hasProtectedContent: Bool? = nil, stickerSetName: String? = nil, canSetStickerSet: Bool? = nil, linkedChatId: Int64? = nil, location: TGChatLocation? = nil) {
+    public init (id: Int64, type: TGChatType, title: String? = nil, username: String? = nil, firstName: String? = nil, lastName: String? = nil, photo: TGChatPhoto? = nil, bio: String? = nil, hasPrivateForwards: Bool? = nil, joinToSendMessages: Bool? = nil, joinByRequest: Bool? = nil, description: String? = nil, inviteLink: String? = nil, pinnedMessage: TGMessage? = nil, permissions: TGChatPermissions? = nil, slowModeDelay: Int? = nil, messageAutoDeleteTime: Int? = nil, hasProtectedContent: Bool? = nil, stickerSetName: String? = nil, canSetStickerSet: Bool? = nil, linkedChatId: Int64? = nil, location: TGChatLocation? = nil) {
         self.id = id
         self.type = type
         self.title = title
@@ -103,6 +111,8 @@ public final class TGChat: Codable {
         self.photo = photo
         self.bio = bio
         self.hasPrivateForwards = hasPrivateForwards
+        self.joinToSendMessages = joinToSendMessages
+        self.joinByRequest = joinByRequest
         self.description = description
         self.inviteLink = inviteLink
         self.pinnedMessage = pinnedMessage

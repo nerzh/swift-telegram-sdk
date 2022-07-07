@@ -32,7 +32,7 @@ public final class TGSuccessfulPayment: Codable {
     /// Optional. Identifier of the shipping option chosen by the user
     public var shippingOptionId: String?
 
-    /// Optional. Order info provided by the user
+    /// Optional. Order information provided by the user
     public var orderInfo: TGOrderInfo?
 
     /// Telegram payment identifier

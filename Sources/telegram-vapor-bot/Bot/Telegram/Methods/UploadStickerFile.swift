@@ -13,7 +13,7 @@ public struct TGUploadStickerFileParams: Encodable {
     /// User identifier of sticker file owner
     public var userId: Int64
 
-    /// PNG image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px, and either width or height must be exactly 512px. More info on Sending Files »
+    /// PNG image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px, and either width or height must be exactly 512px. More information on Sending Files »
     public var pngSticker: TGInputFile
 
     /// Custom keys for coding/decoding `UploadStickerFileParams` struct

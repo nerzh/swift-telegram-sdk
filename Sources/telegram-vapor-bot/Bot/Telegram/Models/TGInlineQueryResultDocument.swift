@@ -48,7 +48,7 @@ public final class TGInlineQueryResultDocument: Codable {
     /// A valid URL for the file
     public var documentUrl: String
 
-    /// Mime type of the content of the file, either “application/pdf” or “application/zip”
+    /// MIME type of the content of the file, either “application/pdf” or “application/zip”
     public var mimeType: String
 
     /// Optional. Short description of the result

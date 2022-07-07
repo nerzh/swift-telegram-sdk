@@ -22,7 +22,7 @@ public struct TGEditChatInviteLinkParams: Encodable {
     /// Point in time (Unix timestamp) when the link will expire
     public var expireDate: Int?
 
-    /// Maximum number of users that can be members of the chat simultaneously after joining the chat via this invite link; 1-99999
+    /// The maximum number of users that can be members of the chat simultaneously after joining the chat via this invite link; 1-99999
     public var memberLimit: Int?
 
     /// True, if users joining the chat via the link need to be approved by chat administrators. If True, member_limit can't be specified

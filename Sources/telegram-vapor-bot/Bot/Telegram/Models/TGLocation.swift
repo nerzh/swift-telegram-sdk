@@ -34,7 +34,7 @@ public final class TGLocation: Codable {
     /// Optional. The direction in which user is moving, in degrees; 1-360. For active live locations only.
     public var heading: Int?
 
-    /// Optional. Maximum distance for proximity alerts about approaching another chat member, in meters. For sent live locations only.
+    /// Optional. The maximum distance for proximity alerts about approaching another chat member, in meters. For sent live locations only.
     public var proximityAlertRadius: Int?
 
     public init (longitude: Float, latitude: Float, horizontalAccuracy: Float? = nil, livePeriod: Int? = nil, heading: Int? = nil, proximityAlertRadius: Int? = nil) {

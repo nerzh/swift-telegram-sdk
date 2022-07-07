@@ -78,7 +78,7 @@ public final class TGMessage: Codable {
     /// Optional. Sender of the message; empty for messages sent to channels. For backward compatibility, the field contains a fake sender user in non-channel chats, if the message was sent on behalf of a chat.
     public var from: TGUser?
 
-    /// Optional. Sender of the message, sent on behalf of a chat. For example, the channel itself for channel posts, the supergroup itself for messages from anonymous group administrators, the linked channel for messages automatically forwarded to the discussion group.  For backward compatibility, the field from contains a fake sender user in non-channel chats, if the message was sent on behalf of a chat.
+    /// Optional. Sender of the message, sent on behalf of a chat. For example, the channel itself for channel posts, the supergroup itself for messages from anonymous group administrators, the linked channel for messages automatically forwarded to the discussion group. For backward compatibility, the field from contains a fake sender user in non-channel chats, if the message was sent on behalf of a chat.
     public var senderChat: TGChat?
 
     /// Date the message was sent in Unix time
@@ -126,7 +126,7 @@ public final class TGMessage: Codable {
     /// Optional. Signature of the post author for messages in channels, or the custom title of an anonymous group administrator
     public var authorSignature: String?
 
-    /// Optional. For text messages, the actual UTF-8 text of the message, 0-4096 characters
+    /// Optional. For text messages, the actual UTF-8 text of the message
     public var text: String?
 
     /// Optional. For text messages, special entities like usernames, URLs, bot commands, etc. that appear in the text
@@ -156,7 +156,7 @@ public final class TGMessage: Codable {
     /// Optional. Message is a voice message, information about the file
     public var voice: TGVoice?
 
-    /// Optional. Caption for the animation, audio, document, photo, video or voice, 0-1024 characters
+    /// Optional. Caption for the animation, audio, document, photo, video or voice
     public var caption: String?
 
     /// Optional. For messages with a caption, special entities like usernames, URLs, bot commands, etc. that appear in the caption

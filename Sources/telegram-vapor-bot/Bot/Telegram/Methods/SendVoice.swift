@@ -13,7 +13,7 @@ public struct TGSendVoiceParams: Encodable {
     /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     public var chatId: TGChatId
 
-    /// Audio file to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More info on Sending Files »
+    /// Audio file to send. Pass a file_id as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data. More information on Sending Files »
     public var voice: TGFileInfo
 
     /// Voice message caption, 0-1024 characters after entities parsing

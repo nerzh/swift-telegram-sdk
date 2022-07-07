@@ -42,7 +42,7 @@ public final class TGInputInvoiceMessageContent: Codable {
     /// Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.
     public var payload: String
 
-    /// Payment provider token, obtained via Botfather
+    /// Payment provider token, obtained via @BotFather
     public var providerToken: String
 
     /// Three-letter ISO 4217 currency code, see more on currencies
@@ -60,10 +60,10 @@ public final class TGInputInvoiceMessageContent: Codable {
     /// Optional. A JSON-serialized object for data about the invoice, which will be shared with the payment provider. A detailed description of the required fields should be provided by the payment provider.
     public var providerData: String?
 
-    /// Optional. URL of the product photo for the invoice. Can be a photo of the goods or a marketing image for a service. People like it better when they see what they are paying for.
+    /// Optional. URL of the product photo for the invoice. Can be a photo of the goods or a marketing image for a service.
     public var photoUrl: String?
 
-    /// Optional. Photo size
+    /// Optional. Photo size in bytes
     public var photoSize: Int?
 
     /// Optional. Photo width
@@ -84,10 +84,10 @@ public final class TGInputInvoiceMessageContent: Codable {
     /// Optional. Pass True, if you require the user's shipping address to complete the order
     public var needShippingAddress: Bool?
 
-    /// Optional. Pass True, if user's phone number should be sent to provider
+    /// Optional. Pass True, if the user's phone number should be sent to provider
     public var sendPhoneNumberToProvider: Bool?
 
-    /// Optional. Pass True, if user's email address should be sent to provider
+    /// Optional. Pass True, if the user's email address should be sent to provider
     public var sendEmailToProvider: Bool?
 
     /// Optional. Pass True, if the final price depends on the shipping method

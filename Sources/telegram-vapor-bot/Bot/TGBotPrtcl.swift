@@ -260,6 +260,9 @@ public protocol TGBotPrtcl {
     func sendInvoice(params: TGSendInvoiceParams) throws -> EventLoopFuture<TGMessage>
 
     @discardableResult
+    func createInvoiceLink(params: TGCreateInvoiceLinkParams) throws -> EventLoopFuture<String>
+
+    @discardableResult
     func answerShippingQuery(params: TGAnswerShippingQueryParams) throws -> EventLoopFuture<Bool>
 
     @discardableResult

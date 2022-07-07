@@ -28,7 +28,7 @@ public final class TGInlineQueryResultCachedMpeg4Gif: Codable {
     /// Unique identifier for this result, 1-64 bytes
     public var id: String
 
-    /// A valid file identifier for the MP4 file
+    /// A valid file identifier for the MPEG4 file
     public var mpeg4FileId: String
 
     /// Optional. Title for the result

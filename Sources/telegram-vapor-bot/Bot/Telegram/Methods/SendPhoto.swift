@@ -13,7 +13,7 @@ public struct TGSendPhotoParams: Encodable {
     /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     public var chatId: TGChatId
 
-    /// Photo to send. Pass a file_id as String to send a photo that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a photo from the Internet, or upload a new photo using multipart/form-data. The photo must be at most 10 MB in size. The photo's width and height must not exceed 10000 in total. Width and height ratio must be at most 20. More info on Sending Files »
+    /// Photo to send. Pass a file_id as String to send a photo that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a photo from the Internet, or upload a new photo using multipart/form-data. The photo must be at most 10 MB in size. The photo's width and height must not exceed 10000 in total. Width and height ratio must be at most 20. More information on Sending Files »
     public var photo: TGFileInfo
 
     /// Photo caption (may also be used when resending photos by file_id), 0-1024 characters after entities parsing

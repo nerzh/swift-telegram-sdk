@@ -236,6 +236,9 @@ def make_init_body(request_name, swift_type_name, var_name, var_type, var_option
 end
 
 def deduce_result_type(description)
+  type_name = description[/Returns.+ as (.+) on/, 1]
+  return type_name unless type_name.nil?
+  
   type_name = description[/Returns (Array of\s+\w+)/, 1]
   return type_name unless type_name.nil?
 
@@ -254,8 +257,8 @@ def deduce_result_type(description)
 	type_name = description[/returns an (.+) objects/, 1]
 	return type_name unless type_name.nil?
     
-    type_name = description[/returns a (\w+) object/, 1]
-    return type_name unless type_name.nil?
+  type_name = description[/returns a (\w+) object/, 1]
+  return type_name unless type_name.nil?
 
 	type_name = description[/in form of a (.+) object/, 1]
 	return type_name unless type_name.nil?

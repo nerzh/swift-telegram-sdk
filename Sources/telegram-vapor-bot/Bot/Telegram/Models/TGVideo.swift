@@ -43,10 +43,10 @@ public final class TGVideo: Codable {
     /// Optional. Original filename as defined by sender
     public var fileName: String?
 
-    /// Optional. Mime type of a file as defined by sender
+    /// Optional. MIME type of the file as defined by sender
     public var mimeType: String?
 
-    /// Optional. File size in bytes
+    /// Optional. File size in bytes. It can be bigger than 2^31 and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this value.
     public var fileSize: Int?
 
     public init (fileId: String, fileUniqueId: String, width: Int, height: Int, duration: Int, thumb: TGPhotoSize? = nil, fileName: String? = nil, mimeType: String? = nil, fileSize: Int? = nil) {
