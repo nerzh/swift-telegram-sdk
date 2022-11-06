@@ -3,7 +3,7 @@
 import Vapor
 
 /// DESCRIPTION:
-/// Use this method to change the list of the bot's commands. See https://core.telegram.org/bots#commands for more details about bot commands. Returns True on success.
+/// Use this method to change the list of the bot's commands. See this manual for more details about bot commands. Returns True on success.
 
 
 /// Parameters container struct for `setMyCommands` method
@@ -36,7 +36,7 @@ public struct TGSetMyCommandsParams: Encodable {
 public extension TGBot {
 
 /**
- Use this method to change the list of the bot's commands. See https://core.telegram.org/bots#commands for more details about bot commands. Returns True on success.
+ Use this method to change the list of the bot's commands. See this manual for more details about bot commands. Returns True on success.
 
  SeeAlso Telegram Bot API Reference:
  [SetMyCommandsParams](https://core.telegram.org/bots/api#setmycommands)

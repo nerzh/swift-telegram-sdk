@@ -12,6 +12,9 @@ public struct TGSendAnimationParams: Encodable {
     /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     public var chatId: TGChatId
 
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    public var messageThreadId: Int?
+
     /// Animation to send. Pass a file_id as String to send an animation that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get an animation from the Internet, or upload a new animation using multipart/form-data. More information on Sending Files »
     public var animation: TGFileInfo
 
@@ -54,6 +57,7 @@ public struct TGSendAnimationParams: Encodable {
     /// Custom keys for coding/decoding `SendAnimationParams` struct
     public enum CodingKeys: String, CodingKey {
             case chatId = "chat_id"
+            case messageThreadId = "message_thread_id"
             case animation = "animation"
             case duration = "duration"
             case width = "width"
@@ -69,8 +73,9 @@ public struct TGSendAnimationParams: Encodable {
             case replyMarkup = "reply_markup"
     }
 
-    public init(chatId: TGChatId, animation: TGFileInfo, duration: Int? = nil, width: Int? = nil, height: Int? = nil, thumb: TGFileInfo? = nil, caption: String? = nil, parseMode: TGParseMode? = nil, captionEntities: [TGMessageEntity]? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyToMessageId: Int? = nil, allowSendingWithoutReply: Bool? = nil, replyMarkup: TGReplyMarkup? = nil) {
+    public init(chatId: TGChatId, messageThreadId: Int? = nil, animation: TGFileInfo, duration: Int? = nil, width: Int? = nil, height: Int? = nil, thumb: TGFileInfo? = nil, caption: String? = nil, parseMode: TGParseMode? = nil, captionEntities: [TGMessageEntity]? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyToMessageId: Int? = nil, allowSendingWithoutReply: Bool? = nil, replyMarkup: TGReplyMarkup? = nil) {
             self.chatId = chatId
+            self.messageThreadId = messageThreadId
             self.animation = animation
             self.duration = duration
             self.width = width

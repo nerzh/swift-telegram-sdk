@@ -12,6 +12,9 @@ public struct TGSendInvoiceParams: Encodable {
     /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     public var chatId: TGChatId
 
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    public var messageThreadId: Int?
+
     /// Product name, 1-32 characters
     public var title: String
 
@@ -93,6 +96,7 @@ public struct TGSendInvoiceParams: Encodable {
     /// Custom keys for coding/decoding `SendInvoiceParams` struct
     public enum CodingKeys: String, CodingKey {
             case chatId = "chat_id"
+            case messageThreadId = "message_thread_id"
             case title = "title"
             case description = "description"
             case payload = "payload"
@@ -121,8 +125,9 @@ public struct TGSendInvoiceParams: Encodable {
             case replyMarkup = "reply_markup"
     }
 
-    public init(chatId: TGChatId, title: String, description: String, payload: String, providerToken: String, currency: String, prices: [TGLabeledPrice], maxTipAmount: Int? = nil, suggestedTipAmounts: [Int]? = nil, startParameter: String? = nil, providerData: String? = nil, photoUrl: String? = nil, photoSize: Int? = nil, photoWidth: Int? = nil, photoHeight: Int? = nil, needName: Bool? = nil, needPhoneNumber: Bool? = nil, needEmail: Bool? = nil, needShippingAddress: Bool? = nil, sendPhoneNumberToProvider: Bool? = nil, sendEmailToProvider: Bool? = nil, isFlexible: Bool? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyToMessageId: Int? = nil, allowSendingWithoutReply: Bool? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil) {
+    public init(chatId: TGChatId, messageThreadId: Int? = nil, title: String, description: String, payload: String, providerToken: String, currency: String, prices: [TGLabeledPrice], maxTipAmount: Int? = nil, suggestedTipAmounts: [Int]? = nil, startParameter: String? = nil, providerData: String? = nil, photoUrl: String? = nil, photoSize: Int? = nil, photoWidth: Int? = nil, photoHeight: Int? = nil, needName: Bool? = nil, needPhoneNumber: Bool? = nil, needEmail: Bool? = nil, needShippingAddress: Bool? = nil, sendPhoneNumberToProvider: Bool? = nil, sendEmailToProvider: Bool? = nil, isFlexible: Bool? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyToMessageId: Int? = nil, allowSendingWithoutReply: Bool? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil) {
             self.chatId = chatId
+            self.messageThreadId = messageThreadId
             self.title = title
             self.description = description
             self.payload = payload

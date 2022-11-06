@@ -12,6 +12,9 @@ public struct TGSendVenueParams: Encodable {
     /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     public var chatId: TGChatId
 
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    public var messageThreadId: Int?
+
     /// Latitude of the venue
     public var latitude: Float
 
@@ -54,6 +57,7 @@ public struct TGSendVenueParams: Encodable {
     /// Custom keys for coding/decoding `SendVenueParams` struct
     public enum CodingKeys: String, CodingKey {
             case chatId = "chat_id"
+            case messageThreadId = "message_thread_id"
             case latitude = "latitude"
             case longitude = "longitude"
             case title = "title"
@@ -69,8 +73,9 @@ public struct TGSendVenueParams: Encodable {
             case replyMarkup = "reply_markup"
     }
 
-    public init(chatId: TGChatId, latitude: Float, longitude: Float, title: String, address: String, foursquareId: String? = nil, foursquareType: String? = nil, googlePlaceId: String? = nil, googlePlaceType: String? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyToMessageId: Int? = nil, allowSendingWithoutReply: Bool? = nil, replyMarkup: TGReplyMarkup? = nil) {
+    public init(chatId: TGChatId, messageThreadId: Int? = nil, latitude: Float, longitude: Float, title: String, address: String, foursquareId: String? = nil, foursquareType: String? = nil, googlePlaceId: String? = nil, googlePlaceType: String? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyToMessageId: Int? = nil, allowSendingWithoutReply: Bool? = nil, replyMarkup: TGReplyMarkup? = nil) {
             self.chatId = chatId
+            self.messageThreadId = messageThreadId
             self.latitude = latitude
             self.longitude = longitude
             self.title = title

@@ -24,6 +24,7 @@ public final class TGChatMemberAdministrator: Codable {
         case canPostMessages = "can_post_messages"
         case canEditMessages = "can_edit_messages"
         case canPinMessages = "can_pin_messages"
+        case canManageTopics = "can_manage_topics"
         case customTitle = "custom_title"
     }
 
@@ -69,10 +70,13 @@ public final class TGChatMemberAdministrator: Codable {
     /// Optional. True, if the user is allowed to pin messages; groups and supergroups only
     public var canPinMessages: Bool?
 
+    /// Optional. True, if the user is allowed to create, rename, close, and reopen forum topics; supergroups only
+    public var canManageTopics: Bool?
+
     /// Optional. Custom title for this user
     public var customTitle: String?
 
-    public init (status: String, user: TGUser, canBeEdited: Bool, isAnonymous: Bool, canManageChat: Bool, canDeleteMessages: Bool, canManageVideoChats: Bool, canRestrictMembers: Bool, canPromoteMembers: Bool, canChangeInfo: Bool, canInviteUsers: Bool, canPostMessages: Bool? = nil, canEditMessages: Bool? = nil, canPinMessages: Bool? = nil, customTitle: String? = nil) {
+    public init (status: String, user: TGUser, canBeEdited: Bool, isAnonymous: Bool, canManageChat: Bool, canDeleteMessages: Bool, canManageVideoChats: Bool, canRestrictMembers: Bool, canPromoteMembers: Bool, canChangeInfo: Bool, canInviteUsers: Bool, canPostMessages: Bool? = nil, canEditMessages: Bool? = nil, canPinMessages: Bool? = nil, canManageTopics: Bool? = nil, customTitle: String? = nil) {
         self.status = status
         self.user = user
         self.canBeEdited = canBeEdited
@@ -87,6 +91,7 @@ public final class TGChatMemberAdministrator: Codable {
         self.canPostMessages = canPostMessages
         self.canEditMessages = canEditMessages
         self.canPinMessages = canPinMessages
+        self.canManageTopics = canManageTopics
         self.customTitle = customTitle
     }
 }

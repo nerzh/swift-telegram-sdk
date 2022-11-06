@@ -18,6 +18,7 @@ public final class TGChatPermissions: Codable {
         case canChangeInfo = "can_change_info"
         case canInviteUsers = "can_invite_users"
         case canPinMessages = "can_pin_messages"
+        case canManageTopics = "can_manage_topics"
     }
 
     /// Optional. True, if the user is allowed to send text messages, contacts, locations and venues
@@ -44,7 +45,10 @@ public final class TGChatPermissions: Codable {
     /// Optional. True, if the user is allowed to pin messages. Ignored in public supergroups
     public var canPinMessages: Bool?
 
-    public init (canSendMessages: Bool? = nil, canSendMediaMessages: Bool? = nil, canSendPolls: Bool? = nil, canSendOtherMessages: Bool? = nil, canAddWebPagePreviews: Bool? = nil, canChangeInfo: Bool? = nil, canInviteUsers: Bool? = nil, canPinMessages: Bool? = nil) {
+    /// Optional. True, if the user is allowed to create forum topics. If omitted defaults to the value of can_pin_messages
+    public var canManageTopics: Bool?
+
+    public init (canSendMessages: Bool? = nil, canSendMediaMessages: Bool? = nil, canSendPolls: Bool? = nil, canSendOtherMessages: Bool? = nil, canAddWebPagePreviews: Bool? = nil, canChangeInfo: Bool? = nil, canInviteUsers: Bool? = nil, canPinMessages: Bool? = nil, canManageTopics: Bool? = nil) {
         self.canSendMessages = canSendMessages
         self.canSendMediaMessages = canSendMediaMessages
         self.canSendPolls = canSendPolls
@@ -53,5 +57,6 @@ public final class TGChatPermissions: Codable {
         self.canChangeInfo = canChangeInfo
         self.canInviteUsers = canInviteUsers
         self.canPinMessages = canPinMessages
+        self.canManageTopics = canManageTopics
     }
 }

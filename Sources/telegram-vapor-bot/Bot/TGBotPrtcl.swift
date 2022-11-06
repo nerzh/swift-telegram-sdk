@@ -184,6 +184,27 @@ public protocol TGBotPrtcl {
     func deleteChatStickerSet(params: TGDeleteChatStickerSetParams) throws -> EventLoopFuture<Bool>
 
     @discardableResult
+    func getForumTopicIconStickers() throws -> EventLoopFuture<[TGSticker]>
+
+    @discardableResult
+    func createForumTopic(params: TGCreateForumTopicParams) throws -> EventLoopFuture<Bool>
+
+    @discardableResult
+    func editForumTopic(params: TGEditForumTopicParams) throws -> EventLoopFuture<Bool>
+
+    @discardableResult
+    func closeForumTopic(params: TGCloseForumTopicParams) throws -> EventLoopFuture<Bool>
+
+    @discardableResult
+    func reopenForumTopic(params: TGReopenForumTopicParams) throws -> EventLoopFuture<Bool>
+
+    @discardableResult
+    func deleteForumTopic(params: TGDeleteForumTopicParams) throws -> EventLoopFuture<Bool>
+
+    @discardableResult
+    func unpinAllForumTopicMessages(params: TGUnpinAllForumTopicMessagesParams) throws -> EventLoopFuture<Bool>
+
+    @discardableResult
     func answerCallbackQuery(params: TGAnswerCallbackQueryParams) throws -> EventLoopFuture<Bool>
 
     @discardableResult

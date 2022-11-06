@@ -12,6 +12,9 @@ public struct TGSendVideoParams: Encodable {
     /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     public var chatId: TGChatId
 
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    public var messageThreadId: Int?
+
     /// Video to send. Pass a file_id as String to send a video that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a video from the Internet, or upload a new video using multipart/form-data. More information on Sending Files »
     public var video: TGFileInfo
 
@@ -57,6 +60,7 @@ public struct TGSendVideoParams: Encodable {
     /// Custom keys for coding/decoding `SendVideoParams` struct
     public enum CodingKeys: String, CodingKey {
             case chatId = "chat_id"
+            case messageThreadId = "message_thread_id"
             case video = "video"
             case duration = "duration"
             case width = "width"
@@ -73,8 +77,9 @@ public struct TGSendVideoParams: Encodable {
             case replyMarkup = "reply_markup"
     }
 
-    public init(chatId: TGChatId, video: TGFileInfo, duration: Int? = nil, width: Int? = nil, height: Int? = nil, thumb: TGFileInfo? = nil, caption: String? = nil, parseMode: TGParseMode? = nil, captionEntities: [TGMessageEntity]? = nil, supportsStreaming: Bool? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyToMessageId: Int? = nil, allowSendingWithoutReply: Bool? = nil, replyMarkup: TGReplyMarkup? = nil) {
+    public init(chatId: TGChatId, messageThreadId: Int? = nil, video: TGFileInfo, duration: Int? = nil, width: Int? = nil, height: Int? = nil, thumb: TGFileInfo? = nil, caption: String? = nil, parseMode: TGParseMode? = nil, captionEntities: [TGMessageEntity]? = nil, supportsStreaming: Bool? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyToMessageId: Int? = nil, allowSendingWithoutReply: Bool? = nil, replyMarkup: TGReplyMarkup? = nil) {
             self.chatId = chatId
+            self.messageThreadId = messageThreadId
             self.video = video
             self.duration = duration
             self.width = width

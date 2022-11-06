@@ -12,6 +12,9 @@ public struct TGSendGameParams: Encodable {
     /// Unique identifier for the target chat
     public var chatId: Int64
 
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    public var messageThreadId: Int?
+
     /// Short name of the game, serves as the unique identifier for the game. Set up your games via @BotFather.
     public var gameShortName: String
 
@@ -33,6 +36,7 @@ public struct TGSendGameParams: Encodable {
     /// Custom keys for coding/decoding `SendGameParams` struct
     public enum CodingKeys: String, CodingKey {
             case chatId = "chat_id"
+            case messageThreadId = "message_thread_id"
             case gameShortName = "game_short_name"
             case disableNotification = "disable_notification"
             case protectContent = "protect_content"
@@ -41,8 +45,9 @@ public struct TGSendGameParams: Encodable {
             case replyMarkup = "reply_markup"
     }
 
-    public init(chatId: Int64, gameShortName: String, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyToMessageId: Int? = nil, allowSendingWithoutReply: Bool? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil) {
+    public init(chatId: Int64, messageThreadId: Int? = nil, gameShortName: String, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyToMessageId: Int? = nil, allowSendingWithoutReply: Bool? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil) {
             self.chatId = chatId
+            self.messageThreadId = messageThreadId
             self.gameShortName = gameShortName
             self.disableNotification = disableNotification
             self.protectContent = protectContent

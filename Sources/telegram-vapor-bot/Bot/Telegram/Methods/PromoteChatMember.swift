@@ -48,6 +48,9 @@ public struct TGPromoteChatMemberParams: Encodable {
     /// Pass True if the administrator can pin messages, supergroups only
     public var canPinMessages: Bool?
 
+    /// Pass True if the user is allowed to create, rename, close, and reopen forum topics, supergroups only
+    public var canManageTopics: Bool?
+
     /// Custom keys for coding/decoding `PromoteChatMemberParams` struct
     public enum CodingKeys: String, CodingKey {
             case chatId = "chat_id"
@@ -63,9 +66,10 @@ public struct TGPromoteChatMemberParams: Encodable {
             case canChangeInfo = "can_change_info"
             case canInviteUsers = "can_invite_users"
             case canPinMessages = "can_pin_messages"
+            case canManageTopics = "can_manage_topics"
     }
 
-    public init(chatId: TGChatId, userId: Int64, isAnonymous: Bool? = nil, canManageChat: Bool? = nil, canPostMessages: Bool? = nil, canEditMessages: Bool? = nil, canDeleteMessages: Bool? = nil, canManageVideoChats: Bool? = nil, canRestrictMembers: Bool? = nil, canPromoteMembers: Bool? = nil, canChangeInfo: Bool? = nil, canInviteUsers: Bool? = nil, canPinMessages: Bool? = nil) {
+    public init(chatId: TGChatId, userId: Int64, isAnonymous: Bool? = nil, canManageChat: Bool? = nil, canPostMessages: Bool? = nil, canEditMessages: Bool? = nil, canDeleteMessages: Bool? = nil, canManageVideoChats: Bool? = nil, canRestrictMembers: Bool? = nil, canPromoteMembers: Bool? = nil, canChangeInfo: Bool? = nil, canInviteUsers: Bool? = nil, canPinMessages: Bool? = nil, canManageTopics: Bool? = nil) {
             self.chatId = chatId
             self.userId = userId
             self.isAnonymous = isAnonymous
@@ -79,6 +83,7 @@ public struct TGPromoteChatMemberParams: Encodable {
             self.canChangeInfo = canChangeInfo
             self.canInviteUsers = canInviteUsers
             self.canPinMessages = canPinMessages
+            self.canManageTopics = canManageTopics
     }
 }
 

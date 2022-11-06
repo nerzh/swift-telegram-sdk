@@ -12,6 +12,9 @@ public struct TGSendContactParams: Encodable {
     /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     public var chatId: TGChatId
 
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    public var messageThreadId: Int?
+
     /// Contact's phone number
     public var phoneNumber: String
 
@@ -36,12 +39,13 @@ public struct TGSendContactParams: Encodable {
     /// Pass True if the message should be sent even if the specified replied-to message is not found
     public var allowSendingWithoutReply: Bool?
 
-    /// Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove keyboard or to force a reply from the user.
+    /// Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
     public var replyMarkup: TGReplyMarkup?
 
     /// Custom keys for coding/decoding `SendContactParams` struct
     public enum CodingKeys: String, CodingKey {
             case chatId = "chat_id"
+            case messageThreadId = "message_thread_id"
             case phoneNumber = "phone_number"
             case firstName = "first_name"
             case lastName = "last_name"
@@ -53,8 +57,9 @@ public struct TGSendContactParams: Encodable {
             case replyMarkup = "reply_markup"
     }
 
-    public init(chatId: TGChatId, phoneNumber: String, firstName: String, lastName: String? = nil, vcard: String? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyToMessageId: Int? = nil, allowSendingWithoutReply: Bool? = nil, replyMarkup: TGReplyMarkup? = nil) {
+    public init(chatId: TGChatId, messageThreadId: Int? = nil, phoneNumber: String, firstName: String, lastName: String? = nil, vcard: String? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyToMessageId: Int? = nil, allowSendingWithoutReply: Bool? = nil, replyMarkup: TGReplyMarkup? = nil) {
             self.chatId = chatId
+            self.messageThreadId = messageThreadId
             self.phoneNumber = phoneNumber
             self.firstName = firstName
             self.lastName = lastName

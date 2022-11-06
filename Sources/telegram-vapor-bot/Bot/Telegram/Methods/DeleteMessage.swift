@@ -5,6 +5,7 @@ import Vapor
 /// DESCRIPTION:
 /// Use this method to delete a message, including service messages, with the following limitations:
 /// - A message can only be deleted if it was sent less than 48 hours ago.
+/// - Service messages about a supergroup, channel, or forum topic creation can't be deleted.
 /// - A dice message in a private chat can only be deleted if it was sent more than 24 hours ago.
 /// - Bots can delete outgoing messages in private chats, groups, and supergroups.
 /// - Bots can delete incoming messages in private chats.
@@ -41,6 +42,7 @@ public extension TGBot {
 /**
  Use this method to delete a message, including service messages, with the following limitations:
  - A message can only be deleted if it was sent less than 48 hours ago.
+ - Service messages about a supergroup, channel, or forum topic creation can't be deleted.
  - A dice message in a private chat can only be deleted if it was sent more than 24 hours ago.
  - Bots can delete outgoing messages in private chats, groups, and supergroups.
  - Bots can delete incoming messages in private chats.

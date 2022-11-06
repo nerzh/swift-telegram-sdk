@@ -21,6 +21,7 @@ public final class TGChatAdministratorRights: Codable {
         case canPostMessages = "can_post_messages"
         case canEditMessages = "can_edit_messages"
         case canPinMessages = "can_pin_messages"
+        case canManageTopics = "can_manage_topics"
     }
 
     /// True, if the user's presence in the chat is hidden
@@ -56,7 +57,10 @@ public final class TGChatAdministratorRights: Codable {
     /// Optional. True, if the user is allowed to pin messages; groups and supergroups only
     public var canPinMessages: Bool?
 
-    public init (isAnonymous: Bool, canManageChat: Bool, canDeleteMessages: Bool, canManageVideoChats: Bool, canRestrictMembers: Bool, canPromoteMembers: Bool, canChangeInfo: Bool, canInviteUsers: Bool, canPostMessages: Bool? = nil, canEditMessages: Bool? = nil, canPinMessages: Bool? = nil) {
+    /// Optional. True, if the user is allowed to create, rename, close, and reopen forum topics; supergroups only
+    public var canManageTopics: Bool?
+
+    public init (isAnonymous: Bool, canManageChat: Bool, canDeleteMessages: Bool, canManageVideoChats: Bool, canRestrictMembers: Bool, canPromoteMembers: Bool, canChangeInfo: Bool, canInviteUsers: Bool, canPostMessages: Bool? = nil, canEditMessages: Bool? = nil, canPinMessages: Bool? = nil, canManageTopics: Bool? = nil) {
         self.isAnonymous = isAnonymous
         self.canManageChat = canManageChat
         self.canDeleteMessages = canDeleteMessages
@@ -68,5 +72,6 @@ public final class TGChatAdministratorRights: Codable {
         self.canPostMessages = canPostMessages
         self.canEditMessages = canEditMessages
         self.canPinMessages = canPinMessages
+        self.canManageTopics = canManageTopics
     }
 }

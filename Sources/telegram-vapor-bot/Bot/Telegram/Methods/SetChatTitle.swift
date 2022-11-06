@@ -12,7 +12,7 @@ public struct TGSetChatTitleParams: Encodable {
     /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     public var chatId: TGChatId
 
-    /// New chat title, 1-255 characters
+    /// New chat title, 1-128 characters
     public var title: String
 
     /// Custom keys for coding/decoding `SetChatTitleParams` struct

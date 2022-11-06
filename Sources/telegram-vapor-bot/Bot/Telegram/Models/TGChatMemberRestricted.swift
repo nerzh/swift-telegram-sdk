@@ -16,6 +16,7 @@ public final class TGChatMemberRestricted: Codable {
         case canChangeInfo = "can_change_info"
         case canInviteUsers = "can_invite_users"
         case canPinMessages = "can_pin_messages"
+        case canManageTopics = "can_manage_topics"
         case canSendMessages = "can_send_messages"
         case canSendMediaMessages = "can_send_media_messages"
         case canSendPolls = "can_send_polls"
@@ -42,6 +43,9 @@ public final class TGChatMemberRestricted: Codable {
     /// True, if the user is allowed to pin messages
     public var canPinMessages: Bool
 
+    /// True, if the user is allowed to create forum topics
+    public var canManageTopics: Bool
+
     /// True, if the user is allowed to send text messages, contacts, locations and venues
     public var canSendMessages: Bool
 
@@ -60,13 +64,14 @@ public final class TGChatMemberRestricted: Codable {
     /// Date when restrictions will be lifted for this user; unix time. If 0, then the user is restricted forever
     public var untilDate: Int
 
-    public init (status: String, user: TGUser, isMember: Bool, canChangeInfo: Bool, canInviteUsers: Bool, canPinMessages: Bool, canSendMessages: Bool, canSendMediaMessages: Bool, canSendPolls: Bool, canSendOtherMessages: Bool, canAddWebPagePreviews: Bool, untilDate: Int) {
+    public init (status: String, user: TGUser, isMember: Bool, canChangeInfo: Bool, canInviteUsers: Bool, canPinMessages: Bool, canManageTopics: Bool, canSendMessages: Bool, canSendMediaMessages: Bool, canSendPolls: Bool, canSendOtherMessages: Bool, canAddWebPagePreviews: Bool, untilDate: Int) {
         self.status = status
         self.user = user
         self.isMember = isMember
         self.canChangeInfo = canChangeInfo
         self.canInviteUsers = canInviteUsers
         self.canPinMessages = canPinMessages
+        self.canManageTopics = canManageTopics
         self.canSendMessages = canSendMessages
         self.canSendMediaMessages = canSendMediaMessages
         self.canSendPolls = canSendPolls

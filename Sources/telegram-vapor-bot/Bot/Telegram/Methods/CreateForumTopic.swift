@@ -1,0 +1,60 @@
+// Telegram-vapor-bot - Telegram Bot Swift SDK.
+
+import Vapor
+
+/// DESCRIPTION:
+/// Use this method to create a topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights. Returns information about the created topic as a ForumTopic object.
+
+
+/// Parameters container struct for `createForumTopic` method
+public struct TGCreateForumTopicParams: Encodable {
+
+    /// Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
+    public var chatId: TGChatId
+
+    /// Topic name, 1-128 characters
+    public var name: String
+
+    /// Color of the topic icon in RGB format. Currently, must be one of 0x6FB9F0, 0xFFD67E, 0xCB86DB, 0x8EEE98, 0xFF93B2, or 0xFB6F5F
+    public var iconColor: Int?
+
+    /// Unique identifier of the custom emoji shown as the topic icon. Use getForumTopicIconStickers to get all allowed custom emoji identifiers.
+    public var iconCustomEmojiId: String?
+
+    /// Custom keys for coding/decoding `CreateForumTopicParams` struct
+    public enum CodingKeys: String, CodingKey {
+            case chatId = "chat_id"
+            case name = "name"
+            case iconColor = "icon_color"
+            case iconCustomEmojiId = "icon_custom_emoji_id"
+    }
+
+    public init(chatId: TGChatId, name: String, iconColor: Int? = nil, iconCustomEmojiId: String? = nil) {
+            self.chatId = chatId
+            self.name = name
+            self.iconColor = iconColor
+            self.iconCustomEmojiId = iconCustomEmojiId
+    }
+}
+
+
+public extension TGBot {
+
+/**
+ Use this method to create a topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights. Returns information about the created topic as a ForumTopic object.
+
+ SeeAlso Telegram Bot API Reference:
+ [CreateForumTopicParams](https://core.telegram.org/bots/api#createforumtopic)
+ 
+ - Parameters:
+     - params: Parameters container, see `CreateForumTopicParams` struct
+ - Throws: Throws on errors
+ - Returns: EventLoopFuture of `Bool` type
+ */
+    @discardableResult
+    func createForumTopic(params: TGCreateForumTopicParams) throws -> EventLoopFuture<Bool> {
+        let methodURL: URI = .init(string: getMethodURL("createForumTopic"))
+        let future: EventLoopFuture<Bool> = tgClient.post(methodURL, params: params, as: nil)
+        return future
+    }
+}

@@ -11,6 +11,7 @@ public final class TGMessage: Codable {
     /// Custom keys for coding/decoding `Message` struct
     public enum CodingKeys: String, CodingKey {
         case messageId = "message_id"
+        case messageThreadId = "message_thread_id"
         case from = "from"
         case senderChat = "sender_chat"
         case date = "date"
@@ -21,6 +22,7 @@ public final class TGMessage: Codable {
         case forwardSignature = "forward_signature"
         case forwardSenderName = "forward_sender_name"
         case forwardDate = "forward_date"
+        case isTopicMessage = "is_topic_message"
         case isAutomaticForward = "is_automatic_forward"
         case replyToMessage = "reply_to_message"
         case viaBot = "via_bot"
@@ -63,6 +65,9 @@ public final class TGMessage: Codable {
         case connectedWebsite = "connected_website"
         case passportData = "passport_data"
         case proximityAlertTriggered = "proximity_alert_triggered"
+        case forumTopicCreated = "forum_topic_created"
+        case forumTopicClosed = "forum_topic_closed"
+        case forumTopicReopened = "forum_topic_reopened"
         case videoChatScheduled = "video_chat_scheduled"
         case videoChatStarted = "video_chat_started"
         case videoChatEnded = "video_chat_ended"
@@ -73,6 +78,9 @@ public final class TGMessage: Codable {
 
     /// Unique message identifier inside this chat
     public var messageId: Int
+
+    /// Optional. Unique identifier of a message thread to which the message belongs; for supergroups only
+    public var messageThreadId: Int?
 
     /// Optional. Sender of the message; empty for messages sent to channels. For backward compatibility, the field contains a fake sender user in non-channel chats, if the message was sent on behalf of a chat.
     public var from: TGUser?
@@ -103,6 +111,9 @@ public final class TGMessage: Codable {
 
     /// Optional. For forwarded messages, date the original message was sent in Unix time
     public var forwardDate: Int?
+
+    /// Optional. True, if the message is sent to a forum topic
+    public var isTopicMessage: Bool?
 
     /// Optional. True, if the message is a channel post that was automatically forwarded to the connected discussion group
     public var isAutomaticForward: Bool?
@@ -230,6 +241,15 @@ public final class TGMessage: Codable {
     /// Optional. Service message. A user in the chat triggered another user's proximity alert while sharing Live Location.
     public var proximityAlertTriggered: TGProximityAlertTriggered?
 
+    /// Optional. Service message: forum topic created
+    public var forumTopicCreated: TGForumTopicCreated?
+
+    /// Optional. Service message: forum topic closed
+    public var forumTopicClosed: TGForumTopicClosed?
+
+    /// Optional. Service message: forum topic reopened
+    public var forumTopicReopened: TGForumTopicReopened?
+
     /// Optional. Service message: video chat scheduled
     public var videoChatScheduled: TGVideoChatScheduled?
 
@@ -248,8 +268,9 @@ public final class TGMessage: Codable {
     /// Optional. Inline keyboard attached to the message. login_url buttons are represented as ordinary url buttons.
     public var replyMarkup: TGInlineKeyboardMarkup?
 
-    public init (messageId: Int, from: TGUser? = nil, senderChat: TGChat? = nil, date: Int, chat: TGChat, forwardFrom: TGUser? = nil, forwardFromChat: TGChat? = nil, forwardFromMessageId: Int? = nil, forwardSignature: String? = nil, forwardSenderName: String? = nil, forwardDate: Int? = nil, isAutomaticForward: Bool? = nil, replyToMessage: TGMessage? = nil, viaBot: TGUser? = nil, editDate: Int? = nil, hasProtectedContent: Bool? = nil, mediaGroupId: String? = nil, authorSignature: String? = nil, text: String? = nil, entities: [TGMessageEntity]? = nil, animation: TGAnimation? = nil, audio: TGAudio? = nil, document: TGDocument? = nil, photo: [TGPhotoSize]? = nil, sticker: TGSticker? = nil, video: TGVideo? = nil, videoNote: TGVideoNote? = nil, voice: TGVoice? = nil, caption: String? = nil, captionEntities: [TGMessageEntity]? = nil, contact: TGContact? = nil, dice: TGDice? = nil, game: TGGame? = nil, poll: TGPoll? = nil, venue: TGVenue? = nil, location: TGLocation? = nil, newChatMembers: [TGUser]? = nil, leftChatMember: TGUser? = nil, newChatTitle: String? = nil, newChatPhoto: [TGPhotoSize]? = nil, deleteChatPhoto: Bool? = nil, groupChatCreated: Bool? = nil, supergroupChatCreated: Bool? = nil, channelChatCreated: Bool? = nil, messageAutoDeleteTimerChanged: TGMessageAutoDeleteTimerChanged? = nil, migrateToChatId: Int64? = nil, migrateFromChatId: Int64? = nil, pinnedMessage: TGMessage? = nil, invoice: TGInvoice? = nil, successfulPayment: TGSuccessfulPayment? = nil, connectedWebsite: String? = nil, passportData: TGPassportData? = nil, proximityAlertTriggered: TGProximityAlertTriggered? = nil, videoChatScheduled: TGVideoChatScheduled? = nil, videoChatStarted: TGVideoChatStarted? = nil, videoChatEnded: TGVideoChatEnded? = nil, videoChatParticipantsInvited: TGVideoChatParticipantsInvited? = nil, webAppData: TGWebAppData? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil) {
+    public init (messageId: Int, messageThreadId: Int? = nil, from: TGUser? = nil, senderChat: TGChat? = nil, date: Int, chat: TGChat, forwardFrom: TGUser? = nil, forwardFromChat: TGChat? = nil, forwardFromMessageId: Int? = nil, forwardSignature: String? = nil, forwardSenderName: String? = nil, forwardDate: Int? = nil, isTopicMessage: Bool? = nil, isAutomaticForward: Bool? = nil, replyToMessage: TGMessage? = nil, viaBot: TGUser? = nil, editDate: Int? = nil, hasProtectedContent: Bool? = nil, mediaGroupId: String? = nil, authorSignature: String? = nil, text: String? = nil, entities: [TGMessageEntity]? = nil, animation: TGAnimation? = nil, audio: TGAudio? = nil, document: TGDocument? = nil, photo: [TGPhotoSize]? = nil, sticker: TGSticker? = nil, video: TGVideo? = nil, videoNote: TGVideoNote? = nil, voice: TGVoice? = nil, caption: String? = nil, captionEntities: [TGMessageEntity]? = nil, contact: TGContact? = nil, dice: TGDice? = nil, game: TGGame? = nil, poll: TGPoll? = nil, venue: TGVenue? = nil, location: TGLocation? = nil, newChatMembers: [TGUser]? = nil, leftChatMember: TGUser? = nil, newChatTitle: String? = nil, newChatPhoto: [TGPhotoSize]? = nil, deleteChatPhoto: Bool? = nil, groupChatCreated: Bool? = nil, supergroupChatCreated: Bool? = nil, channelChatCreated: Bool? = nil, messageAutoDeleteTimerChanged: TGMessageAutoDeleteTimerChanged? = nil, migrateToChatId: Int64? = nil, migrateFromChatId: Int64? = nil, pinnedMessage: TGMessage? = nil, invoice: TGInvoice? = nil, successfulPayment: TGSuccessfulPayment? = nil, connectedWebsite: String? = nil, passportData: TGPassportData? = nil, proximityAlertTriggered: TGProximityAlertTriggered? = nil, forumTopicCreated: TGForumTopicCreated? = nil, forumTopicClosed: TGForumTopicClosed? = nil, forumTopicReopened: TGForumTopicReopened? = nil, videoChatScheduled: TGVideoChatScheduled? = nil, videoChatStarted: TGVideoChatStarted? = nil, videoChatEnded: TGVideoChatEnded? = nil, videoChatParticipantsInvited: TGVideoChatParticipantsInvited? = nil, webAppData: TGWebAppData? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil) {
         self.messageId = messageId
+        self.messageThreadId = messageThreadId
         self.from = from
         self.senderChat = senderChat
         self.date = date
@@ -260,6 +281,7 @@ public final class TGMessage: Codable {
         self.forwardSignature = forwardSignature
         self.forwardSenderName = forwardSenderName
         self.forwardDate = forwardDate
+        self.isTopicMessage = isTopicMessage
         self.isAutomaticForward = isAutomaticForward
         self.replyToMessage = replyToMessage
         self.viaBot = viaBot
@@ -302,6 +324,9 @@ public final class TGMessage: Codable {
         self.connectedWebsite = connectedWebsite
         self.passportData = passportData
         self.proximityAlertTriggered = proximityAlertTriggered
+        self.forumTopicCreated = forumTopicCreated
+        self.forumTopicClosed = forumTopicClosed
+        self.forumTopicReopened = forumTopicReopened
         self.videoChatScheduled = videoChatScheduled
         self.videoChatStarted = videoChatStarted
         self.videoChatEnded = videoChatEnded

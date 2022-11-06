@@ -12,6 +12,9 @@ public struct TGSendVideoNoteParams: Encodable {
     /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     public var chatId: TGChatId
 
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    public var messageThreadId: Int?
+
     /// Video note to send. Pass a file_id as String to send a video note that exists on the Telegram servers (recommended) or upload a new video using multipart/form-data. More information on Sending Files ». Sending video notes by a URL is currently unsupported
     public var videoNote: TGFileInfo
 
@@ -42,6 +45,7 @@ public struct TGSendVideoNoteParams: Encodable {
     /// Custom keys for coding/decoding `SendVideoNoteParams` struct
     public enum CodingKeys: String, CodingKey {
             case chatId = "chat_id"
+            case messageThreadId = "message_thread_id"
             case videoNote = "video_note"
             case duration = "duration"
             case length = "length"
@@ -53,8 +57,9 @@ public struct TGSendVideoNoteParams: Encodable {
             case replyMarkup = "reply_markup"
     }
 
-    public init(chatId: TGChatId, videoNote: TGFileInfo, duration: Int? = nil, length: Int? = nil, thumb: TGFileInfo? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyToMessageId: Int? = nil, allowSendingWithoutReply: Bool? = nil, replyMarkup: TGReplyMarkup? = nil) {
+    public init(chatId: TGChatId, messageThreadId: Int? = nil, videoNote: TGFileInfo, duration: Int? = nil, length: Int? = nil, thumb: TGFileInfo? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyToMessageId: Int? = nil, allowSendingWithoutReply: Bool? = nil, replyMarkup: TGReplyMarkup? = nil) {
             self.chatId = chatId
+            self.messageThreadId = messageThreadId
             self.videoNote = videoNote
             self.duration = duration
             self.length = length

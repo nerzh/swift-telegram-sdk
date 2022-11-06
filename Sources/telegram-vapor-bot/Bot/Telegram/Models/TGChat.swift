@@ -16,7 +16,10 @@ public final class TGChat: Codable {
         case username = "username"
         case firstName = "first_name"
         case lastName = "last_name"
+        case isForum = "is_forum"
         case photo = "photo"
+        case activeUsernames = "active_usernames"
+        case emojiStatusCustomEmojiId = "emoji_status_custom_emoji_id"
         case bio = "bio"
         case hasPrivateForwards = "has_private_forwards"
         case hasRestrictedVoiceAndVideoMessages = "has_restricted_voice_and_video_messages"
@@ -53,8 +56,17 @@ public final class TGChat: Codable {
     /// Optional. Last name of the other party in a private chat
     public var lastName: String?
 
+    /// Optional. True, if the supergroup chat is a forum (has topics enabled)
+    public var isForum: Bool?
+
     /// Optional. Chat photo. Returned only in getChat.
     public var photo: TGChatPhoto?
+
+    /// Optional. If non-empty, the list of all active chat usernames; for private chats, supergroups and channels. Returned only in getChat.
+    public var activeUsernames: [String]?
+
+    /// Optional. Custom emoji identifier of emoji status of the other party in a private chat. Returned only in getChat.
+    public var emojiStatusCustomEmojiId: String?
 
     /// Optional. Bio of the other party in a private chat. Returned only in getChat.
     public var bio: String?
@@ -104,14 +116,17 @@ public final class TGChat: Codable {
     /// Optional. For supergroups, the location to which the supergroup is connected. Returned only in getChat.
     public var location: TGChatLocation?
 
-    public init (id: Int64, type: TGChatType, title: String? = nil, username: String? = nil, firstName: String? = nil, lastName: String? = nil, photo: TGChatPhoto? = nil, bio: String? = nil, hasPrivateForwards: Bool? = nil, hasRestrictedVoiceAndVideoMessages: Bool? = nil, joinToSendMessages: Bool? = nil, joinByRequest: Bool? = nil, description: String? = nil, inviteLink: String? = nil, pinnedMessage: TGMessage? = nil, permissions: TGChatPermissions? = nil, slowModeDelay: Int? = nil, messageAutoDeleteTime: Int? = nil, hasProtectedContent: Bool? = nil, stickerSetName: String? = nil, canSetStickerSet: Bool? = nil, linkedChatId: Int64? = nil, location: TGChatLocation? = nil) {
+    public init (id: Int64, type: TGChatType, title: String? = nil, username: String? = nil, firstName: String? = nil, lastName: String? = nil, isForum: Bool? = nil, photo: TGChatPhoto? = nil, activeUsernames: [String]? = nil, emojiStatusCustomEmojiId: String? = nil, bio: String? = nil, hasPrivateForwards: Bool? = nil, hasRestrictedVoiceAndVideoMessages: Bool? = nil, joinToSendMessages: Bool? = nil, joinByRequest: Bool? = nil, description: String? = nil, inviteLink: String? = nil, pinnedMessage: TGMessage? = nil, permissions: TGChatPermissions? = nil, slowModeDelay: Int? = nil, messageAutoDeleteTime: Int? = nil, hasProtectedContent: Bool? = nil, stickerSetName: String? = nil, canSetStickerSet: Bool? = nil, linkedChatId: Int64? = nil, location: TGChatLocation? = nil) {
         self.id = id
         self.type = type
         self.title = title
         self.username = username
         self.firstName = firstName
         self.lastName = lastName
+        self.isForum = isForum
         self.photo = photo
+        self.activeUsernames = activeUsernames
+        self.emojiStatusCustomEmojiId = emojiStatusCustomEmojiId
         self.bio = bio
         self.hasPrivateForwards = hasPrivateForwards
         self.hasRestrictedVoiceAndVideoMessages = hasRestrictedVoiceAndVideoMessages

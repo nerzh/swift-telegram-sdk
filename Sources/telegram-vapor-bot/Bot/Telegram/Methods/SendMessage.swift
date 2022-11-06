@@ -12,6 +12,9 @@ public struct TGSendMessageParams: Encodable {
     /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     public var chatId: TGChatId
 
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    public var messageThreadId: Int?
+
     /// Text of the message to be sent, 1-4096 characters after entities parsing
     public var text: String
 
@@ -42,6 +45,7 @@ public struct TGSendMessageParams: Encodable {
     /// Custom keys for coding/decoding `SendMessageParams` struct
     public enum CodingKeys: String, CodingKey {
             case chatId = "chat_id"
+            case messageThreadId = "message_thread_id"
             case text = "text"
             case parseMode = "parse_mode"
             case entities = "entities"
@@ -53,8 +57,9 @@ public struct TGSendMessageParams: Encodable {
             case replyMarkup = "reply_markup"
     }
 
-    public init(chatId: TGChatId, text: String, parseMode: TGParseMode? = nil, entities: [TGMessageEntity]? = nil, disableWebPagePreview: Bool? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyToMessageId: Int? = nil, allowSendingWithoutReply: Bool? = nil, replyMarkup: TGReplyMarkup? = nil) {
+    public init(chatId: TGChatId, messageThreadId: Int? = nil, text: String, parseMode: TGParseMode? = nil, entities: [TGMessageEntity]? = nil, disableWebPagePreview: Bool? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyToMessageId: Int? = nil, allowSendingWithoutReply: Bool? = nil, replyMarkup: TGReplyMarkup? = nil) {
             self.chatId = chatId
+            self.messageThreadId = messageThreadId
             self.text = text
             self.parseMode = parseMode
             self.entities = entities
