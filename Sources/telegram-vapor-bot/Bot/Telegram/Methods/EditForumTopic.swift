@@ -18,7 +18,7 @@ public struct TGEditForumTopicParams: Encodable {
     /// New topic name, 1-128 characters
     public var name: String
 
-    /// New unique identifier of the custom emoji shown as the topic icon. Use getForumTopicIconStickers to get all allowed custom emoji identifiers
+    /// New unique identifier of the custom emoji shown as the topic icon. Use getForumTopicIconStickers to get all allowed custom emoji identifiers.
     public var iconCustomEmojiId: String
 
     /// Custom keys for coding/decoding `EditForumTopicParams` struct
