@@ -442,7 +442,7 @@ class Api
       out.write "\n"
       out.write "#{ONE}public init(from decoder: Decoder) throws {\n"
       out.write "#{TWO}let value = try decoder.singleValueContainer().decode(String.self)\n"
-      out.write "#{TWO}guard let type = TGMessageEntityType(rawValue: value) else {\n"
+      out.write "#{TWO}guard let type = #{custom_type_name}(rawValue: value) else {\n"
       out.write "#{THREE}self = .undefined\n"
       out.write "#{THREE}return\n"
       out.write "#{TWO}}\n"
