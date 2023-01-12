@@ -12,10 +12,10 @@ final public class Telegram: LifecycleHandler {
     public struct Configuration {
         public var connection: TGConnectionPrtcl
         public var botId: String
-        public var tgURI: URI = TGBot.standardTGURL
+        public var tgURI: URI
         public var tgClient: TGClientPrtcl?
         
-        public init(connection: TGConnectionPrtcl, botId: String, tgURI: URI, tgClient: TGClientPrtcl? = nil) {
+        public init(connection: TGConnectionPrtcl, botId: String, tgURI: URI = TGBot.standardTGURL, tgClient: TGClientPrtcl? = nil) {
             self.connection = connection
             self.botId = botId
             self.tgURI = tgURI
