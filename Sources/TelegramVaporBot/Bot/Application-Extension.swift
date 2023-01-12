@@ -9,11 +9,11 @@ import Vapor
 
 extension Application {
     
-    struct TelegramStorage: StorageKey {
+    private struct TelegramStorage: StorageKey {
         typealias Value = Telegram
     }
     
-    var telegram: Telegram {
+    public var telegram: Telegram {
         if let telegram = self.storage.get(TelegramStorage.self) {
             return telegram
         } else {
