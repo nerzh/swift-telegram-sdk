@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension TGBot {
+extension TGBotPrtcl {
     
     public func onCallback(pattern: String, callback: @escaping (_ update: TGUpdate, _ bot: TGBotPrtcl) async throws -> TGAnswerCallbackQueryParams) {
         let handler = TGCallbackQueryHandler(pattern: pattern) { update, bot in
