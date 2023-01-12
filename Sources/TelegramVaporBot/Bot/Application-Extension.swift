@@ -18,6 +18,7 @@ extension Application {
             return telegram
         } else {
             let telegram = Telegram(app: self)
+            self.lifecycle.use(telegram)
             self.storage.set(TelegramStorage.self, to: telegram)
             return telegram
         }
