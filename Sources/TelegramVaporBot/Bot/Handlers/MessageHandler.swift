@@ -66,9 +66,9 @@ public class TGMessageHandler: TGHandlerPrtcl {
         return false
     }
     
-    public func handle(update: TGUpdate, bot: TGBotPrtcl) {
+    public func handle(update: TGUpdate, bot: TGBotPrtcl) async {
         do {
-            try callback(update, bot)
+            try await callback(update, bot)
         } catch {
             TGBot.log.error(error.logMessage)
         }

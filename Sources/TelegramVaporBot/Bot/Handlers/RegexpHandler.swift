@@ -50,9 +50,9 @@ public class TGRegexpHandler: TGHandlerPrtcl {
         return text.regexp(regexp.pattern, regexp.options).keys.count > 0
     }
     
-    public func handle(update: TGUpdate, bot: TGBotPrtcl) {
+    public func handle(update: TGUpdate, bot: TGBotPrtcl) async {
         do {
-            try callback(update, bot)
+            try await callback(update, bot)
         } catch {
             TGBot.log.error(error.logMessage)
         }
