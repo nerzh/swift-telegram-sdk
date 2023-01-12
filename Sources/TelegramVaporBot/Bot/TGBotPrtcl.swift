@@ -9,8 +9,6 @@ public protocol TGBotPrtcl {
     var tgClient: TGClientPrtcl { get set }
     var connection: TGConnectionPrtcl  { get }
 
-    static var shared: Self { get }
-
     static var log: Logger { get }
 
     func start() throws

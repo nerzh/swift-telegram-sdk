@@ -44,8 +44,8 @@ public final class TGLongPollingConnection: TGConnectionPrtcl {
         self.allowedUpdates = allowedUpdates
     }
 
-    public init(limit: Int? = nil, timeout: Int? = nil, allowedUpdates: [TGUpdate.CodingKeys]? = nil) {
-        self.dispatcher = TGDefaultDispatcher()
+    public init(limit: Int? = nil, timeout: Int? = nil, allowedUpdates: [TGUpdate.CodingKeys]? = nil, app: Application) {
+        self.dispatcher = TGDefaultDispatcher(app: app)
         self.limit = limit
         self.timeout = timeout ?? self.timeout
         self.allowedUpdates = allowedUpdates
@@ -127,9 +127,9 @@ public final class TGWebHookConnection: TGConnectionPrtcl {
         self.dispatcher = dispatcher
     }
 
-    public init(webHookURL: URI) {
+    public init(webHookURL: URI, app: Application) {
         self.webHookURL = webHookURL
-        self.dispatcher = TGDefaultDispatcher()
+        self.dispatcher = TGDefaultDispatcher(app: app)
     }
 
     @discardableResult

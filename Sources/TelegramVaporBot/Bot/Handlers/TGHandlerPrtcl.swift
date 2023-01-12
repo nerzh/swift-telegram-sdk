@@ -7,7 +7,7 @@
 
 import Foundation
 
-public typealias TGHandlerCallback = (_ update: TGUpdate, _ bot: TGBotPrtcl) throws -> Void
+public typealias TGHandlerCallback = (_ update: TGUpdate, _ bot: TGBotPrtcl) async throws -> Void
 
 public protocol TGHandlerPrtcl {
 
@@ -15,7 +15,7 @@ public protocol TGHandlerPrtcl {
     var name: String { get }
 
     func check(update: TGUpdate) -> Bool
-    func handle(update: TGUpdate, bot: TGBotPrtcl)
+    func handle(update: TGUpdate, bot: TGBotPrtcl) async
 }
 
 extension TGHandlerPrtcl {
