@@ -93,6 +93,66 @@ final class DefaultBotHandlers {
 
 ```
 
+#### or, using another syntax, create folder with your handlers **TGHandlers/NewSyntaxBotHandlers.swift**
+```swift
+import Vapor
+import TelegramVaporBot
+
+final class NewSyntaxBotHandlers {
+
+    static func addHandlers(app: Vapor.Application) {
+        let bot = app.telegram.bot
+
+        // On message
+        bot.onMessage(filters: (.all && !.command.names(["/ping"]))) { update, bot in
+            let params: TGSendMessageParams = .init(chatId: .chat(update.message!.chat.id), text: "Success")
+            try bot.sendMessage(params: params)
+        }
+
+        // On command
+        bot.onCommand("/ping") { update, bot in
+            try update.message?.reply(text: "pong", bot: bot)
+        }
+
+        // On command
+        bot.onCommand("/show_buttons") { update, bot in
+            guard let userId = update.message?.from?.id else { fatalError("user id not found") }
+            let buttons: [[TGInlineKeyboardButton]] = [
+                [.init(text: "Button 1", callbackData: "press 1"), .init(text: "Button 2", callbackData: "press 2")]
+            ]
+            let keyboard: TGInlineKeyboardMarkup = .init(inlineKeyboard: buttons)
+            let params: TGSendMessageParams = .init(chatId: .chat(userId),
+                                                    text: "Keyboard activ",
+                                                    replyMarkup: .inlineKeyboardMarkup(keyboard))
+            try bot.sendMessage(params: params)
+        }
+
+        // On callback
+        bot.onCallback(pattern: "press 1") { update, bot in
+            let params: TGAnswerCallbackQueryParams = .init(callbackQueryId: update.callbackQuery?.id ?? "0",
+                                                            text: update.callbackQuery?.data  ?? "data not exist",
+                                                            showAlert: nil,
+                                                            url: nil,
+                                                            cacheTime: nil)
+            return params
+        }
+        
+        // On callback
+        bot.onCallback(pattern: "press 2") { update, bot in
+            let params: TGAnswerCallbackQueryParams = .init(callbackQueryId: update.callbackQuery?.id ?? "0",
+                                                            text: update.callbackQuery?.data  ?? "data not exist",
+                                                            showAlert: nil,
+                                                            url: nil,
+                                                            cacheTime: nil)
+            return params
+        }
+        
+    }
+
+}
+
+```
+
 ### Use with LongPolling
 
 #### for longpolling you should only configure vapor **configure.swift**
@@ -108,9 +168,9 @@ app.telegram.configuration = .init(connection: connection, botId: tgApi)
 TGBot.log.logLevel = .error
 
 DefaultBotHandlers.addHandlers(app: app)
+// or, if new syntax used:
+// NewSyntaxBotHandlers.addHandlers(app: app)
 ```
-
-
 
 ### Use with Webhooks
 
@@ -128,6 +188,8 @@ app.telegram.configuration = .init(connection: connection, botId: tgApi)
 TGBot.log.logLevel = .error
 
 DefaultBotHandlers.addHandlers(app: app)
+// or, if new syntax used:
+// NewSyntaxBotHandlers.addHandlers(app: app)
 ```
 
 #### vapor **routes.swift**
