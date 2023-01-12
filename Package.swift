@@ -3,7 +3,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "TelegramVaporBot",
+    name: "telegram-vapor-bot",
     platforms: [
         .macOS(.v10_15)
     ],
