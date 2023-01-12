@@ -27,6 +27,8 @@ public final class TGBot: TGBotPrtcl {
         self.botId = botId
         self.tgURI = tgURI
         self.tgClient = tgClient
+        
+        self.connection.bot = self
     }
     
     public func start() throws {
