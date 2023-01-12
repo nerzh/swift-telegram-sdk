@@ -20,11 +20,13 @@
 #### create folder with your handlers **TGHandlers/DefaultBotHandlers.swift**
 ```swift
 import Vapor
-import telegram_vapor_bot
+import TelegramVaporBot
 
 final class DefaultBotHandlers {
 
-    static func addHandlers(app: Vapor.Application, bot: TGBotPrtcl) {
+    static func addHandlers(app: Vapor.Application) {
+        let bot = app.telegram.bot
+
         defaultHandler(app: app, bot: bot)
         commandPingHandler(app: app, bot: bot)
         commandShowButtonsHandler(app: app, bot: bot)
@@ -96,17 +98,16 @@ final class DefaultBotHandlers {
 #### for longpolling you should only configure vapor **configure.swift**
 
 ```swift
-import telegram_vapor_bot
+import TelegramVaporBot
 
 let tgApi: String = "XXXXXXXXXX:YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
-let connection: TGConnectionPrtcl = TGLongPollingConnection()
-TGBot.configure(connection: connection, botId: tgApi, vaporClient: app.client)
-try TGBot.shared.start()
+let connection = TGLongPollingConnection(app: app)
+app.telegram.configuration = .init(connection: connection, botId: tgApi)
 
 /// set level of debug if you needed 
 TGBot.log.logLevel = .error
 
-DefaultBotHandlers.addHandlers(app: app, bot: TGBot.shared)
+DefaultBotHandlers.addHandlers(app: app)
 ```
 
 
@@ -116,38 +117,30 @@ DefaultBotHandlers.addHandlers(app: app, bot: TGBot.shared)
 #### vapor **configure.swift**
 
 ```swift
-import telegram_vapor_bot
+import TelegramVaporBot
 
 let tgApi: String = "XXXXXXXXXX:YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
-let connection: TGConnectionPrtcl = TGWebHookConnection(webHookURL: "https://your_domain/some_webhook_route")
-TGBot.configure(connection: connection, botId: tgApi, vaporClient: app.client)
-try TGBot.shared.start()
+let connection: TGConnectionPrtcl = TGWebHookConnection(webHookURL: "https://your_domain/some_webhook_route", app: app)
+app.telegram.configuration = .init(connection: connection, botId: tgApi)
+
 
 /// set level of debug if you needed 
 TGBot.log.logLevel = .error
 
-DefaultBotHandlers.addHandlers(app: app, bot: TGBot.shared)
+DefaultBotHandlers.addHandlers(app: app)
 ```
 
 #### vapor **routes.swift**
 
 ```swift
 import Vapor
-import telegram_vapor_bot
+import TelegramVaporBot
 
 
 func routes(_ app: Application) throws {
 
-    app.post("some_webhook_route") { (request) -> String in
-        do {
-            let update: TGUpdate = try request.content.decode(TGUpdate.self)
-            try TGBot.shared.connection.dispatcher.process([update])
-        } catch {
-            log.error(error.logMessage)
-        }
-
-        return "ok"
-    }
+    app.telegramWebhook("some_webhook_route")
+    
 }
 ```
 
@@ -175,7 +168,7 @@ let package = Package(
             name: "Telegram-bot-example",
             dependencies: [
                 .product(name: "Vapor", package: "vapor"),
-                .product(name: "telegram-vapor-bot", package: "telegram-vapor-bot"),
+                .product(name: "TelegramVaporBot", package: "telegram-vapor-bot"),
             ]
         )
     ]
