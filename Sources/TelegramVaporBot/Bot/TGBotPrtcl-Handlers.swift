@@ -22,6 +22,11 @@ extension TGBotPrtcl {
         connection.dispatcher.add(handler)
     }
     
+    public func onCommand(pattern: String, filters: TGFilter = .all, options: TGCommandHandler.Options = [], botUsername: String? = nil, callback: @escaping TGHandlerCallback) {
+        let handler = TGPatternCommandHandler(pattern: pattern, filters: filters, options: options, botUsername: botUsername, callback)
+        connection.dispatcher.add(handler)
+    }
+    
     public func onMessage(filters: TGFilter = .all, options: TGMessageHandler.Options = [.messageUpdates, .channelPostUpdates], callback: @escaping TGHandlerCallback) {
         let handler = TGMessageHandler(filters: filters, options: options, callback)
         connection.dispatcher.add(handler)
