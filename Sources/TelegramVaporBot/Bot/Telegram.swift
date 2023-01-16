@@ -9,20 +9,6 @@ import Vapor
 
 final public class Telegram: LifecycleHandler {
     
-    public struct Configuration {
-        public var connection: TGConnectionPrtcl
-        public var botId: String
-        public var tgURI: URI
-        public var tgClient: TGClientPrtcl?
-        
-        public init(connection: TGConnectionPrtcl, botId: String, tgURI: URI = TGBot.standardTGURL, tgClient: TGClientPrtcl? = nil) {
-            self.connection = connection
-            self.botId = botId
-            self.tgURI = tgURI
-            self.tgClient = tgClient
-        }
-    }
-    
     private let app: Application
     public var configuration: Configuration?
     
@@ -35,7 +21,17 @@ final public class Telegram: LifecycleHandler {
             fatalError("Telegram is not configured ! Please setup app.telegram.configuration before")
         }
         let tgClient = config.tgClient ?? DefaultTGClient(client: app.client)
-        let bot = TGBot(connection: config.connection, tgClient: tgClient, tgURI: config.tgURI, botId: config.botId)
+        let connection: TGConnectionPrtcl
+        switch config.connection {
+        case let .longPool(limit: limit, timeout: timeout, allowedUpdates: allowedUpdates):
+            connection = TGLongPollingConnection(limit: limit, timeout: timeout, allowedUpdates: allowedUpdates, app: app)
+        case .webhook(let uri):
+            connection = TGWebHookConnection(webHookURL: uri, app: app)
+        case .custom(let conn):
+            connection = conn
+        }
+    
+        let bot = TGBot(connection: connection, tgClient: tgClient, tgURI: config.tgURI, botId: config.botId)
         self._bot = bot
         return bot
     }
@@ -44,7 +40,7 @@ final public class Telegram: LifecycleHandler {
         self.app = app
     }
     
-    public func didBoot(_ application: Application) throws {
+    public func willBoot(_ application: Application) throws {
         try bot.start()
     }
     
