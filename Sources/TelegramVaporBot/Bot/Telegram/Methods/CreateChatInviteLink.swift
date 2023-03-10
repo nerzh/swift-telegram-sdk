@@ -56,12 +56,6 @@ public extension TGBot {
  - Throws: Throws on errors
  - Returns: EventLoopFuture of `Bool` type
  */
-    @discardableResult
-    func createChatInviteLink(params: TGCreateChatInviteLinkParams) throws -> EventLoopFuture<Bool> {
-        let methodURL: URI = .init(string: getMethodURL("createChatInviteLink"))
-        let future: EventLoopFuture<Bool> = tgClient.post(methodURL, params: params, as: nil)
-        return future
-    }
 
     @discardableResult
     func createChatInviteLink(params: TGCreateChatInviteLinkParams) async throws -> Bool {

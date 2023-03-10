@@ -43,12 +43,6 @@ public extension TGBot {
  - Throws: Throws on errors
  - Returns: EventLoopFuture of `Bool` type
  */
-    @discardableResult
-    func setPassportDataErrors(params: TGSetPassportDataErrorsParams) throws -> EventLoopFuture<Bool> {
-        let methodURL: URI = .init(string: getMethodURL("setPassportDataErrors"))
-        let future: EventLoopFuture<Bool> = tgClient.post(methodURL, params: params, as: nil)
-        return future
-    }
 
     @discardableResult
     func setPassportDataErrors(params: TGSetPassportDataErrorsParams) async throws -> Bool {

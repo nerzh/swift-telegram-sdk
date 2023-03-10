@@ -36,12 +36,6 @@ public extension TGBot {
  - Throws: Throws on errors
  - Returns: EventLoopFuture of `Bool` type
  */
-    @discardableResult
-    func unpinAllChatMessages(params: TGUnpinAllChatMessagesParams) throws -> EventLoopFuture<Bool> {
-        let methodURL: URI = .init(string: getMethodURL("unpinAllChatMessages"))
-        let future: EventLoopFuture<Bool> = tgClient.post(methodURL, params: params, as: nil)
-        return future
-    }
 
     @discardableResult
     func unpinAllChatMessages(params: TGUnpinAllChatMessagesParams) async throws -> Bool {

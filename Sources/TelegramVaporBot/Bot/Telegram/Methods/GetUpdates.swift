@@ -53,12 +53,6 @@ public extension TGBot {
  - Throws: Throws on errors
  - Returns: EventLoopFuture of `[TGUpdate]` type
  */
-    @discardableResult
-    func getUpdates(params: TGGetUpdatesParams? = nil) throws -> EventLoopFuture<[TGUpdate]> {
-        let methodURL: URI = .init(string: getMethodURL("getUpdates"))
-        let future: EventLoopFuture<[TGUpdate]> = tgClient.post(methodURL, params: params, as: nil)
-        return future
-    }
 
     @discardableResult
     func getUpdates(params: TGGetUpdatesParams? = nil) async throws -> [TGUpdate] {

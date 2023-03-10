@@ -36,12 +36,6 @@ public extension TGBot {
  - Throws: Throws on errors
  - Returns: EventLoopFuture of `Bool` type
  */
-    @discardableResult
-    func unhideGeneralForumTopic(params: TGUnhideGeneralForumTopicParams) throws -> EventLoopFuture<Bool> {
-        let methodURL: URI = .init(string: getMethodURL("unhideGeneralForumTopic"))
-        let future: EventLoopFuture<Bool> = tgClient.post(methodURL, params: params, as: nil)
-        return future
-    }
 
     @discardableResult
     func unhideGeneralForumTopic(params: TGUnhideGeneralForumTopicParams) async throws -> Bool {

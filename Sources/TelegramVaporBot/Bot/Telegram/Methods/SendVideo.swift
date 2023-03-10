@@ -116,12 +116,6 @@ public extension TGBot {
  - Throws: Throws on errors
  - Returns: EventLoopFuture of `TGMessage` type
  */
-    @discardableResult
-    func sendVideo(params: TGSendVideoParams) throws -> EventLoopFuture<TGMessage> {
-        let methodURL: URI = .init(string: getMethodURL("sendVideo"))
-        let future: EventLoopFuture<TGMessage> = tgClient.post(methodURL, params: params, as: nil)
-        return future
-    }
 
     @discardableResult
     func sendVideo(params: TGSendVideoParams) async throws -> TGMessage {

@@ -19,12 +19,6 @@ public extension TGBot {
  - Throws: Throws on errors
  - Returns: EventLoopFuture of `[TGSticker]` type
  */
-    @discardableResult
-    func getForumTopicIconStickers() throws -> EventLoopFuture<[TGSticker]> {
-        let methodURL: URI = .init(string: getMethodURL("getForumTopicIconStickers"))
-        let future: EventLoopFuture<[TGSticker]> = tgClient.post(methodURL)
-        return future
-    }
 
     @discardableResult
     func getForumTopicIconStickers() async throws -> [TGSticker] {

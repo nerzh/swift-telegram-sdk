@@ -30,21 +30,8 @@ public class TGMessageHandler: TGHandlerPrtcl {
     }
     
     let filters: TGFilter
-    var callback: TGHandlerCallback? = nil
-    var callbackAsync: TGHandlerCallbackAsync? = nil
+    var callbackAsync: TGHandlerCallbackAsync
     let options: Options
-    
-    public init(
-        name: String = String(describing: TGMessageHandler.self),
-        filters: TGFilter = .all,
-        options: Options = [.messageUpdates, .channelPostUpdates],
-        _ callback: @escaping TGHandlerCallback
-    ) {
-        self.filters = filters
-        self.callback = callback
-        self.options = options
-        self.name = name
-    }
     
     public init(
         name: String = String(describing: TGMessageHandler.self),
@@ -79,15 +66,7 @@ public class TGMessageHandler: TGHandlerPrtcl {
         return false
     }
     
-    public func handle(update: TGUpdate, bot: TGBotPrtcl) {
-        do {
-            try callback?(update, bot)
-        } catch {
-            TGBot.log.error(error.logMessage)
-        }
-    }
-    
-    public func handle(update: TGUpdate, bot: TGBotPrtcl) async throws {
-        try await callbackAsync?(update, bot)
+    public func handle(update: TGUpdate, bot: TGBot) async throws {
+        try await callbackAsync(update, bot)
     }
 }

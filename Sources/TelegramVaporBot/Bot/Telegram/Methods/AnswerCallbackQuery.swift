@@ -60,12 +60,6 @@ public extension TGBot {
  - Throws: Throws on errors
  - Returns: EventLoopFuture of `Bool` type
  */
-    @discardableResult
-    func answerCallbackQuery(params: TGAnswerCallbackQueryParams) throws -> EventLoopFuture<Bool> {
-        let methodURL: URI = .init(string: getMethodURL("answerCallbackQuery"))
-        let future: EventLoopFuture<Bool> = tgClient.post(methodURL, params: params, as: nil)
-        return future
-    }
 
     @discardableResult
     func answerCallbackQuery(params: TGAnswerCallbackQueryParams) async throws -> Bool {

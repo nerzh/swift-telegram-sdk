@@ -17,14 +17,14 @@ public extension TGMessage {
 
      - Throws: Throws on errors
      */
-    func reply(text: String, bot: TGBotPrtcl, parseMode: TGParseMode? = nil, replyMarkup: TGReplyMarkup? = nil) throws {
+    func reply(text: String, bot: TGBot, parseMode: TGParseMode? = nil, replyMarkup: TGReplyMarkup? = nil) async throws {
         let params = TGSendMessageParams(
             chatId: .chat(chat.id),
             text: text,
             parseMode: parseMode,
             replyMarkup: replyMarkup
         )
-        try bot.sendMessage(params: params)
+        try await bot.sendMessage(params: params)
     }
 
     /**
@@ -40,10 +40,10 @@ public extension TGMessage {
      */
     func edit(
         text: String,
-        bot: TGBotPrtcl,
+        bot: TGBot,
         parseMode: TGParseMode? = nil,
         replyMarkup: TGInlineKeyboardMarkup? = nil
-    ) throws {
+    ) async throws {
         let params = TGEditMessageTextParams(
             chatId: .chat(chat.id),
             messageId: messageId,
@@ -51,7 +51,7 @@ public extension TGMessage {
             parseMode: parseMode,
             replyMarkup: replyMarkup
         )
-        try bot.editMessageText(params: params)
+        try await bot.editMessageText(params: params)
     }
 
     /**
@@ -62,12 +62,12 @@ public extension TGMessage {
 
      - Throws: Throws on errors
      */
-    func delete(bot: TGBotPrtcl) throws {
+    func delete(bot: TGBot) async throws {
         let params = TGDeleteMessageParams(
             chatId: .chat(chat.id),
             messageId: messageId
         )
-        try bot.deleteMessage(params: params)
+        try await bot.deleteMessage(params: params)
     }
 
     func contains(command: String) -> Bool {

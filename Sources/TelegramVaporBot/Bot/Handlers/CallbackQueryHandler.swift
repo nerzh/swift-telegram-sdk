@@ -14,18 +14,7 @@ public class TGCallbackQueryHandler: TGHandlerPrtcl {
     public var name: String
     
     let pattern: String
-    var callback: TGHandlerCallback? = nil
-    var callbackAsync: TGHandlerCallbackAsync? = nil
-
-    public init(
-        name: String = String(describing: TGCallbackQueryHandler.self),
-        pattern: String,
-        _ callback: @escaping TGHandlerCallback
-    ) {
-        self.pattern = pattern
-        self.callback = callback
-        self.name = name
-    }
+    var callbackAsync: TGHandlerCallbackAsync
     
     public init(
         name: String = String(describing: TGCallbackQueryHandler.self),
@@ -45,16 +34,8 @@ public class TGCallbackQueryHandler: TGHandlerPrtcl {
         }
         return true
     }
-
-    public func handle(update: TGUpdate, bot: TGBotPrtcl) {
-        do {
-            try callback?(update, bot)
-        } catch {
-            TGBot.log.error(error.logMessage)
-        }
-    }
     
-    public func handle(update: TGUpdate, bot: TGBotPrtcl) async throws {
-        try await callbackAsync?(update, bot)
+    public func handle(update: TGUpdate, bot: TGBot) async throws {
+        try await callbackAsync(update, bot)
     }
 }

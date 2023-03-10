@@ -19,12 +19,6 @@ public extension TGBot {
  - Throws: Throws on errors
  - Returns: EventLoopFuture of `TGWebhookInfo` type
  */
-    @discardableResult
-    func getWebhookInfo() throws -> EventLoopFuture<TGWebhookInfo> {
-        let methodURL: URI = .init(string: getMethodURL("getWebhookInfo"))
-        let future: EventLoopFuture<TGWebhookInfo> = tgClient.post(methodURL)
-        return future
-    }
 
     @discardableResult
     func getWebhookInfo() async throws -> TGWebhookInfo {

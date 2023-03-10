@@ -32,27 +32,10 @@ public class TGCommandHandler: TGHandlerPrtcl {
     }
     
     let commands: Set<String>
-    var callback: TGHandlerCallback? = nil
-    var callbackAsync: TGHandlerCallbackAsync? = nil
+    var callbackAsync: TGHandlerCallbackAsync
     let filters: TGFilter
     let options: Options
     let botUsername: String?
-    
-    public init(
-        name: String = String(describing: TGCommandHandler.self),
-        commands: [String],
-        filters: TGFilter = .all,
-        options: Options = [],
-        botUsername: String? = nil,
-        _ callback: @escaping TGHandlerCallback
-    ) {
-        self.name = name
-        self.commands = Set(commands)
-        self.filters = filters
-        self.options = options
-        self.botUsername = botUsername
-        self.callback = callback
-    }
     
     public init(
         name: String = String(describing: TGCommandHandler.self),
@@ -101,15 +84,7 @@ public class TGCommandHandler: TGHandlerPrtcl {
         return !commands.intersection(types).isEmpty
     }
     
-    public func handle(update: TGUpdate, bot: TGBotPrtcl) {
-        do {
-            try callback?(update, bot)
-        } catch {
-            TGBot.log.error(error.logMessage)
-        }
-    }
-    
-    public func handle(update: TGUpdate, bot: TGBotPrtcl) async throws {
-        try await callbackAsync?(update, bot)
+    public func handle(update: TGUpdate, bot: TGBot) async throws {
+        try await callbackAsync(update, bot)
     }
 }

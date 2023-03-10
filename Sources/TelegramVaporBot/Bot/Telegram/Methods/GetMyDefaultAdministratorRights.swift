@@ -36,12 +36,6 @@ public extension TGBot {
  - Throws: Throws on errors
  - Returns: EventLoopFuture of `TGChatAdministratorRights` type
  */
-    @discardableResult
-    func getMyDefaultAdministratorRights(params: TGGetMyDefaultAdministratorRightsParams? = nil) throws -> EventLoopFuture<TGChatAdministratorRights> {
-        let methodURL: URI = .init(string: getMethodURL("getMyDefaultAdministratorRights"))
-        let future: EventLoopFuture<TGChatAdministratorRights> = tgClient.post(methodURL, params: params, as: nil)
-        return future
-    }
 
     @discardableResult
     func getMyDefaultAdministratorRights(params: TGGetMyDefaultAdministratorRightsParams? = nil) async throws -> TGChatAdministratorRights {

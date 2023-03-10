@@ -19,12 +19,6 @@ public extension TGBot {
  - Throws: Throws on errors
  - Returns: EventLoopFuture of `TGUser` type
  */
-    @discardableResult
-    func getMe() throws -> EventLoopFuture<TGUser> {
-        let methodURL: URI = .init(string: getMethodURL("getMe"))
-        let future: EventLoopFuture<TGUser> = tgClient.post(methodURL)
-        return future
-    }
 
     @discardableResult
     func getMe() async throws -> TGUser {

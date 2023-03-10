@@ -36,12 +36,6 @@ public extension TGBot {
  - Throws: Throws on errors
  - Returns: EventLoopFuture of `TGBotShortDescription` type
  */
-    @discardableResult
-    func getMyShortDescription(params: TGGetMyShortDescriptionParams? = nil) throws -> EventLoopFuture<TGBotShortDescription> {
-        let methodURL: URI = .init(string: getMethodURL("getMyShortDescription"))
-        let future: EventLoopFuture<TGBotShortDescription> = tgClient.post(methodURL, params: params, as: nil)
-        return future
-    }
 
     @discardableResult
     func getMyShortDescription(params: TGGetMyShortDescriptionParams? = nil) async throws -> TGBotShortDescription {

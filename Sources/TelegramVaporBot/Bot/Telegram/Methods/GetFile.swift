@@ -36,12 +36,6 @@ public extension TGBot {
  - Throws: Throws on errors
  - Returns: EventLoopFuture of `TGFile` type
  */
-    @discardableResult
-    func getFile(params: TGGetFileParams) throws -> EventLoopFuture<TGFile> {
-        let methodURL: URI = .init(string: getMethodURL("getFile"))
-        let future: EventLoopFuture<TGFile> = tgClient.post(methodURL, params: params, as: nil)
-        return future
-    }
 
     @discardableResult
     func getFile(params: TGGetFileParams) async throws -> TGFile {

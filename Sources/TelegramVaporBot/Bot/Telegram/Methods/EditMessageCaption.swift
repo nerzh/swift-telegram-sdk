@@ -66,12 +66,6 @@ public extension TGBot {
  - Throws: Throws on errors
  - Returns: EventLoopFuture of `TGMessageOrBool` type
  */
-    @discardableResult
-    func editMessageCaption(params: TGEditMessageCaptionParams? = nil) throws -> EventLoopFuture<TGMessageOrBool> {
-        let methodURL: URI = .init(string: getMethodURL("editMessageCaption"))
-        let future: EventLoopFuture<TGMessageOrBool> = tgClient.post(methodURL, params: params, as: nil)
-        return future
-    }
 
     @discardableResult
     func editMessageCaption(params: TGEditMessageCaptionParams? = nil) async throws -> TGMessageOrBool {

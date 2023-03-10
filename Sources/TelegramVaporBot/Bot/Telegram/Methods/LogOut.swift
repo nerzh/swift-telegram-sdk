@@ -19,12 +19,6 @@ public extension TGBot {
  - Throws: Throws on errors
  - Returns: EventLoopFuture of `Bool` type
  */
-    @discardableResult
-    func logOut() throws -> EventLoopFuture<Bool> {
-        let methodURL: URI = .init(string: getMethodURL("logOut"))
-        let future: EventLoopFuture<Bool> = tgClient.post(methodURL)
-        return future
-    }
 
     @discardableResult
     func logOut() async throws -> Bool {

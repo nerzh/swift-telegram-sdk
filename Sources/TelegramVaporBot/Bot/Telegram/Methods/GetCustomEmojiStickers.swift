@@ -36,12 +36,6 @@ public extension TGBot {
  - Throws: Throws on errors
  - Returns: EventLoopFuture of `[TGSticker]` type
  */
-    @discardableResult
-    func getCustomEmojiStickers(params: TGGetCustomEmojiStickersParams) throws -> EventLoopFuture<[TGSticker]> {
-        let methodURL: URI = .init(string: getMethodURL("getCustomEmojiStickers"))
-        let future: EventLoopFuture<[TGSticker]> = tgClient.post(methodURL, params: params, as: nil)
-        return future
-    }
 
     @discardableResult
     func getCustomEmojiStickers(params: TGGetCustomEmojiStickersParams) async throws -> [TGSticker] {

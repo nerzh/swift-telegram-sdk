@@ -91,12 +91,6 @@ public extension TGBot {
  - Throws: Throws on errors
  - Returns: EventLoopFuture of `TGMessageId` type
  */
-    @discardableResult
-    func copyMessage(params: TGCopyMessageParams) throws -> EventLoopFuture<TGMessageId> {
-        let methodURL: URI = .init(string: getMethodURL("copyMessage"))
-        let future: EventLoopFuture<TGMessageId> = tgClient.post(methodURL, params: params, as: nil)
-        return future
-    }
 
     @discardableResult
     func copyMessage(params: TGCopyMessageParams) async throws -> TGMessageId {

@@ -41,12 +41,6 @@ public extension TGBot {
  - Throws: Throws on errors
  - Returns: EventLoopFuture of `TGSentWebAppMessage` type
  */
-    @discardableResult
-    func answerWebAppQuery(params: TGAnswerWebAppQueryParams) throws -> EventLoopFuture<TGSentWebAppMessage> {
-        let methodURL: URI = .init(string: getMethodURL("answerWebAppQuery"))
-        let future: EventLoopFuture<TGSentWebAppMessage> = tgClient.post(methodURL, params: params, as: nil)
-        return future
-    }
 
     @discardableResult
     func answerWebAppQuery(params: TGAnswerWebAppQueryParams) async throws -> TGSentWebAppMessage {

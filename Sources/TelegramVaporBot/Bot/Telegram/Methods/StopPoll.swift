@@ -46,12 +46,6 @@ public extension TGBot {
  - Throws: Throws on errors
  - Returns: EventLoopFuture of `TGPoll` type
  */
-    @discardableResult
-    func stopPoll(params: TGStopPollParams) throws -> EventLoopFuture<TGPoll> {
-        let methodURL: URI = .init(string: getMethodURL("stopPoll"))
-        let future: EventLoopFuture<TGPoll> = tgClient.post(methodURL, params: params, as: nil)
-        return future
-    }
 
     @discardableResult
     func stopPoll(params: TGStopPollParams) async throws -> TGPoll {

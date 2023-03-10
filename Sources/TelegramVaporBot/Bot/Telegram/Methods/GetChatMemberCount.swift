@@ -36,12 +36,6 @@ public extension TGBot {
  - Throws: Throws on errors
  - Returns: EventLoopFuture of `Int` type
  */
-    @discardableResult
-    func getChatMemberCount(params: TGGetChatMemberCountParams) throws -> EventLoopFuture<Int> {
-        let methodURL: URI = .init(string: getMethodURL("getChatMemberCount"))
-        let future: EventLoopFuture<Int> = tgClient.post(methodURL, params: params, as: nil)
-        return future
-    }
 
     @discardableResult
     func getChatMemberCount(params: TGGetChatMemberCountParams) async throws -> Int {

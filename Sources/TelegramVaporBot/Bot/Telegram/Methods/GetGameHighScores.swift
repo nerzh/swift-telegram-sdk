@@ -53,12 +53,6 @@ public extension TGBot {
  - Throws: Throws on errors
  - Returns: EventLoopFuture of `[TGGameHighScore]` type
  */
-    @discardableResult
-    func getGameHighScores(params: TGGetGameHighScoresParams) throws -> EventLoopFuture<[TGGameHighScore]> {
-        let methodURL: URI = .init(string: getMethodURL("getGameHighScores"))
-        let future: EventLoopFuture<[TGGameHighScore]> = tgClient.post(methodURL, params: params, as: nil)
-        return future
-    }
 
     @discardableResult
     func getGameHighScores(params: TGGetGameHighScoresParams) async throws -> [TGGameHighScore] {

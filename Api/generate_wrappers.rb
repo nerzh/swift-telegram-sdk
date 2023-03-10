@@ -8,8 +8,9 @@ Bundler.require(:default)
 require 'fileutils'
 
 HTML_FILE = 'tg-api.html'
-API_DIR = '../Sources/telegram-vapor-bot/Bot/Telegram'
-LIB_DIR = '../Sources/telegram-vapor-bot'
+LIB_FOLDER_NAME = 'TelegramVaporBot'
+API_DIR = "../Sources/#{LIB_FOLDER_NAME}/Bot/Telegram"
+LIB_DIR = "../Sources/#{LIB_FOLDER_NAME}"
 API_FILE = 'tg-api.txt'
 
 TYPE_HEADER = <<EOT
@@ -237,10 +238,6 @@ class Api
         out.write "\n"
         out.write "public extension #{PREFIX_LIB}Bot {\n"
         out.write method_description
-        method_signature = "#{ONE}@discardableResult\n"
-        method_signature << "#{ONE}func #{method_name}() throws -> EventLoopFuture<#{result_type}>"
-        out.write "#{method_signature} {\n"
-        methods_signature << method_signature
 
         # async method section
         async_method_content << "#{ONE}@discardableResult\n"
@@ -278,10 +275,6 @@ class Api
         out.write "public extension #{PREFIX_LIB}Bot {\n"
         out.write "\n"
         out.write method_description
-        method_signature = "#{ONE}@discardableResult\n"
-        method_signature << "#{ONE}func #{method_name}#{params_block} throws -> EventLoopFuture<#{result_type}>"
-        out.write "#{method_signature} {\n"
-        methods_signature << method_signature.gsub(/ = nil/, '')
 
         # async method section
         async_method_content << "#{ONE}@discardableResult\n"
@@ -291,18 +284,12 @@ class Api
         async_method_content << " {\n"
       end
 
-      out.write "#{TWO}let methodURL: URI = .init(string: getMethodURL(\"#{method_name}\"))\n"
       async_method_content << "#{TWO}let methodURL: URI = .init(string: getMethodURL(\"#{method_name}\"))\n"
       if all_params.empty?
-        out.write "#{TWO}let future: EventLoopFuture<#{result_type}> = tgClient.post(methodURL)\n"
         async_method_content << "#{TWO}let result: #{result_type} = try await tgClient.post(methodURL)\n"
       else
-        out.write "#{TWO}let future: EventLoopFuture<#{result_type}> = tgClient.post(methodURL, params: params, as: nil)\n"
         async_method_content << "#{TWO}let result: #{result_type} = try await tgClient.post(methodURL, params: params, as: nil)\n"
       end
-    
-      out.write "#{TWO}return future\n"\
-                "#{ONE}}\n"\
 
       async_method_content << "#{TWO}return result\n"
       async_method_content << "#{ONE}}\n"

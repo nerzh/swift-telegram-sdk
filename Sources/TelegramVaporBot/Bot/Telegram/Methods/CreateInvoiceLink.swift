@@ -131,12 +131,6 @@ public extension TGBot {
  - Throws: Throws on errors
  - Returns: EventLoopFuture of `String` type
  */
-    @discardableResult
-    func createInvoiceLink(params: TGCreateInvoiceLinkParams) throws -> EventLoopFuture<String> {
-        let methodURL: URI = .init(string: getMethodURL("createInvoiceLink"))
-        let future: EventLoopFuture<String> = tgClient.post(methodURL, params: params, as: nil)
-        return future
-    }
 
     @discardableResult
     func createInvoiceLink(params: TGCreateInvoiceLinkParams) async throws -> String {

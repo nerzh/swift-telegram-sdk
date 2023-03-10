@@ -36,12 +36,6 @@ public extension TGBot {
  - Throws: Throws on errors
  - Returns: EventLoopFuture of `TGStickerSet` type
  */
-    @discardableResult
-    func getStickerSet(params: TGGetStickerSetParams) throws -> EventLoopFuture<TGStickerSet> {
-        let methodURL: URI = .init(string: getMethodURL("getStickerSet"))
-        let future: EventLoopFuture<TGStickerSet> = tgClient.post(methodURL, params: params, as: nil)
-        return future
-    }
 
     @discardableResult
     func getStickerSet(params: TGGetStickerSetParams) async throws -> TGStickerSet {

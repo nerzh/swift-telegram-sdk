@@ -8,8 +8,11 @@
 import Foundation
 import Logging
 
-public class CoreError: Error {
-    public enum `Type` {
+public class CoreError: Error, ErrorCommon {
+    
+    public var title: String = ""
+    
+    public enum `Type`: String, Decodable {
         case `internal`
         case network
         case server
@@ -17,8 +20,32 @@ public class CoreError: Error {
 
     public let type: Type
     public let description: String
-    public let reason: String
-
+    public var reason: String
+    
+    public required init() {
+        self.type = .internal
+        self.description = "\(Self.self)"
+        self.reason = "\(Self.self)"
+    }
+    
+    public required init(reason: String) {
+        self.reason = reason
+        self.type = .internal
+        self.description = "\(Self.self)"
+    }
+    
+    public required init(_ reason: String) {
+        self.reason = reason
+        self.type = .internal
+        self.description = "\(Self.self)"
+    }
+    
+    public required init(_ error: Error) {
+        self.reason = error.localizedDescription
+        self.type = .internal
+        self.description = "\(Self.self)"
+    }
+    
     public init(type: Type, description: String = "", reason: String = "") {
         self.type = type
         self.description = description
@@ -35,28 +62,3 @@ public class CoreError: Error {
         """
     }
 }
-//exception telegram.error.BadRequest(message)
-//Bases: telegram.error.NetworkError
-//
-//exception telegram.error.ChatMigrated(new_chat_id)
-//Bases: telegram.error.TelegramError
-//
-//Parameters:    new_chat_id (int) –
-//exception telegram.error.InvalidToken
-//Bases: telegram.error.TelegramError
-//
-//exception telegram.error.NetworkError(message)
-//Bases: telegram.error.TelegramError
-//
-//exception telegram.error.RetryAfter(retry_after)
-//Bases: telegram.error.TelegramError
-//
-//Parameters:    retry_after (int) –
-//exception telegram.error.TelegramError(message)
-//Bases: Exception
-//
-//exception telegram.error.TimedOut
-//Bases: telegram.error.NetworkError
-//
-//exception telegram.error.Unauthorized(message)
-//Bases: telegram.error.TelegramError
