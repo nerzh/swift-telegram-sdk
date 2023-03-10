@@ -126,7 +126,7 @@ public final class TGLongPollingConnection: TGConnectionPrtcl {
         if let lastUpdate: TGUpdate = response.last {
             offsetUpdates = lastUpdate.updateId
         }
-        try dispatcher.process(response)
+        try await dispatcher.process(response)
         try await getUpdates()
     }
 }

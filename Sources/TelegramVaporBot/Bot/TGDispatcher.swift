@@ -19,18 +19,14 @@ public protocol TGDispatcherPrtcl {
     func add(_ handler: TGHandlerPrtcl)
     func addBeforeAllCallback(_ callback: @escaping ([TGUpdate], @escaping ([TGUpdate]) throws -> Void) throws -> Void)
     func remove(_ handler: TGHandlerPrtcl, from level: Int?)
-    func process(_ updates: [TGUpdate]) throws
+    func process(_ updates: [TGUpdate])
+    @discardableResult
+    func process(_ updates: [TGUpdate]) async throws -> Bool
 }
 
 open class TGDefaultDispatcher: TGDispatcherPrtcl {
     
-    private var processQueue: DispatchQueue = .init(label: "com.telegram-vapor-bot-lib.dispatcher.processQueue",
-                                                    qos: .default,
-                                                    attributes: .concurrent)
-
-    private var handlerQueue: DispatchQueue = .init(label: "com.telegram-vapor-bot-lib.dispatcher.handlerQueue",
-                                                    qos: .default,
-                                                    attributes: .concurrent)
+    private var appEventLoop: EventLoop!
 
     public var bot: TGBotPrtcl
     public var handlersGroup: [[TGHandlerPrtcl]] = []
@@ -51,10 +47,11 @@ open class TGDefaultDispatcher: TGDispatcherPrtcl {
 
     required public init(bot: TGBotPrtcl) {
         self.bot = bot
+        appEventLoop = bot.app.eventLoopGroup.next()
     }
 
     public func add(_ handler: TGHandlerPrtcl, priority level: Int) {
-        processQueue.sync(flags: .barrier) { [weak self] in
+        appEventLoop.execute { [weak self] in
             guard let self = self else { return }
 
             /// add uniq index id
@@ -87,7 +84,7 @@ open class TGDefaultDispatcher: TGDispatcherPrtcl {
     }
 
     public func remove(_ handler: TGHandlerPrtcl, from level: Int?) {
-        processQueue.sync(flags: .barrier) { [weak self] in
+        appEventLoop.execute { [weak self] in
             guard let self = self else { return }
             let level: Level = level ?? 0
             let indexId: IndexId = handler.id
@@ -102,8 +99,8 @@ open class TGDefaultDispatcher: TGDispatcherPrtcl {
         }
     }
 
-    public func process(_ updates: [TGUpdate]) throws {
-        processQueue.async { [weak self] in
+    public func process(_ updates: [TGUpdate]) {
+        bot.app.eventLoopGroup.any().execute { [weak self] in
             guard let self = self else {
                 TGBot.log.error("TGDispatcher was deinited")
                 return
@@ -111,7 +108,7 @@ open class TGDefaultDispatcher: TGDispatcherPrtcl {
             do {
                 try self.beforeAllCallback(updates) { updates in
                     for update in updates {
-                        try self.processByHandler(update)
+                        self.processByHandler(update)
                     }
                 }
             } catch {
@@ -119,9 +116,33 @@ open class TGDefaultDispatcher: TGDispatcherPrtcl {
             }
         }
     }
+    
+    @discardableResult
+    public func process(_ updates: [TGUpdate]) async throws -> Bool {
+        return try await withUnsafeThrowingContinuation { continuation in
+            bot.app.eventLoopGroup.any().execute { [weak self] in
+                guard let self = self else {
+                    TGBot.log.error("TGDispatcher was deinited")
+                    continuation.resume(returning: false)
+                    return
+                }
+                do {
+                    try self.beforeAllCallback(updates) { updates in
+                        for update in updates {
+                            self.processByHandler(update)
+                        }
+                    }
+                    continuation.resume(returning: true)
+                } catch {
+                    TGBot.log.critical("TGDispatcher process: \(error.logMessage)")
+                    continuation.resume(returning: false)
+                }
+            }
+        }
+    }
 
-    private func processByHandler(_ update: TGUpdate) throws {
-        processQueue.async { [weak self] in
+    private func processByHandler(_ update: TGUpdate) {
+        bot.app.eventLoopGroup.any().execute { [weak self] in
             guard let self = self, self.handlersGroup.count > 0 else {
                 if self == nil { TGBot.log.error("TGDispatcher was deinited"); return }
                 return
@@ -129,8 +150,32 @@ open class TGDefaultDispatcher: TGDispatcherPrtcl {
             for i in 1...self.handlersGroup.count {
                 for handler in self.handlersGroup[self.handlersGroup.count - i] {
                     if handler.check(update: update) {
-                        self.handlerQueue.async {
-                            handler.handle(update: update, bot: self.bot)
+                        self.bot.app.eventLoopGroup.any().execute {
+                            do {
+                                try handler.handle(update: update, bot: self.bot)
+                            } catch {
+                                TGBot.log.error("\(error.localizedDescription)")
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    private func processByHandler(_ update: TGUpdate) async {
+        bot.app.eventLoopGroup.any().execute { [weak self] in
+            guard let self = self, self.handlersGroup.count > 0 else {
+                if self == nil { TGBot.log.error("TGDispatcher was deinited"); return }
+                return
+            }
+            for i in 1...self.handlersGroup.count {
+                for handler in self.handlersGroup[self.handlersGroup.count - i] {
+                    if handler.check(update: update) {
+                        self.bot.app.eventLoopGroup.any().execute {
+                            Task {
+                                try await handler.handle(update: update, bot: self.bot)
+                            }
                         }
                     }
                 }

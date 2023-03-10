@@ -11,11 +11,11 @@ import Foundation
 public class TGCallbackQueryHandler: TGHandlerPrtcl {
 
     public var id: Int = 0
-
     public var name: String
-
+    
     let pattern: String
-    let callback: TGHandlerCallback
+    var callback: TGHandlerCallback? = nil
+    var callbackAsync: TGHandlerCallbackAsync? = nil
 
     public init(
         name: String = String(describing: TGCallbackQueryHandler.self),
@@ -24,6 +24,16 @@ public class TGCallbackQueryHandler: TGHandlerPrtcl {
     ) {
         self.pattern = pattern
         self.callback = callback
+        self.name = name
+    }
+    
+    public init(
+        name: String = String(describing: TGCallbackQueryHandler.self),
+        pattern: String,
+        _ callback: @escaping TGHandlerCallbackAsync
+    ) {
+        self.pattern = pattern
+        self.callbackAsync = callback
         self.name = name
     }
 
@@ -38,17 +48,13 @@ public class TGCallbackQueryHandler: TGHandlerPrtcl {
 
     public func handle(update: TGUpdate, bot: TGBotPrtcl) {
         do {
-            try callback(update, bot)
+            try callback?(update, bot)
         } catch {
             TGBot.log.error(error.logMessage)
         }
     }
     
-    public func handle(update: TGUpdate, bot: TGBotPrtcl) async {
-        do {
-            try callback(update, bot)
-        } catch {
-            TGBot.log.error(error.logMessage)
-        }
+    public func handle(update: TGUpdate, bot: TGBotPrtcl) async throws {
+        try await callbackAsync?(update, bot)
     }
 }

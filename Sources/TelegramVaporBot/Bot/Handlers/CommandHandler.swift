@@ -32,7 +32,8 @@ public class TGCommandHandler: TGHandlerPrtcl {
     }
     
     let commands: Set<String>
-    let callback: TGHandlerCallback
+    var callback: TGHandlerCallback? = nil
+    var callbackAsync: TGHandlerCallbackAsync? = nil
     let filters: TGFilter
     let options: Options
     let botUsername: String?
@@ -51,6 +52,22 @@ public class TGCommandHandler: TGHandlerPrtcl {
         self.options = options
         self.botUsername = botUsername
         self.callback = callback
+    }
+    
+    public init(
+        name: String = String(describing: TGCommandHandler.self),
+        commands: [String],
+        filters: TGFilter = .all,
+        options: Options = [],
+        botUsername: String? = nil,
+        _ callback: @escaping TGHandlerCallbackAsync
+    ) {
+        self.name = name
+        self.commands = Set(commands)
+        self.filters = filters
+        self.options = options
+        self.botUsername = botUsername
+        self.callbackAsync = callback
     }
     
     public func check(update: TGUpdate) -> Bool {
@@ -86,9 +103,13 @@ public class TGCommandHandler: TGHandlerPrtcl {
     
     public func handle(update: TGUpdate, bot: TGBotPrtcl) {
         do {
-            try callback(update, bot)
+            try callback?(update, bot)
         } catch {
             TGBot.log.error(error.logMessage)
         }
+    }
+    
+    public func handle(update: TGUpdate, bot: TGBotPrtcl) async throws {
+        try await callbackAsync?(update, bot)
     }
 }

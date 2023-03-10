@@ -25,6 +25,10 @@ public class TGLoggerHandler: TGHandlerPrtcl {
     public func handle(update: TGUpdate, bot: TGBotPrtcl) {
         TGBot.log.log(level: logLevel, update.logMessage)
     }
+    
+    public func handle(update: TGUpdate, bot: TGBotPrtcl) async throws {
+        TGBot.log.log(level: logLevel, update.logMessage)
+    }
 }
 
 extension TGUpdate {

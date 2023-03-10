@@ -6,15 +6,17 @@
 //
 
 import Vapor
-import telegram_vapor_bot
+import TelegramVaporBot
 
 
 func routes(_ app: Application) throws {
+    
+    try app.register(collection: TelegramController())
 
     app.post("telegram_webhook_route") { (request) -> String in
         do {
             let update: TGUpdate = try request.content.decode(TGUpdate.self)
-            try TGBot.shared.connection.dispatcher.process([update])
+            try TGBotConnection.dispatcher.process([update])
         } catch {
             TGBot.log.error(error.logMessage)
         }

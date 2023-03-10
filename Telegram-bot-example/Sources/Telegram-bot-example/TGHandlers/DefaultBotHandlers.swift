@@ -6,33 +6,33 @@
 //
 
 import Vapor
-import telegram_vapor_bot
+import TelegramVaporBot
 
 final class DefaultBotHandlers {
 
-    static func addHandlers(app: Vapor.Application, bot: TGBotPrtcl) {
-        defaultHandler(app: app, bot: bot)
-        commandPingHandler(app: app, bot: bot)
-        commandShowButtonsHandler(app: app, bot: bot)
-        buttonsActionHandler(app: app, bot: bot)
+    static func addHandlers(app: Vapor.Application, connection: TGConnectionPrtcl) {
+        defaultHandler(app: app, connection: connection)
+        commandPingHandler(app: app, connection: connection)
+//        commandShowButtonsHandler(app: app, connection: connection)
+//        buttonsActionHandler(app: app, connection: connection)
     }
 
-    private static func defaultHandler(app: Vapor.Application, bot: TGBotPrtcl) {
+    private static func defaultHandler(app: Vapor.Application, connection: TGConnectionPrtcl) {
         let handler = TGMessageHandler(filters: (.all && !.command.names(["/ping", "/show_buttons"]))) { update, bot in
             let params: TGSendMessageParams = .init(chatId: .chat(update.message!.chat.id), text: "Success")
-            try bot.sendMessage(params: params)
+            try connection.bot.sendMessage(params: params)
         }
-        bot.connection.dispatcher.add(handler)
+        connection.dispatcher.add(handler)
     }
 
-    private static func commandPingHandler(app: Vapor.Application, bot: TGBotPrtcl) {
+    private static func commandPingHandler(app: Vapor.Application, connection: TGConnectionPrtcl) {
         let handler = TGCommandHandler(commands: ["/ping"]) { update, bot in
             try update.message?.reply(text: "pong", bot: bot)
         }
-        bot.connection.dispatcher.add(handler)
+        connection.dispatcher.add(handler)
     }
 
-    private static func commandShowButtonsHandler(app: Vapor.Application, bot: TGBotPrtcl) {
+    private static func commandShowButtonsHandler(app: Vapor.Application, connection: TGConnectionPrtcl) {
         let handler = TGCommandHandler(commands: ["/show_buttons"]) { update, bot in
             guard let userId = update.message?.from?.id else { fatalError("user id not found") }
             let buttons: [[TGInlineKeyboardButton]] = [
@@ -42,12 +42,12 @@ final class DefaultBotHandlers {
             let params: TGSendMessageParams = .init(chatId: .chat(userId),
                                                     text: "Keyboard active",
                                                     replyMarkup: .inlineKeyboardMarkup(keyboard))
-            try bot.sendMessage(params: params)
+            try await bot.sendMessage(params: params)
         }
-        bot.connection.dispatcher.add(handler)
+        connection.dispatcher.add(handler)
     }
 
-    private static func buttonsActionHandler(app: Vapor.Application, bot: TGBotPrtcl) {
+    private static func buttonsActionHandler(app: Vapor.Application, connection: TGConnectionPrtcl) {
         let handler = TGCallbackQueryHandler(pattern: "press 1") { update, bot in
             let params: TGAnswerCallbackQueryParams = .init(callbackQueryId: update.callbackQuery?.id ?? "0",
                                                             text: update.callbackQuery?.data  ?? "data not exist",
@@ -66,8 +66,8 @@ final class DefaultBotHandlers {
             try bot.answerCallbackQuery(params: params)
         }
 
-        bot.connection.dispatcher.add(handler)
-        bot.connection.dispatcher.add(handler2)
+        connection.dispatcher.add(handler)
+        connection.dispatcher.add(handler2)
     }
 
 }

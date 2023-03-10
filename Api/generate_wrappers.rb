@@ -318,6 +318,7 @@ class Api
     protocol = METHOD_HEADER
     protocol << "import Vapor\n\n"
     protocol << "public protocol #{PREFIX_LIB}BotPrtcl {\n\n"
+    protocol << "#{ONE}var app: Vapor.Application { get }\n"
     protocol << "#{ONE}var botId: String { get }\n"
     protocol << "#{ONE}var tgURI: URI { get }\n"
     protocol << "#{ONE}var tgClient: TGClientPrtcl { get }\n"
