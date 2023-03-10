@@ -34,7 +34,7 @@ public extension TGBot {
  - Parameters:
      - params: Parameters container, see `GetFileParams` struct
  - Throws: Throws on errors
- - Returns: EventLoopFuture of `TGFile` type
+ - Returns: `TGFile`
  */
 
     @discardableResult

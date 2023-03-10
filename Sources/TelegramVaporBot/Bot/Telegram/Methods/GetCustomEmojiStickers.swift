@@ -34,7 +34,7 @@ public extension TGBot {
  - Parameters:
      - params: Parameters container, see `GetCustomEmojiStickersParams` struct
  - Throws: Throws on errors
- - Returns: EventLoopFuture of `[TGSticker]` type
+ - Returns: `[TGSticker]`
  */
 
     @discardableResult

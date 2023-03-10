@@ -39,7 +39,7 @@ public extension TGBot {
  - Parameters:
      - params: Parameters container, see `CloseForumTopicParams` struct
  - Throws: Throws on errors
- - Returns: EventLoopFuture of `Bool` type
+ - Returns: `Bool`
  */
 
     @discardableResult

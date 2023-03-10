@@ -228,7 +228,7 @@ class Api
       method_description << " - Parameters:\n"
       method_description << "#{ONE} - params: Parameters container, see `#{method_name_capitalized}` struct\n"
       method_description << " - Throws: Throws on errors\n"
-      method_description << " - Returns: EventLoopFuture of `#{result_type}` type\n"
+      method_description << " - Returns: `#{result_type}`\n"
       method_description << " */\n"
 
 
@@ -749,6 +749,9 @@ end
 class Api
   def main
   	STDOUT.sync = true
+
+    FileUtils.rm_rf("#{API_DIR}/#{METHODS_DIR_NAME}")
+    FileUtils.rm_rf("#{API_DIR}/#{MODELS_DIR_NAME}")
 
   	File.open(API_FILE, 'wb') do |f|
   		html = File.open(HTML_FILE, "rb").read

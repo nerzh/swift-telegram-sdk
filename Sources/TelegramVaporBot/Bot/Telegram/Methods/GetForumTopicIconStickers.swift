@@ -17,7 +17,7 @@ public extension TGBot {
  - Parameters:
      - params: Parameters container, see `GetForumTopicIconStickersParams` struct
  - Throws: Throws on errors
- - Returns: EventLoopFuture of `[TGSticker]` type
+ - Returns: `[TGSticker]`
  */
 
     @discardableResult

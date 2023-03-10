@@ -58,7 +58,7 @@ public extension TGBot {
  - Parameters:
      - params: Parameters container, see `AnswerCallbackQueryParams` struct
  - Throws: Throws on errors
- - Returns: EventLoopFuture of `Bool` type
+ - Returns: `Bool`
  */
 
     @discardableResult

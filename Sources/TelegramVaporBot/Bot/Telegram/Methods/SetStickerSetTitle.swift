@@ -39,7 +39,7 @@ public extension TGBot {
  - Parameters:
      - params: Parameters container, see `SetStickerSetTitleParams` struct
  - Throws: Throws on errors
- - Returns: EventLoopFuture of `Bool` type
+ - Returns: `Bool`
  */
 
     @discardableResult

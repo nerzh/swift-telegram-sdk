@@ -51,7 +51,7 @@ public extension TGBot {
  - Parameters:
      - params: Parameters container, see `GetUpdatesParams` struct
  - Throws: Throws on errors
- - Returns: EventLoopFuture of `[TGUpdate]` type
+ - Returns: `[TGUpdate]`
  */
 
     @discardableResult

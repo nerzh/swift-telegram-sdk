@@ -39,7 +39,7 @@ public extension TGBot {
  - Parameters:
      - params: Parameters container, see `AnswerWebAppQueryParams` struct
  - Throws: Throws on errors
- - Returns: EventLoopFuture of `TGSentWebAppMessage` type
+ - Returns: `TGSentWebAppMessage`
  */
 
     @discardableResult

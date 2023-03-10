@@ -17,7 +17,7 @@ public extension TGBot {
  - Parameters:
      - params: Parameters container, see `GetWebhookInfoParams` struct
  - Throws: Throws on errors
- - Returns: EventLoopFuture of `TGWebhookInfo` type
+ - Returns: `TGWebhookInfo`
  */
 
     @discardableResult

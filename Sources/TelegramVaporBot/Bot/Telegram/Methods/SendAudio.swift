@@ -106,7 +106,7 @@ public extension TGBot {
  - Parameters:
      - params: Parameters container, see `SendAudioParams` struct
  - Throws: Throws on errors
- - Returns: EventLoopFuture of `TGMessage` type
+ - Returns: `TGMessage`
  */
 
     @discardableResult

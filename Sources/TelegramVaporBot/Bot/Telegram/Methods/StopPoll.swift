@@ -44,7 +44,7 @@ public extension TGBot {
  - Parameters:
      - params: Parameters container, see `StopPollParams` struct
  - Throws: Throws on errors
- - Returns: EventLoopFuture of `TGPoll` type
+ - Returns: `TGPoll`
  */
 
     @discardableResult

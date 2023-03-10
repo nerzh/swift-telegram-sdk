@@ -89,7 +89,7 @@ public extension TGBot {
  - Parameters:
      - params: Parameters container, see `CopyMessageParams` struct
  - Throws: Throws on errors
- - Returns: EventLoopFuture of `TGMessageId` type
+ - Returns: `TGMessageId`
  */
 
     @discardableResult

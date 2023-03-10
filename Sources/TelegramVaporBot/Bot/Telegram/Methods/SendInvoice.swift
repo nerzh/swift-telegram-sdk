@@ -169,7 +169,7 @@ public extension TGBot {
  - Parameters:
      - params: Parameters container, see `SendInvoiceParams` struct
  - Throws: Throws on errors
- - Returns: EventLoopFuture of `TGMessage` type
+ - Returns: `TGMessage`
  */
 
     @discardableResult

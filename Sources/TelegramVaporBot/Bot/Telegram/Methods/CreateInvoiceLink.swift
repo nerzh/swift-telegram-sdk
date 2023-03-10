@@ -129,7 +129,7 @@ public extension TGBot {
  - Parameters:
      - params: Parameters container, see `CreateInvoiceLinkParams` struct
  - Throws: Throws on errors
- - Returns: EventLoopFuture of `String` type
+ - Returns: `String`
  */
 
     @discardableResult

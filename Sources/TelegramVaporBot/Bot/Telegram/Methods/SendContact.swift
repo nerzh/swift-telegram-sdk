@@ -84,7 +84,7 @@ public extension TGBot {
  - Parameters:
      - params: Parameters container, see `SendContactParams` struct
  - Throws: Throws on errors
- - Returns: EventLoopFuture of `TGMessage` type
+ - Returns: `TGMessage`
  */
 
     @discardableResult

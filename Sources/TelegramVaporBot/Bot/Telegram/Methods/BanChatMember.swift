@@ -49,7 +49,7 @@ public extension TGBot {
  - Parameters:
      - params: Parameters container, see `BanChatMemberParams` struct
  - Throws: Throws on errors
- - Returns: EventLoopFuture of `Bool` type
+ - Returns: `Bool`
  */
 
     @discardableResult

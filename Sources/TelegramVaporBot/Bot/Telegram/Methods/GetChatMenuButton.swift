@@ -34,7 +34,7 @@ public extension TGBot {
  - Parameters:
      - params: Parameters container, see `GetChatMenuButtonParams` struct
  - Throws: Throws on errors
- - Returns: EventLoopFuture of `TGMenuButton` type
+ - Returns: `TGMenuButton`
  */
 
     @discardableResult

@@ -51,7 +51,7 @@ public extension TGBot {
  - Parameters:
      - params: Parameters container, see `GetGameHighScoresParams` struct
  - Throws: Throws on errors
- - Returns: EventLoopFuture of `[TGGameHighScore]` type
+ - Returns: `[TGGameHighScore]`
  */
 
     @discardableResult

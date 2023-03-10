@@ -49,7 +49,7 @@ public extension TGBot {
  - Parameters:
      - params: Parameters container, see `StopMessageLiveLocationParams` struct
  - Throws: Throws on errors
- - Returns: EventLoopFuture of `TGMessageOrBool` type
+ - Returns: `TGMessageOrBool`
  */
 
     @discardableResult

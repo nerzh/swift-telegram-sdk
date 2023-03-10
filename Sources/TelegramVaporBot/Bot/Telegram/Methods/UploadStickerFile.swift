@@ -44,7 +44,7 @@ public extension TGBot {
  - Parameters:
      - params: Parameters container, see `UploadStickerFileParams` struct
  - Throws: Throws on errors
- - Returns: EventLoopFuture of `TGFile` type
+ - Returns: `TGFile`
  */
 
     @discardableResult

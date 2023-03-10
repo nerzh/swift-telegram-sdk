@@ -17,7 +17,7 @@ public extension TGBot {
  - Parameters:
      - params: Parameters container, see `GetMeParams` struct
  - Throws: Throws on errors
- - Returns: EventLoopFuture of `TGUser` type
+ - Returns: `TGUser`
  */
 
     @discardableResult

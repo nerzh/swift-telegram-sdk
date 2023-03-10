@@ -34,7 +34,7 @@ public extension TGBot {
  - Parameters:
      - params: Parameters container, see `GetMyDescriptionParams` struct
  - Throws: Throws on errors
- - Returns: EventLoopFuture of `TGBotDescription` type
+ - Returns: `TGBotDescription`
  */
 
     @discardableResult

@@ -44,7 +44,7 @@ public extension TGBot {
  - Parameters:
      - params: Parameters container, see `GetUserProfilePhotosParams` struct
  - Throws: Throws on errors
- - Returns: EventLoopFuture of `TGUserProfilePhotos` type
+ - Returns: `TGUserProfilePhotos`
  */
 
     @discardableResult

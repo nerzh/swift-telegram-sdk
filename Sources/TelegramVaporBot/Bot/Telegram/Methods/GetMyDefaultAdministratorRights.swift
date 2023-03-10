@@ -34,7 +34,7 @@ public extension TGBot {
  - Parameters:
      - params: Parameters container, see `GetMyDefaultAdministratorRightsParams` struct
  - Throws: Throws on errors
- - Returns: EventLoopFuture of `TGChatAdministratorRights` type
+ - Returns: `TGChatAdministratorRights`
  */
 
     @discardableResult

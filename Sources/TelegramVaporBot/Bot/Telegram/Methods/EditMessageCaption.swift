@@ -64,7 +64,7 @@ public extension TGBot {
  - Parameters:
      - params: Parameters container, see `EditMessageCaptionParams` struct
  - Throws: Throws on errors
- - Returns: EventLoopFuture of `TGMessageOrBool` type
+ - Returns: `TGMessageOrBool`
  */
 
     @discardableResult

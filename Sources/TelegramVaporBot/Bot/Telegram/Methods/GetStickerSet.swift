@@ -34,7 +34,7 @@ public extension TGBot {
  - Parameters:
      - params: Parameters container, see `GetStickerSetParams` struct
  - Throws: Throws on errors
- - Returns: EventLoopFuture of `TGStickerSet` type
+ - Returns: `TGStickerSet`
  */
 
     @discardableResult
