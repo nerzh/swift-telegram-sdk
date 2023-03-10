@@ -6,8 +6,8 @@ var packageDependencies: [Package.Dependency] = [
     .package(name: "vapor", url: "https://github.com/vapor/vapor.git", .upToNextMajor(from: "4.57.0")),
 ]
 
-packageDependencies.append(.package(name: "TelegramVaporBot", path: "/Users/nerzh/mydata/swift_projects/TelegramVaporBot"))
-//packageDependencies.append(.package(name: "TelegramVaporBot", url: "https://github.com/nerzh/telegram-vapor-bot", .upToNextMajor(from: "2.0.0")))
+//packageDependencies.append(.package(name: "TelegramVaporBot", path: "/Users/nerzh/mydata/swift_projects/TelegramVaporBot"))
+packageDependencies.append(.package(name: "TelegramVaporBot", url: "https://github.com/nerzh/telegram-vapor-bot", .upToNextMajor(from: "2.0.1")))
 
 
 let package = Package(
