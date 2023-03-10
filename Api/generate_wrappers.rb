@@ -109,9 +109,9 @@ class Api
       end
 
       var_protocol = "Codable"
-      if type_name.start_with?('InputMedia')
-          var_protocol = "Encodable"
-      end
+      # if type_name.start_with?('InputMedia')
+      #     var_protocol = "Encodable"
+      # end
       out.write  "public final class #{PREFIX_LIB}#{type_name}: #{var_protocol} {\n\n"
       
       if keys_block != ""
@@ -230,21 +230,31 @@ class Api
       method_description << " - Returns: EventLoopFuture of `#{result_type}` type\n"
       method_description << " */\n"
 
+
+      async_method_content = ""
       if all_params.empty?
+        # generate method
         out.write "\n"
         out.write "public extension #{PREFIX_LIB}Bot {\n"
-        out.write "\n"
         out.write method_description
         method_signature = "#{ONE}@discardableResult\n"
         method_signature << "#{ONE}func #{method_name}() throws -> EventLoopFuture<#{result_type}>"
         out.write "#{method_signature} {\n"
         methods_signature << method_signature
+
+        # async method section
+        async_method_content << "#{ONE}@discardableResult\n"
+        async_method_content << "#{ONE}func #{method_name}() async throws -> #{result_type}"
+
+        methods_signature << "\n\n#{async_method_content.gsub(/ = nil/, '')}"
+        async_method_content << " {\n"
       else
+        # generate output type
         encodable_type = "Encodable"
       
-        if has_upload_type
-          encodable_type = "Encodable"
-        end
+        # if has_upload_type
+        #   encodable_type = "Encodable"
+        # end
         out.write "/// Parameters container struct for `#{method_name}` method\n"
         out.write "public struct #{PREFIX_LIB}#{method_name_capitalized}: #{encodable_type} {\n\n"
         out.write "#{all_params}"
@@ -272,18 +282,33 @@ class Api
         method_signature << "#{ONE}func #{method_name}#{params_block} throws -> EventLoopFuture<#{result_type}>"
         out.write "#{method_signature} {\n"
         methods_signature << method_signature.gsub(/ = nil/, '')
+
+        # async method section
+        async_method_content << "#{ONE}@discardableResult\n"
+        async_method_content << "#{ONE}func #{method_name}#{params_block} async throws -> #{result_type}"
+
+        methods_signature << "\n\n#{async_method_content.gsub(/ = nil/, '')}"
+        async_method_content << " {\n"
       end
 
       out.write "#{TWO}let methodURL: URI = .init(string: getMethodURL(\"#{method_name}\"))\n"
+      async_method_content << "#{TWO}let methodURL: URI = .init(string: getMethodURL(\"#{method_name}\"))\n"
       if all_params.empty?
         out.write "#{TWO}let future: EventLoopFuture<#{result_type}> = tgClient.post(methodURL)\n"
+        async_method_content << "#{TWO}let result: #{result_type} = try await tgClient.post(methodURL)\n"
       else
         out.write "#{TWO}let future: EventLoopFuture<#{result_type}> = tgClient.post(methodURL, params: params, as: nil)\n"
+        async_method_content << "#{TWO}let result: #{result_type} = try await tgClient.post(methodURL, params: params, as: nil)\n"
       end
     
       out.write "#{TWO}return future\n"\
                 "#{ONE}}\n"\
-                "}\n"
+
+      async_method_content << "#{TWO}return result\n"
+      async_method_content << "#{ONE}}\n"
+      async_method_content << "}\n"
+
+      out.write "\n#{async_method_content}"
     end
 
     methods_signature
@@ -293,13 +318,10 @@ class Api
     protocol = METHOD_HEADER
     protocol << "import Vapor\n\n"
     protocol << "public protocol #{PREFIX_LIB}BotPrtcl {\n\n"
-    protocol << "#{ONE}var botId: String { get set }\n"
-    protocol << "#{ONE}var tgURI: URI { get set }\n"
-    protocol << "#{ONE}var tgClient: TGClientPrtcl { get set }\n"
-    protocol << "#{ONE}var connection: TGConnectionPrtcl  { get }\n\n"
-    protocol << "#{ONE}static var shared: Self { get }\n\n"
+    protocol << "#{ONE}var botId: String { get }\n"
+    protocol << "#{ONE}var tgURI: URI { get }\n"
+    protocol << "#{ONE}var tgClient: TGClientPrtcl { get }\n"
     protocol << "#{ONE}static var log: Logger { get }\n\n"
-    protocol << "#{ONE}func start() throws\n\n"
     signatures.each { |signature| protocol << "#{signature}\n\n" }
     protocol << "}\n\n"
 
