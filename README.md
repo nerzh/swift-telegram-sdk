@@ -78,6 +78,18 @@ final class DefaultBotHandlers {
 }
 ```
 
+#### vapor **main.swift**
+
+make strong reference to TGBotConnection instance
+
+```swift
+import Vapor
+import TelegramVaporBot
+
+var TGBotConnection: TGConnectionPrtcl!
+
+```
+
 ### Use with LongPolling
 
 #### for longpolling you should only configure vapor **configure.swift**
