@@ -7,7 +7,7 @@
 
 import Foundation
 
-public typealias TGHandlerCallbackAsync = (_ update: TGUpdate, _ bot: TGBot) async throws -> Void
+public typealias TGHandlerCallbackAsync = @Sendable (_ update: TGUpdate, _ bot: TGBot) async throws -> Void
 
 public protocol TGHandlerPrtcl {
 

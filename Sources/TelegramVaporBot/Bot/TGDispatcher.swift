@@ -17,7 +17,7 @@ public protocol TGDispatcherPrtcl {
     /// The higher level has the highest priority
     func add(_ handler: TGHandlerPrtcl, priority: Int) async
     func add(_ handler: TGHandlerPrtcl) async
-    func addBeforeAllCallback(_ callback: @escaping ([TGUpdate]) async throws -> Void)
+    func addBeforeAllCallback(_ callback: @Sendable @escaping ([TGUpdate]) async throws -> Void)
     func remove(_ handler: TGHandlerPrtcl, from level: Int?) async
     @discardableResult
     func process(_ updates: [TGUpdate]) async throws -> Bool
@@ -48,7 +48,7 @@ open class TGDefaultDispatcher: TGDispatcherPrtcl {
     }
 
     public func add(_ handler: TGHandlerPrtcl, priority level: Int) async {
-        return await withUnsafeContinuation { continuation in
+        return await withCheckedContinuation { continuation in
             appEventLoop.execute { [weak self] in
                 guard let self = self else { continuation.resume(); return }
 
@@ -84,7 +84,7 @@ open class TGDefaultDispatcher: TGDispatcherPrtcl {
     }
 
     public func remove(_ handler: TGHandlerPrtcl, from level: Int?) async {
-        return await withUnsafeContinuation { continuation in
+        return await withCheckedContinuation { continuation in
             appEventLoop.execute { [weak self] in
                 guard let self = self else { continuation.resume(); return }
                 let level: Level = level ?? 0
@@ -105,13 +105,14 @@ open class TGDefaultDispatcher: TGDispatcherPrtcl {
     
     @discardableResult
     public func process(_ updates: [TGUpdate]) async throws -> Bool {
-        return try await withUnsafeThrowingContinuation { continuation in
+        return try await withCheckedThrowingContinuation { continuation in
             bot.app.eventLoopGroup.any().execute { [weak self] in
                 guard let self = self else {
                     TGBot.log.error("TGDispatcher was deinited")
                     continuation.resume(returning: false)
                     return
                 }
+                
                 Task {   
                     do {
                         try await self.beforeAllCallback(updates)
@@ -121,11 +122,10 @@ open class TGDefaultDispatcher: TGDispatcherPrtcl {
                                     do {
                                         try await self.processByHandler(update)
                                     } catch {
-                                        continuation.resume(throwing: error)
+                                        TGBot.log.error("\(makeError(CoreError(error)).localizedDescription)")
                                     }
                                 }
                             }
-                            
                             await group.waitForAll()
                         })
                         continuation.resume(returning: true)
@@ -139,32 +139,33 @@ open class TGDefaultDispatcher: TGDispatcherPrtcl {
     }
     
     private func processByHandler(_ update: TGUpdate) async throws {
-        return try await withUnsafeThrowingContinuation { continuation in
+        return try await withCheckedThrowingContinuation { continuation in
             bot.app.eventLoopGroup.any().execute { [weak self] in
                 guard let self = self, self.handlersGroup.count > 0 else {
                     if self == nil { TGBot.log.error("TGDispatcher was deinited"); continuation.resume(); return }
                     continuation.resume()
                     return
                 }
-                for i in 1...self.handlersGroup.count {
-                    for handler in self.handlersGroup[self.handlersGroup.count - i] {
-                        if handler.check(update: update) {
-                            self.bot.app.eventLoopGroup.any().execute {
-                                Task {
-                                    do {
-                                        try await handler.handle(update: update, bot: self.bot)
-                                        continuation.resume()
-                                    } catch {
-                                        continuation.resume(throwing: error)
+                Task {
+                    await withTaskGroup(of: Void.self, body: { group in
+                        for i in 1...self.handlersGroup.count {
+                            for handler in self.handlersGroup[self.handlersGroup.count - i] {
+                                if handler.check(update: update) {
+                                    group.addTask {
+                                        do {
+                                            try await handler.handle(update: update, bot: self.bot)
+                                        } catch {
+                                            TGBot.log.error("\(makeError(CoreError(error)).localizedDescription)")
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
+                        await group.waitForAll()
+                    })
+                    continuation.resume()
                 }
             }
         }
     }
 }
-
-

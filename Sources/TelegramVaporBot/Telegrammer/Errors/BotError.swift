@@ -8,7 +8,7 @@
 import Foundation
 import Logging
 
-public class CoreError: Error, ErrorCommon {
+public class CoreError: Error, ErrorCommonMessage {
     
     public var title: String = ""
     
