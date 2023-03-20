@@ -1,4 +1,4 @@
-# Telegram Vapor Bot
+# Telegram Vapor Bot (SDK for creating Telegram Bots in Swift)
 
 ### Please, support with ⭐️
 
