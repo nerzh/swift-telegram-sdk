@@ -67,7 +67,7 @@ public class TGCommandHandler: TGHandlerPrtcl {
         
         let types = entities.compactMap { (entity) -> String? in
             let start = text.index(text.startIndex, offsetBy: entity.offset)
-            let end = text.index(start, offsetBy: entity.length-1)
+            let end = text.index(start, offsetBy: entity.length - 1)
             let command = String(text[start...end])
             // If the user specifies the bot using "@"
             // and `botUsername` is not nil,

@@ -138,7 +138,7 @@ public final class DefaultTGClient: TGClientPrtcl {
             Code: \(container.errorCode ?? -1)
             \(container.description ?? "Empty")
             """
-            let error = CoreError(
+            let error = BotError(
                 type: .server,
                 description: desc
             )
@@ -147,7 +147,7 @@ public final class DefaultTGClient: TGClientPrtcl {
         }
 
         guard let result = container.result else {
-            let error = CoreError(
+            let error = BotError(
                 type: .server,
                 reason: "Response marked as `Ok`, but doesn't contain `result` field."
             )
@@ -163,7 +163,7 @@ public final class DefaultTGClient: TGClientPrtcl {
         Description: \(container.description ?? "Empty")
 
         """
-        TGBot.log.info(logString.logMessage)
+        TGBot.log.trace(logString.logMessage)
         return result
     }
 }

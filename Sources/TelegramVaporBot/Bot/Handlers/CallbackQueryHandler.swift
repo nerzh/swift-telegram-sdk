@@ -28,8 +28,10 @@ public class TGCallbackQueryHandler: TGHandlerPrtcl {
 
     public func check(update: TGUpdate) -> Bool {
         guard let callbackQuery = update.callbackQuery else { return false }
-        if let data = callbackQuery.data,
-           !data.matchRegexp(pattern: pattern) {
+        if
+            let data = callbackQuery.data,
+            !data.matchRegexp(pattern: pattern
+        ) {
             return false
         }
         return true

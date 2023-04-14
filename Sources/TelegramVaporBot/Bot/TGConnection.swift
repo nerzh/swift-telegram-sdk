@@ -36,9 +36,9 @@ public final class TGLongPollingConnection: TGConnectionPrtcl {
                 limit: Int? = nil,
                 timeout: Int? = nil,
                 allowedUpdates: [TGUpdate.CodingKeys]? = nil
-    ) {
+    ) async throws {
         self.bot = bot
-        self.dispatcher = dispatcher.init(bot: bot)
+        self.dispatcher = try await dispatcher.init(bot: bot)
         self.limit = limit
         self.timeout = timeout ?? self.timeout
         self.allowedUpdates = allowedUpdates
@@ -79,10 +79,10 @@ public final class TGWebHookConnection: TGConnectionPrtcl {
     public let dispatcher: TGDispatcherPrtcl
     public let webHookURL: URI
     
-    public init(bot: TGBot, webHookURL: URI, dispatcher: TGDispatcherPrtcl.Type = TGDefaultDispatcher.self) {
+    public init(bot: TGBot, webHookURL: URI, dispatcher: TGDispatcherPrtcl.Type = TGDefaultDispatcher.self) async throws {
         self.bot = bot
         self.webHookURL = webHookURL
-        self.dispatcher = dispatcher.init(bot: bot)
+        self.dispatcher = try await dispatcher.init(bot: bot)
     }
     
     @discardableResult

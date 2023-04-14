@@ -11,7 +11,7 @@ import Logging
 public extension Error {
     var logMessage: Logger.Message {
         var errorDescription: String
-        if let coreError = self as? CoreError {
+        if let coreError = self as? BotError {
             errorDescription = coreError.localizedDescription
         } else if let decodingError = self as? DecodingError {
             switch decodingError {
