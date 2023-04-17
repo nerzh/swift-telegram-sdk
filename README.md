@@ -147,13 +147,11 @@ import TelegramVaporBot
 public func configure(_ app: Application) throws {
     let tgApi: String = "XXXXXXXXXX:YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
     /// set level of debug if you needed
-    TGBot.log.logLevel = .info
+    TGBot.log.logLevel = app.logger.logLevel
     let bot: TGBot = .init(app: app, botId: tgApi)
-    TGBotConnection = TGWebHookConnection(bot: bot, webHookURL: "https://your_domain/telegramWebHook")
-    Task {
-        await DefaultBotHandlers.addHandlers(app: app, connection: TGBotConnection)
-        try await TGBotConnection.start()
-    }
+    await TGBOT.setConnection(try await TGWebHookConnection(bot: bot, webHookURL: "https://your_domain/telegramWebHook"))
+    await DefaultBotHandlers.addHandlers(app: app, connection: TGBOT.connection)
+    try await TGBOT.connection.start()
 
     try routes(app)
 }
