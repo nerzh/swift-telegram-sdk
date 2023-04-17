@@ -80,7 +80,7 @@ final class DefaultBotHandlers {
 
 ### Setup
 
-#### vapor **TGBotConnectionActor.swift**
+#### Create file **TGBotConnectionActor.swift**
 
 Add Actor for TGConnection
 
