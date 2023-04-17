@@ -78,7 +78,7 @@ final class DefaultBotHandlers {
 }
 ```
 
-### Settings
+### Setup
 
 #### vapor **TGBotConnectionActor.swift**
 
