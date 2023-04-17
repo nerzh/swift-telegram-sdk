@@ -78,16 +78,40 @@ final class DefaultBotHandlers {
 }
 ```
 
+### Settings
+
+#### vapor **TGBotConnectionActor.swift**
+
+Add Actor for TGConnection
+
+```swift
+import Foundation
+import TelegramVaporBot
+
+actor TGBotConnection {
+    private var _connection: TGConnectionPrtcl!
+
+    var connection: TGConnectionPrtcl {
+        self._connection
+    }
+    
+    func setConnection(_ conn: TGConnectionPrtcl) {
+        self._connection = conn
+    }
+}
+```
+
 #### vapor **main.swift**
 
-make strong reference to TGBotConnection instance
+make strong reference to TGBotConnection instance and add "await" to configure
 
 ```swift
 import Vapor
 import TelegramVaporBot
 
-var TGBotConnection: TGConnectionPrtcl!
+let TGBOT: TGBotConnection = .init()
 
+try await configure(app)
 ```
 
 ### Use with LongPolling
@@ -97,16 +121,14 @@ var TGBotConnection: TGConnectionPrtcl!
 ```swift
 import TelegramVaporBot
 
-public func configure(_ app: Application) throws {
+public func configure(_ app: Application) async throws {
     let tgApi: String = "XXXXXXXXXX:YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
     /// set level of debug if you needed
-    TGBot.log.logLevel = .info
+    TGBot.log.logLevel = app.logger.logLevel
     let bot: TGBot = .init(app: app, botId: tgApi)
-    TGBotConnection = TGLongPollingConnection(bot: bot)
-    Task {
-        await DefaultBotHandlers.addHandlers(app: app, connection: TGBotConnection)
-        try await TGBotConnection.start()
-    }
+    await TGBOT.setConnection(try await TGLongPollingConnection(bot: bot))
+    await DefaultBotHandlers.addHandlers(app: app, connection: TGBOT.connection)
+    try await TGBOT.connection.start()
 
     try routes(app)
 }
@@ -167,8 +189,7 @@ extension TelegramController {
     
     func telegramWebHook(_ req: Request) async throws -> Bool {
         let update: TGUpdate = try req.content.decode(TGUpdate.self)
-        try await TGBotConnection.dispatcher.process([update])
-        return true
+        return try await TGBOT.connection.dispatcher.process([update])
     }
 }
 
@@ -190,7 +211,7 @@ let package = Package(
     ],
     dependencies: [
         .package(name: "vapor", url: "https://github.com/vapor/vapor.git", .upToNextMajor(from: "4.57.0")),
-        .package(name: "TelegramVaporBot", url: "https://github.com/nerzh/telegram-vapor-bot", .upToNextMajor(from: "2.0.0")),
+        .package(name: "TelegramVaporBot", url: "https://github.com/nerzh/telegram-vapor-bot", .upToNextMajor(from: "2.1.0")),
     ],
     targets: [
         .target(
