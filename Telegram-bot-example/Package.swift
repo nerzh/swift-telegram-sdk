@@ -1,4 +1,4 @@
-// swift-tools-version:5.5
+// swift-tools-version:5.8
 
 import PackageDescription
 
@@ -7,7 +7,7 @@ var packageDependencies: [Package.Dependency] = [
 ]
 
 //packageDependencies.append(.package(name: "TelegramVaporBot", path: "/Users/nerzh/mydata/swift_projects/TelegramVaporBot"))
-packageDependencies.append(.package(name: "TelegramVaporBot", url: "https://github.com/nerzh/telegram-vapor-bot", .upToNextMajor(from: "2.0.1")))
+packageDependencies.append(.package(url: "https://github.com/nerzh/telegram-vapor-bot", .upToNextMajor(from: "2.1.0")))
 
 
 let package = Package(
@@ -21,7 +21,7 @@ let package = Package(
             name: "Telegram-bot-example",
             dependencies: [
                 .product(name: "Vapor", package: "vapor"),
-                .product(name: "TelegramVaporBot", package: "TelegramVaporBot"),
+                .product(name: "TelegramVaporBot", package: "telegram-vapor-bot"),
             ]
         )
     ]

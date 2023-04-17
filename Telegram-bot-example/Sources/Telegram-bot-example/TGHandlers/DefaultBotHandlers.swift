@@ -11,13 +11,22 @@ import TelegramVaporBot
 final class DefaultBotHandlers {
 
     static func addHandlers(app: Vapor.Application, connection: TGConnectionPrtcl) async {
-        await defaultHandler(app: app, connection: connection)
+        await defaultBaseHandler(app: app, connection: connection)
+        await messageHandler(app: app, connection: connection)
         await commandPingHandler(app: app, connection: connection)
         await commandShowButtonsHandler(app: app, connection: connection)
         await buttonsActionHandler(app: app, connection: connection)
     }
+    
+    private static func defaultBaseHandler(app: Vapor.Application, connection: TGConnectionPrtcl) async {
+        await connection.dispatcher.add(TGBaseHandler({ update, bot in
+            guard let message = update.message else { return }
+            let params: TGSendMessageParams = .init(chatId: .chat(message.chat.id), text: "TGBaseHandler")
+            try await connection.bot.sendMessage(params: params)
+        }))
+    }
 
-    private static func defaultHandler(app: Vapor.Application, connection: TGConnectionPrtcl) async {
+    private static func messageHandler(app: Vapor.Application, connection: TGConnectionPrtcl) async {
         await connection.dispatcher.add(TGMessageHandler(filters: (.all && !.command.names(["/ping", "/show_buttons"]))) { update, bot in
             let params: TGSendMessageParams = .init(chatId: .chat(update.message!.chat.id), text: "Success")
             try await connection.bot.sendMessage(params: params)
