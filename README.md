@@ -144,7 +144,7 @@ public func configure(_ app: Application) async throws {
 ```swift
 import TelegramVaporBot
 
-public func configure(_ app: Application) throws {
+public func configure(_ app: Application) async throws {
     let tgApi: String = "XXXXXXXXXX:YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
     /// set level of debug if you needed
     TGBot.log.logLevel = app.logger.logLevel
