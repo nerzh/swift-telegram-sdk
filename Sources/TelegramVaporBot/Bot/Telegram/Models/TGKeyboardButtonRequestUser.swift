@@ -1,7 +1,7 @@
 // Telegram-vapor-bot - Telegram Bot Swift SDK.
 
 /**
- This object defines the criteria used to request a suitable user. The identifier of the selected user will be shared with the bot when the corresponding button is pressed.
+ This object defines the criteria used to request a suitable user. The identifier of the selected user will be shared with the bot when the corresponding button is pressed. More about requesting users »
 
  SeeAlso Telegram Bot API Reference:
  [KeyboardButtonRequestUser](https://core.telegram.org/bots/api#keyboardbuttonrequestuser)

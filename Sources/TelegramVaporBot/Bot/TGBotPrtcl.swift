@@ -363,6 +363,16 @@ public protocol TGBotPrtcl {
 
 
     @discardableResult
+    func setMyName(params: TGSetMyNameParams?) async throws -> Bool
+
+
+
+    @discardableResult
+    func getMyName(params: TGGetMyNameParams?) async throws -> TGBotName
+
+
+
+    @discardableResult
     func setMyDescription(params: TGSetMyDescriptionParams?) async throws -> Bool
 
 

@@ -16,6 +16,7 @@ public final class TGChatMemberUpdated: Codable {
         case oldChatMember = "old_chat_member"
         case newChatMember = "new_chat_member"
         case inviteLink = "invite_link"
+        case viaChatFolderInviteLink = "via_chat_folder_invite_link"
     }
 
     /// Chat the user belongs to
@@ -36,12 +37,16 @@ public final class TGChatMemberUpdated: Codable {
     /// Optional. Chat invite link, which was used by the user to join the chat; for joining by invite link events only.
     public var inviteLink: TGChatInviteLink?
 
-    public init (chat: TGChat, from: TGUser, date: Int, oldChatMember: TGChatMember, newChatMember: TGChatMember, inviteLink: TGChatInviteLink? = nil) {
+    /// Optional. True, if the user joined the chat via a chat folder invite link
+    public var viaChatFolderInviteLink: Bool?
+
+    public init (chat: TGChat, from: TGUser, date: Int, oldChatMember: TGChatMember, newChatMember: TGChatMember, inviteLink: TGChatInviteLink? = nil, viaChatFolderInviteLink: Bool? = nil) {
         self.chat = chat
         self.from = from
         self.date = date
         self.oldChatMember = oldChatMember
         self.newChatMember = newChatMember
         self.inviteLink = inviteLink
+        self.viaChatFolderInviteLink = viaChatFolderInviteLink
     }
 }
