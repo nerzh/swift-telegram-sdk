@@ -17,7 +17,7 @@ let package = Package(
         .package(name: "SwiftRegularExpression", url: "https://github.com/nerzh/swift-regular-expression", .upToNextMajor(from: "0.2.4")),
     ],
     targets: [
-        .target(
+        .executableTarget(
             name: "TelegramVaporBot",
             dependencies: [
                 .product(name: "Vapor", package: "vapor"),
