@@ -3,7 +3,7 @@
 import PackageDescription
 
 var packageDependencies: [Package.Dependency] = [
-    .package(name: "vapor", url: "https://github.com/vapor/vapor.git", .upToNextMajor(from: "4.57.0")),
+    .package(url: "https://github.com/vapor/vapor.git", .upToNextMajor(from: "4.57.0")),
 ]
 
 //packageDependencies.append(.package(name: "TelegramVaporBot", path: "/Users/nerzh/mydata/swift_projects/TelegramVaporBot"))
