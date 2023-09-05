@@ -132,12 +132,12 @@ public final class TGChatMember: Codable {
 
     /// True, if the user is allowed to pin messages
     /// True, if the user is allowed to create forum topics
-    /// Date when restrictions will be lifted for this user; unix time. If 0, then the user is restricted forever
+    /// Date when restrictions will be lifted for this user; Unix time. If 0, then the user is restricted forever
     public var untilDate: Int?
 
     /// The member's status in the chat, always “left”
     /// The member's status in the chat, always “kicked”
-    /// Date when restrictions will be lifted for this user; unix time. If 0, then the user is banned forever
+    /// Date when restrictions will be lifted for this user; Unix time. If 0, then the user is banned forever
     public init (status: String, user: TGUser, isAnonymous: Bool?, customTitle: String?, canBeEdited: Bool?, canManageChat: Bool?, canDeleteMessages: Bool?, canManageVideoChats: Bool?, canRestrictMembers: Bool?, canPromoteMembers: Bool?, canChangeInfo: Bool?, canInviteUsers: Bool?, canPostMessages: Bool?, canEditMessages: Bool?, canPinMessages: Bool?, canManageTopics: Bool?, isMember: Bool?, canSendMessages: Bool?, canSendAudios: Bool?, canSendDocuments: Bool?, canSendPhotos: Bool?, canSendVideos: Bool?, canSendVideoNotes: Bool?, canSendVoiceNotes: Bool?, canSendPolls: Bool?, canSendOtherMessages: Bool?, canAddWebPagePreviews: Bool?, untilDate: Int?) {
         self.status = status
         self.user = user

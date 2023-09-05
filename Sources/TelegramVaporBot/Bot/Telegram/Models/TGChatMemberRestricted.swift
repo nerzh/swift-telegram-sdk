@@ -81,7 +81,7 @@ public final class TGChatMemberRestricted: Codable {
     /// True, if the user is allowed to create forum topics
     public var canManageTopics: Bool
 
-    /// Date when restrictions will be lifted for this user; unix time. If 0, then the user is restricted forever
+    /// Date when restrictions will be lifted for this user; Unix time. If 0, then the user is restricted forever
     public var untilDate: Int
 
     public init (status: String, user: TGUser, isMember: Bool, canSendMessages: Bool, canSendAudios: Bool, canSendDocuments: Bool, canSendPhotos: Bool, canSendVideos: Bool, canSendVideoNotes: Bool, canSendVoiceNotes: Bool, canSendPolls: Bool, canSendOtherMessages: Bool, canAddWebPagePreviews: Bool, canChangeInfo: Bool, canInviteUsers: Bool, canPinMessages: Bool, canManageTopics: Bool, untilDate: Int) {

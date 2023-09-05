@@ -37,6 +37,7 @@ public final class TGMessage: Codable {
         case document = "document"
         case photo = "photo"
         case sticker = "sticker"
+        case story = "story"
         case video = "video"
         case videoNote = "video_note"
         case voice = "voice"
@@ -163,6 +164,9 @@ public final class TGMessage: Codable {
 
     /// Optional. Message is a sticker, information about the sticker
     public var sticker: TGSticker?
+
+    /// Optional. Message is a forwarded story
+    public var story: TGStory?
 
     /// Optional. Message is a video, information about the video
     public var video: TGVideo?
@@ -296,7 +300,7 @@ public final class TGMessage: Codable {
     /// Optional. Inline keyboard attached to the message. login_url buttons are represented as ordinary url buttons.
     public var replyMarkup: TGInlineKeyboardMarkup?
 
-    public init (messageId: Int, messageThreadId: Int? = nil, from: TGUser? = nil, senderChat: TGChat? = nil, date: Int, chat: TGChat, forwardFrom: TGUser? = nil, forwardFromChat: TGChat? = nil, forwardFromMessageId: Int? = nil, forwardSignature: String? = nil, forwardSenderName: String? = nil, forwardDate: Int? = nil, isTopicMessage: Bool? = nil, isAutomaticForward: Bool? = nil, replyToMessage: TGMessage? = nil, viaBot: TGUser? = nil, editDate: Int? = nil, hasProtectedContent: Bool? = nil, mediaGroupId: String? = nil, authorSignature: String? = nil, text: String? = nil, entities: [TGMessageEntity]? = nil, animation: TGAnimation? = nil, audio: TGAudio? = nil, document: TGDocument? = nil, photo: [TGPhotoSize]? = nil, sticker: TGSticker? = nil, video: TGVideo? = nil, videoNote: TGVideoNote? = nil, voice: TGVoice? = nil, caption: String? = nil, captionEntities: [TGMessageEntity]? = nil, hasMediaSpoiler: Bool? = nil, contact: TGContact? = nil, dice: TGDice? = nil, game: TGGame? = nil, poll: TGPoll? = nil, venue: TGVenue? = nil, location: TGLocation? = nil, newChatMembers: [TGUser]? = nil, leftChatMember: TGUser? = nil, newChatTitle: String? = nil, newChatPhoto: [TGPhotoSize]? = nil, deleteChatPhoto: Bool? = nil, groupChatCreated: Bool? = nil, supergroupChatCreated: Bool? = nil, channelChatCreated: Bool? = nil, messageAutoDeleteTimerChanged: TGMessageAutoDeleteTimerChanged? = nil, migrateToChatId: Int64? = nil, migrateFromChatId: Int64? = nil, pinnedMessage: TGMessage? = nil, invoice: TGInvoice? = nil, successfulPayment: TGSuccessfulPayment? = nil, userShared: TGUserShared? = nil, chatShared: TGChatShared? = nil, connectedWebsite: String? = nil, writeAccessAllowed: TGWriteAccessAllowed? = nil, passportData: TGPassportData? = nil, proximityAlertTriggered: TGProximityAlertTriggered? = nil, forumTopicCreated: TGForumTopicCreated? = nil, forumTopicEdited: TGForumTopicEdited? = nil, forumTopicClosed: TGForumTopicClosed? = nil, forumTopicReopened: TGForumTopicReopened? = nil, generalForumTopicHidden: TGGeneralForumTopicHidden? = nil, generalForumTopicUnhidden: TGGeneralForumTopicUnhidden? = nil, videoChatScheduled: TGVideoChatScheduled? = nil, videoChatStarted: TGVideoChatStarted? = nil, videoChatEnded: TGVideoChatEnded? = nil, videoChatParticipantsInvited: TGVideoChatParticipantsInvited? = nil, webAppData: TGWebAppData? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil) {
+    public init (messageId: Int, messageThreadId: Int? = nil, from: TGUser? = nil, senderChat: TGChat? = nil, date: Int, chat: TGChat, forwardFrom: TGUser? = nil, forwardFromChat: TGChat? = nil, forwardFromMessageId: Int? = nil, forwardSignature: String? = nil, forwardSenderName: String? = nil, forwardDate: Int? = nil, isTopicMessage: Bool? = nil, isAutomaticForward: Bool? = nil, replyToMessage: TGMessage? = nil, viaBot: TGUser? = nil, editDate: Int? = nil, hasProtectedContent: Bool? = nil, mediaGroupId: String? = nil, authorSignature: String? = nil, text: String? = nil, entities: [TGMessageEntity]? = nil, animation: TGAnimation? = nil, audio: TGAudio? = nil, document: TGDocument? = nil, photo: [TGPhotoSize]? = nil, sticker: TGSticker? = nil, story: TGStory? = nil, video: TGVideo? = nil, videoNote: TGVideoNote? = nil, voice: TGVoice? = nil, caption: String? = nil, captionEntities: [TGMessageEntity]? = nil, hasMediaSpoiler: Bool? = nil, contact: TGContact? = nil, dice: TGDice? = nil, game: TGGame? = nil, poll: TGPoll? = nil, venue: TGVenue? = nil, location: TGLocation? = nil, newChatMembers: [TGUser]? = nil, leftChatMember: TGUser? = nil, newChatTitle: String? = nil, newChatPhoto: [TGPhotoSize]? = nil, deleteChatPhoto: Bool? = nil, groupChatCreated: Bool? = nil, supergroupChatCreated: Bool? = nil, channelChatCreated: Bool? = nil, messageAutoDeleteTimerChanged: TGMessageAutoDeleteTimerChanged? = nil, migrateToChatId: Int64? = nil, migrateFromChatId: Int64? = nil, pinnedMessage: TGMessage? = nil, invoice: TGInvoice? = nil, successfulPayment: TGSuccessfulPayment? = nil, userShared: TGUserShared? = nil, chatShared: TGChatShared? = nil, connectedWebsite: String? = nil, writeAccessAllowed: TGWriteAccessAllowed? = nil, passportData: TGPassportData? = nil, proximityAlertTriggered: TGProximityAlertTriggered? = nil, forumTopicCreated: TGForumTopicCreated? = nil, forumTopicEdited: TGForumTopicEdited? = nil, forumTopicClosed: TGForumTopicClosed? = nil, forumTopicReopened: TGForumTopicReopened? = nil, generalForumTopicHidden: TGGeneralForumTopicHidden? = nil, generalForumTopicUnhidden: TGGeneralForumTopicUnhidden? = nil, videoChatScheduled: TGVideoChatScheduled? = nil, videoChatStarted: TGVideoChatStarted? = nil, videoChatEnded: TGVideoChatEnded? = nil, videoChatParticipantsInvited: TGVideoChatParticipantsInvited? = nil, webAppData: TGWebAppData? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil) {
         self.messageId = messageId
         self.messageThreadId = messageThreadId
         self.from = from
@@ -324,6 +328,7 @@ public final class TGMessage: Codable {
         self.document = document
         self.photo = photo
         self.sticker = sticker
+        self.story = story
         self.video = video
         self.videoNote = videoNote
         self.voice = voice

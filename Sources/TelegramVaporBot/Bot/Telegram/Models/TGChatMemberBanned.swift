@@ -21,7 +21,7 @@ public final class TGChatMemberBanned: Codable {
     /// Information about the user
     public var user: TGUser
 
-    /// Date when restrictions will be lifted for this user; unix time. If 0, then the user is banned forever
+    /// Date when restrictions will be lifted for this user; Unix time. If 0, then the user is banned forever
     public var untilDate: Int
 
     public init (status: String, user: TGUser, untilDate: Int) {

@@ -343,6 +343,11 @@ public protocol TGBotPrtcl {
 
 
     @discardableResult
+    func unpinAllGeneralForumTopicMessages(params: TGUnpinAllGeneralForumTopicMessagesParams) async throws -> Bool
+
+
+
+    @discardableResult
     func answerCallbackQuery(params: TGAnswerCallbackQueryParams) async throws -> Bool
 
 

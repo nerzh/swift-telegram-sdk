@@ -113,7 +113,7 @@ open class TGDefaultDispatcher: TGDispatcherPrtcl {
                     return
                 }
                 
-                Task {   
+                Task.detached {
                     do {
                         let allowNext: Bool = try await self.beforeAllCallback(updates)
                         if allowNext {
@@ -149,7 +149,7 @@ open class TGDefaultDispatcher: TGDispatcherPrtcl {
                     continuation.resume()
                     return
                 }
-                Task {
+                Task.detached {
                     do {
                         try await withThrowingTaskGroup(of: Void.self, body: { group in
                             for i in 1...self.handlersGroup.count {

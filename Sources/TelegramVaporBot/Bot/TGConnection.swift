@@ -49,7 +49,7 @@ public final class TGLongPollingConnection: TGConnectionPrtcl {
         /// delete webhook because: You will not be able to receive updates using getUpdates for as long as an outgoing webhook is set up.
         let deleteWebHookParams: TGDeleteWebhookParams = .init(dropPendingUpdates: false)
         try await bot.deleteWebhook(params: deleteWebHookParams)
-        Task { [weak self] in
+        Task.detached { [weak self] in
             guard let self = self else { return }
             try await self.getUpdates()
         }
