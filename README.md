@@ -209,29 +209,36 @@ extension TelegramController {
 add to yor Package.json
 
 ```swift
-// swift-tools-version:5.5
+// swift-tools-version:5.8
 
 import PackageDescription
+
+var packageDependencies: [Package.Dependency] = [
+    .package(url: "https://github.com/vapor/vapor.git", .upToNextMajor(from: "4.57.0")),
+]
+
+packageDependencies.append(.package(url: "https://github.com/nerzh/telegram-vapor-bot", .upToNextMajor(from: "2.1.0")))
+
 
 let package = Package(
     name: "Telegram-bot-example",
     platforms: [
-       .macOS(.v12)
+        .macOS(.v12)
     ],
-    dependencies: [
-        .package(name: "vapor", url: "https://github.com/vapor/vapor.git", .upToNextMajor(from: "4.57.0")),
-        .package(name: "TelegramVaporBot", url: "https://github.com/nerzh/telegram-vapor-bot", .upToNextMajor(from: "2.1.0")),
-    ],
+    dependencies: packageDependencies,
     targets: [
-        .target(
+        .executableTarget(
             name: "Telegram-bot-example",
             dependencies: [
                 .product(name: "Vapor", package: "vapor"),
-                .product(name: "TelegramVaporBot", package: "TelegramVaporBot"),
+                .product(name: "TelegramVaporBot", package: "telegram-vapor-bot"),
             ]
         )
     ]
 )
+
+
+
 ```
 
 ### Acknowledgments
