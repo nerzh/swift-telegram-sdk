@@ -17,7 +17,7 @@ let package = Package(
     ],
     dependencies: packageDependencies,
     targets: [
-        .target(
+        .executableTarget(
             name: "Telegram-bot-example",
             dependencies: [
                 .product(name: "Vapor", package: "vapor"),
