@@ -18,17 +18,26 @@ public struct TGPromoteChatMemberParams: Encodable {
     /// Pass True if the administrator's presence in the chat is hidden
     public var isAnonymous: Bool?
 
-    /// Pass True if the administrator can access the chat event log, chat statistics, message statistics in channels, see channel members, see anonymous administrators in supergroups and ignore slow mode. Implied by any other administrator privilege
+    /// Pass True if the administrator can access the chat event log, chat statistics, boost list in channels, message statistics in channels, see channel members, see anonymous administrators in supergroups and ignore slow mode. Implied by any other administrator privilege
     public var canManageChat: Bool?
 
-    /// Pass True if the administrator can create channel posts, channels only
+    /// Pass True if the administrator can post messages in the channel; channels only
     public var canPostMessages: Bool?
 
-    /// Pass True if the administrator can edit messages of other users and can pin messages, channels only
+    /// Pass True if the administrator can edit messages of other users and can pin messages; channels only
     public var canEditMessages: Bool?
 
     /// Pass True if the administrator can delete messages of other users
     public var canDeleteMessages: Bool?
+
+    /// Pass True if the administrator can post stories in the channel; channels only
+    public var canPostStories: Bool?
+
+    /// Pass True if the administrator can edit stories posted by other users; channels only
+    public var canEditStories: Bool?
+
+    /// Pass True if the administrator can delete stories posted by other users; channels only
+    public var canDeleteStories: Bool?
 
     /// Pass True if the administrator can manage video chats
     public var canManageVideoChats: Bool?
@@ -60,6 +69,9 @@ public struct TGPromoteChatMemberParams: Encodable {
             case canPostMessages = "can_post_messages"
             case canEditMessages = "can_edit_messages"
             case canDeleteMessages = "can_delete_messages"
+            case canPostStories = "can_post_stories"
+            case canEditStories = "can_edit_stories"
+            case canDeleteStories = "can_delete_stories"
             case canManageVideoChats = "can_manage_video_chats"
             case canRestrictMembers = "can_restrict_members"
             case canPromoteMembers = "can_promote_members"
@@ -69,7 +81,7 @@ public struct TGPromoteChatMemberParams: Encodable {
             case canManageTopics = "can_manage_topics"
     }
 
-    public init(chatId: TGChatId, userId: Int64, isAnonymous: Bool? = nil, canManageChat: Bool? = nil, canPostMessages: Bool? = nil, canEditMessages: Bool? = nil, canDeleteMessages: Bool? = nil, canManageVideoChats: Bool? = nil, canRestrictMembers: Bool? = nil, canPromoteMembers: Bool? = nil, canChangeInfo: Bool? = nil, canInviteUsers: Bool? = nil, canPinMessages: Bool? = nil, canManageTopics: Bool? = nil) {
+    public init(chatId: TGChatId, userId: Int64, isAnonymous: Bool? = nil, canManageChat: Bool? = nil, canPostMessages: Bool? = nil, canEditMessages: Bool? = nil, canDeleteMessages: Bool? = nil, canPostStories: Bool? = nil, canEditStories: Bool? = nil, canDeleteStories: Bool? = nil, canManageVideoChats: Bool? = nil, canRestrictMembers: Bool? = nil, canPromoteMembers: Bool? = nil, canChangeInfo: Bool? = nil, canInviteUsers: Bool? = nil, canPinMessages: Bool? = nil, canManageTopics: Bool? = nil) {
             self.chatId = chatId
             self.userId = userId
             self.isAnonymous = isAnonymous
@@ -77,6 +89,9 @@ public struct TGPromoteChatMemberParams: Encodable {
             self.canPostMessages = canPostMessages
             self.canEditMessages = canEditMessages
             self.canDeleteMessages = canDeleteMessages
+            self.canPostStories = canPostStories
+            self.canEditStories = canEditStories
+            self.canDeleteStories = canDeleteStories
             self.canManageVideoChats = canManageVideoChats
             self.canRestrictMembers = canRestrictMembers
             self.canPromoteMembers = canPromoteMembers

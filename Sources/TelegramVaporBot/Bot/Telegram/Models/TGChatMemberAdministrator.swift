@@ -24,6 +24,9 @@ public final class TGChatMemberAdministrator: Codable {
         case canPostMessages = "can_post_messages"
         case canEditMessages = "can_edit_messages"
         case canPinMessages = "can_pin_messages"
+        case canPostStories = "can_post_stories"
+        case canEditStories = "can_edit_stories"
+        case canDeleteStories = "can_delete_stories"
         case canManageTopics = "can_manage_topics"
         case customTitle = "custom_title"
     }
@@ -40,7 +43,7 @@ public final class TGChatMemberAdministrator: Codable {
     /// True, if the user's presence in the chat is hidden
     public var isAnonymous: Bool
 
-    /// True, if the administrator can access the chat event log, chat statistics, message statistics in channels, see channel members, see anonymous administrators in supergroups and ignore slow mode. Implied by any other administrator privilege
+    /// True, if the administrator can access the chat event log, chat statistics, boost list in channels, message statistics in channels, see channel members, see anonymous administrators in supergroups and ignore slow mode. Implied by any other administrator privilege
     public var canManageChat: Bool
 
     /// True, if the administrator can delete messages of other users
@@ -61,7 +64,7 @@ public final class TGChatMemberAdministrator: Codable {
     /// True, if the user is allowed to invite new users to the chat
     public var canInviteUsers: Bool
 
-    /// Optional. True, if the administrator can post in the channel; channels only
+    /// Optional. True, if the administrator can post messages in the channel; channels only
     public var canPostMessages: Bool?
 
     /// Optional. True, if the administrator can edit messages of other users and can pin messages; channels only
@@ -70,13 +73,22 @@ public final class TGChatMemberAdministrator: Codable {
     /// Optional. True, if the user is allowed to pin messages; groups and supergroups only
     public var canPinMessages: Bool?
 
+    /// Optional. True, if the administrator can post stories in the channel; channels only
+    public var canPostStories: Bool?
+
+    /// Optional. True, if the administrator can edit stories posted by other users; channels only
+    public var canEditStories: Bool?
+
+    /// Optional. True, if the administrator can delete stories posted by other users; channels only
+    public var canDeleteStories: Bool?
+
     /// Optional. True, if the user is allowed to create, rename, close, and reopen forum topics; supergroups only
     public var canManageTopics: Bool?
 
     /// Optional. Custom title for this user
     public var customTitle: String?
 
-    public init (status: String, user: TGUser, canBeEdited: Bool, isAnonymous: Bool, canManageChat: Bool, canDeleteMessages: Bool, canManageVideoChats: Bool, canRestrictMembers: Bool, canPromoteMembers: Bool, canChangeInfo: Bool, canInviteUsers: Bool, canPostMessages: Bool? = nil, canEditMessages: Bool? = nil, canPinMessages: Bool? = nil, canManageTopics: Bool? = nil, customTitle: String? = nil) {
+    public init (status: String, user: TGUser, canBeEdited: Bool, isAnonymous: Bool, canManageChat: Bool, canDeleteMessages: Bool, canManageVideoChats: Bool, canRestrictMembers: Bool, canPromoteMembers: Bool, canChangeInfo: Bool, canInviteUsers: Bool, canPostMessages: Bool? = nil, canEditMessages: Bool? = nil, canPinMessages: Bool? = nil, canPostStories: Bool? = nil, canEditStories: Bool? = nil, canDeleteStories: Bool? = nil, canManageTopics: Bool? = nil, customTitle: String? = nil) {
         self.status = status
         self.user = user
         self.canBeEdited = canBeEdited
@@ -91,6 +103,9 @@ public final class TGChatMemberAdministrator: Codable {
         self.canPostMessages = canPostMessages
         self.canEditMessages = canEditMessages
         self.canPinMessages = canPinMessages
+        self.canPostStories = canPostStories
+        self.canEditStories = canEditStories
+        self.canDeleteStories = canDeleteStories
         self.canManageTopics = canManageTopics
         self.customTitle = customTitle
     }

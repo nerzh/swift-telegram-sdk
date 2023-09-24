@@ -31,6 +31,9 @@ public final class TGChatMember: Codable {
         case canPostMessages = "can_post_messages"
         case canEditMessages = "can_edit_messages"
         case canPinMessages = "can_pin_messages"
+        case canPostStories = "can_post_stories"
+        case canEditStories = "can_edit_stories"
+        case canDeleteStories = "can_delete_stories"
         case canManageTopics = "can_manage_topics"
         case isMember = "is_member"
         case canSendMessages = "can_send_messages"
@@ -62,7 +65,7 @@ public final class TGChatMember: Codable {
     /// True, if the bot is allowed to edit administrator privileges of that user
     public var canBeEdited: Bool?
 
-    /// True, if the administrator can access the chat event log, chat statistics, message statistics in channels, see channel members, see anonymous administrators in supergroups and ignore slow mode. Implied by any other administrator privilege
+    /// True, if the administrator can access the chat event log, chat statistics, boost list in channels, message statistics in channels, see channel members, see anonymous administrators in supergroups and ignore slow mode. Implied by any other administrator privilege
     public var canManageChat: Bool?
 
     /// True, if the administrator can delete messages of other users
@@ -83,7 +86,7 @@ public final class TGChatMember: Codable {
     /// True, if the user is allowed to invite new users to the chat
     public var canInviteUsers: Bool?
 
-    /// Optional. True, if the administrator can post in the channel; channels only
+    /// Optional. True, if the administrator can post messages in the channel; channels only
     public var canPostMessages: Bool?
 
     /// Optional. True, if the administrator can edit messages of other users and can pin messages; channels only
@@ -91,6 +94,15 @@ public final class TGChatMember: Codable {
 
     /// Optional. True, if the user is allowed to pin messages; groups and supergroups only
     public var canPinMessages: Bool?
+
+    /// Optional. True, if the administrator can post stories in the channel; channels only
+    public var canPostStories: Bool?
+
+    /// Optional. True, if the administrator can edit stories posted by other users; channels only
+    public var canEditStories: Bool?
+
+    /// Optional. True, if the administrator can delete stories posted by other users; channels only
+    public var canDeleteStories: Bool?
 
     /// Optional. True, if the user is allowed to create, rename, close, and reopen forum topics; supergroups only
     public var canManageTopics: Bool?
@@ -138,7 +150,7 @@ public final class TGChatMember: Codable {
     /// The member's status in the chat, always “left”
     /// The member's status in the chat, always “kicked”
     /// Date when restrictions will be lifted for this user; Unix time. If 0, then the user is banned forever
-    public init (status: String, user: TGUser, isAnonymous: Bool?, customTitle: String?, canBeEdited: Bool?, canManageChat: Bool?, canDeleteMessages: Bool?, canManageVideoChats: Bool?, canRestrictMembers: Bool?, canPromoteMembers: Bool?, canChangeInfo: Bool?, canInviteUsers: Bool?, canPostMessages: Bool?, canEditMessages: Bool?, canPinMessages: Bool?, canManageTopics: Bool?, isMember: Bool?, canSendMessages: Bool?, canSendAudios: Bool?, canSendDocuments: Bool?, canSendPhotos: Bool?, canSendVideos: Bool?, canSendVideoNotes: Bool?, canSendVoiceNotes: Bool?, canSendPolls: Bool?, canSendOtherMessages: Bool?, canAddWebPagePreviews: Bool?, untilDate: Int?) {
+    public init (status: String, user: TGUser, isAnonymous: Bool?, customTitle: String?, canBeEdited: Bool?, canManageChat: Bool?, canDeleteMessages: Bool?, canManageVideoChats: Bool?, canRestrictMembers: Bool?, canPromoteMembers: Bool?, canChangeInfo: Bool?, canInviteUsers: Bool?, canPostMessages: Bool?, canEditMessages: Bool?, canPinMessages: Bool?, canPostStories: Bool?, canEditStories: Bool?, canDeleteStories: Bool?, canManageTopics: Bool?, isMember: Bool?, canSendMessages: Bool?, canSendAudios: Bool?, canSendDocuments: Bool?, canSendPhotos: Bool?, canSendVideos: Bool?, canSendVideoNotes: Bool?, canSendVoiceNotes: Bool?, canSendPolls: Bool?, canSendOtherMessages: Bool?, canAddWebPagePreviews: Bool?, untilDate: Int?) {
         self.status = status
         self.user = user
         self.isAnonymous = isAnonymous
@@ -154,6 +166,9 @@ public final class TGChatMember: Codable {
         self.canPostMessages = canPostMessages
         self.canEditMessages = canEditMessages
         self.canPinMessages = canPinMessages
+        self.canPostStories = canPostStories
+        self.canEditStories = canEditStories
+        self.canDeleteStories = canDeleteStories
         self.canManageTopics = canManageTopics
         self.isMember = isMember
         self.canSendMessages = canSendMessages
