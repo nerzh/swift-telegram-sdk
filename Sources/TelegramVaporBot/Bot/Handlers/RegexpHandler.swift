@@ -31,10 +31,11 @@ public class TGRegexpHandler: TGHandlerPrtcl {
     public convenience init?(
         name: String = String(describing: TGRegexpHandler.self),
         pattern: String,
+        options: NSRegularExpression.Options = [],
         filters: TGFilter = .all,
         _ callback: @escaping TGHandlerCallbackAsync
     ) {
-        guard let regexp = try? NSRegularExpression(pattern: pattern, options: []) else {
+        guard let regexp = try? NSRegularExpression(pattern: pattern, options: options) else {
             return nil
         }
         self.init(
