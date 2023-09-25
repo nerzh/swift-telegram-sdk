@@ -45,7 +45,10 @@ open class TGDefaultDispatcher: TGDispatcherPrtcl {
     required public init(bot: TGBot) async throws {
         self.bot = bot
         eventLoopGroup = bot.app.eventLoopGroup
+        try await handle()
     }
+    
+    open func handle() async throws {}
 
     public func add(_ handler: TGHandlerPrtcl, priority level: Int) async {
         return await withCheckedContinuation { continuation in
