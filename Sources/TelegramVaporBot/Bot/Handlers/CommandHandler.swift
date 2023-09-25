@@ -4,6 +4,8 @@
 //  Created by Oleh Hudeichuk on 02.06.2021.
 //
 
+import SwiftExtensionsPack
+
 /**
  Handler class to handle Telegram commands.
  
@@ -46,7 +48,7 @@ public class TGCommandHandler: TGHandlerPrtcl {
         _ callback: @escaping TGHandlerCallbackAsync
     ) {
         self.name = name
-        self.commands = Set(commands)
+        self.commands = Set(commands.map { "/\($0)".replace(#"\/\/"#, "/") })
         self.filters = filters
         self.options = options
         self.botUsername = botUsername
