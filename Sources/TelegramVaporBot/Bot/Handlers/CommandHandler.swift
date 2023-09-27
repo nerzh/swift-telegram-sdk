@@ -4,7 +4,7 @@
 //  Created by Oleh Hudeichuk on 02.06.2021.
 //
 
-import SwiftExtensionsPack
+import SwiftRegularExpression
 
 /**
  Handler class to handle Telegram commands.
