@@ -22,14 +22,14 @@ final class DefaultBotHandlers {
         await connection.dispatcher.add(TGBaseHandler({ update, bot in
             guard let message = update.message else { return }
             let params: TGSendMessageParams = .init(chatId: .chat(message.chat.id), text: "TGBaseHandler")
-            try await connection.bot.sendMessage(params: params)
+            try await bot.sendMessage(params: params)
         }))
     }
 
     private static func messageHandler(app: Vapor.Application, connection: TGConnectionPrtcl) async {
         await connection.dispatcher.add(TGMessageHandler(filters: (.all && !.command.names(["/ping", "/show_buttons"]))) { update, bot in
             let params: TGSendMessageParams = .init(chatId: .chat(update.message!.chat.id), text: "Success")
-            try await connection.bot.sendMessage(params: params)
+            try await bot.sendMessage(params: params)
         })
     }
 
@@ -49,12 +49,13 @@ final class DefaultBotHandlers {
             let params: TGSendMessageParams = .init(chatId: .chat(userId),
                                                     text: "Keyboard active",
                                                     replyMarkup: .inlineKeyboardMarkup(keyboard))
-            try await connection.bot.sendMessage(params: params)
+            try await bot.sendMessage(params: params)
         })
     }
 
     private static func buttonsActionHandler(app: Vapor.Application, connection: TGConnectionPrtcl) async {
         await connection.dispatcher.add(TGCallbackQueryHandler(pattern: "press 1") { update, bot in
+            TGBot.log.info("press 1")
             let params: TGAnswerCallbackQueryParams = .init(callbackQueryId: update.callbackQuery?.id ?? "0",
                                                             text: update.callbackQuery?.data  ?? "data not exist",
                                                             showAlert: nil,
@@ -64,6 +65,7 @@ final class DefaultBotHandlers {
         })
         
         await connection.dispatcher.add(TGCallbackQueryHandler(pattern: "press 2") { update, bot in
+            TGBot.log.info("press 2")
             let params: TGAnswerCallbackQueryParams = .init(callbackQueryId: update.callbackQuery?.id ?? "0",
                                                             text: update.callbackQuery?.data  ?? "data not exist",
                                                             showAlert: nil,

@@ -23,9 +23,8 @@ public final class TGLongPollingConnection: TGConnectionPrtcl {
     
     public let bot: TGBot
     public let dispatcher: TGDispatcherPrtcl
-    public var handlersGroup: [[TGHandlerPrtcl]] = []
     public var limit: Int?
-    public var timeout: Int? = 15
+    public var timeout: Int? = 10
     public var allowedUpdates: [TGUpdate.CodingKeys]?
     
     private var offsetUpdates: Int = 0
@@ -51,7 +50,10 @@ public final class TGLongPollingConnection: TGConnectionPrtcl {
         try await bot.deleteWebhook(params: deleteWebHookParams)
         Task.detached { [weak self] in
             guard let self = self else { return }
-            try await self.getUpdates()
+            while !Task.isCancelled {
+                try await Task.sleep(nanoseconds: 100)
+                try await self.getUpdates()
+            }
         }
         
         return true
@@ -68,7 +70,6 @@ public final class TGLongPollingConnection: TGConnectionPrtcl {
             offsetUpdates = lastUpdate.updateId
         }
         try await dispatcher.process(response)
-        try await getUpdates()
     }
 }
 
