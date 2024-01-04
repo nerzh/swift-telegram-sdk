@@ -24,8 +24,8 @@ public struct TGSendMessageParams: Encodable {
     /// A JSON-serialized list of special entities that appear in message text, which can be specified instead of parse_mode
     public var entities: [TGMessageEntity]?
 
-    /// Disables link previews for links in this message
-    public var disableWebPagePreview: Bool?
+    /// Link preview generation options for the message
+    public var linkPreviewOptions: TGLinkPreviewOptions?
 
     /// Sends the message silently. Users will receive a notification with no sound.
     public var disableNotification: Bool?
@@ -33,11 +33,8 @@ public struct TGSendMessageParams: Encodable {
     /// Protects the contents of the sent message from forwarding and saving
     public var protectContent: Bool?
 
-    /// If the message is a reply, ID of the original message
-    public var replyToMessageId: Int?
-
-    /// Pass True if the message should be sent even if the specified replied-to message is not found
-    public var allowSendingWithoutReply: Bool?
+    /// Description of the message to reply to
+    public var replyParameters: TGReplyParameters?
 
     /// Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
     public var replyMarkup: TGReplyMarkup?
@@ -49,25 +46,23 @@ public struct TGSendMessageParams: Encodable {
             case text = "text"
             case parseMode = "parse_mode"
             case entities = "entities"
-            case disableWebPagePreview = "disable_web_page_preview"
+            case linkPreviewOptions = "link_preview_options"
             case disableNotification = "disable_notification"
             case protectContent = "protect_content"
-            case replyToMessageId = "reply_to_message_id"
-            case allowSendingWithoutReply = "allow_sending_without_reply"
+            case replyParameters = "reply_parameters"
             case replyMarkup = "reply_markup"
     }
 
-    public init(chatId: TGChatId, messageThreadId: Int? = nil, text: String, parseMode: TGParseMode? = nil, entities: [TGMessageEntity]? = nil, disableWebPagePreview: Bool? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyToMessageId: Int? = nil, allowSendingWithoutReply: Bool? = nil, replyMarkup: TGReplyMarkup? = nil) {
+    public init(chatId: TGChatId, messageThreadId: Int? = nil, text: String, parseMode: TGParseMode? = nil, entities: [TGMessageEntity]? = nil, linkPreviewOptions: TGLinkPreviewOptions? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyParameters: TGReplyParameters? = nil, replyMarkup: TGReplyMarkup? = nil) {
             self.chatId = chatId
             self.messageThreadId = messageThreadId
             self.text = text
             self.parseMode = parseMode
             self.entities = entities
-            self.disableWebPagePreview = disableWebPagePreview
+            self.linkPreviewOptions = linkPreviewOptions
             self.disableNotification = disableNotification
             self.protectContent = protectContent
-            self.replyToMessageId = replyToMessageId
-            self.allowSendingWithoutReply = allowSendingWithoutReply
+            self.replyParameters = replyParameters
             self.replyMarkup = replyMarkup
     }
 }

@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [InputSticker](https://core.telegram.org/bots/api#inputsticker)
- */
+ **/
 public final class TGInputSticker: Codable {
 
     /// Custom keys for coding/decoding `InputSticker` struct

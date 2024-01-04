@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [PassportElementErrorFiles](https://core.telegram.org/bots/api#passportelementerrorfiles)
- */
+ **/
 public final class TGPassportElementErrorFiles: Codable {
 
     /// Custom keys for coding/decoding `PassportElementErrorFiles` struct

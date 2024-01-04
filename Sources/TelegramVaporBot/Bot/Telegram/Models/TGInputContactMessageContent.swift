@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [InputContactMessageContent](https://core.telegram.org/bots/api#inputcontactmessagecontent)
- */
+ **/
 public final class TGInputContactMessageContent: Codable {
 
     /// Custom keys for coding/decoding `InputContactMessageContent` struct

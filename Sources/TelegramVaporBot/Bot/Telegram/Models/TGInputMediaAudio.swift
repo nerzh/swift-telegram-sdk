@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [InputMediaAudio](https://core.telegram.org/bots/api#inputmediaaudio)
- */
+ **/
 public final class TGInputMediaAudio: Codable {
 
     /// Custom keys for coding/decoding `InputMediaAudio` struct

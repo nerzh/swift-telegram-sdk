@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [Venue](https://core.telegram.org/bots/api#venue)
- */
+ **/
 public final class TGVenue: Codable {
 
     /// Custom keys for coding/decoding `Venue` struct

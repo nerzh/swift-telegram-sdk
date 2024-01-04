@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [InputMediaDocument](https://core.telegram.org/bots/api#inputmediadocument)
- */
+ **/
 public final class TGInputMediaDocument: Codable {
 
     /// Custom keys for coding/decoding `InputMediaDocument` struct

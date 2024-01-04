@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [PassportElementErrorDataField](https://core.telegram.org/bots/api#passportelementerrordatafield)
- */
+ **/
 public final class TGPassportElementErrorDataField: Codable {
 
     /// Custom keys for coding/decoding `PassportElementErrorDataField` struct

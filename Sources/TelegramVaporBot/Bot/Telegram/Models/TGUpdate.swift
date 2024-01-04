@@ -6,7 +6,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [Update](https://core.telegram.org/bots/api#update)
- */
+ **/
 public final class TGUpdate: Codable {
 
     /// Custom keys for coding/decoding `Update` struct
@@ -16,6 +16,8 @@ public final class TGUpdate: Codable {
         case editedMessage = "edited_message"
         case channelPost = "channel_post"
         case editedChannelPost = "edited_channel_post"
+        case messageReaction = "message_reaction"
+        case messageReactionCount = "message_reaction_count"
         case inlineQuery = "inline_query"
         case chosenInlineResult = "chosen_inline_result"
         case callbackQuery = "callback_query"
@@ -26,6 +28,8 @@ public final class TGUpdate: Codable {
         case myChatMember = "my_chat_member"
         case chatMember = "chat_member"
         case chatJoinRequest = "chat_join_request"
+        case chatBoost = "chat_boost"
+        case removedChatBoost = "removed_chat_boost"
     }
 
     /// The update's unique identifier. Update identifiers start from a certain positive number and increase sequentially. This ID becomes especially handy if you're using webhooks, since it allows you to ignore repeated updates or to restore the correct update sequence, should they get out of order. If there are no new updates for at least a week, then identifier of the next update will be chosen randomly instead of sequentially.
@@ -42,6 +46,12 @@ public final class TGUpdate: Codable {
 
     /// Optional. New version of a channel post that is known to the bot and was edited
     public var editedChannelPost: TGMessage?
+
+    /// Optional. A reaction to a message was changed by a user. The bot must be an administrator in the chat and must explicitly specify "message_reaction" in the list of allowed_updates to receive these updates. The update isn't received for reactions set by bots.
+    public var messageReaction: TGMessageReactionUpdated?
+
+    /// Optional. Reactions to a message with anonymous reactions were changed. The bot must be an administrator in the chat and must explicitly specify "message_reaction_count" in the list of allowed_updates to receive these updates. The updates are grouped and can be sent with delay up to a few minutes.
+    public var messageReactionCount: TGMessageReactionCountUpdated?
 
     /// Optional. New incoming inline query
     public var inlineQuery: TGInlineQuery?
@@ -67,18 +77,26 @@ public final class TGUpdate: Codable {
     /// Optional. The bot's chat member status was updated in a chat. For private chats, this update is received only when the bot is blocked or unblocked by the user.
     public var myChatMember: TGChatMemberUpdated?
 
-    /// Optional. A chat member's status was updated in a chat. The bot must be an administrator in the chat and must explicitly specify “chat_member” in the list of allowed_updates to receive these updates.
+    /// Optional. A chat member's status was updated in a chat. The bot must be an administrator in the chat and must explicitly specify "chat_member" in the list of allowed_updates to receive these updates.
     public var chatMember: TGChatMemberUpdated?
 
     /// Optional. A request to join the chat has been sent. The bot must have the can_invite_users administrator right in the chat to receive these updates.
     public var chatJoinRequest: TGChatJoinRequest?
 
-    public init (updateId: Int, message: TGMessage? = nil, editedMessage: TGMessage? = nil, channelPost: TGMessage? = nil, editedChannelPost: TGMessage? = nil, inlineQuery: TGInlineQuery? = nil, chosenInlineResult: TGChosenInlineResult? = nil, callbackQuery: TGCallbackQuery? = nil, shippingQuery: TGShippingQuery? = nil, preCheckoutQuery: TGPreCheckoutQuery? = nil, poll: TGPoll? = nil, pollAnswer: TGPollAnswer? = nil, myChatMember: TGChatMemberUpdated? = nil, chatMember: TGChatMemberUpdated? = nil, chatJoinRequest: TGChatJoinRequest? = nil) {
+    /// Optional. A chat boost was added or changed. The bot must be an administrator in the chat to receive these updates.
+    public var chatBoost: TGChatBoostUpdated?
+
+    /// Optional. A boost was removed from a chat. The bot must be an administrator in the chat to receive these updates.
+    public var removedChatBoost: TGChatBoostRemoved?
+
+    public init (updateId: Int, message: TGMessage? = nil, editedMessage: TGMessage? = nil, channelPost: TGMessage? = nil, editedChannelPost: TGMessage? = nil, messageReaction: TGMessageReactionUpdated? = nil, messageReactionCount: TGMessageReactionCountUpdated? = nil, inlineQuery: TGInlineQuery? = nil, chosenInlineResult: TGChosenInlineResult? = nil, callbackQuery: TGCallbackQuery? = nil, shippingQuery: TGShippingQuery? = nil, preCheckoutQuery: TGPreCheckoutQuery? = nil, poll: TGPoll? = nil, pollAnswer: TGPollAnswer? = nil, myChatMember: TGChatMemberUpdated? = nil, chatMember: TGChatMemberUpdated? = nil, chatJoinRequest: TGChatJoinRequest? = nil, chatBoost: TGChatBoostUpdated? = nil, removedChatBoost: TGChatBoostRemoved? = nil) {
         self.updateId = updateId
         self.message = message
         self.editedMessage = editedMessage
         self.channelPost = channelPost
         self.editedChannelPost = editedChannelPost
+        self.messageReaction = messageReaction
+        self.messageReactionCount = messageReactionCount
         self.inlineQuery = inlineQuery
         self.chosenInlineResult = chosenInlineResult
         self.callbackQuery = callbackQuery
@@ -89,5 +107,7 @@ public final class TGUpdate: Codable {
         self.myChatMember = myChatMember
         self.chatMember = chatMember
         self.chatJoinRequest = chatJoinRequest
+        self.chatBoost = chatBoost
+        self.removedChatBoost = removedChatBoost
     }
 }

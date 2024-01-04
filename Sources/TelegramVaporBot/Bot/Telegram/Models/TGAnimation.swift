@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [Animation](https://core.telegram.org/bots/api#animation)
- */
+ **/
 public final class TGAnimation: Codable {
 
     /// Custom keys for coding/decoding `Animation` struct

@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [ChatInviteLink](https://core.telegram.org/bots/api#chatinvitelink)
- */
+ **/
 public final class TGChatInviteLink: Codable {
 
     /// Custom keys for coding/decoding `ChatInviteLink` struct

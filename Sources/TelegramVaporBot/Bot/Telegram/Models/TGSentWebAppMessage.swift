@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [SentWebAppMessage](https://core.telegram.org/bots/api#sentwebappmessage)
- */
+ **/
 public final class TGSentWebAppMessage: Codable {
 
     /// Custom keys for coding/decoding `SentWebAppMessage` struct

@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [Story](https://core.telegram.org/bots/api#story)
- */
+ **/
 public final class TGStory: Codable {
 
 }

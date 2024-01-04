@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [Document](https://core.telegram.org/bots/api#document)
- */
+ **/
 public final class TGDocument: Codable {
 
     /// Custom keys for coding/decoding `Document` struct

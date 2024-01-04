@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [VideoNote](https://core.telegram.org/bots/api#videonote)
- */
+ **/
 public final class TGVideoNote: Codable {
 
     /// Custom keys for coding/decoding `VideoNote` struct

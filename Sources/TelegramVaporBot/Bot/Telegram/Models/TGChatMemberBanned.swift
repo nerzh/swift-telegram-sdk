@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [ChatMemberBanned](https://core.telegram.org/bots/api#chatmemberbanned)
- */
+ **/
 public final class TGChatMemberBanned: Codable {
 
     /// Custom keys for coding/decoding `ChatMemberBanned` struct

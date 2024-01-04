@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [ChatMemberOwner](https://core.telegram.org/bots/api#chatmemberowner)
- */
+ **/
 public final class TGChatMemberOwner: Codable {
 
     /// Custom keys for coding/decoding `ChatMemberOwner` struct

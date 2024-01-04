@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [ForceReply](https://core.telegram.org/bots/api#forcereply)
- */
+ **/
 public final class TGForceReply: Codable {
 
     /// Custom keys for coding/decoding `ForceReply` struct

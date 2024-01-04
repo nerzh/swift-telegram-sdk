@@ -20,6 +20,7 @@ public enum TGMessageEntityType: String, Codable {
     case underline = "underline"
     case strikethrough = "strikethrough"
     case spoiler = "spoiler"
+    case blockquote = "blockquote"
     case code = "code"
     case pre = "pre"
     case textLink = "text_link"

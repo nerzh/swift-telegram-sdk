@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [WriteAccessAllowed](https://core.telegram.org/bots/api#writeaccessallowed)
- */
+ **/
 public final class TGWriteAccessAllowed: Codable {
 
     /// Custom keys for coding/decoding `WriteAccessAllowed` struct

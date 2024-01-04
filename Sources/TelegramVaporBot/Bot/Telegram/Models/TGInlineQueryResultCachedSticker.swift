@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [InlineQueryResultCachedSticker](https://core.telegram.org/bots/api#inlinequeryresultcachedsticker)
- */
+ **/
 public final class TGInlineQueryResultCachedSticker: Codable {
 
     /// Custom keys for coding/decoding `InlineQueryResultCachedSticker` struct

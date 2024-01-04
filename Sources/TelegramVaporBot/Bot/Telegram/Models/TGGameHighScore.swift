@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [GameHighScore](https://core.telegram.org/bots/api#gamehighscore)
- */
+ **/
 public final class TGGameHighScore: Codable {
 
     /// Custom keys for coding/decoding `GameHighScore` struct

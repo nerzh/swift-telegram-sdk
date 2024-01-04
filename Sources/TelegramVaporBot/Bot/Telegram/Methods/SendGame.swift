@@ -24,11 +24,8 @@ public struct TGSendGameParams: Encodable {
     /// Protects the contents of the sent message from forwarding and saving
     public var protectContent: Bool?
 
-    /// If the message is a reply, ID of the original message
-    public var replyToMessageId: Int?
-
-    /// Pass True if the message should be sent even if the specified replied-to message is not found
-    public var allowSendingWithoutReply: Bool?
+    /// Description of the message to reply to
+    public var replyParameters: TGReplyParameters?
 
     /// A JSON-serialized object for an inline keyboard. If empty, one 'Play game_title' button will be shown. If not empty, the first button must launch the game.
     public var replyMarkup: TGInlineKeyboardMarkup?
@@ -40,19 +37,17 @@ public struct TGSendGameParams: Encodable {
             case gameShortName = "game_short_name"
             case disableNotification = "disable_notification"
             case protectContent = "protect_content"
-            case replyToMessageId = "reply_to_message_id"
-            case allowSendingWithoutReply = "allow_sending_without_reply"
+            case replyParameters = "reply_parameters"
             case replyMarkup = "reply_markup"
     }
 
-    public init(chatId: Int64, messageThreadId: Int? = nil, gameShortName: String, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyToMessageId: Int? = nil, allowSendingWithoutReply: Bool? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil) {
+    public init(chatId: Int64, messageThreadId: Int? = nil, gameShortName: String, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyParameters: TGReplyParameters? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil) {
             self.chatId = chatId
             self.messageThreadId = messageThreadId
             self.gameShortName = gameShortName
             self.disableNotification = disableNotification
             self.protectContent = protectContent
-            self.replyToMessageId = replyToMessageId
-            self.allowSendingWithoutReply = allowSendingWithoutReply
+            self.replyParameters = replyParameters
             self.replyMarkup = replyMarkup
     }
 }

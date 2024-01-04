@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [ForumTopic](https://core.telegram.org/bots/api#forumtopic)
- */
+ **/
 public final class TGForumTopic: Codable {
 
     /// Custom keys for coding/decoding `ForumTopic` struct

@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [Contact](https://core.telegram.org/bots/api#contact)
- */
+ **/
 public final class TGContact: Codable {
 
     /// Custom keys for coding/decoding `Contact` struct

@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [InputTextMessageContent](https://core.telegram.org/bots/api#inputtextmessagecontent)
- */
+ **/
 public final class TGInputTextMessageContent: Codable {
 
     /// Custom keys for coding/decoding `InputTextMessageContent` struct
@@ -13,7 +13,7 @@ public final class TGInputTextMessageContent: Codable {
         case messageText = "message_text"
         case parseMode = "parse_mode"
         case entities = "entities"
-        case disableWebPagePreview = "disable_web_page_preview"
+        case linkPreviewOptions = "link_preview_options"
     }
 
     /// Text of the message to be sent, 1-4096 characters
@@ -25,13 +25,13 @@ public final class TGInputTextMessageContent: Codable {
     /// Optional. List of special entities that appear in message text, which can be specified instead of parse_mode
     public var entities: [TGMessageEntity]?
 
-    /// Optional. Disables link previews for links in the sent message
-    public var disableWebPagePreview: Bool?
+    /// Optional. Link preview generation options for the message
+    public var linkPreviewOptions: TGLinkPreviewOptions?
 
-    public init (messageText: String, parseMode: String? = nil, entities: [TGMessageEntity]? = nil, disableWebPagePreview: Bool? = nil) {
+    public init (messageText: String, parseMode: String? = nil, entities: [TGMessageEntity]? = nil, linkPreviewOptions: TGLinkPreviewOptions? = nil) {
         self.messageText = messageText
         self.parseMode = parseMode
         self.entities = entities
-        self.disableWebPagePreview = disableWebPagePreview
+        self.linkPreviewOptions = linkPreviewOptions
     }
 }

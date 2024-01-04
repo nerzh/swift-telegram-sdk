@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [UserProfilePhotos](https://core.telegram.org/bots/api#userprofilephotos)
- */
+ **/
 public final class TGUserProfilePhotos: Codable {
 
     /// Custom keys for coding/decoding `UserProfilePhotos` struct

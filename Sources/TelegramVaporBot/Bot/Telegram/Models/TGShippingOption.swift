@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [ShippingOption](https://core.telegram.org/bots/api#shippingoption)
- */
+ **/
 public final class TGShippingOption: Codable {
 
     /// Custom keys for coding/decoding `ShippingOption` struct

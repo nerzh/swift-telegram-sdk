@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [User](https://core.telegram.org/bots/api#user)
- */
+ **/
 public final class TGUser: Codable {
 
     /// Custom keys for coding/decoding `User` struct

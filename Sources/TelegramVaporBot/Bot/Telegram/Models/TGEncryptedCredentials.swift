@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [EncryptedCredentials](https://core.telegram.org/bots/api#encryptedcredentials)
- */
+ **/
 public final class TGEncryptedCredentials: Codable {
 
     /// Custom keys for coding/decoding `EncryptedCredentials` struct

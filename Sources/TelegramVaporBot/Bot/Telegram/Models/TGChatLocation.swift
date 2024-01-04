@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [ChatLocation](https://core.telegram.org/bots/api#chatlocation)
- */
+ **/
 public final class TGChatLocation: Codable {
 
     /// Custom keys for coding/decoding `ChatLocation` struct

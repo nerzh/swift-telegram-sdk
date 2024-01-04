@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [ChatPhoto](https://core.telegram.org/bots/api#chatphoto)
- */
+ **/
 public final class TGChatPhoto: Codable {
 
     /// Custom keys for coding/decoding `ChatPhoto` struct

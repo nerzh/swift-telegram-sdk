@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [BotCommandScopeChat](https://core.telegram.org/bots/api#botcommandscopechat)
- */
+ **/
 public final class TGBotCommandScopeChat: Codable {
 
     /// Custom keys for coding/decoding `BotCommandScopeChat` struct

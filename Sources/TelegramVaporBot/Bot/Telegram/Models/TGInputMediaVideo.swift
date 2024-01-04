@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [InputMediaVideo](https://core.telegram.org/bots/api#inputmediavideo)
- */
+ **/
 public final class TGInputMediaVideo: Codable {
 
     /// Custom keys for coding/decoding `InputMediaVideo` struct

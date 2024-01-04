@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [SuccessfulPayment](https://core.telegram.org/bots/api#successfulpayment)
- */
+ **/
 public final class TGSuccessfulPayment: Codable {
 
     /// Custom keys for coding/decoding `SuccessfulPayment` struct

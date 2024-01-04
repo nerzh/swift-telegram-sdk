@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [VideoChatScheduled](https://core.telegram.org/bots/api#videochatscheduled)
- */
+ **/
 public final class TGVideoChatScheduled: Codable {
 
     /// Custom keys for coding/decoding `VideoChatScheduled` struct

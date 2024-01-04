@@ -3,7 +3,7 @@
 import Vapor
 
 /// DESCRIPTION:
-/// Use this method to forward messages of any kind. Service messages can't be forwarded. On success, the sent Message is returned.
+/// Use this method to forward messages of any kind. Service messages and messages with protected content can't be forwarded. On success, the sent Message is returned.
 
 
 /// Parameters container struct for `forwardMessage` method
@@ -51,7 +51,7 @@ public struct TGForwardMessageParams: Encodable {
 public extension TGBot {
 
 /**
- Use this method to forward messages of any kind. Service messages can't be forwarded. On success, the sent Message is returned.
+ Use this method to forward messages of any kind. Service messages and messages with protected content can't be forwarded. On success, the sent Message is returned.
 
  SeeAlso Telegram Bot API Reference:
  [ForwardMessageParams](https://core.telegram.org/bots/api#forwardmessage)

@@ -24,11 +24,8 @@ public struct TGSendMediaGroupParams: Encodable {
     /// Protects the contents of the sent messages from forwarding and saving
     public var protectContent: Bool?
 
-    /// If the messages are a reply, ID of the original message
-    public var replyToMessageId: Int?
-
-    /// Pass True if the message should be sent even if the specified replied-to message is not found
-    public var allowSendingWithoutReply: Bool?
+    /// Description of the message to reply to
+    public var replyParameters: TGReplyParameters?
 
     /// Custom keys for coding/decoding `SendMediaGroupParams` struct
     public enum CodingKeys: String, CodingKey {
@@ -37,18 +34,16 @@ public struct TGSendMediaGroupParams: Encodable {
             case media = "media"
             case disableNotification = "disable_notification"
             case protectContent = "protect_content"
-            case replyToMessageId = "reply_to_message_id"
-            case allowSendingWithoutReply = "allow_sending_without_reply"
+            case replyParameters = "reply_parameters"
     }
 
-    public init(chatId: TGChatId, messageThreadId: Int? = nil, media: [TGInputMedia], disableNotification: Bool? = nil, protectContent: Bool? = nil, replyToMessageId: Int? = nil, allowSendingWithoutReply: Bool? = nil) {
+    public init(chatId: TGChatId, messageThreadId: Int? = nil, media: [TGInputMedia], disableNotification: Bool? = nil, protectContent: Bool? = nil, replyParameters: TGReplyParameters? = nil) {
             self.chatId = chatId
             self.messageThreadId = messageThreadId
             self.media = media
             self.disableNotification = disableNotification
             self.protectContent = protectContent
-            self.replyToMessageId = replyToMessageId
-            self.allowSendingWithoutReply = allowSendingWithoutReply
+            self.replyParameters = replyParameters
     }
 }
 

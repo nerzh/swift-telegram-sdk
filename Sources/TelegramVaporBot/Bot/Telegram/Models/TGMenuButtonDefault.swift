@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [MenuButtonDefault](https://core.telegram.org/bots/api#menubuttondefault)
- */
+ **/
 public final class TGMenuButtonDefault: Codable {
 
     /// Custom keys for coding/decoding `MenuButtonDefault` struct

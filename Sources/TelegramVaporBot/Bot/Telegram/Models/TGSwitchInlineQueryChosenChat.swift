@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [SwitchInlineQueryChosenChat](https://core.telegram.org/bots/api#switchinlinequerychosenchat)
- */
+ **/
 public final class TGSwitchInlineQueryChosenChat: Codable {
 
     /// Custom keys for coding/decoding `SwitchInlineQueryChosenChat` struct

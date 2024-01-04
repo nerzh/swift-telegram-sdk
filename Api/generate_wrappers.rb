@@ -56,7 +56,7 @@ class Api
       out.write "\n"
       out.write " SeeAlso Telegram Bot API Reference:\n"
       out.write " [#{type_name}](https://core.telegram.org/bots/api\##{type_name.downcase})\n"
-      out.write " */\n"
+      out.write " **/\n"
       
       # file just for presentation all api
       f.write "DESCRIPTION:\n#{description}\n"
@@ -110,23 +110,40 @@ class Api
       end
 
       var_protocol = "Codable"
-      # if type_name.start_with?('InputMedia')
-      #     var_protocol = "Encodable"
-      # end
-      out.write  "public final class #{PREFIX_LIB}#{type_name}: #{var_protocol} {\n\n"
       
-      if keys_block != ""
-        out.write "#{ONE}/// Custom keys for coding/decoding `#{type_name}` struct\n"\
-        "#{ONE}public enum CodingKeys: String, CodingKey {\n"\
-        "#{keys_block}"\
-        "#{ONE}}\n"\
-        "\n"\
-        "#{vars_block}"\
-        "#{ONE}public init (#{init_params_block.chomp(', ')}) {\n"\
-        "#{init_block}"\
-        "#{ONE}}\n"
+      if description[/It\s+can\s+be\s+one\s+of/]
+        out.write  "public enum #{PREFIX_LIB}#{type_name}: #{var_protocol} {\n"
+        p type_name
+        start_trigger = false
+        description.each_line do |line|
+          if line[/It\s+can\s+be\s+one\s+of/]
+            start_trigger = true
+            next
+          end
+          if start_trigger
+            case_type_name = line.strip
+            case_name = line.strip
+            case_name[0] = case_name[0].downcase
+            out.write  "#{ONE}case #{case_name}(#{PREFIX_LIB}#{case_type_name})\n"
+          end
+        end
+        out.write  "}\n"
+      else
+        out.write  "public final class #{PREFIX_LIB}#{type_name}: #{var_protocol} {\n\n"
+      
+        if keys_block != ""
+          out.write "#{ONE}/// Custom keys for coding/decoding `#{type_name}` struct\n"\
+          "#{ONE}public enum CodingKeys: String, CodingKey {\n"\
+          "#{keys_block}"\
+          "#{ONE}}\n"\
+          "\n"\
+          "#{vars_block}"\
+          "#{ONE}public init (#{init_params_block.chomp(', ')}) {\n"\
+          "#{init_block}"\
+          "#{ONE}}\n"
+        end
+        out.write  "}\n"
       end
-      out.write  "}\n"
     end
   end
 
@@ -479,49 +496,6 @@ class Api
   	end
   end
 
-  def make_swift_type_name(var_name, var_type)
-  	array_prefix = 'Array of '
-    if var_type[/#{array_prefix}/i]
-      var_type.sub!(/#{array_prefix}/i, '')
-      var_type.strip!
-      return "[#{PREFIX_LIB}InputMedia]" if var_type[/InputMedia/]
-      return "[#{make_swift_type_name(var_name, var_type)}]"
-    end
-
-  	case var_type
-  	when 'Boolean', 'True'
-  		return 'Bool'
-  	when 'Integer'
-  		if var_name.include?('user_id') || var_name.include?('chat_id')
-  			return 'Int64'
-  		else
-  			return 'Int'
-  		end
-  	when 'Float number'
-  		return 'Float'
-  	when 'Integer or String'
-      return "#{PREFIX_LIB}ChatId" if var_name.include?('chat_id')
-  		return 'String'
-  	when 'InputFile or String'
-  		return "#{PREFIX_LIB}FileInfo"
-  	when 'InlineKeyboardMarkup or ReplyKeyboardMarkup or ReplyKeyboardRemove or ForceReply'
-  		return "#{PREFIX_LIB}ReplyMarkup"
-  	when 'MessageOrBoolean'
-  		return "#{PREFIX_LIB}MessageOrBool"
-  	when 'Messages'
-  		return "[#{PREFIX_LIB}Message]"
-    when 'String'
-      return "#{PREFIX_LIB}ParseMode" if var_name.include?('parse_mode')
-      return 'String'
-  	end
-
-    if swift_type?(var_type)
-      return var_type
-    else
-      return "#{PREFIX_LIB}#{var_type}"
-    end
-  end
-
   def convert_type(var_name, var_desc, var_type, type_name, var_optional)
     if var_name == "type"
       return "#{PREFIX_LIB}ChatType" if var_desc.include?("Type of chat")
@@ -636,10 +610,13 @@ class Api
     return type_name unless type_name.nil?
     
     type_name = description[/Returns.+(Array of\s+\w+)/, 1]
-    return type_name unless type_name.nil?
+    (return type_name) unless type_name.nil?
 
     type_name = description[/On success, an (.+)s that were sent is returned/, 1]
     return type_name unless type_name.nil?
+
+    type_name = description[/On success, an (array of\s+\w+?)\s.+/, 1]
+    (return type_name) unless type_name.nil?
 
   	type_name = description[/invite link as (.+) on success/, 1]
   	return type_name unless type_name.nil?
@@ -684,6 +661,49 @@ class Api
   	return type_name unless type_name.nil?
 
   	return 'Boolean'
+  end
+
+  def make_swift_type_name(var_name, var_type)
+    array_prefix = 'Array of '
+    if var_type[/#{array_prefix}/i]
+      var_type.sub!(/#{array_prefix}/i, '')
+      var_type.strip!
+      return "[#{PREFIX_LIB}InputMedia]" if var_type[/InputMedia/]
+      return "[#{make_swift_type_name(var_name, var_type)}]"
+    end
+
+    case var_type
+    when 'Boolean', 'True'
+      return 'Bool'
+    when 'Integer'
+      if var_name.include?('user_id') || var_name.include?('chat_id')
+        return 'Int64'
+      else
+        return 'Int'
+      end
+    when 'Float number'
+      return 'Float'
+    when 'Integer or String'
+      return "#{PREFIX_LIB}ChatId" if var_name.include?('chat_id')
+      return 'String'
+    when 'InputFile or String'
+      return "#{PREFIX_LIB}FileInfo"
+    when 'InlineKeyboardMarkup or ReplyKeyboardMarkup or ReplyKeyboardRemove or ForceReply'
+      return "#{PREFIX_LIB}ReplyMarkup"
+    when 'MessageOrBoolean'
+      return "#{PREFIX_LIB}MessageOrBool"
+    when 'Messages'
+      return "[#{PREFIX_LIB}Message]"
+    when 'String'
+      return "#{PREFIX_LIB}ParseMode" if var_name.include?('parse_mode')
+      return 'String'
+    end
+
+    if swift_type?(var_type)
+      return var_type
+    else
+      return "#{PREFIX_LIB}#{var_type}"
+    end
   end
 
   def fetch_description(current_node)

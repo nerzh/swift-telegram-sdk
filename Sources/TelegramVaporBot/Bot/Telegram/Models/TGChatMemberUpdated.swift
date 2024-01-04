@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [ChatMemberUpdated](https://core.telegram.org/bots/api#chatmemberupdated)
- */
+ **/
 public final class TGChatMemberUpdated: Codable {
 
     /// Custom keys for coding/decoding `ChatMemberUpdated` struct

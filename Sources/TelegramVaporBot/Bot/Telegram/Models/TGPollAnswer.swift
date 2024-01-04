@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [PollAnswer](https://core.telegram.org/bots/api#pollanswer)
- */
+ **/
 public final class TGPollAnswer: Codable {
 
     /// Custom keys for coding/decoding `PollAnswer` struct

@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [PreCheckoutQuery](https://core.telegram.org/bots/api#precheckoutquery)
- */
+ **/
 public final class TGPreCheckoutQuery: Codable {
 
     /// Custom keys for coding/decoding `PreCheckoutQuery` struct

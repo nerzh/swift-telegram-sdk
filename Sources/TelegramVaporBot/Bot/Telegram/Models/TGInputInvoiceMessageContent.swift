@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [InputInvoiceMessageContent](https://core.telegram.org/bots/api#inputinvoicemessagecontent)
- */
+ **/
 public final class TGInputInvoiceMessageContent: Codable {
 
     /// Custom keys for coding/decoding `InputInvoiceMessageContent` struct

@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [Poll](https://core.telegram.org/bots/api#poll)
- */
+ **/
 public final class TGPoll: Codable {
 
     /// Custom keys for coding/decoding `Poll` struct

@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [Video](https://core.telegram.org/bots/api#video)
- */
+ **/
 public final class TGVideo: Codable {
 
     /// Custom keys for coding/decoding `Video` struct

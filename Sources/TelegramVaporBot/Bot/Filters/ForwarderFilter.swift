@@ -13,11 +13,7 @@ public class ForwarderFilter: TGFilter {
 
     override
     public func filter(message: TGMessage) -> Bool {
-        return message.forwardDate != nil ||
-        message.forwardFrom != nil ||
-        message.forwardFromChat != nil ||
-        message.forwardSignature != nil ||
-        message.forwardFromMessageId != nil
+        message.forwardOrigin != nil
     }
 }
 

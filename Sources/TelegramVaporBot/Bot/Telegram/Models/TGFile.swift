@@ -6,7 +6,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [File](https://core.telegram.org/bots/api#file)
- */
+ **/
 public final class TGFile: Codable {
 
     /// Custom keys for coding/decoding `File` struct

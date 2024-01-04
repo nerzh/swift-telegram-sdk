@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [MessageAutoDeleteTimerChanged](https://core.telegram.org/bots/api#messageautodeletetimerchanged)
- */
+ **/
 public final class TGMessageAutoDeleteTimerChanged: Codable {
 
     /// Custom keys for coding/decoding `MessageAutoDeleteTimerChanged` struct

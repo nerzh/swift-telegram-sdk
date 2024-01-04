@@ -3,7 +3,7 @@
 import Vapor
 
 /// DESCRIPTION:
-/// Use this method to get up to date information about the chat (current name of the user for one-on-one conversations, current username of a user, group or channel, etc.). Returns a Chat object on success.
+/// Use this method to get up to date information about the chat. Returns a Chat object on success.
 
 
 /// Parameters container struct for `getChat` method
@@ -26,7 +26,7 @@ public struct TGGetChatParams: Encodable {
 public extension TGBot {
 
 /**
- Use this method to get up to date information about the chat (current name of the user for one-on-one conversations, current username of a user, group or channel, etc.). Returns a Chat object on success.
+ Use this method to get up to date information about the chat. Returns a Chat object on success.
 
  SeeAlso Telegram Bot API Reference:
  [GetChatParams](https://core.telegram.org/bots/api#getchat)

@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [ShippingAddress](https://core.telegram.org/bots/api#shippingaddress)
- */
+ **/
 public final class TGShippingAddress: Codable {
 
     /// Custom keys for coding/decoding `ShippingAddress` struct

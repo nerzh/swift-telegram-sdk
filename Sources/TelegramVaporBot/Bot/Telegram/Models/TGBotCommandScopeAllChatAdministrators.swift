@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [BotCommandScopeAllChatAdministrators](https://core.telegram.org/bots/api#botcommandscopeallchatadministrators)
- */
+ **/
 public final class TGBotCommandScopeAllChatAdministrators: Codable {
 
     /// Custom keys for coding/decoding `BotCommandScopeAllChatAdministrators` struct

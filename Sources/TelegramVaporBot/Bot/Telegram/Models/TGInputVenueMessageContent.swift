@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [InputVenueMessageContent](https://core.telegram.org/bots/api#inputvenuemessagecontent)
- */
+ **/
 public final class TGInputVenueMessageContent: Codable {
 
     /// Custom keys for coding/decoding `InputVenueMessageContent` struct

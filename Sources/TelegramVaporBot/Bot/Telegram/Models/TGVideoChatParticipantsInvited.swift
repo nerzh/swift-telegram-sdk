@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [VideoChatParticipantsInvited](https://core.telegram.org/bots/api#videochatparticipantsinvited)
- */
+ **/
 public final class TGVideoChatParticipantsInvited: Codable {
 
     /// Custom keys for coding/decoding `VideoChatParticipantsInvited` struct

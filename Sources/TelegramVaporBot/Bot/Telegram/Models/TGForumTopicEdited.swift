@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [ForumTopicEdited](https://core.telegram.org/bots/api#forumtopicedited)
- */
+ **/
 public final class TGForumTopicEdited: Codable {
 
     /// Custom keys for coding/decoding `ForumTopicEdited` struct

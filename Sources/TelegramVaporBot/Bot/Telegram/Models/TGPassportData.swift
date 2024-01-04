@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [PassportData](https://core.telegram.org/bots/api#passportdata)
- */
+ **/
 public final class TGPassportData: Codable {
 
     /// Custom keys for coding/decoding `PassportData` struct

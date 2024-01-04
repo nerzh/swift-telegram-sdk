@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [ReplyKeyboardRemove](https://core.telegram.org/bots/api#replykeyboardremove)
- */
+ **/
 public final class TGReplyKeyboardRemove: Codable {
 
     /// Custom keys for coding/decoding `ReplyKeyboardRemove` struct

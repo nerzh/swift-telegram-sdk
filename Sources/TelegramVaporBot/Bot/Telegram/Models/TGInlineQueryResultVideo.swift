@@ -6,7 +6,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [InlineQueryResultVideo](https://core.telegram.org/bots/api#inlinequeryresultvideo)
- */
+ **/
 public final class TGInlineQueryResultVideo: Codable {
 
     /// Custom keys for coding/decoding `InlineQueryResultVideo` struct

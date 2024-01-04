@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [OrderInfo](https://core.telegram.org/bots/api#orderinfo)
- */
+ **/
 public final class TGOrderInfo: Codable {
 
     /// Custom keys for coding/decoding `OrderInfo` struct

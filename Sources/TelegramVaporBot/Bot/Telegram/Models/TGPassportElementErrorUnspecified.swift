@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [PassportElementErrorUnspecified](https://core.telegram.org/bots/api#passportelementerrorunspecified)
- */
+ **/
 public final class TGPassportElementErrorUnspecified: Codable {
 
     /// Custom keys for coding/decoding `PassportElementErrorUnspecified` struct

@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [BotCommand](https://core.telegram.org/bots/api#botcommand)
- */
+ **/
 public final class TGBotCommand: Codable {
 
     /// Custom keys for coding/decoding `BotCommand` struct

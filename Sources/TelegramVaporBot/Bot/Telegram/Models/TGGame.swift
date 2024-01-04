@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [Game](https://core.telegram.org/bots/api#game)
- */
+ **/
 public final class TGGame: Codable {
 
     /// Custom keys for coding/decoding `Game` struct

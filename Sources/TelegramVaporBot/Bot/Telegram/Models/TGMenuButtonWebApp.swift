@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [MenuButtonWebApp](https://core.telegram.org/bots/api#menubuttonwebapp)
- */
+ **/
 public final class TGMenuButtonWebApp: Codable {
 
     /// Custom keys for coding/decoding `MenuButtonWebApp` struct

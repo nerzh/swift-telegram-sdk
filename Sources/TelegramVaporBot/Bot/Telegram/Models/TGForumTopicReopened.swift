@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [ForumTopicReopened](https://core.telegram.org/bots/api#forumtopicreopened)
- */
+ **/
 public final class TGForumTopicReopened: Codable {
 
 }

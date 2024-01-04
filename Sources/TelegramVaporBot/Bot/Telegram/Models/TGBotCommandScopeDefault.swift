@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [BotCommandScopeDefault](https://core.telegram.org/bots/api#botcommandscopedefault)
- */
+ **/
 public final class TGBotCommandScopeDefault: Codable {
 
     /// Custom keys for coding/decoding `BotCommandScopeDefault` struct

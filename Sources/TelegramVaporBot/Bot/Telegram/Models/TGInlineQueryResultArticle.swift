@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [InlineQueryResultArticle](https://core.telegram.org/bots/api#inlinequeryresultarticle)
- */
+ **/
 public final class TGInlineQueryResultArticle: Codable {
 
     /// Custom keys for coding/decoding `InlineQueryResultArticle` struct

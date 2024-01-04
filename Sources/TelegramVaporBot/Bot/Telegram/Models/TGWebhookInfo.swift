@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [WebhookInfo](https://core.telegram.org/bots/api#webhookinfo)
- */
+ **/
 public final class TGWebhookInfo: Codable {
 
     /// Custom keys for coding/decoding `WebhookInfo` struct

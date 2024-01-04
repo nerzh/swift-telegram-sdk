@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [Dice](https://core.telegram.org/bots/api#dice)
- */
+ **/
 public final class TGDice: Codable {
 
     /// Custom keys for coding/decoding `Dice` struct

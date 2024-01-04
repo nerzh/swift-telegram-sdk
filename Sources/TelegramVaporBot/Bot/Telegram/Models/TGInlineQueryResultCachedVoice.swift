@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [InlineQueryResultCachedVoice](https://core.telegram.org/bots/api#inlinequeryresultcachedvoice)
- */
+ **/
 public final class TGInlineQueryResultCachedVoice: Codable {
 
     /// Custom keys for coding/decoding `InlineQueryResultCachedVoice` struct

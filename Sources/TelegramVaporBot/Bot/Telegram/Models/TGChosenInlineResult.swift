@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [ChosenInlineResult](https://core.telegram.org/bots/api#choseninlineresult)
- */
+ **/
 public final class TGChosenInlineResult: Codable {
 
     /// Custom keys for coding/decoding `ChosenInlineResult` struct

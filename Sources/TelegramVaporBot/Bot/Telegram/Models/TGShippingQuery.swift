@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [ShippingQuery](https://core.telegram.org/bots/api#shippingquery)
- */
+ **/
 public final class TGShippingQuery: Codable {
 
     /// Custom keys for coding/decoding `ShippingQuery` struct

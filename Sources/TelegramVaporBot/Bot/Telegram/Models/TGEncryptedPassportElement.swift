@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [EncryptedPassportElement](https://core.telegram.org/bots/api#encryptedpassportelement)
- */
+ **/
 public final class TGEncryptedPassportElement: Codable {
 
     /// Custom keys for coding/decoding `EncryptedPassportElement` struct

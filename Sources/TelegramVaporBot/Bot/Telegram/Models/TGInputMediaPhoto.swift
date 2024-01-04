@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [InputMediaPhoto](https://core.telegram.org/bots/api#inputmediaphoto)
- */
+ **/
 public final class TGInputMediaPhoto: Codable {
 
     /// Custom keys for coding/decoding `InputMediaPhoto` struct

@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [ChatShared](https://core.telegram.org/bots/api#chatshared)
- */
+ **/
 public final class TGChatShared: Codable {
 
     /// Custom keys for coding/decoding `ChatShared` struct

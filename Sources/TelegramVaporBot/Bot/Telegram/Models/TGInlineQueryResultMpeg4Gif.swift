@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [InlineQueryResultMpeg4Gif](https://core.telegram.org/bots/api#inlinequeryresultmpeg4gif)
- */
+ **/
 public final class TGInlineQueryResultMpeg4Gif: Codable {
 
     /// Custom keys for coding/decoding `InlineQueryResultMpeg4Gif` struct

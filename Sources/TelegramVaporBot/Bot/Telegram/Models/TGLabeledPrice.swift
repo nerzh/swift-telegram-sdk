@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [LabeledPrice](https://core.telegram.org/bots/api#labeledprice)
- */
+ **/
 public final class TGLabeledPrice: Codable {
 
     /// Custom keys for coding/decoding `LabeledPrice` struct

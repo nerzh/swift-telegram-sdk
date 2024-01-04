@@ -9,7 +9,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [MenuButton](https://core.telegram.org/bots/api#menubutton)
- */
+ **/
 public final class TGMenuButton: Codable {
 
 }

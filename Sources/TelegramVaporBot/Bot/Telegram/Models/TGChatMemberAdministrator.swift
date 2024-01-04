@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [ChatMemberAdministrator](https://core.telegram.org/bots/api#chatmemberadministrator)
- */
+ **/
 public final class TGChatMemberAdministrator: Codable {
 
     /// Custom keys for coding/decoding `ChatMemberAdministrator` struct
@@ -43,7 +43,7 @@ public final class TGChatMemberAdministrator: Codable {
     /// True, if the user's presence in the chat is hidden
     public var isAnonymous: Bool
 
-    /// True, if the administrator can access the chat event log, chat statistics, boost list in channels, message statistics in channels, see channel members, see anonymous administrators in supergroups and ignore slow mode. Implied by any other administrator privilege
+    /// True, if the administrator can access the chat event log, boost list in channels, see channel members, report spam messages, see anonymous administrators in supergroups and ignore slow mode. Implied by any other administrator privilege
     public var canManageChat: Bool
 
     /// True, if the administrator can delete messages of other users
@@ -52,7 +52,7 @@ public final class TGChatMemberAdministrator: Codable {
     /// True, if the administrator can manage video chats
     public var canManageVideoChats: Bool
 
-    /// True, if the administrator can restrict, ban or unban chat members
+    /// True, if the administrator can restrict, ban or unban chat members, or access supergroup statistics
     public var canRestrictMembers: Bool
 
     /// True, if the administrator can add new administrators with a subset of their own privileges or demote administrators that they have promoted, directly or indirectly (promoted by administrators that were appointed by the user)
@@ -64,7 +64,7 @@ public final class TGChatMemberAdministrator: Codable {
     /// True, if the user is allowed to invite new users to the chat
     public var canInviteUsers: Bool
 
-    /// Optional. True, if the administrator can post messages in the channel; channels only
+    /// Optional. True, if the administrator can post messages in the channel, or access channel statistics; channels only
     public var canPostMessages: Bool?
 
     /// Optional. True, if the administrator can edit messages of other users and can pin messages; channels only

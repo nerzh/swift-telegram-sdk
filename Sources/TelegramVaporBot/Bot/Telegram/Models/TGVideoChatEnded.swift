@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [VideoChatEnded](https://core.telegram.org/bots/api#videochatended)
- */
+ **/
 public final class TGVideoChatEnded: Codable {
 
     /// Custom keys for coding/decoding `VideoChatEnded` struct

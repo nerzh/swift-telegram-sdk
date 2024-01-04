@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [PassportElementErrorSelfie](https://core.telegram.org/bots/api#passportelementerrorselfie)
- */
+ **/
 public final class TGPassportElementErrorSelfie: Codable {
 
     /// Custom keys for coding/decoding `PassportElementErrorSelfie` struct

@@ -45,11 +45,8 @@ public struct TGSendVenueParams: Encodable {
     /// Protects the contents of the sent message from forwarding and saving
     public var protectContent: Bool?
 
-    /// If the message is a reply, ID of the original message
-    public var replyToMessageId: Int?
-
-    /// Pass True if the message should be sent even if the specified replied-to message is not found
-    public var allowSendingWithoutReply: Bool?
+    /// Description of the message to reply to
+    public var replyParameters: TGReplyParameters?
 
     /// Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
     public var replyMarkup: TGReplyMarkup?
@@ -68,12 +65,11 @@ public struct TGSendVenueParams: Encodable {
             case googlePlaceType = "google_place_type"
             case disableNotification = "disable_notification"
             case protectContent = "protect_content"
-            case replyToMessageId = "reply_to_message_id"
-            case allowSendingWithoutReply = "allow_sending_without_reply"
+            case replyParameters = "reply_parameters"
             case replyMarkup = "reply_markup"
     }
 
-    public init(chatId: TGChatId, messageThreadId: Int? = nil, latitude: Float, longitude: Float, title: String, address: String, foursquareId: String? = nil, foursquareType: String? = nil, googlePlaceId: String? = nil, googlePlaceType: String? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyToMessageId: Int? = nil, allowSendingWithoutReply: Bool? = nil, replyMarkup: TGReplyMarkup? = nil) {
+    public init(chatId: TGChatId, messageThreadId: Int? = nil, latitude: Float, longitude: Float, title: String, address: String, foursquareId: String? = nil, foursquareType: String? = nil, googlePlaceId: String? = nil, googlePlaceType: String? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyParameters: TGReplyParameters? = nil, replyMarkup: TGReplyMarkup? = nil) {
             self.chatId = chatId
             self.messageThreadId = messageThreadId
             self.latitude = latitude
@@ -86,8 +82,7 @@ public struct TGSendVenueParams: Encodable {
             self.googlePlaceType = googlePlaceType
             self.disableNotification = disableNotification
             self.protectContent = protectContent
-            self.replyToMessageId = replyToMessageId
-            self.allowSendingWithoutReply = allowSendingWithoutReply
+            self.replyParameters = replyParameters
             self.replyMarkup = replyMarkup
     }
 }

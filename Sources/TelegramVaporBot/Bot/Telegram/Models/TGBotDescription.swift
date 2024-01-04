@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [BotDescription](https://core.telegram.org/bots/api#botdescription)
- */
+ **/
 public final class TGBotDescription: Codable {
 
     /// Custom keys for coding/decoding `BotDescription` struct

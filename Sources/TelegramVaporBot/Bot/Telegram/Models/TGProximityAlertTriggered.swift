@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [ProximityAlertTriggered](https://core.telegram.org/bots/api#proximityalerttriggered)
- */
+ **/
 public final class TGProximityAlertTriggered: Codable {
 
     /// Custom keys for coding/decoding `ProximityAlertTriggered` struct

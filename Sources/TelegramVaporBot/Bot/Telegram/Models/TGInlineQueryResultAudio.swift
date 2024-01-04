@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [InlineQueryResultAudio](https://core.telegram.org/bots/api#inlinequeryresultaudio)
- */
+ **/
 public final class TGInlineQueryResultAudio: Codable {
 
     /// Custom keys for coding/decoding `InlineQueryResultAudio` struct

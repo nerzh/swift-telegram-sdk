@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [ChatPermissions](https://core.telegram.org/bots/api#chatpermissions)
- */
+ **/
 public final class TGChatPermissions: Codable {
 
     /// Custom keys for coding/decoding `ChatPermissions` struct
@@ -26,7 +26,7 @@ public final class TGChatPermissions: Codable {
         case canManageTopics = "can_manage_topics"
     }
 
-    /// Optional. True, if the user is allowed to send text messages, contacts, invoices, locations and venues
+    /// Optional. True, if the user is allowed to send text messages, contacts, giveaways, giveaway winners, invoices, locations and venues
     public var canSendMessages: Bool?
 
     /// Optional. True, if the user is allowed to send audios

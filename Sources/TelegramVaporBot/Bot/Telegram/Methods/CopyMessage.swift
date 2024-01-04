@@ -3,7 +3,7 @@
 import Vapor
 
 /// DESCRIPTION:
-/// Use this method to copy messages of any kind. Service messages and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct_option_id is known to the bot. The method is analogous to the method forwardMessage, but the copied message doesn't have a link to the original message. Returns the MessageId of the sent message on success.
+/// Use this method to copy messages of any kind. Service messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct_option_id is known to the bot. The method is analogous to the method forwardMessage, but the copied message doesn't have a link to the original message. Returns the MessageId of the sent message on success.
 
 
 /// Parameters container struct for `copyMessage` method
@@ -36,11 +36,8 @@ public struct TGCopyMessageParams: Encodable {
     /// Protects the contents of the sent message from forwarding and saving
     public var protectContent: Bool?
 
-    /// If the message is a reply, ID of the original message
-    public var replyToMessageId: Int?
-
-    /// Pass True if the message should be sent even if the specified replied-to message is not found
-    public var allowSendingWithoutReply: Bool?
+    /// Description of the message to reply to
+    public var replyParameters: TGReplyParameters?
 
     /// Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
     public var replyMarkup: TGReplyMarkup?
@@ -56,12 +53,11 @@ public struct TGCopyMessageParams: Encodable {
             case captionEntities = "caption_entities"
             case disableNotification = "disable_notification"
             case protectContent = "protect_content"
-            case replyToMessageId = "reply_to_message_id"
-            case allowSendingWithoutReply = "allow_sending_without_reply"
+            case replyParameters = "reply_parameters"
             case replyMarkup = "reply_markup"
     }
 
-    public init(chatId: TGChatId, messageThreadId: Int? = nil, fromChatId: TGChatId, messageId: Int, caption: String? = nil, parseMode: TGParseMode? = nil, captionEntities: [TGMessageEntity]? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyToMessageId: Int? = nil, allowSendingWithoutReply: Bool? = nil, replyMarkup: TGReplyMarkup? = nil) {
+    public init(chatId: TGChatId, messageThreadId: Int? = nil, fromChatId: TGChatId, messageId: Int, caption: String? = nil, parseMode: TGParseMode? = nil, captionEntities: [TGMessageEntity]? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyParameters: TGReplyParameters? = nil, replyMarkup: TGReplyMarkup? = nil) {
             self.chatId = chatId
             self.messageThreadId = messageThreadId
             self.fromChatId = fromChatId
@@ -71,8 +67,7 @@ public struct TGCopyMessageParams: Encodable {
             self.captionEntities = captionEntities
             self.disableNotification = disableNotification
             self.protectContent = protectContent
-            self.replyToMessageId = replyToMessageId
-            self.allowSendingWithoutReply = allowSendingWithoutReply
+            self.replyParameters = replyParameters
             self.replyMarkup = replyMarkup
     }
 }
@@ -81,7 +76,7 @@ public struct TGCopyMessageParams: Encodable {
 public extension TGBot {
 
 /**
- Use this method to copy messages of any kind. Service messages and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct_option_id is known to the bot. The method is analogous to the method forwardMessage, but the copied message doesn't have a link to the original message. Returns the MessageId of the sent message on success.
+ Use this method to copy messages of any kind. Service messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct_option_id is known to the bot. The method is analogous to the method forwardMessage, but the copied message doesn't have a link to the original message. Returns the MessageId of the sent message on success.
 
  SeeAlso Telegram Bot API Reference:
  [CopyMessageParams](https://core.telegram.org/bots/api#copymessage)

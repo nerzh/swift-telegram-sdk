@@ -8,7 +8,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [LoginUrl](https://core.telegram.org/bots/api#loginurl)
- */
+ **/
 public final class TGLoginUrl: Codable {
 
     /// Custom keys for coding/decoding `LoginUrl` struct

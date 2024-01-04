@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [PassportElementErrorReverseSide](https://core.telegram.org/bots/api#passportelementerrorreverseside)
- */
+ **/
 public final class TGPassportElementErrorReverseSide: Codable {
 
     /// Custom keys for coding/decoding `PassportElementErrorReverseSide` struct

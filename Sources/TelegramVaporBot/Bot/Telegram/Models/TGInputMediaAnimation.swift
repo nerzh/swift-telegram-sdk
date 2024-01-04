@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [InputMediaAnimation](https://core.telegram.org/bots/api#inputmediaanimation)
- */
+ **/
 public final class TGInputMediaAnimation: Codable {
 
     /// Custom keys for coding/decoding `InputMediaAnimation` struct

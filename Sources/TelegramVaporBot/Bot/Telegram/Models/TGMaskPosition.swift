@@ -7,7 +7,7 @@ import Vapor
 
  SeeAlso Telegram Bot API Reference:
  [MaskPosition](https://core.telegram.org/bots/api#maskposition)
- */
+ **/
 public final class TGMaskPosition: Codable {
 
     /// Custom keys for coding/decoding `MaskPosition` struct

@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [BotCommandScopeAllPrivateChats](https://core.telegram.org/bots/api#botcommandscopeallprivatechats)
- */
+ **/
 public final class TGBotCommandScopeAllPrivateChats: Codable {
 
     /// Custom keys for coding/decoding `BotCommandScopeAllPrivateChats` struct

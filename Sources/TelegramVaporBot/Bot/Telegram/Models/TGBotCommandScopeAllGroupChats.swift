@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [BotCommandScopeAllGroupChats](https://core.telegram.org/bots/api#botcommandscopeallgroupchats)
- */
+ **/
 public final class TGBotCommandScopeAllGroupChats: Codable {
 
     /// Custom keys for coding/decoding `BotCommandScopeAllGroupChats` struct

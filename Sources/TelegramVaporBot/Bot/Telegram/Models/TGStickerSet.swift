@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [StickerSet](https://core.telegram.org/bots/api#stickerset)
- */
+ **/
 public final class TGStickerSet: Codable {
 
     /// Custom keys for coding/decoding `StickerSet` struct

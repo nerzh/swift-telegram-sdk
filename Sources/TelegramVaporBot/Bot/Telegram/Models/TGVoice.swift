@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [Voice](https://core.telegram.org/bots/api#voice)
- */
+ **/
 public final class TGVoice: Codable {
 
     /// Custom keys for coding/decoding `Voice` struct

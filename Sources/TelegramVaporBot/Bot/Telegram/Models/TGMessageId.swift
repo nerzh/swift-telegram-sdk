@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [MessageId](https://core.telegram.org/bots/api#messageid)
- */
+ **/
 public final class TGMessageId: Codable {
 
     /// Custom keys for coding/decoding `MessageId` struct

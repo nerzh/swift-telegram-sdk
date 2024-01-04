@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [ResponseParameters](https://core.telegram.org/bots/api#responseparameters)
- */
+ **/
 public final class TGResponseParameters: Codable {
 
     /// Custom keys for coding/decoding `ResponseParameters` struct

@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [InlineKeyboardButton](https://core.telegram.org/bots/api#inlinekeyboardbutton)
- */
+ **/
 public final class TGInlineKeyboardButton: Codable {
 
     /// Custom keys for coding/decoding `InlineKeyboardButton` struct

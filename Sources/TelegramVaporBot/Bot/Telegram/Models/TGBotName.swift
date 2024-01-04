@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [BotName](https://core.telegram.org/bots/api#botname)
- */
+ **/
 public final class TGBotName: Codable {
 
     /// Custom keys for coding/decoding `BotName` struct

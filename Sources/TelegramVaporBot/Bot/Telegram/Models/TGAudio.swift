@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [Audio](https://core.telegram.org/bots/api#audio)
- */
+ **/
 public final class TGAudio: Codable {
 
     /// Custom keys for coding/decoding `Audio` struct

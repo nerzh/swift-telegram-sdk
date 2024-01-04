@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [PhotoSize](https://core.telegram.org/bots/api#photosize)
- */
+ **/
 public final class TGPhotoSize: Codable {
 
     /// Custom keys for coding/decoding `PhotoSize` struct

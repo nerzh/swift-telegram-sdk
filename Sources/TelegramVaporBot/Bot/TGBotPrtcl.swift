@@ -58,7 +58,17 @@ public protocol TGBotPrtcl {
 
 
     @discardableResult
+    func forwardMessages(params: TGForwardMessagesParams) async throws -> [TGMessageId]
+
+
+
+    @discardableResult
     func copyMessage(params: TGCopyMessageParams) async throws -> TGMessageId
+
+
+
+    @discardableResult
+    func copyMessages(params: TGCopyMessagesParams) async throws -> [TGMessageId]
 
 
 
@@ -129,6 +139,11 @@ public protocol TGBotPrtcl {
 
     @discardableResult
     func sendChatAction(params: TGSendChatActionParams) async throws -> Bool
+
+
+
+    @discardableResult
+    func setMessageReaction(params: TGSetMessageReactionParams) async throws -> Bool
 
 
 
@@ -353,6 +368,11 @@ public protocol TGBotPrtcl {
 
 
     @discardableResult
+    func getUserChatBoosts(params: TGGetUserChatBoostsParams) async throws -> TGUserChatBoosts
+
+
+
+    @discardableResult
     func setMyCommands(params: TGSetMyCommandsParams) async throws -> Bool
 
 
@@ -454,6 +474,11 @@ public protocol TGBotPrtcl {
 
     @discardableResult
     func deleteMessage(params: TGDeleteMessageParams) async throws -> Bool
+
+
+
+    @discardableResult
+    func deleteMessages(params: TGDeleteMessagesParams) async throws -> Bool
 
 
 

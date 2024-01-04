@@ -12,7 +12,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [BotCommandScope](https://core.telegram.org/bots/api#botcommandscope)
- */
+ **/
 public final class TGBotCommandScope: Codable {
 
 }

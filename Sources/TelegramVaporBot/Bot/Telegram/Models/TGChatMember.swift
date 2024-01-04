@@ -11,7 +11,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [ChatMember](https://core.telegram.org/bots/api#chatmember)
- */
+ **/
 public final class TGChatMember: Codable {
 
     /// Custom keys for coding/decoding `ChatMember` struct
@@ -65,7 +65,7 @@ public final class TGChatMember: Codable {
     /// True, if the bot is allowed to edit administrator privileges of that user
     public var canBeEdited: Bool?
 
-    /// True, if the administrator can access the chat event log, chat statistics, boost list in channels, message statistics in channels, see channel members, see anonymous administrators in supergroups and ignore slow mode. Implied by any other administrator privilege
+    /// True, if the administrator can access the chat event log, boost list in channels, see channel members, report spam messages, see anonymous administrators in supergroups and ignore slow mode. Implied by any other administrator privilege
     public var canManageChat: Bool?
 
     /// True, if the administrator can delete messages of other users
@@ -74,7 +74,7 @@ public final class TGChatMember: Codable {
     /// True, if the administrator can manage video chats
     public var canManageVideoChats: Bool?
 
-    /// True, if the administrator can restrict, ban or unban chat members
+    /// True, if the administrator can restrict, ban or unban chat members, or access supergroup statistics
     public var canRestrictMembers: Bool?
 
     /// True, if the administrator can add new administrators with a subset of their own privileges or demote administrators that they have promoted, directly or indirectly (promoted by administrators that were appointed by the user)
@@ -86,7 +86,7 @@ public final class TGChatMember: Codable {
     /// True, if the user is allowed to invite new users to the chat
     public var canInviteUsers: Bool?
 
-    /// Optional. True, if the administrator can post messages in the channel; channels only
+    /// Optional. True, if the administrator can post messages in the channel, or access channel statistics; channels only
     public var canPostMessages: Bool?
 
     /// Optional. True, if the administrator can edit messages of other users and can pin messages; channels only
@@ -112,7 +112,7 @@ public final class TGChatMember: Codable {
     /// True, if the user is a member of the chat at the moment of the request
     public var isMember: Bool?
 
-    /// True, if the user is allowed to send text messages, contacts, invoices, locations and venues
+    /// True, if the user is allowed to send text messages, contacts, giveaways, giveaway winners, invoices, locations and venues
     public var canSendMessages: Bool?
 
     /// True, if the user is allowed to send audios

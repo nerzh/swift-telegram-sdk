@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [Invoice](https://core.telegram.org/bots/api#invoice)
- */
+ **/
 public final class TGInvoice: Codable {
 
     /// Custom keys for coding/decoding `Invoice` struct

@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [KeyboardButtonRequestChat](https://core.telegram.org/bots/api#keyboardbuttonrequestchat)
- */
+ **/
 public final class TGKeyboardButtonRequestChat: Codable {
 
     /// Custom keys for coding/decoding `KeyboardButtonRequestChat` struct

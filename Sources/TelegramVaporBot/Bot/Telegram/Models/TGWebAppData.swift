@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [WebAppData](https://core.telegram.org/bots/api#webappdata)
- */
+ **/
 public final class TGWebAppData: Codable {
 
     /// Custom keys for coding/decoding `WebAppData` struct

@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [ChatMemberRestricted](https://core.telegram.org/bots/api#chatmemberrestricted)
- */
+ **/
 public final class TGChatMemberRestricted: Codable {
 
     /// Custom keys for coding/decoding `ChatMemberRestricted` struct
@@ -39,7 +39,7 @@ public final class TGChatMemberRestricted: Codable {
     /// True, if the user is a member of the chat at the moment of the request
     public var isMember: Bool
 
-    /// True, if the user is allowed to send text messages, contacts, invoices, locations and venues
+    /// True, if the user is allowed to send text messages, contacts, giveaways, giveaway winners, invoices, locations and venues
     public var canSendMessages: Bool
 
     /// True, if the user is allowed to send audios

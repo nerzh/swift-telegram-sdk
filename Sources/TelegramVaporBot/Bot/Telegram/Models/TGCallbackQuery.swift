@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [CallbackQuery](https://core.telegram.org/bots/api#callbackquery)
- */
+ **/
 public final class TGCallbackQuery: Codable {
 
     /// Custom keys for coding/decoding `CallbackQuery` struct
@@ -25,8 +25,8 @@ public final class TGCallbackQuery: Codable {
     /// Sender
     public var from: TGUser
 
-    /// Optional. Message with the callback button that originated the query. Note that message content and message date will not be available if the message is too old
-    public var message: TGMessage?
+    /// Optional. Message sent by the bot with the callback button that originated the query
+    public var message: TGMaybeInaccessibleMessage?
 
     /// Optional. Identifier of the message sent via the bot in inline mode, that originated the query.
     public var inlineMessageId: String?
@@ -40,7 +40,7 @@ public final class TGCallbackQuery: Codable {
     /// Optional. Short name of a Game to be returned, serves as the unique identifier for the game
     public var gameShortName: String?
 
-    public init (id: String, from: TGUser, message: TGMessage? = nil, inlineMessageId: String? = nil, chatInstance: String, data: String? = nil, gameShortName: String? = nil) {
+    public init (id: String, from: TGUser, message: TGMaybeInaccessibleMessage? = nil, inlineMessageId: String? = nil, chatInstance: String, data: String? = nil, gameShortName: String? = nil) {
         self.id = id
         self.from = from
         self.message = message

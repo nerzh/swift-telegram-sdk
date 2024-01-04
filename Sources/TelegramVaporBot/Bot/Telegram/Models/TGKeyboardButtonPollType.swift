@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [KeyboardButtonPollType](https://core.telegram.org/bots/api#keyboardbuttonpolltype)
- */
+ **/
 public final class TGKeyboardButtonPollType: Codable {
 
     /// Custom keys for coding/decoding `KeyboardButtonPollType` struct

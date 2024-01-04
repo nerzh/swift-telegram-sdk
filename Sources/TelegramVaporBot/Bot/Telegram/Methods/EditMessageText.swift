@@ -27,8 +27,8 @@ public struct TGEditMessageTextParams: Encodable {
     /// A JSON-serialized list of special entities that appear in message text, which can be specified instead of parse_mode
     public var entities: [TGMessageEntity]?
 
-    /// Disables link previews for links in this message
-    public var disableWebPagePreview: Bool?
+    /// Link preview generation options for the message
+    public var linkPreviewOptions: TGLinkPreviewOptions?
 
     /// A JSON-serialized object for an inline keyboard.
     public var replyMarkup: TGInlineKeyboardMarkup?
@@ -41,18 +41,18 @@ public struct TGEditMessageTextParams: Encodable {
             case text = "text"
             case parseMode = "parse_mode"
             case entities = "entities"
-            case disableWebPagePreview = "disable_web_page_preview"
+            case linkPreviewOptions = "link_preview_options"
             case replyMarkup = "reply_markup"
     }
 
-    public init(chatId: TGChatId? = nil, messageId: Int? = nil, inlineMessageId: String? = nil, text: String, parseMode: TGParseMode? = nil, entities: [TGMessageEntity]? = nil, disableWebPagePreview: Bool? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil) {
+    public init(chatId: TGChatId? = nil, messageId: Int? = nil, inlineMessageId: String? = nil, text: String, parseMode: TGParseMode? = nil, entities: [TGMessageEntity]? = nil, linkPreviewOptions: TGLinkPreviewOptions? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil) {
             self.chatId = chatId
             self.messageId = messageId
             self.inlineMessageId = inlineMessageId
             self.text = text
             self.parseMode = parseMode
             self.entities = entities
-            self.disableWebPagePreview = disableWebPagePreview
+            self.linkPreviewOptions = linkPreviewOptions
             self.replyMarkup = replyMarkup
     }
 }

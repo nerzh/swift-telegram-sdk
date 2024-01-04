@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [ChatMemberMember](https://core.telegram.org/bots/api#chatmembermember)
- */
+ **/
 public final class TGChatMemberMember: Codable {
 
     /// Custom keys for coding/decoding `ChatMemberMember` struct

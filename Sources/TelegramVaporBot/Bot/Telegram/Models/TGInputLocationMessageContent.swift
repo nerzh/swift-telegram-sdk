@@ -5,7 +5,7 @@
 
  SeeAlso Telegram Bot API Reference:
  [InputLocationMessageContent](https://core.telegram.org/bots/api#inputlocationmessagecontent)
- */
+ **/
 public final class TGInputLocationMessageContent: Codable {
 
     /// Custom keys for coding/decoding `InputLocationMessageContent` struct
