@@ -12,3 +12,4 @@ public enum TGMaybeInaccessibleMessage: Codable {
     case message(TGMessage)
     case inaccessibleMessage(TGInaccessibleMessage)
 }
+
