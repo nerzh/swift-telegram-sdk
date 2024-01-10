@@ -13,32 +13,3 @@ public enum TGMaybeInaccessibleMessage: Codable {
     case inaccessibleMessage(TGInaccessibleMessage)
 }
 
-
-public extension TGMaybeInaccessibleMessage {
-    var chat: TGChat {
-        switch self {
-        case .inaccessibleMessage(let msg):
-            return msg.chat
-        case .message(let msg):
-            return msg.chat
-        }
-    }
-    
-    var messageId: Int {
-        switch self {
-        case .inaccessibleMessage(let msg):
-            return msg.messageId
-        case .message(let msg):
-            return msg.messageId
-        }
-    }
-    
-    var date: Int {
-        switch self {
-        case .inaccessibleMessage(let msg):
-            return msg.date
-        case .message(let msg):
-            return msg.date
-        }
-    }
-}
