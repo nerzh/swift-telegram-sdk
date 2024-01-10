@@ -1,11 +1,4 @@
-//
-//  File.swift
-//  
-//
-//  Created by Hadi Sharghi on 2024-01-10.
-//
-
-import Foundation
+// Telegram-vapor-bot - Telegram Bot Swift SDK.
 
 /**
  This extension adds common properties betwwen TGMessage and TGInaccessibleMessage (chat, messageId and date) to TGMaybeInaccessibleMessage. These properties are always accessible no mather TGInaccessibleMessage is TGMessage or TGInaccessibleMessage.
