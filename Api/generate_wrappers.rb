@@ -34,291 +34,341 @@ METHODS_DIR_NAME = 'Methods'
 
 class Api
 
-  def generate_model_file(f, node)
+  def write_model_to_file(node, &block)
+    type_name = node.text
     FileUtils.mkpath "#{API_DIR}/#{MODELS_DIR_NAME}"
-
-    current_node = node
-
-    type_name = current_node.text
-    # byebug if type_name == 'ChatMemberOwner'
     File.open("#{API_DIR}/#{MODELS_DIR_NAME}/#{PREFIX_LIB}#{type_name}.swift", "wb") do | out |
-      current_node = current_node.next_element
-      description = fetch_description(current_node)
-      
-      out.write TYPE_HEADER
-      if type_name == "MaskPosition"
-        out.write "import Vapor\n\n"
-      end
-      out.write "/**\n"
-      description.each_line do |line|
-        out.write " #{line.strip}\n"
-      end
-      out.write "\n"
-      out.write " SeeAlso Telegram Bot API Reference:\n"
-      out.write " [#{type_name}](https://core.telegram.org/bots/api\##{type_name.downcase})\n"
-      out.write " **/\n"
-      
-      # file just for presentation all api
-      f.write "DESCRIPTION:\n#{description}\n"
-
-      keys_block = ""
-      vars_block = ""
-      init_params_block = ""
-      init_block = ""
-
-      current_node = get_table_node(current_node)
-      # byebug if (current_node.name != 'table' && current_node.name != 'h4')
-
-      current_node.search('tr').each do |node|
-
-        td = node.search('td')
-        next unless !(td[0].nil? || td[0] == 0) && (td[0].text != 'Field' && td[0].text != 'Parameters')
-
-        var_name = td[0].text
-        var_type = td[1].text
-        var_desc = td[2].text
-        var_optional = var_desc.start_with? "Optional"
-        # file just for presentation all api
-        f.write "PARAM: #{var_name} [#{var_type}#{var_optional ? '?' : ''}]: #{var_desc}\n"
-        
-        correct_var_type = convert_type(var_name, var_desc, var_type, type_name, var_optional)
-        correct_var_type_init = correct_var_type[-1] == "?" ? correct_var_type + " = nil" : correct_var_type
-        var_name_camel = var_name.camel_case_lower
-
-        keys_block << "#{TWO}case #{var_name_camel} = \"#{var_name}\"\n"
-              
-        var_desc.each_line do |line|
-          vars_block << "#{ONE}/// #{line.strip}\n"
-        end
-              
-        vars_block << "#{ONE}public var #{var_name_camel}: #{correct_var_type}\n\n"
-        init_params_block << "#{var_name_camel}: #{correct_var_type_init}, "
-        init_block << "#{TWO}self.#{var_name_camel} = #{var_name_camel}\n"
-
-        # TRY TO GENERATE A CUSTOM TYPE LIKE ENUM OF STRING VALUES etc.
-        if var_name == 'type'
-          generate_custom_model_if_needed(type_name, var_desc, description)
-        end
-      end
-
-      if block_given?
-        model_blocks = yield
-        keys_block = model_blocks[:keys_block]
-        vars_block = model_blocks[:vars_block]
-        init_params_block = model_blocks[:init_params_block]
-        init_block = model_blocks[:init_block]
-      end
-
-      var_protocol = "Codable"
-      
-      if description[/It\s+can\s+be\s+one\s+of/]
-        out.write  "public enum #{PREFIX_LIB}#{type_name}: #{var_protocol} {\n"
-        p type_name
-        start_trigger = false
-        description.each_line do |line|
-          if line[/It\s+can\s+be\s+one\s+of/]
-            start_trigger = true
-            next
-          end
-          if start_trigger
-            case_type_name = line.strip
-            case_name = line.strip
-            case_name[0] = case_name[0].downcase
-            out.write  "#{ONE}case #{case_name}(#{PREFIX_LIB}#{case_type_name})\n"
-          end
-        end
-        out.write  "}\n"
-      else
-        out.write  "public final class #{PREFIX_LIB}#{type_name}: #{var_protocol} {\n\n"
-      
-        if keys_block != ""
-          out.write "#{ONE}/// Custom keys for coding/decoding `#{type_name}` struct\n"\
-          "#{ONE}public enum CodingKeys: String, CodingKey {\n"\
-          "#{keys_block}"\
-          "#{ONE}}\n"\
-          "\n"\
-          "#{vars_block}"\
-          "#{ONE}public init (#{init_params_block.chomp(', ')}) {\n"\
-          "#{init_block}"\
-          "#{ONE}}\n"
-        end
-        out.write  "}\n"
-      end
+      type_name, variables_block, model_content = generate_model_file(node, false, &block)
+      out.write model_content
     end
   end
 
-  def generate_method(f, node)
+  def generate_model_file(node, skip_fucking_telegram_any_type)
+    current_node = node
+    type_name = current_node.text
+    current_node = current_node.next_element
+    description = fetch_description(current_node)
+    
+    out = ""
+    out << TYPE_HEADER
+    if type_name == "MaskPosition"
+      out << "import Vapor\n\n"
+    end
+    out << "/**\n"
+    description.each_line do |line|
+      out << " #{line.strip}\n"
+    end
+    out << "\n"
+    out << " SeeAlso Telegram Bot API Reference:\n"
+    out << " [#{type_name}](https://core.telegram.org/bots/api\##{type_name.downcase})\n"
+    out << " **/\n"
+
+    keys_block = ""
+    vars_block = ""
+    init_params_block = ""
+    init_block = ""
+
+    current_node = get_table_node(current_node)
+
+    current_node.search('tr').each do |node|
+      td = node.search('td')
+      next unless !(td[0].nil? || td[0] == 0) && (td[0].text != 'Field' && td[0].text != 'Parameters')
+
+      var_name = td[0].text
+      var_type = td[1].text
+      var_desc = td[2].text
+      var_optional = var_desc.start_with? "Optional"
+      
+      correct_var_type = convert_type(var_name, var_desc, var_type, type_name, var_optional)
+      correct_var_type_init = correct_var_type[-1] == "?" ? correct_var_type + " = nil" : correct_var_type
+      var_name_camel = var_name.camel_case_lower
+
+      keys_block << "#{TWO}case #{var_name_camel} = \"#{var_name}\"\n"
+            
+      var_desc.each_line do |line|
+        vars_block << "#{ONE}/// #{line.strip}\n"
+      end
+            
+      vars_block << "#{ONE}public var #{var_name_camel}: #{correct_var_type}\n\n"
+      init_params_block << "#{var_name_camel}: #{correct_var_type_init}, "
+      init_block << "#{TWO}self.#{var_name_camel} = #{var_name_camel}\n"
+
+      # TRY TO GENERATE A CUSTOM TYPE LIKE ENUM OF STRING VALUES etc.
+      if var_name == 'type'
+        generate_custom_model_if_needed(type_name, var_desc, description)
+      end
+    end
+
+    if block_given?
+      model_blocks = yield
+      keys_block = model_blocks[:keys_block]
+      vars_block = model_blocks[:vars_block]
+      init_params_block = model_blocks[:init_params_block]
+      init_block = model_blocks[:init_block]
+    end
+
+    var_protocol = "Codable"
+    
+    if description[/It\s+can\s+be\s+one\s+of/]
+      return [type_name, vars_block, ''] if skip_fucking_telegram_any_type
+      content = generate_fucking_telegram_any_type(type_name, var_protocol, description)
+      out << content
+    else
+      out <<  "public final class #{PREFIX_LIB}#{type_name}: #{var_protocol} {\n\n"
+    
+      if keys_block != ""
+        out << "#{ONE}/// Custom keys for coding/decoding `#{type_name}` struct\n"\
+        "#{ONE}public enum CodingKeys: String, CodingKey {\n"\
+        "#{keys_block}"\
+        "#{ONE}}\n"\
+        "\n"\
+        "#{vars_block}"\
+        "#{ONE}public init (#{init_params_block.chomp(', ')}) {\n"\
+        "#{init_block}"\
+        "#{ONE}}\n"
+      end
+      out << "}\n"
+    end
+
+    [type_name, vars_block, out]
+  end
+
+  def generate_fucking_telegram_any_type(type_name, var_protocol, description)
+    out = ''
+    out << "public enum #{PREFIX_LIB}#{type_name}: #{var_protocol} {\n"
+    start_trigger = false
+    description.each_line do |line|
+      if line[/It\s+can\s+be\s+one\s+of/]
+        start_trigger = true
+        next
+      end
+      if start_trigger
+        case_type_name = line.strip
+        case_name = line.strip
+        case_name[0] = case_name[0].downcase
+        out << "#{ONE}case #{case_name}(#{PREFIX_LIB}#{case_type_name})\n"
+      end
+    end
+    out << "\n"
+    # init(from decoder: Decoder) throws {
+    #     var container = try decoder.singleValueContainer()
+    #     if let xm = try? container.decode(MNB.self) {
+    #         self = .aaa(xm)
+    #     } else {
+    #         throw Er(des: "")
+    #     }
+    # }
+    out << "#{ONE}init(from decoder: Decoder) throws {\n"
+    out << "#{TWO}var container = try decoder.singleValueContainer()\n#{TWO}"
+    start_trigger = false
+    else_trigger = false
+    description.each_line do |line|
+      if line[/It\s+can\s+be\s+one\s+of/]
+        start_trigger = true
+        next
+      end
+      if start_trigger
+        case_type_name = line.strip
+        case_name = line.strip
+        case_name[0] = case_name[0].downcase
+        # out << "#{ONE}case #{case_name}(#{PREFIX_LIB}#{case_type_name})\n"
+        e_l_s_e = else_trigger ? " else " : ""
+        else_trigger = true
+        out << "#{e_l_s_e}if let value = try? container.decode(#{PREFIX_LIB}#{case_type_name}.self) {\n"
+        out << "#{THREE}self = .#{case_name}(value)\n"
+        out << "#{TWO}}"
+      end
+    end
+    out << " else {\n"
+    out << "#{THREE}throw BotError(\"Failed! Can't decode ANY_TYPE #{type_name}.\")\n"
+    out << "#{TWO}}\n"
+    out << "#{ONE}}\n"
+    out << "}\n"
+
+    out
+  end
+
+  def write_method_to_file(node)
     FileUtils.mkpath "#{API_DIR}/#{METHODS_DIR_NAME}"
 
     current_node = node
-    methods_signature = ""
-
     method_name = current_node.text
+    methods_signature = ''
     File.open("#{API_DIR}/#{METHODS_DIR_NAME}/#{method_name.capitalize_first}.swift", "wb") do | out |
-      out.write METHOD_HEADER
-      out.write "import Vapor\n\n"
-
-      current_node = current_node.next_element
-      description = fetch_description(current_node)
-      current_node = get_table_node(current_node)
-
-      result_type = deduce_result_type(description)
-      result_type = make_swift_type_name('', result_type)
-
-      codable_params_struct = ""
-      codable_params_enum = ""
-      
-      out.write "/// DESCRIPTION:\n/// #{description.gsub(/\n/, "\n/// ")}\n\n\n"
-
-      anchor = method_name.downcase
-
-      vars_desc = ""
-      all_params = ""
-      all_enums = ""
-      init_params_body = ""
-      init_params = ""
-      
-      has_obligatory_params = false
-      has_upload_type = false
-      
-      current_node.search('tr').each do |node|
-        td = node.search('td')
-        next unless !(td[0].nil? || td[0] == 0) && (td[0].text != 'Parameters')
-
-        var_name = td[0].text
-        var_type = td[1].text
-        var_optional = td[2].text.strip != 'Yes'
-        var_desc = td[3].text
-        f.write "PARAM: #{var_name} [#{var_type}#{var_optional ? '?' : ''}]: #{var_desc}\n"
-        
-        if !has_obligatory_params
-          if !var_optional
-            has_obligatory_params = true
-          end
-        end
-
-        swift_type_name = make_swift_type_name(var_name, var_type)
-        
-        if swift_type_name == "#{PREFIX_LIB}FileInfo" || swift_type_name == "#{PREFIX_LIB}InputFile"
-          has_upload_type = true
-        end
-        
-        all_params << make_request_parameter(method_name, swift_type_name, var_name, var_type, var_optional, var_desc)
-        all_enums << make_request_value(method_name, swift_type_name, var_name, var_type, var_optional, var_desc)
-        init_params << make_init_params(method_name, swift_type_name, var_name, var_type, var_optional, var_desc)
-        init_params_body << make_init_body(method_name, swift_type_name, var_name, var_type, var_optional, var_desc)
-
-        if vars_desc.empty?
-          vars_desc += "    /// - Parameters:\n"
-        end
-        vars_desc +=   "    ///     - #{var_name}: "
-        first_line = true
-        var_desc.each_line do |line|
-          stripped = line.strip
-          next unless !stripped.empty?
-          if first_line
-            first_line = false
-          else
-            vars_desc += '    ///       '
-          end
-          vars_desc +=   "#{line.strip}\n"\
-        end
-      end
-
-      method_name_capitalized = method_name.dup
-      method_name_capitalized = "#{method_name_capitalized.capitalize_first}Params"
-
-      body_param = ""
-
-      #Generate description
-      method_description = ""
-      method_description << "/**\n"
-      
-      description.each_line do |line|
-          method_description << " #{line.strip}\n"
-      end
-      
-      method_description << "\n"
-      method_description << " SeeAlso Telegram Bot API Reference:\n"
-      method_description << " [#{method_name_capitalized}](https://core.telegram.org/bots/api\##{anchor})\n"
-      method_description << " \n"
-      method_description << " - Parameters:\n"
-      method_description << "#{ONE} - params: Parameters container, see `#{method_name_capitalized}` struct\n"
-      method_description << " - Throws: Throws on errors\n"
-      method_description << " - Returns: `#{result_type}`\n"
-      method_description << " */\n"
-
-
-      async_method_content = ""
-      if all_params.empty?
-        # generate method
-        out.write "\n"
-        out.write "public extension #{PREFIX_LIB}Bot {\n"
-        out.write method_description
-
-        # async method section
-        async_method_content << "#{ONE}@discardableResult\n"
-        async_method_content << "#{ONE}func #{method_name}() async throws -> #{result_type}"
-
-        methods_signature << "\n\n#{async_method_content.gsub(/ = nil/, '')}"
-        async_method_content << " {\n"
-      else
-        # generate output type
-        encodable_type = "Encodable"
-      
-        # if has_upload_type
-        #   encodable_type = "Encodable"
-        # end
-        out.write "/// Parameters container struct for `#{method_name}` method\n"
-        out.write "public struct #{PREFIX_LIB}#{method_name_capitalized}: #{encodable_type} {\n\n"
-        out.write "#{all_params}"
-        out.write "#{ONE}/// Custom keys for coding/decoding `#{method_name_capitalized}` struct\n"
-        out.write "#{ONE}public enum CodingKeys: String, CodingKey {\n"
-        out.write "#{all_enums}"
-        out.write "#{ONE}}\n"
-        out.write "\n"
-        out.write "#{ONE}public init(#{init_params.chomp(', ')}) {\n"
-        out.write "#{init_params_body}"
-        out.write "#{ONE}}\n"
-        out.write "}\n"
-        out.write "\n"
-        if has_obligatory_params
-          params_block = "(params: #{PREFIX_LIB}#{method_name_capitalized})"
-        else
-          params_block = "(params: #{PREFIX_LIB}#{method_name_capitalized}? = nil)"
-        end
-        
-        out.write "\n"
-        out.write "public extension #{PREFIX_LIB}Bot {\n"
-        out.write "\n"
-        out.write method_description
-
-        # async method section
-        async_method_content << "#{ONE}@discardableResult\n"
-        async_method_content << "#{ONE}func #{method_name}#{params_block} async throws -> #{result_type}"
-
-        methods_signature << "\n\n#{async_method_content.gsub(/ = nil/, '')}"
-        async_method_content << " {\n"
-      end
-
-      async_method_content << "#{TWO}let methodURL: URI = .init(string: getMethodURL(\"#{method_name}\"))\n"
-      if all_params.empty?
-        async_method_content << "#{TWO}let result: #{result_type} = try await tgClient.post(methodURL)\n"
-      else
-        async_method_content << "#{TWO}let result: #{result_type} = try await tgClient.post(methodURL, params: params, as: nil)\n"
-      end
-
-      async_method_content << "#{TWO}return result\n"
-      async_method_content << "#{ONE}}\n"
-      async_method_content << "}\n"
-
-      out.write "\n#{async_method_content}"
+      content, methods_signature = generate_method(node)
+      out.write content
     end
 
     methods_signature
   end
 
-  def make_bot_protocol(signatures)
+  def generate_method(node)
+    current_node = node
+    methods_signature = ""
+    method_name = current_node.text
+    out = ""
+    out << METHOD_HEADER
+    out << "import Vapor\n\n"
+
+    current_node = current_node.next_element
+    description = fetch_description(current_node)
+    current_node = get_table_node(current_node)
+
+    result_type = deduce_result_type(description)
+    result_type = make_swift_type_name('', result_type)
+
+    codable_params_struct = ""
+    codable_params_enum = ""
+    
+    out << "/// DESCRIPTION:\n/// #{description.gsub(/\n/, "\n/// ")}\n\n\n"
+
+    anchor = method_name.downcase
+
+    vars_desc = ""
+    all_params = ""
+    all_enums = ""
+    init_params_body = ""
+    init_params = ""
+    
+    has_obligatory_params = false
+    has_upload_type = false
+    
+    current_node.search('tr').each do |node|
+      td = node.search('td')
+      next unless !(td[0].nil? || td[0] == 0) && (td[0].text != 'Parameters')
+
+      var_name = td[0].text
+      var_type = td[1].text
+      var_optional = td[2].text.strip != 'Yes'
+      var_desc = td[3].text
+      
+      if !has_obligatory_params
+        if !var_optional
+          has_obligatory_params = true
+        end
+      end
+
+      swift_type_name = make_swift_type_name(var_name, var_type)
+      
+      if swift_type_name == "#{PREFIX_LIB}FileInfo" || swift_type_name == "#{PREFIX_LIB}InputFile"
+        has_upload_type = true
+      end
+      
+      all_params << make_request_parameter(method_name, swift_type_name, var_name, var_type, var_optional, var_desc)
+      all_enums << make_request_value(method_name, swift_type_name, var_name, var_type, var_optional, var_desc)
+      init_params << make_init_params(method_name, swift_type_name, var_name, var_type, var_optional, var_desc)
+      init_params_body << make_init_body(method_name, swift_type_name, var_name, var_type, var_optional, var_desc)
+
+      if vars_desc.empty?
+        vars_desc += "    /// - Parameters:\n"
+      end
+      vars_desc +=   "    ///     - #{var_name}: "
+      first_line = true
+      var_desc.each_line do |line|
+        stripped = line.strip
+        next unless !stripped.empty?
+        if first_line
+          first_line = false
+        else
+          vars_desc += '    ///       '
+        end
+        vars_desc +=   "#{line.strip}\n"\
+      end
+    end
+
+    method_name_capitalized = method_name.dup
+    method_name_capitalized = "#{method_name_capitalized.capitalize_first}Params"
+
+    body_param = ""
+
+    #Generate description
+    method_description = ""
+    method_description << "/**\n"
+    
+    description.each_line do |line|
+        method_description << " #{line.strip}\n"
+    end
+    
+    method_description << "\n"
+    method_description << " SeeAlso Telegram Bot API Reference:\n"
+    method_description << " [#{method_name_capitalized}](https://core.telegram.org/bots/api\##{anchor})\n"
+    method_description << " \n"
+    method_description << " - Parameters:\n"
+    method_description << "#{ONE} - params: Parameters container, see `#{method_name_capitalized}` struct\n"
+    method_description << " - Throws: Throws on errors\n"
+    method_description << " - Returns: `#{result_type}`\n"
+    method_description << " */\n"
+
+
+    async_method_content = ""
+    if all_params.empty?
+      # generate method
+      out << "\n"
+      out << "public extension #{PREFIX_LIB}Bot {\n"
+      out << method_description
+
+      # async method section
+      async_method_content << "#{ONE}@discardableResult\n"
+      async_method_content << "#{ONE}func #{method_name}() async throws -> #{result_type}"
+
+      methods_signature << "\n\n#{async_method_content.gsub(/ = nil/, '')}"
+      async_method_content << " {\n"
+    else
+      # generate output type
+      encodable_type = "Encodable"
+    
+      # if has_upload_type
+      #   encodable_type = "Encodable"
+      # end
+      out << "/// Parameters container struct for `#{method_name}` method\n"
+      out << "public struct #{PREFIX_LIB}#{method_name_capitalized}: #{encodable_type} {\n\n"
+      out << "#{all_params}"
+      out << "#{ONE}/// Custom keys for coding/decoding `#{method_name_capitalized}` struct\n"
+      out << "#{ONE}public enum CodingKeys: String, CodingKey {\n"
+      out << "#{all_enums}"
+      out << "#{ONE}}\n"
+      out << "\n"
+      out << "#{ONE}public init(#{init_params.chomp(', ')}) {\n"
+      out << "#{init_params_body}"
+      out << "#{ONE}}\n"
+      out << "}\n"
+      out << "\n"
+      if has_obligatory_params
+        params_block = "(params: #{PREFIX_LIB}#{method_name_capitalized})"
+      else
+        params_block = "(params: #{PREFIX_LIB}#{method_name_capitalized}? = nil)"
+      end
+      
+      out << "\n"
+      out << "public extension #{PREFIX_LIB}Bot {\n"
+      out << "\n"
+      out << method_description
+
+      # async method section
+      async_method_content << "#{ONE}@discardableResult\n"
+      async_method_content << "#{ONE}func #{method_name}#{params_block} async throws -> #{result_type}"
+
+      methods_signature << "\n\n#{async_method_content.gsub(/ = nil/, '')}"
+      async_method_content << " {\n"
+    end
+
+    async_method_content << "#{TWO}let methodURL: URI = .init(string: getMethodURL(\"#{method_name}\"))\n"
+    if all_params.empty?
+      async_method_content << "#{TWO}let result: #{result_type} = try await tgClient.post(methodURL)\n"
+    else
+      async_method_content << "#{TWO}let result: #{result_type} = try await tgClient.post(methodURL, params: params, as: nil)\n"
+    end
+
+    async_method_content << "#{TWO}return result\n"
+    async_method_content << "#{ONE}}\n"
+    async_method_content << "}\n"
+
+    out << "\n#{async_method_content}"
+
+    [out, methods_signature]
+  end
+
+  def write_bot_protocol_to_file(signatures)
     protocol = METHOD_HEADER
     protocol << "import Vapor\n\n"
     protocol << "public protocol #{PREFIX_LIB}BotPrtcl {\n\n"
@@ -335,7 +385,7 @@ class Api
     end
   end
 
-  def makeChatMemberType(f)
+  def write_chat_member_model_type_to_file
     html = File.open(HTML_FILE, "rb").read
     doc = Nokogiri::HTML(html)
 
@@ -370,7 +420,6 @@ class Api
           var_type = td[1].text
           var_desc = td[2].text
           var_optional = var_desc.start_with? "Optional"
-          f.write "PARAM: #{var_name} [#{var_type}#{var_optional ? '?' : ''}]: #{var_desc}\n"
           
           correct_var_type = convert_type(var_name, var_desc, var_type, type_name, var_optional)
           correct_var_type_init = correct_var_type
@@ -397,8 +446,6 @@ class Api
           init_block << "#{TWO}self.#{var_name_camel} = #{var_name_camel}\n"
         end
       end
-
-      f.write "\n"
     end
 
     keys_block = keys_block.uniq!&.join('') || ''
@@ -411,7 +458,7 @@ class Api
       next unless title.split.count == 1
 
       if title == 'ChatMember'
-        generate_model_file(f, node) do
+        write_model_to_file(node) do
           {
             keys_block: keys_block,
             vars_block: vars_block,
@@ -439,6 +486,7 @@ class Api
 
   def generate_enum_type(type_name, custom_type_description, type_description)
     custom_type_name = "#{PREFIX_LIB}#{type_name}Type"
+    FileUtils.mkpath "#{API_DIR}/#{MODELS_DIR_NAME}"
     File.open("#{API_DIR}/#{MODELS_DIR_NAME}/#{custom_type_name}.swift", "wb") do | out |
       out.write TYPE_HEADER
       out.write "/**\n"
@@ -767,25 +815,21 @@ end
 
 
 class Api
-  def main
-  	STDOUT.sync = true
+  
+  def each_model_content(&block)
+    if block
+      STDOUT.sync = true
+      FileUtils.rm_rf("#{API_DIR}/#{METHODS_DIR_NAME}")
+      FileUtils.rm_rf("#{API_DIR}/#{MODELS_DIR_NAME}")
+      html = File.open(HTML_FILE, "rb").read
+      doc = Nokogiri::HTML(html)
+      doc.css("br").each { |node| node.replace("\n") }
+      doc.search("h4").each do |node|
+        title = node.text.strip
+        next unless title.split.count == 1
 
-    FileUtils.rm_rf("#{API_DIR}/#{METHODS_DIR_NAME}")
-    FileUtils.rm_rf("#{API_DIR}/#{MODELS_DIR_NAME}")
-
-  	File.open(API_FILE, 'wb') do |f|
-  		html = File.open(HTML_FILE, "rb").read
-  		doc = Nokogiri::HTML(html)
-
-  		doc.css("br").each { |node| node.replace("\n") }
-  		
-      methods_signatures_for_bot_protocol = []
-  		doc.search("h4").each do |node|
-  			title = node.text.strip
-  			next unless title.split.count == 1
-
-  			# These types are complex and created manually:
-  			next unless ![
+        # These types are complex and created manually:
+        next unless ![
           'InlineQueryResult', 
           'InputFile', 
           'InputMedia', 
@@ -794,27 +838,61 @@ class Api
           'ChatMember'
         ].include?(title)
 
-  			kind = (title.chars.first == title.chars.first.upcase) ? :type : :method
+        kind = (title.chars.first == title.chars.first.upcase) ? :type : :method
 
-  			f.write "NAME: #{title} [#{kind}]\n"
-
-  			if kind == :type
-          generate_model_file(f, node)
-  			else
-          method_signature = generate_method(f, node)
-          methods_signatures_for_bot_protocol << method_signature
-  			end
-
-  			f.write "\n"
-  		end
-
-      make_bot_protocol(methods_signatures_for_bot_protocol)
-      makeChatMemberType(f)
-  	end
-
-  	puts 'Finished'
+        if kind == :type
+          type_name, variables_block, model_content = generate_model_file(node, true)
+          block.call(type_name, variables_block, model_content)
+        end
+      end
+    end
   end
+
+  def main
+  	STDOUT.sync = true
+
+    FileUtils.rm_rf("#{API_DIR}/#{METHODS_DIR_NAME}")
+    FileUtils.rm_rf("#{API_DIR}/#{MODELS_DIR_NAME}")
+		html = File.open(HTML_FILE, "rb").read
+		doc = Nokogiri::HTML(html)
+
+		doc.css("br").each { |node| node.replace("\n") }
+		
+    methods_signatures_for_bot_protocol = []
+		doc.search("h4").each do |node|
+			title = node.text.strip
+			next unless title.split.count == 1
+
+			# These types are complex and created manually:
+			next unless ![
+        'InlineQueryResult', 
+        'InputFile', 
+        'InputMedia', 
+        'InputMessageContent', 
+        'PassportElementError', 
+        'ChatMember'
+      ].include?(title)
+
+			kind = (title.chars.first == title.chars.first.upcase) ? :type : :method
+
+			if kind == :type
+        write_model_to_file(node)
+			else
+        method_signature = write_method_to_file(node)
+        methods_signatures_for_bot_protocol << method_signature
+			end
+		end
+
+    write_bot_protocol_to_file(methods_signatures_for_bot_protocol)
+    write_chat_member_model_type_to_file()
+	end
+
+	puts 'Finished'
 end
+
+
+
+# START
 
 if $0 == __FILE__
 	if File.new(__FILE__).flock(File::LOCK_EX | File::LOCK_NB)
