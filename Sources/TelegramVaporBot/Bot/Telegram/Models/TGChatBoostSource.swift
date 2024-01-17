@@ -13,4 +13,17 @@ public enum TGChatBoostSource: Codable {
     case chatBoostSourcePremium(TGChatBoostSourcePremium)
     case chatBoostSourceGiftCode(TGChatBoostSourceGiftCode)
     case chatBoostSourceGiveaway(TGChatBoostSourceGiveaway)
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if let value = try? container.decode(TGChatBoostSourcePremium.self) {
+            self = .chatBoostSourcePremium(value)
+        } else if let value = try? container.decode(TGChatBoostSourceGiftCode.self) {
+            self = .chatBoostSourceGiftCode(value)
+        } else if let value = try? container.decode(TGChatBoostSourceGiveaway.self) {
+            self = .chatBoostSourceGiveaway(value)
+        } else {
+            throw BotError("Failed! Can't decode ANY_TYPE ChatBoostSource.")
+        }
+    }
 }

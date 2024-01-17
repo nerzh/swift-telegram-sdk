@@ -15,4 +15,19 @@ public enum TGMessageOrigin: Codable {
     case messageOriginHiddenUser(TGMessageOriginHiddenUser)
     case messageOriginChat(TGMessageOriginChat)
     case messageOriginChannel(TGMessageOriginChannel)
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if let value = try? container.decode(TGMessageOriginUser.self) {
+            self = .messageOriginUser(value)
+        } else if let value = try? container.decode(TGMessageOriginHiddenUser.self) {
+            self = .messageOriginHiddenUser(value)
+        } else if let value = try? container.decode(TGMessageOriginChat.self) {
+            self = .messageOriginChat(value)
+        } else if let value = try? container.decode(TGMessageOriginChannel.self) {
+            self = .messageOriginChannel(value)
+        } else {
+            throw BotError("Failed! Can't decode ANY_TYPE MessageOrigin.")
+        }
+    }
 }

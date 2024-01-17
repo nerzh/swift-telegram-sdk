@@ -11,4 +11,15 @@
 public enum TGMaybeInaccessibleMessage: Codable {
     case message(TGMessage)
     case inaccessibleMessage(TGInaccessibleMessage)
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if let value = try? container.decode(TGMessage.self) {
+            self = .message(value)
+        } else if let value = try? container.decode(TGInaccessibleMessage.self) {
+            self = .inaccessibleMessage(value)
+        } else {
+            throw BotError("Failed! Can't decode ANY_TYPE MaybeInaccessibleMessage.")
+        }
+    }
 }

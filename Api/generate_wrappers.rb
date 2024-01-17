@@ -158,8 +158,8 @@ class Api
     #         throw Er(des: "")
     #     }
     # }
-    out << "#{ONE}init(from decoder: Decoder) throws {\n"
-    out << "#{TWO}var container = try decoder.singleValueContainer()\n#{TWO}"
+    out << "#{ONE}public init(from decoder: Decoder) throws {\n"
+    out << "#{TWO}let container = try decoder.singleValueContainer()\n#{TWO}"
     start_trigger = false
     else_trigger = false
     description.each_line do |line|
