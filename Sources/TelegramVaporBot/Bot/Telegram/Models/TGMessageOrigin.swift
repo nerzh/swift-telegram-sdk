@@ -30,4 +30,18 @@ public enum TGMessageOrigin: Codable {
             throw BotError("Failed! Can't decode ANY_TYPE MessageOrigin.")
         }
     }
+
+    public func encode(to encoder: Encoder) throws {
+        let container = encoder.singleValueContainer()
+        switch self {
+        case let .messageOriginUser(value):
+            try container.encode(value)
+        case let .messageOriginHiddenUser(value):
+            try container.encode(value)
+        case let .messageOriginChat(value):
+            try container.encode(value)
+        case let .messageOriginChannel(value):
+            try container.encode(value)
+        }
+    }
 }

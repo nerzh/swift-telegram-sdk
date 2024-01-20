@@ -200,6 +200,38 @@ class Api
     out << " else {\n"
     out << "#{THREE}throw BotError(\"Failed! Can't decode ANY_TYPE #{type_name}.\")\n"
     out << "#{TWO}}\n"
+    out << "#{ONE}}\n\n"
+    # public func encode(to encoder: Encoder) throws {
+    #     var container = encoder.singleValueContainer()
+    #     switch self {
+    #     case let .aaa(value):
+    #         try container.encode(value)
+    #     case let .aaa2(value):
+    #         try container.encode(value)
+    #     }
+    # }
+    out << "#{ONE}public func encode(to encoder: Encoder) throws {\n"
+    out << "#{TWO}let container = encoder.singleValueContainer()\n"
+    out << "#{TWO}switch self {\n"
+    start_trigger = false
+    description.each_line do |line|
+      if fucking_telegram_any_type?(line)
+        start_trigger = true
+        next
+      end
+      if start_trigger
+        case_type_name = fucking_telegram_any_type_name(line.strip)
+        unless case_type_name
+          start_trigger = false
+          next
+        end
+        case_name = case_type_name.clone
+        case_name[0] = case_name[0].downcase
+        out << "#{TWO}case let .#{case_name}(value):\n"
+        out << "#{THREE}try container.encode(value)\n"
+      end
+    end
+    out << "#{TWO}}\n"
     out << "#{ONE}}\n"
     out << "}\n"
 

@@ -26,4 +26,16 @@ public enum TGChatBoostSource: Codable {
             throw BotError("Failed! Can't decode ANY_TYPE ChatBoostSource.")
         }
     }
+
+    public func encode(to encoder: Encoder) throws {
+        let container = encoder.singleValueContainer()
+        switch self {
+        case let .chatBoostSourcePremium(value):
+            try container.encode(value)
+        case let .chatBoostSourceGiftCode(value):
+            try container.encode(value)
+        case let .chatBoostSourceGiveaway(value):
+            try container.encode(value)
+        }
+    }
 }

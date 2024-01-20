@@ -42,4 +42,24 @@ public enum TGBotCommandScope: Codable {
             throw BotError("Failed! Can't decode ANY_TYPE BotCommandScope.")
         }
     }
+
+    public func encode(to encoder: Encoder) throws {
+        let container = encoder.singleValueContainer()
+        switch self {
+        case let .botCommandScopeDefault(value):
+            try container.encode(value)
+        case let .botCommandScopeAllPrivateChats(value):
+            try container.encode(value)
+        case let .botCommandScopeAllGroupChats(value):
+            try container.encode(value)
+        case let .botCommandScopeAllChatAdministrators(value):
+            try container.encode(value)
+        case let .botCommandScopeChat(value):
+            try container.encode(value)
+        case let .botCommandScopeChatAdministrators(value):
+            try container.encode(value)
+        case let .botCommandScopeChatMember(value):
+            try container.encode(value)
+        }
+    }
 }

@@ -22,4 +22,14 @@ public enum TGMaybeInaccessibleMessage: Codable {
             throw BotError("Failed! Can't decode ANY_TYPE MaybeInaccessibleMessage.")
         }
     }
+
+    public func encode(to encoder: Encoder) throws {
+        let container = encoder.singleValueContainer()
+        switch self {
+        case let .message(value):
+            try container.encode(value)
+        case let .inaccessibleMessage(value):
+            try container.encode(value)
+        }
+    }
 }

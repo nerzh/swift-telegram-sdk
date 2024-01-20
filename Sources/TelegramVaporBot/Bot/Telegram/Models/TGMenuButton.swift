@@ -27,4 +27,16 @@ public enum TGMenuButton: Codable {
             throw BotError("Failed! Can't decode ANY_TYPE MenuButton.")
         }
     }
+
+    public func encode(to encoder: Encoder) throws {
+        let container = encoder.singleValueContainer()
+        switch self {
+        case let .menuButtonCommands(value):
+            try container.encode(value)
+        case let .menuButtonWebApp(value):
+            try container.encode(value)
+        case let .menuButtonDefault(value):
+            try container.encode(value)
+        }
+    }
 }
