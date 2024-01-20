@@ -22,11 +22,10 @@ public final class TGInaccessibleMessage: Codable {
     public var messageId: Int
 
     /// Always 0. The field can be used to differentiate regular and inaccessible messages.
-    public var date: Int
+    public let date: Int = 0
 
-    public init (chat: TGChat, messageId: Int, date: Int) {
+    public init (chat: TGChat, messageId: Int) {
         self.chat = chat
         self.messageId = messageId
-        self.date = date
     }
 }
