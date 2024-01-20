@@ -211,7 +211,7 @@ class Api
     #     }
     # }
     out << "#{ONE}public func encode(to encoder: Encoder) throws {\n"
-    out << "#{TWO}let container = encoder.singleValueContainer()\n"
+    out << "#{TWO}var container = encoder.singleValueContainer()\n"
     out << "#{TWO}switch self {\n"
     start_trigger = false
     description.each_line do |line|

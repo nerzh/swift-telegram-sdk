@@ -24,7 +24,7 @@ public enum TGMaybeInaccessibleMessage: Codable {
     }
 
     public func encode(to encoder: Encoder) throws {
-        let container = encoder.singleValueContainer()
+        var container = encoder.singleValueContainer()
         switch self {
         case let .message(value):
             try container.encode(value)
