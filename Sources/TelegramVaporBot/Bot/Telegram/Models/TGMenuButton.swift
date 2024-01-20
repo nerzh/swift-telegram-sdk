@@ -10,6 +10,21 @@
  SeeAlso Telegram Bot API Reference:
  [MenuButton](https://core.telegram.org/bots/api#menubutton)
  **/
-public final class TGMenuButton: Codable {
+public enum TGMenuButton: Codable {
+    case menuButtonCommands(TGMenuButtonCommands)
+    case menuButtonWebApp(TGMenuButtonWebApp)
+    case menuButtonDefault(TGMenuButtonDefault)
 
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if let value = try? container.decode(TGMenuButtonCommands.self) {
+            self = .menuButtonCommands(value)
+        } else if let value = try? container.decode(TGMenuButtonWebApp.self) {
+            self = .menuButtonWebApp(value)
+        } else if let value = try? container.decode(TGMenuButtonDefault.self) {
+            self = .menuButtonDefault(value)
+        } else {
+            throw BotError("Failed! Can't decode ANY_TYPE MenuButton.")
+        }
+    }
 }

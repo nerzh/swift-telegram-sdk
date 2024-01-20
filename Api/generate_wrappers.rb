@@ -109,7 +109,7 @@ class Api
 
     var_protocol = "Codable"
     
-    if description[/It\s+can\s+be\s+one\s+of/]
+    if fucking_telegram_any_type?(description)
       return [type_name, vars_block, ''] if skip_fucking_telegram_any_type
       content = generate_fucking_telegram_any_type(type_name, var_protocol, description)
       out << content
@@ -133,18 +133,30 @@ class Api
     [type_name, vars_block, out]
   end
 
+  def fucking_telegram_any_type?(description)
+    description[/It\s+can\s+be\s+one\s+of/] || description[/It\s+should\s+be\s+one\s+of/]
+  end
+
+  def fucking_telegram_any_type_name(line)
+    line[/^\w+$/]
+  end
+
   def generate_fucking_telegram_any_type(type_name, var_protocol, description)
     out = ''
     out << "public enum #{PREFIX_LIB}#{type_name}: #{var_protocol} {\n"
     start_trigger = false
     description.each_line do |line|
-      if line[/It\s+can\s+be\s+one\s+of/]
+      if fucking_telegram_any_type?(line)
         start_trigger = true
         next
       end
       if start_trigger
-        case_type_name = line.strip
-        case_name = line.strip
+        case_type_name = fucking_telegram_any_type_name(line.strip)
+        unless case_type_name
+          start_trigger = false
+          next
+        end
+        case_name = case_type_name.clone
         case_name[0] = case_name[0].downcase
         out << "#{ONE}case #{case_name}(#{PREFIX_LIB}#{case_type_name})\n"
       end
@@ -163,13 +175,17 @@ class Api
     start_trigger = false
     else_trigger = false
     description.each_line do |line|
-      if line[/It\s+can\s+be\s+one\s+of/]
+      if fucking_telegram_any_type?(line)
         start_trigger = true
         next
       end
       if start_trigger
-        case_type_name = line.strip
-        case_name = line.strip
+        case_type_name = fucking_telegram_any_type_name(line.strip)
+        unless case_type_name
+          start_trigger = false
+          next
+        end
+        case_name = case_type_name.clone
         case_name[0] = case_name[0].downcase
         # out << "#{ONE}case #{case_name}(#{PREFIX_LIB}#{case_type_name})\n"
         e_l_s_e = else_trigger ? " else " : ""
