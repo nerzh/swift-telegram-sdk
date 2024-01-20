@@ -134,7 +134,9 @@ class Api
   end
 
   def fucking_telegram_any_type?(description)
-    description[/It\s+can\s+be\s+one\s+of/] || description[/It\s+should\s+be\s+one\s+of/]
+    description[/It\s+can\s+be\s+one\s+of/] || 
+    description[/It\s+should\s+be\s+one\s+of/] ||
+    description[/scopes\s+are\s+supported:/]
   end
 
   def fucking_telegram_any_type_name(line)
