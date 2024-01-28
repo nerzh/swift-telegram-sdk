@@ -8,6 +8,28 @@
  SeeAlso Telegram Bot API Reference:
  [ReactionType](https://core.telegram.org/bots/api#reactiontype)
  **/
-public final class TGReactionType: Codable {
+public enum TGReactionType: Codable {
+    case reactionTypeEmoji(TGReactionTypeEmoji)
+    case reactionTypeCustomEmoji(TGReactionTypeCustomEmoji)
 
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if let value = try? container.decode(TGReactionTypeEmoji.self) {
+            self = .reactionTypeEmoji(value)
+        } else if let value = try? container.decode(TGReactionTypeCustomEmoji.self) {
+            self = .reactionTypeCustomEmoji(value)
+        } else {
+            throw BotError("Failed! Can't decode ANY_TYPE ReactionType.")
+        }
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .reactionTypeEmoji(value):
+            try container.encode(value)
+        case let .reactionTypeCustomEmoji(value):
+            try container.encode(value)
+        }
+    }
 }
