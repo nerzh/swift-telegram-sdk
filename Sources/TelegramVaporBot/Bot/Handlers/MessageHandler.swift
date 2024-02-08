@@ -4,8 +4,6 @@
 //  Created by Oleh Hudeichuk on 02.06.2021.
 //
 
-import AsyncHTTPClient
-
 /// Handler for bot messages, can handle normal messages, channel posts, edited messages
 public class TGMessageHandler: TGHandlerPrtcl {
     
@@ -14,7 +12,7 @@ public class TGMessageHandler: TGHandlerPrtcl {
     public var name: String
     
     /// Option Set for `MessageHandler`
-    public struct Options: OptionSet {
+    public struct Options: OptionSet, Hashable {
         public let rawValue: Int
         
         public init(rawValue: Int) {
@@ -31,12 +29,12 @@ public class TGMessageHandler: TGHandlerPrtcl {
     
     let filters: TGFilter
     var callbackAsync: TGHandlerCallbackAsync
-    let options: Options
+    let options: Set<Options>
     
     public init(
         name: String = String(describing: TGMessageHandler.self),
         filters: TGFilter = .all,
-        options: Options = [.messageUpdates, .channelPostUpdates],
+        options: Set<Options> = Set([.messageUpdates, .channelPostUpdates]),
         _ callback: @escaping TGHandlerCallbackAsync
     ) {
         self.filters = filters

@@ -28,16 +28,14 @@ public class TGRegexpHandler: TGHandlerPrtcl {
         self.callbackAsync = callback
     }
     
-    public convenience init?(
+    public convenience init(
         name: String = String(describing: TGRegexpHandler.self),
         pattern: String,
         options: NSRegularExpression.Options = [],
         filters: TGFilter = .all,
         _ callback: @escaping TGHandlerCallbackAsync
-    ) {
-        guard let regexp = try? NSRegularExpression(pattern: pattern, options: options) else {
-            return nil
-        }
+    ) throws {
+        let regexp = try NSRegularExpression(pattern: pattern, options: options)
         self.init(
             name: name,
             regexp: regexp,
