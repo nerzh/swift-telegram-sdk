@@ -101,7 +101,7 @@ open class TGDefaultDispatcher: TGDispatcherPrtcl {
                 }
                 let positionIndex = position - 1
                 if self.handlersGroup[level].count > positionIndex, self.handlersGroup[level][positionIndex].id == handler.id {
-                    self.handlersGroup[level].remove(at: position - 1)
+                    self.handlersGroup[level].remove(at: positionIndex)
                     self.handlersIndex[level]?.removeValue(forKey: indexId)
                 }
                 continuation.resume()
