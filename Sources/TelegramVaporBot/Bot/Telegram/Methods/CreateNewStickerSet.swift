@@ -21,9 +21,6 @@ public struct TGCreateNewStickerSetParams: Encodable {
     /// A JSON-serialized list of 1-50 initial stickers to be added to the sticker set
     public var stickers: [TGInputSticker]
 
-    /// Format of stickers in the set, must be one of “static”, “animated”, “video”
-    public var stickerFormat: String
-
     /// Type of stickers in the set, pass “regular”, “mask”, or “custom_emoji”. By default, a regular sticker set is created.
     public var stickerType: String?
 
@@ -36,17 +33,15 @@ public struct TGCreateNewStickerSetParams: Encodable {
             case name = "name"
             case title = "title"
             case stickers = "stickers"
-            case stickerFormat = "sticker_format"
             case stickerType = "sticker_type"
             case needsRepainting = "needs_repainting"
     }
 
-    public init(userId: Int64, name: String, title: String, stickers: [TGInputSticker], stickerFormat: String, stickerType: String? = nil, needsRepainting: Bool? = nil) {
+    public init(userId: Int64, name: String, title: String, stickers: [TGInputSticker], stickerType: String? = nil, needsRepainting: Bool? = nil) {
             self.userId = userId
             self.name = name
             self.title = title
             self.stickers = stickers
-            self.stickerFormat = stickerFormat
             self.stickerType = stickerType
             self.needsRepainting = needsRepainting
     }

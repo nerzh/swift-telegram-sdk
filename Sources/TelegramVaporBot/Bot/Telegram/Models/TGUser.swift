@@ -21,6 +21,7 @@ public final class TGUser: Codable {
         case canJoinGroups = "can_join_groups"
         case canReadAllGroupMessages = "can_read_all_group_messages"
         case supportsInlineQueries = "supports_inline_queries"
+        case canConnectToBusiness = "can_connect_to_business"
     }
 
     /// Unique identifier for this user or bot. This number may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a 64-bit integer or double-precision float type are safe for storing this identifier.
@@ -56,7 +57,10 @@ public final class TGUser: Codable {
     /// Optional. True, if the bot supports inline queries. Returned only in getMe.
     public var supportsInlineQueries: Bool?
 
-    public init (id: Int64, isBot: Bool, firstName: String, lastName: String? = nil, username: String? = nil, languageCode: String? = nil, isPremium: Bool? = nil, addedToAttachmentMenu: Bool? = nil, canJoinGroups: Bool? = nil, canReadAllGroupMessages: Bool? = nil, supportsInlineQueries: Bool? = nil) {
+    /// Optional. True, if the bot can be connected to a Telegram Business account to receive its messages. Returned only in getMe.
+    public var canConnectToBusiness: Bool?
+
+    public init (id: Int64, isBot: Bool, firstName: String, lastName: String? = nil, username: String? = nil, languageCode: String? = nil, isPremium: Bool? = nil, addedToAttachmentMenu: Bool? = nil, canJoinGroups: Bool? = nil, canReadAllGroupMessages: Bool? = nil, supportsInlineQueries: Bool? = nil, canConnectToBusiness: Bool? = nil) {
         self.id = id
         self.isBot = isBot
         self.firstName = firstName
@@ -68,5 +72,6 @@ public final class TGUser: Codable {
         self.canJoinGroups = canJoinGroups
         self.canReadAllGroupMessages = canReadAllGroupMessages
         self.supportsInlineQueries = supportsInlineQueries
+        self.canConnectToBusiness = canConnectToBusiness
     }
 }

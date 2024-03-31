@@ -9,6 +9,9 @@ import Vapor
 /// Parameters container struct for `sendAnimation` method
 public struct TGSendAnimationParams: Encodable {
 
+    /// Unique identifier of the business connection on behalf of which the message will be sent
+    public var businessConnectionId: String?
+
     /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     public var chatId: TGChatId
 
@@ -51,11 +54,12 @@ public struct TGSendAnimationParams: Encodable {
     /// Description of the message to reply to
     public var replyParameters: TGReplyParameters?
 
-    /// Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+    /// Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported for messages sent on behalf of a business account
     public var replyMarkup: TGReplyMarkup?
 
     /// Custom keys for coding/decoding `SendAnimationParams` struct
     public enum CodingKeys: String, CodingKey {
+            case businessConnectionId = "business_connection_id"
             case chatId = "chat_id"
             case messageThreadId = "message_thread_id"
             case animation = "animation"
@@ -73,7 +77,8 @@ public struct TGSendAnimationParams: Encodable {
             case replyMarkup = "reply_markup"
     }
 
-    public init(chatId: TGChatId, messageThreadId: Int? = nil, animation: TGFileInfo, duration: Int? = nil, width: Int? = nil, height: Int? = nil, thumbnail: TGFileInfo? = nil, caption: String? = nil, parseMode: TGParseMode? = nil, captionEntities: [TGMessageEntity]? = nil, hasSpoiler: Bool? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyParameters: TGReplyParameters? = nil, replyMarkup: TGReplyMarkup? = nil) {
+    public init(businessConnectionId: String? = nil, chatId: TGChatId, messageThreadId: Int? = nil, animation: TGFileInfo, duration: Int? = nil, width: Int? = nil, height: Int? = nil, thumbnail: TGFileInfo? = nil, caption: String? = nil, parseMode: TGParseMode? = nil, captionEntities: [TGMessageEntity]? = nil, hasSpoiler: Bool? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyParameters: TGReplyParameters? = nil, replyMarkup: TGReplyMarkup? = nil) {
+            self.businessConnectionId = businessConnectionId
             self.chatId = chatId
             self.messageThreadId = messageThreadId
             self.animation = animation

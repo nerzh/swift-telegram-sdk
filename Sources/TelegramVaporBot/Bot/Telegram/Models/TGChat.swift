@@ -19,6 +19,11 @@ public final class TGChat: Codable {
         case isForum = "is_forum"
         case photo = "photo"
         case activeUsernames = "active_usernames"
+        case birthdate = "birthdate"
+        case businessIntro = "business_intro"
+        case businessLocation = "business_location"
+        case businessOpeningHours = "business_opening_hours"
+        case personalChat = "personal_chat"
         case availableReactions = "available_reactions"
         case accentColorId = "accent_color_id"
         case backgroundCustomEmojiId = "background_custom_emoji_id"
@@ -36,6 +41,7 @@ public final class TGChat: Codable {
         case pinnedMessage = "pinned_message"
         case permissions = "permissions"
         case slowModeDelay = "slow_mode_delay"
+        case unrestrictBoostCount = "unrestrict_boost_count"
         case messageAutoDeleteTime = "message_auto_delete_time"
         case hasAggressiveAntiSpamEnabled = "has_aggressive_anti_spam_enabled"
         case hasHiddenMembers = "has_hidden_members"
@@ -43,6 +49,7 @@ public final class TGChat: Codable {
         case hasVisibleHistory = "has_visible_history"
         case stickerSetName = "sticker_set_name"
         case canSetStickerSet = "can_set_sticker_set"
+        case customEmojiStickerSetName = "custom_emoji_sticker_set_name"
         case linkedChatId = "linked_chat_id"
         case location = "location"
     }
@@ -73,6 +80,21 @@ public final class TGChat: Codable {
 
     /// Optional. If non-empty, the list of all active chat usernames; for private chats, supergroups and channels. Returned only in getChat.
     public var activeUsernames: [String]?
+
+    /// Optional. For private chats, the date of birth of the user. Returned only in getChat.
+    public var birthdate: TGBirthdate?
+
+    /// Optional. For private chats with business accounts, the intro of the business. Returned only in getChat.
+    public var businessIntro: TGBusinessIntro?
+
+    /// Optional. For private chats with business accounts, the location of the business. Returned only in getChat.
+    public var businessLocation: TGBusinessLocation?
+
+    /// Optional. For private chats with business accounts, the opening hours of the business. Returned only in getChat.
+    public var businessOpeningHours: TGBusinessOpeningHours?
+
+    /// Optional. For private chats, the personal channel of the user. Returned only in getChat.
+    public var personalChat: TGChat?
 
     /// Optional. List of available reactions allowed in the chat. If omitted, then all emoji reactions are allowed. Returned only in getChat.
     public var availableReactions: [TGReactionType]?
@@ -122,8 +144,11 @@ public final class TGChat: Codable {
     /// Optional. Default chat member permissions, for groups and supergroups. Returned only in getChat.
     public var permissions: TGChatPermissions?
 
-    /// Optional. For supergroups, the minimum allowed delay between consecutive messages sent by each unpriviledged user; in seconds. Returned only in getChat.
+    /// Optional. For supergroups, the minimum allowed delay between consecutive messages sent by each unprivileged user; in seconds. Returned only in getChat.
     public var slowModeDelay: Int?
+
+    /// Optional. For supergroups, the minimum number of boosts that a non-administrator user needs to add in order to ignore slow mode and chat permissions. Returned only in getChat.
+    public var unrestrictBoostCount: Int?
 
     /// Optional. The time after which all messages sent to the chat will be automatically deleted; in seconds. Returned only in getChat.
     public var messageAutoDeleteTime: Int?
@@ -146,13 +171,16 @@ public final class TGChat: Codable {
     /// Optional. True, if the bot can change the group sticker set. Returned only in getChat.
     public var canSetStickerSet: Bool?
 
+    /// Optional. For supergroups, the name of the group's custom emoji sticker set. Custom emoji from this set can be used by all users and bots in the group. Returned only in getChat.
+    public var customEmojiStickerSetName: String?
+
     /// Optional. Unique identifier for the linked chat, i.e. the discussion group identifier for a channel and vice versa; for supergroups and channel chats. This identifier may be greater than 32 bits and some programming languages may have difficulty/silent defects in interpreting it. But it is smaller than 52 bits, so a signed 64 bit integer or double-precision float type are safe for storing this identifier. Returned only in getChat.
     public var linkedChatId: Int64?
 
     /// Optional. For supergroups, the location to which the supergroup is connected. Returned only in getChat.
     public var location: TGChatLocation?
 
-    public init (id: Int64, type: TGChatType, title: String? = nil, username: String? = nil, firstName: String? = nil, lastName: String? = nil, isForum: Bool? = nil, photo: TGChatPhoto? = nil, activeUsernames: [String]? = nil, availableReactions: [TGReactionType]? = nil, accentColorId: Int? = nil, backgroundCustomEmojiId: String? = nil, profileAccentColorId: Int? = nil, profileBackgroundCustomEmojiId: String? = nil, emojiStatusCustomEmojiId: String? = nil, emojiStatusExpirationDate: Int? = nil, bio: String? = nil, hasPrivateForwards: Bool? = nil, hasRestrictedVoiceAndVideoMessages: Bool? = nil, joinToSendMessages: Bool? = nil, joinByRequest: Bool? = nil, description: String? = nil, inviteLink: String? = nil, pinnedMessage: TGMessage? = nil, permissions: TGChatPermissions? = nil, slowModeDelay: Int? = nil, messageAutoDeleteTime: Int? = nil, hasAggressiveAntiSpamEnabled: Bool? = nil, hasHiddenMembers: Bool? = nil, hasProtectedContent: Bool? = nil, hasVisibleHistory: Bool? = nil, stickerSetName: String? = nil, canSetStickerSet: Bool? = nil, linkedChatId: Int64? = nil, location: TGChatLocation? = nil) {
+    public init (id: Int64, type: TGChatType, title: String? = nil, username: String? = nil, firstName: String? = nil, lastName: String? = nil, isForum: Bool? = nil, photo: TGChatPhoto? = nil, activeUsernames: [String]? = nil, birthdate: TGBirthdate? = nil, businessIntro: TGBusinessIntro? = nil, businessLocation: TGBusinessLocation? = nil, businessOpeningHours: TGBusinessOpeningHours? = nil, personalChat: TGChat? = nil, availableReactions: [TGReactionType]? = nil, accentColorId: Int? = nil, backgroundCustomEmojiId: String? = nil, profileAccentColorId: Int? = nil, profileBackgroundCustomEmojiId: String? = nil, emojiStatusCustomEmojiId: String? = nil, emojiStatusExpirationDate: Int? = nil, bio: String? = nil, hasPrivateForwards: Bool? = nil, hasRestrictedVoiceAndVideoMessages: Bool? = nil, joinToSendMessages: Bool? = nil, joinByRequest: Bool? = nil, description: String? = nil, inviteLink: String? = nil, pinnedMessage: TGMessage? = nil, permissions: TGChatPermissions? = nil, slowModeDelay: Int? = nil, unrestrictBoostCount: Int? = nil, messageAutoDeleteTime: Int? = nil, hasAggressiveAntiSpamEnabled: Bool? = nil, hasHiddenMembers: Bool? = nil, hasProtectedContent: Bool? = nil, hasVisibleHistory: Bool? = nil, stickerSetName: String? = nil, canSetStickerSet: Bool? = nil, customEmojiStickerSetName: String? = nil, linkedChatId: Int64? = nil, location: TGChatLocation? = nil) {
         self.id = id
         self.type = type
         self.title = title
@@ -162,6 +190,11 @@ public final class TGChat: Codable {
         self.isForum = isForum
         self.photo = photo
         self.activeUsernames = activeUsernames
+        self.birthdate = birthdate
+        self.businessIntro = businessIntro
+        self.businessLocation = businessLocation
+        self.businessOpeningHours = businessOpeningHours
+        self.personalChat = personalChat
         self.availableReactions = availableReactions
         self.accentColorId = accentColorId
         self.backgroundCustomEmojiId = backgroundCustomEmojiId
@@ -179,6 +212,7 @@ public final class TGChat: Codable {
         self.pinnedMessage = pinnedMessage
         self.permissions = permissions
         self.slowModeDelay = slowModeDelay
+        self.unrestrictBoostCount = unrestrictBoostCount
         self.messageAutoDeleteTime = messageAutoDeleteTime
         self.hasAggressiveAntiSpamEnabled = hasAggressiveAntiSpamEnabled
         self.hasHiddenMembers = hasHiddenMembers
@@ -186,6 +220,7 @@ public final class TGChat: Codable {
         self.hasVisibleHistory = hasVisibleHistory
         self.stickerSetName = stickerSetName
         self.canSetStickerSet = canSetStickerSet
+        self.customEmojiStickerSetName = customEmojiStickerSetName
         self.linkedChatId = linkedChatId
         self.location = location
     }

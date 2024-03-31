@@ -17,7 +17,7 @@ public final class TGChatBoostUpdated: Codable {
     /// Chat which was boosted
     public var chat: TGChat
 
-    /// Infomation about the chat boost
+    /// Information about the chat boost
     public var boost: TGChatBoost
 
     public init (chat: TGChat, boost: TGChatBoost) {

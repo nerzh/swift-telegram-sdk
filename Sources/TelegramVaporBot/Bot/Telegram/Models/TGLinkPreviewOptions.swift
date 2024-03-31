@@ -23,10 +23,10 @@ public final class TGLinkPreviewOptions: Codable {
     /// Optional. URL to use for the link preview. If empty, then the first URL found in the message text will be used
     public var url: String?
 
-    /// Optional. True, if the media in the link preview is suppposed to be shrunk; ignored if the URL isn't explicitly specified or media size change isn't supported for the preview
+    /// Optional. True, if the media in the link preview is supposed to be shrunk; ignored if the URL isn't explicitly specified or media size change isn't supported for the preview
     public var preferSmallMedia: Bool?
 
-    /// Optional. True, if the media in the link preview is suppposed to be enlarged; ignored if the URL isn't explicitly specified or media size change isn't supported for the preview
+    /// Optional. True, if the media in the link preview is supposed to be enlarged; ignored if the URL isn't explicitly specified or media size change isn't supported for the preview
     public var preferLargeMedia: Bool?
 
     /// Optional. True, if the link preview must be shown above the message text; otherwise, the link preview will be shown below the message text

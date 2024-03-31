@@ -26,7 +26,7 @@ public final class TGGiveawayWinners: Codable {
     /// The chat that created the giveaway
     public var chat: TGChat
 
-    /// Identifier of the messsage with the giveaway in the chat
+    /// Identifier of the message with the giveaway in the chat
     public var giveawayMessageId: Int
 
     /// Point in time (Unix timestamp) when winners of the giveaway were selected

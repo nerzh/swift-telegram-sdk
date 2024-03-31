@@ -12,7 +12,7 @@ public struct TGDeleteMessagesParams: Encodable {
     /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     public var chatId: TGChatId
 
-    /// Identifiers of 1-100 messages to delete. See deleteMessage for limitations on which messages can be deleted
+    /// A JSON-serialized list of 1-100 identifiers of messages to delete. See deleteMessage for limitations on which messages can be deleted
     public var messageIds: [Int]
 
     /// Custom keys for coding/decoding `DeleteMessagesParams` struct

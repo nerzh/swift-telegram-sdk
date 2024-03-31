@@ -3,7 +3,7 @@
 import Vapor
 
 /// DESCRIPTION:
-/// Use this method to upload a file with a sticker for later use in the createNewStickerSet and addStickerToSet methods (the file can be used multiple times). Returns the uploaded File on success.
+/// Use this method to upload a file with a sticker for later use in the createNewStickerSet, addStickerToSet, or replaceStickerInSet methods (the file can be used multiple times). Returns the uploaded File on success.
 
 
 /// Parameters container struct for `uploadStickerFile` method
@@ -36,7 +36,7 @@ public struct TGUploadStickerFileParams: Encodable {
 public extension TGBot {
 
 /**
- Use this method to upload a file with a sticker for later use in the createNewStickerSet and addStickerToSet methods (the file can be used multiple times). Returns the uploaded File on success.
+ Use this method to upload a file with a sticker for later use in the createNewStickerSet, addStickerToSet, or replaceStickerInSet methods (the file can be used multiple times). Returns the uploaded File on success.
 
  SeeAlso Telegram Bot API Reference:
  [UploadStickerFileParams](https://core.telegram.org/bots/api#uploadstickerfile)

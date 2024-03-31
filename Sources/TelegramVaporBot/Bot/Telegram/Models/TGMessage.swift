@@ -14,7 +14,10 @@ public final class TGMessage: Codable {
         case messageThreadId = "message_thread_id"
         case from = "from"
         case senderChat = "sender_chat"
+        case senderBoostCount = "sender_boost_count"
+        case senderBusinessBot = "sender_business_bot"
         case date = "date"
+        case businessConnectionId = "business_connection_id"
         case chat = "chat"
         case forwardOrigin = "forward_origin"
         case isTopicMessage = "is_topic_message"
@@ -22,9 +25,11 @@ public final class TGMessage: Codable {
         case replyToMessage = "reply_to_message"
         case externalReply = "external_reply"
         case quote = "quote"
+        case replyToStory = "reply_to_story"
         case viaBot = "via_bot"
         case editDate = "edit_date"
         case hasProtectedContent = "has_protected_content"
+        case isFromOffline = "is_from_offline"
         case mediaGroupId = "media_group_id"
         case authorSignature = "author_signature"
         case text = "text"
@@ -68,6 +73,7 @@ public final class TGMessage: Codable {
         case writeAccessAllowed = "write_access_allowed"
         case passportData = "passport_data"
         case proximityAlertTriggered = "proximity_alert_triggered"
+        case boostAdded = "boost_added"
         case forumTopicCreated = "forum_topic_created"
         case forumTopicEdited = "forum_topic_edited"
         case forumTopicClosed = "forum_topic_closed"
@@ -98,8 +104,17 @@ public final class TGMessage: Codable {
     /// Optional. Sender of the message, sent on behalf of a chat. For example, the channel itself for channel posts, the supergroup itself for messages from anonymous group administrators, the linked channel for messages automatically forwarded to the discussion group. For backward compatibility, the field from contains a fake sender user in non-channel chats, if the message was sent on behalf of a chat.
     public var senderChat: TGChat?
 
+    /// Optional. If the sender of the message boosted the chat, the number of boosts added by the user
+    public var senderBoostCount: Int?
+
+    /// Optional. The bot that actually sent the message on behalf of the business account. Available only for outgoing messages sent on behalf of the connected business account.
+    public var senderBusinessBot: TGUser?
+
     /// Date the message was sent in Unix time. It is always a positive number, representing a valid date.
     public var date: Int
+
+    /// Optional. Unique identifier of the business connection from which the message was received. If non-empty, the message belongs to a chat of the corresponding business account that is independent from any potential bot chat which might share the same identifier.
+    public var businessConnectionId: String?
 
     /// Chat the message belongs to
     public var chat: TGChat
@@ -122,6 +137,9 @@ public final class TGMessage: Codable {
     /// Optional. For replies that quote part of the original message, the quoted part of the message
     public var quote: TGTextQuote?
 
+    /// Optional. For replies to a story, the original story
+    public var replyToStory: TGStory?
+
     /// Optional. Bot through which the message was sent
     public var viaBot: TGUser?
 
@@ -130,6 +148,9 @@ public final class TGMessage: Codable {
 
     /// Optional. True, if the message can't be forwarded
     public var hasProtectedContent: Bool?
+
+    /// Optional. True, if the message was sent by an implicit action, for example, as an away or a greeting business message, or as a scheduled message
+    public var isFromOffline: Bool?
 
     /// Optional. The unique identifier of a media message group this message belongs to
     public var mediaGroupId: String?
@@ -260,6 +281,9 @@ public final class TGMessage: Codable {
     /// Optional. Service message. A user in the chat triggered another user's proximity alert while sharing Live Location.
     public var proximityAlertTriggered: TGProximityAlertTriggered?
 
+    /// Optional. Service message: user boosted the chat
+    public var boostAdded: TGChatBoostAdded?
+
     /// Optional. Service message: forum topic created
     public var forumTopicCreated: TGForumTopicCreated?
 
@@ -308,12 +332,15 @@ public final class TGMessage: Codable {
     /// Optional. Inline keyboard attached to the message. login_url buttons are represented as ordinary url buttons.
     public var replyMarkup: TGInlineKeyboardMarkup?
 
-    public init (messageId: Int, messageThreadId: Int? = nil, from: TGUser? = nil, senderChat: TGChat? = nil, date: Int, chat: TGChat, forwardOrigin: TGMessageOrigin? = nil, isTopicMessage: Bool? = nil, isAutomaticForward: Bool? = nil, replyToMessage: TGMessage? = nil, externalReply: TGExternalReplyInfo? = nil, quote: TGTextQuote? = nil, viaBot: TGUser? = nil, editDate: Int? = nil, hasProtectedContent: Bool? = nil, mediaGroupId: String? = nil, authorSignature: String? = nil, text: String? = nil, entities: [TGMessageEntity]? = nil, linkPreviewOptions: TGLinkPreviewOptions? = nil, animation: TGAnimation? = nil, audio: TGAudio? = nil, document: TGDocument? = nil, photo: [TGPhotoSize]? = nil, sticker: TGSticker? = nil, story: TGStory? = nil, video: TGVideo? = nil, videoNote: TGVideoNote? = nil, voice: TGVoice? = nil, caption: String? = nil, captionEntities: [TGMessageEntity]? = nil, hasMediaSpoiler: Bool? = nil, contact: TGContact? = nil, dice: TGDice? = nil, game: TGGame? = nil, poll: TGPoll? = nil, venue: TGVenue? = nil, location: TGLocation? = nil, newChatMembers: [TGUser]? = nil, leftChatMember: TGUser? = nil, newChatTitle: String? = nil, newChatPhoto: [TGPhotoSize]? = nil, deleteChatPhoto: Bool? = nil, groupChatCreated: Bool? = nil, supergroupChatCreated: Bool? = nil, channelChatCreated: Bool? = nil, messageAutoDeleteTimerChanged: TGMessageAutoDeleteTimerChanged? = nil, migrateToChatId: Int64? = nil, migrateFromChatId: Int64? = nil, pinnedMessage: TGMaybeInaccessibleMessage? = nil, invoice: TGInvoice? = nil, successfulPayment: TGSuccessfulPayment? = nil, usersShared: TGUsersShared? = nil, chatShared: TGChatShared? = nil, connectedWebsite: String? = nil, writeAccessAllowed: TGWriteAccessAllowed? = nil, passportData: TGPassportData? = nil, proximityAlertTriggered: TGProximityAlertTriggered? = nil, forumTopicCreated: TGForumTopicCreated? = nil, forumTopicEdited: TGForumTopicEdited? = nil, forumTopicClosed: TGForumTopicClosed? = nil, forumTopicReopened: TGForumTopicReopened? = nil, generalForumTopicHidden: TGGeneralForumTopicHidden? = nil, generalForumTopicUnhidden: TGGeneralForumTopicUnhidden? = nil, giveawayCreated: TGGiveawayCreated? = nil, giveaway: TGGiveaway? = nil, giveawayWinners: TGGiveawayWinners? = nil, giveawayCompleted: TGGiveawayCompleted? = nil, videoChatScheduled: TGVideoChatScheduled? = nil, videoChatStarted: TGVideoChatStarted? = nil, videoChatEnded: TGVideoChatEnded? = nil, videoChatParticipantsInvited: TGVideoChatParticipantsInvited? = nil, webAppData: TGWebAppData? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil) {
+    public init (messageId: Int, messageThreadId: Int? = nil, from: TGUser? = nil, senderChat: TGChat? = nil, senderBoostCount: Int? = nil, senderBusinessBot: TGUser? = nil, date: Int, businessConnectionId: String? = nil, chat: TGChat, forwardOrigin: TGMessageOrigin? = nil, isTopicMessage: Bool? = nil, isAutomaticForward: Bool? = nil, replyToMessage: TGMessage? = nil, externalReply: TGExternalReplyInfo? = nil, quote: TGTextQuote? = nil, replyToStory: TGStory? = nil, viaBot: TGUser? = nil, editDate: Int? = nil, hasProtectedContent: Bool? = nil, isFromOffline: Bool? = nil, mediaGroupId: String? = nil, authorSignature: String? = nil, text: String? = nil, entities: [TGMessageEntity]? = nil, linkPreviewOptions: TGLinkPreviewOptions? = nil, animation: TGAnimation? = nil, audio: TGAudio? = nil, document: TGDocument? = nil, photo: [TGPhotoSize]? = nil, sticker: TGSticker? = nil, story: TGStory? = nil, video: TGVideo? = nil, videoNote: TGVideoNote? = nil, voice: TGVoice? = nil, caption: String? = nil, captionEntities: [TGMessageEntity]? = nil, hasMediaSpoiler: Bool? = nil, contact: TGContact? = nil, dice: TGDice? = nil, game: TGGame? = nil, poll: TGPoll? = nil, venue: TGVenue? = nil, location: TGLocation? = nil, newChatMembers: [TGUser]? = nil, leftChatMember: TGUser? = nil, newChatTitle: String? = nil, newChatPhoto: [TGPhotoSize]? = nil, deleteChatPhoto: Bool? = nil, groupChatCreated: Bool? = nil, supergroupChatCreated: Bool? = nil, channelChatCreated: Bool? = nil, messageAutoDeleteTimerChanged: TGMessageAutoDeleteTimerChanged? = nil, migrateToChatId: Int64? = nil, migrateFromChatId: Int64? = nil, pinnedMessage: TGMaybeInaccessibleMessage? = nil, invoice: TGInvoice? = nil, successfulPayment: TGSuccessfulPayment? = nil, usersShared: TGUsersShared? = nil, chatShared: TGChatShared? = nil, connectedWebsite: String? = nil, writeAccessAllowed: TGWriteAccessAllowed? = nil, passportData: TGPassportData? = nil, proximityAlertTriggered: TGProximityAlertTriggered? = nil, boostAdded: TGChatBoostAdded? = nil, forumTopicCreated: TGForumTopicCreated? = nil, forumTopicEdited: TGForumTopicEdited? = nil, forumTopicClosed: TGForumTopicClosed? = nil, forumTopicReopened: TGForumTopicReopened? = nil, generalForumTopicHidden: TGGeneralForumTopicHidden? = nil, generalForumTopicUnhidden: TGGeneralForumTopicUnhidden? = nil, giveawayCreated: TGGiveawayCreated? = nil, giveaway: TGGiveaway? = nil, giveawayWinners: TGGiveawayWinners? = nil, giveawayCompleted: TGGiveawayCompleted? = nil, videoChatScheduled: TGVideoChatScheduled? = nil, videoChatStarted: TGVideoChatStarted? = nil, videoChatEnded: TGVideoChatEnded? = nil, videoChatParticipantsInvited: TGVideoChatParticipantsInvited? = nil, webAppData: TGWebAppData? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil) {
         self.messageId = messageId
         self.messageThreadId = messageThreadId
         self.from = from
         self.senderChat = senderChat
+        self.senderBoostCount = senderBoostCount
+        self.senderBusinessBot = senderBusinessBot
         self.date = date
+        self.businessConnectionId = businessConnectionId
         self.chat = chat
         self.forwardOrigin = forwardOrigin
         self.isTopicMessage = isTopicMessage
@@ -321,9 +348,11 @@ public final class TGMessage: Codable {
         self.replyToMessage = replyToMessage
         self.externalReply = externalReply
         self.quote = quote
+        self.replyToStory = replyToStory
         self.viaBot = viaBot
         self.editDate = editDate
         self.hasProtectedContent = hasProtectedContent
+        self.isFromOffline = isFromOffline
         self.mediaGroupId = mediaGroupId
         self.authorSignature = authorSignature
         self.text = text
@@ -367,6 +396,7 @@ public final class TGMessage: Codable {
         self.writeAccessAllowed = writeAccessAllowed
         self.passportData = passportData
         self.proximityAlertTriggered = proximityAlertTriggered
+        self.boostAdded = boostAdded
         self.forumTopicCreated = forumTopicCreated
         self.forumTopicEdited = forumTopicEdited
         self.forumTopicClosed = forumTopicClosed

@@ -373,6 +373,11 @@ public protocol TGBotPrtcl {
 
 
     @discardableResult
+    func getBusinessConnection(params: TGGetBusinessConnectionParams) async throws -> TGBusinessConnection
+
+
+
+    @discardableResult
     func setMyCommands(params: TGSetMyCommandsParams) async throws -> Bool
 
 
@@ -519,6 +524,11 @@ public protocol TGBotPrtcl {
 
     @discardableResult
     func deleteStickerFromSet(params: TGDeleteStickerFromSetParams) async throws -> Bool
+
+
+
+    @discardableResult
+    func replaceStickerInSet(params: TGReplaceStickerInSetParams) async throws -> Bool
 
 
 

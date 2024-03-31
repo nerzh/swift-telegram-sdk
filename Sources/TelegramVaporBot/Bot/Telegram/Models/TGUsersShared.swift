@@ -11,17 +11,17 @@ public final class TGUsersShared: Codable {
     /// Custom keys for coding/decoding `UsersShared` struct
     public enum CodingKeys: String, CodingKey {
         case requestId = "request_id"
-        case userIds = "user_ids"
+        case users = "users"
     }
 
     /// Identifier of the request
     public var requestId: Int
 
-    /// Identifiers of the shared users. These numbers may have more than 32 significant bits and some programming languages may have difficulty/silent defects in interpreting them. But they have at most 52 significant bits, so 64-bit integers or double-precision float types are safe for storing these identifiers. The bot may not have access to the users and could be unable to use these identifiers, unless the users are already known to the bot by some other means.
-    public var userIds: [Int]
+    /// Information about users shared with the bot.
+    public var users: [TGSharedUser]
 
-    public init (requestId: Int, userIds: [Int]) {
+    public init (requestId: Int, users: [TGSharedUser]) {
         self.requestId = requestId
-        self.userIds = userIds
+        self.users = users
     }
 }

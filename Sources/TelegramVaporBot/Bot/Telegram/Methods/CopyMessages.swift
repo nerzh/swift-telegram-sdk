@@ -18,7 +18,7 @@ public struct TGCopyMessagesParams: Encodable {
     /// Unique identifier for the chat where the original messages were sent (or channel username in the format @channelusername)
     public var fromChatId: TGChatId
 
-    /// Identifiers of 1-100 messages in the chat from_chat_id to copy. The identifiers must be specified in a strictly increasing order.
+    /// A JSON-serialized list of 1-100 identifiers of messages in the chat from_chat_id to copy. The identifiers must be specified in a strictly increasing order.
     public var messageIds: [Int]
 
     /// Sends the messages silently. Users will receive a notification with no sound.

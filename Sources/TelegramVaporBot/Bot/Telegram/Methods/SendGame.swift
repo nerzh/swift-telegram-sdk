@@ -9,6 +9,9 @@ import Vapor
 /// Parameters container struct for `sendGame` method
 public struct TGSendGameParams: Encodable {
 
+    /// Unique identifier of the business connection on behalf of which the message will be sent
+    public var businessConnectionId: String?
+
     /// Unique identifier for the target chat
     public var chatId: Int64
 
@@ -27,11 +30,12 @@ public struct TGSendGameParams: Encodable {
     /// Description of the message to reply to
     public var replyParameters: TGReplyParameters?
 
-    /// A JSON-serialized object for an inline keyboard. If empty, one 'Play game_title' button will be shown. If not empty, the first button must launch the game.
+    /// A JSON-serialized object for an inline keyboard. If empty, one 'Play game_title' button will be shown. If not empty, the first button must launch the game. Not supported for messages sent on behalf of a business account.
     public var replyMarkup: TGInlineKeyboardMarkup?
 
     /// Custom keys for coding/decoding `SendGameParams` struct
     public enum CodingKeys: String, CodingKey {
+            case businessConnectionId = "business_connection_id"
             case chatId = "chat_id"
             case messageThreadId = "message_thread_id"
             case gameShortName = "game_short_name"
@@ -41,7 +45,8 @@ public struct TGSendGameParams: Encodable {
             case replyMarkup = "reply_markup"
     }
 
-    public init(chatId: Int64, messageThreadId: Int? = nil, gameShortName: String, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyParameters: TGReplyParameters? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil) {
+    public init(businessConnectionId: String? = nil, chatId: Int64, messageThreadId: Int? = nil, gameShortName: String, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyParameters: TGReplyParameters? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil) {
+            self.businessConnectionId = businessConnectionId
             self.chatId = chatId
             self.messageThreadId = messageThreadId
             self.gameShortName = gameShortName

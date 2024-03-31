@@ -11,10 +11,13 @@ import Vapor
 /// Parameters container struct for `sendChatAction` method
 public struct TGSendChatActionParams: Encodable {
 
+    /// Unique identifier of the business connection on behalf of which the action will be sent
+    public var businessConnectionId: String?
+
     /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     public var chatId: TGChatId
 
-    /// Unique identifier for the target message thread; supergroups only
+    /// Unique identifier for the target message thread; for supergroups only
     public var messageThreadId: Int?
 
     /// Type of action to broadcast. Choose one, depending on what the user is about to receive: typing for text messages, upload_photo for photos, record_video or upload_video for videos, record_voice or upload_voice for voice notes, upload_document for general files, choose_sticker for stickers, find_location for location data, record_video_note or upload_video_note for video notes.
@@ -22,12 +25,14 @@ public struct TGSendChatActionParams: Encodable {
 
     /// Custom keys for coding/decoding `SendChatActionParams` struct
     public enum CodingKeys: String, CodingKey {
+            case businessConnectionId = "business_connection_id"
             case chatId = "chat_id"
             case messageThreadId = "message_thread_id"
             case action = "action"
     }
 
-    public init(chatId: TGChatId, messageThreadId: Int? = nil, action: String) {
+    public init(businessConnectionId: String? = nil, chatId: TGChatId, messageThreadId: Int? = nil, action: String) {
+            self.businessConnectionId = businessConnectionId
             self.chatId = chatId
             self.messageThreadId = messageThreadId
             self.action = action

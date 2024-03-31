@@ -16,6 +16,10 @@ public final class TGUpdate: Codable {
         case editedMessage = "edited_message"
         case channelPost = "channel_post"
         case editedChannelPost = "edited_channel_post"
+        case businessConnection = "business_connection"
+        case businessMessage = "business_message"
+        case editedBusinessMessage = "edited_business_message"
+        case deletedBusinessMessages = "deleted_business_messages"
         case messageReaction = "message_reaction"
         case messageReactionCount = "message_reaction_count"
         case inlineQuery = "inline_query"
@@ -46,6 +50,18 @@ public final class TGUpdate: Codable {
 
     /// Optional. New version of a channel post that is known to the bot and was edited. This update may at times be triggered by changes to message fields that are either unavailable or not actively used by your bot.
     public var editedChannelPost: TGMessage?
+
+    /// Optional. The bot was connected to or disconnected from a business account, or a user edited an existing connection with the bot
+    public var businessConnection: TGBusinessConnection?
+
+    /// Optional. New non-service message from a connected business account
+    public var businessMessage: TGMessage?
+
+    /// Optional. New version of a message from a connected business account
+    public var editedBusinessMessage: TGMessage?
+
+    /// Optional. Messages were deleted from a connected business account
+    public var deletedBusinessMessages: TGBusinessMessagesDeleted?
 
     /// Optional. A reaction to a message was changed by a user. The bot must be an administrator in the chat and must explicitly specify "message_reaction" in the list of allowed_updates to receive these updates. The update isn't received for reactions set by bots.
     public var messageReaction: TGMessageReactionUpdated?
@@ -89,12 +105,16 @@ public final class TGUpdate: Codable {
     /// Optional. A boost was removed from a chat. The bot must be an administrator in the chat to receive these updates.
     public var removedChatBoost: TGChatBoostRemoved?
 
-    public init (updateId: Int, message: TGMessage? = nil, editedMessage: TGMessage? = nil, channelPost: TGMessage? = nil, editedChannelPost: TGMessage? = nil, messageReaction: TGMessageReactionUpdated? = nil, messageReactionCount: TGMessageReactionCountUpdated? = nil, inlineQuery: TGInlineQuery? = nil, chosenInlineResult: TGChosenInlineResult? = nil, callbackQuery: TGCallbackQuery? = nil, shippingQuery: TGShippingQuery? = nil, preCheckoutQuery: TGPreCheckoutQuery? = nil, poll: TGPoll? = nil, pollAnswer: TGPollAnswer? = nil, myChatMember: TGChatMemberUpdated? = nil, chatMember: TGChatMemberUpdated? = nil, chatJoinRequest: TGChatJoinRequest? = nil, chatBoost: TGChatBoostUpdated? = nil, removedChatBoost: TGChatBoostRemoved? = nil) {
+    public init (updateId: Int, message: TGMessage? = nil, editedMessage: TGMessage? = nil, channelPost: TGMessage? = nil, editedChannelPost: TGMessage? = nil, businessConnection: TGBusinessConnection? = nil, businessMessage: TGMessage? = nil, editedBusinessMessage: TGMessage? = nil, deletedBusinessMessages: TGBusinessMessagesDeleted? = nil, messageReaction: TGMessageReactionUpdated? = nil, messageReactionCount: TGMessageReactionCountUpdated? = nil, inlineQuery: TGInlineQuery? = nil, chosenInlineResult: TGChosenInlineResult? = nil, callbackQuery: TGCallbackQuery? = nil, shippingQuery: TGShippingQuery? = nil, preCheckoutQuery: TGPreCheckoutQuery? = nil, poll: TGPoll? = nil, pollAnswer: TGPollAnswer? = nil, myChatMember: TGChatMemberUpdated? = nil, chatMember: TGChatMemberUpdated? = nil, chatJoinRequest: TGChatJoinRequest? = nil, chatBoost: TGChatBoostUpdated? = nil, removedChatBoost: TGChatBoostRemoved? = nil) {
         self.updateId = updateId
         self.message = message
         self.editedMessage = editedMessage
         self.channelPost = channelPost
         self.editedChannelPost = editedChannelPost
+        self.businessConnection = businessConnection
+        self.businessMessage = businessMessage
+        self.editedBusinessMessage = editedBusinessMessage
+        self.deletedBusinessMessages = deletedBusinessMessages
         self.messageReaction = messageReaction
         self.messageReactionCount = messageReactionCount
         self.inlineQuery = inlineQuery

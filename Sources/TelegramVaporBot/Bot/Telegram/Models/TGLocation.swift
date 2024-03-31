@@ -10,19 +10,19 @@ public final class TGLocation: Codable {
 
     /// Custom keys for coding/decoding `Location` struct
     public enum CodingKeys: String, CodingKey {
-        case longitude = "longitude"
         case latitude = "latitude"
+        case longitude = "longitude"
         case horizontalAccuracy = "horizontal_accuracy"
         case livePeriod = "live_period"
         case heading = "heading"
         case proximityAlertRadius = "proximity_alert_radius"
     }
 
-    /// Longitude as defined by sender
-    public var longitude: Float
-
     /// Latitude as defined by sender
     public var latitude: Float
+
+    /// Longitude as defined by sender
+    public var longitude: Float
 
     /// Optional. The radius of uncertainty for the location, measured in meters; 0-1500
     public var horizontalAccuracy: Float?
@@ -36,9 +36,9 @@ public final class TGLocation: Codable {
     /// Optional. The maximum distance for proximity alerts about approaching another chat member, in meters. For sent live locations only.
     public var proximityAlertRadius: Int?
 
-    public init (longitude: Float, latitude: Float, horizontalAccuracy: Float? = nil, livePeriod: Int? = nil, heading: Int? = nil, proximityAlertRadius: Int? = nil) {
-        self.longitude = longitude
+    public init (latitude: Float, longitude: Float, horizontalAccuracy: Float? = nil, livePeriod: Int? = nil, heading: Int? = nil, proximityAlertRadius: Int? = nil) {
         self.latitude = latitude
+        self.longitude = longitude
         self.horizontalAccuracy = horizontalAccuracy
         self.livePeriod = livePeriod
         self.heading = heading

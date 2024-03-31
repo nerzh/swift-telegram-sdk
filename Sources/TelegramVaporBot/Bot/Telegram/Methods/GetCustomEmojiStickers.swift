@@ -9,7 +9,7 @@ import Vapor
 /// Parameters container struct for `getCustomEmojiStickers` method
 public struct TGGetCustomEmojiStickersParams: Encodable {
 
-    /// List of custom emoji identifiers. At most 200 custom emoji identifiers can be specified.
+    /// A JSON-serialized list of custom emoji identifiers. At most 200 custom emoji identifiers can be specified.
     public var customEmojiIds: [String]
 
     /// Custom keys for coding/decoding `GetCustomEmojiStickersParams` struct
