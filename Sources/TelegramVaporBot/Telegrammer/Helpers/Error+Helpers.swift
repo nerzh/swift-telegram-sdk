@@ -24,7 +24,7 @@ public extension Error {
             case .valueNotFound(_, let context):
                 errorDescription = context.debugDescription
             @unknown default:
-                errorDescription = "Uknown DecodingError"
+                errorDescription = "Unknown DecodingError"
             }
         } else {
             errorDescription = "Cannot detect error type, providing default description:\n\(self.localizedDescription)"

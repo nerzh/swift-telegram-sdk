@@ -46,7 +46,7 @@ public class BotError: ErrorCommon {
         self.description = "\(Self.self)"
     }
     
-    public init(type: Type, description: String = "", reason: String = "") {
+    public init(type: Type, description: String = "<No description provided>", reason: String = "<No reason provided>") {
         self.type = type
         self.description = description
         self.reason = reason
