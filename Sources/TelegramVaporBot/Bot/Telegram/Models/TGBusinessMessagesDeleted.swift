@@ -21,7 +21,7 @@ public final class TGBusinessMessagesDeleted: Codable {
     /// Information about a chat in the business account. The bot may not have access to the chat or the corresponding user.
     public var chat: TGChat
 
-    /// A JSON-serialized list of identifiers of deleted messages in the chat of the business account
+    /// The list of identifiers of deleted messages in the chat of the business account
     public var messageIds: [Int]
 
     public init (businessConnectionId: String, chat: TGChat, messageIds: [Int]) {

@@ -23,7 +23,7 @@ public final class TGInlineQueryResultCachedDocument: Codable {
     }
 
     /// Type of the result, must be document
-    public var type: String
+    public var type: TGInlineQueryResultCachedDocumentType
 
     /// Unique identifier for this result, 1-64 bytes
     public var id: String
@@ -52,7 +52,7 @@ public final class TGInlineQueryResultCachedDocument: Codable {
     /// Optional. Content of the message to be sent instead of the file
     public var inputMessageContent: TGInputMessageContent?
 
-    public init (type: String, id: String, title: String, documentFileId: String, description: String? = nil, caption: String? = nil, parseMode: String? = nil, captionEntities: [TGMessageEntity]? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil, inputMessageContent: TGInputMessageContent? = nil) {
+    public init (type: TGInlineQueryResultCachedDocumentType, id: String, title: String, documentFileId: String, description: String? = nil, caption: String? = nil, parseMode: String? = nil, captionEntities: [TGMessageEntity]? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil, inputMessageContent: TGInputMessageContent? = nil) {
         self.type = type
         self.id = id
         self.title = title

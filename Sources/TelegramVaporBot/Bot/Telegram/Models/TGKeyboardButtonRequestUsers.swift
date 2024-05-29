@@ -31,13 +31,13 @@ public final class TGKeyboardButtonRequestUsers: Codable {
     /// Optional. The maximum number of users to be selected; 1-10. Defaults to 1.
     public var maxQuantity: Int?
 
-    /// Optional. Pass True to request the users' first and last name
+    /// Optional. Pass True to request the users' first and last names
     public var requestName: Bool?
 
-    /// Optional. Pass True to request the users' username
+    /// Optional. Pass True to request the users' usernames
     public var requestUsername: Bool?
 
-    /// Optional. Pass True to request the users' photo
+    /// Optional. Pass True to request the users' photos
     public var requestPhoto: Bool?
 
     public init (requestId: Int, userIsBot: Bool? = nil, userIsPremium: Bool? = nil, maxQuantity: Int? = nil, requestName: Bool? = nil, requestUsername: Bool? = nil, requestPhoto: Bool? = nil) {

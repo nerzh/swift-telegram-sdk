@@ -27,7 +27,7 @@ public final class TGInlineQueryResultLocation: Codable {
     }
 
     /// Type of the result, must be location
-    public var type: String
+    public var type: TGInlineQueryResultLocationType
 
     /// Unique identifier for this result, 1-64 Bytes
     public var id: String
@@ -44,7 +44,7 @@ public final class TGInlineQueryResultLocation: Codable {
     /// Optional. The radius of uncertainty for the location, measured in meters; 0-1500
     public var horizontalAccuracy: Float?
 
-    /// Optional. Period in seconds for which the location can be updated, should be between 60 and 86400.
+    /// Optional. Period in seconds during which the location can be updated, should be between 60 and 86400, or 0x7FFFFFFF for live locations that can be edited indefinitely.
     public var livePeriod: Int?
 
     /// Optional. For live locations, a direction in which the user is moving, in degrees. Must be between 1 and 360 if specified.
@@ -68,7 +68,7 @@ public final class TGInlineQueryResultLocation: Codable {
     /// Optional. Thumbnail height
     public var thumbnailHeight: Int?
 
-    public init (type: String, id: String, latitude: Float, longitude: Float, title: String, horizontalAccuracy: Float? = nil, livePeriod: Int? = nil, heading: Int? = nil, proximityAlertRadius: Int? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil, inputMessageContent: TGInputMessageContent? = nil, thumbnailUrl: String? = nil, thumbnailWidth: Int? = nil, thumbnailHeight: Int? = nil) {
+    public init (type: TGInlineQueryResultLocationType, id: String, latitude: Float, longitude: Float, title: String, horizontalAccuracy: Float? = nil, livePeriod: Int? = nil, heading: Int? = nil, proximityAlertRadius: Int? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil, inputMessageContent: TGInputMessageContent? = nil, thumbnailUrl: String? = nil, thumbnailWidth: Int? = nil, thumbnailHeight: Int? = nil) {
         self.type = type
         self.id = id
         self.latitude = latitude

@@ -12,6 +12,7 @@ public final class TGPoll: Codable {
     public enum CodingKeys: String, CodingKey {
         case id = "id"
         case question = "question"
+        case questionEntities = "question_entities"
         case options = "options"
         case totalVoterCount = "total_voter_count"
         case isClosed = "is_closed"
@@ -31,6 +32,9 @@ public final class TGPoll: Codable {
     /// Poll question, 1-300 characters
     public var question: String
 
+    /// Optional. Special entities that appear in the question. Currently, only custom emoji entities are allowed in poll questions
+    public var questionEntities: [TGMessageEntity]?
+
     /// List of poll options
     public var options: [TGPollOption]
 
@@ -44,7 +48,7 @@ public final class TGPoll: Codable {
     public var isAnonymous: Bool
 
     /// Poll type, currently can be “regular” or “quiz”
-    public var type: String
+    public var type: TGPollType
 
     /// True, if the poll allows multiple answers
     public var allowsMultipleAnswers: Bool
@@ -64,9 +68,10 @@ public final class TGPoll: Codable {
     /// Optional. Point in time (Unix timestamp) when the poll will be automatically closed
     public var closeDate: Int?
 
-    public init (id: String, question: String, options: [TGPollOption], totalVoterCount: Int, isClosed: Bool, isAnonymous: Bool, type: String, allowsMultipleAnswers: Bool, correctOptionId: Int? = nil, explanation: String? = nil, explanationEntities: [TGMessageEntity]? = nil, openPeriod: Int? = nil, closeDate: Int? = nil) {
+    public init (id: String, question: String, questionEntities: [TGMessageEntity]? = nil, options: [TGPollOption], totalVoterCount: Int, isClosed: Bool, isAnonymous: Bool, type: TGPollType, allowsMultipleAnswers: Bool, correctOptionId: Int? = nil, explanation: String? = nil, explanationEntities: [TGMessageEntity]? = nil, openPeriod: Int? = nil, closeDate: Int? = nil) {
         self.id = id
         self.question = question
+        self.questionEntities = questionEntities
         self.options = options
         self.totalVoterCount = totalVoterCount
         self.isClosed = isClosed

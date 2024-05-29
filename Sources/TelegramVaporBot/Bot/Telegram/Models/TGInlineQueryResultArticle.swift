@@ -24,7 +24,7 @@ public final class TGInlineQueryResultArticle: Codable {
     }
 
     /// Type of the result, must be article
-    public var type: String
+    public var type: TGInlineQueryResultArticleType
 
     /// Unique identifier for this result, 1-64 Bytes
     public var id: String
@@ -56,7 +56,7 @@ public final class TGInlineQueryResultArticle: Codable {
     /// Optional. Thumbnail height
     public var thumbnailHeight: Int?
 
-    public init (type: String, id: String, title: String, inputMessageContent: TGInputMessageContent, replyMarkup: TGInlineKeyboardMarkup? = nil, url: String? = nil, hideUrl: Bool? = nil, description: String? = nil, thumbnailUrl: String? = nil, thumbnailWidth: Int? = nil, thumbnailHeight: Int? = nil) {
+    public init (type: TGInlineQueryResultArticleType, id: String, title: String, inputMessageContent: TGInputMessageContent, replyMarkup: TGInlineKeyboardMarkup? = nil, url: String? = nil, hideUrl: Bool? = nil, description: String? = nil, thumbnailUrl: String? = nil, thumbnailWidth: Int? = nil, thumbnailHeight: Int? = nil) {
         self.type = type
         self.id = id
         self.title = title

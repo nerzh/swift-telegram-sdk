@@ -3,7 +3,7 @@
 import Vapor
 
 /// DESCRIPTION:
-/// Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .OGG file encoded with OPUS (other formats may be sent as Audio or Document). On success, the sent Message is returned. Bots can currently send voice messages of up to 50 MB in size, this limit may be changed in the future.
+/// Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .OGG file encoded with OPUS, or in .MP3 format, or in .M4A format (other formats may be sent as Audio or Document). On success, the sent Message is returned. Bots can currently send voice messages of up to 50 MB in size, this limit may be changed in the future.
 
 
 /// Parameters container struct for `sendVoice` method
@@ -39,10 +39,13 @@ public struct TGSendVoiceParams: Encodable {
     /// Protects the contents of the sent message from forwarding and saving
     public var protectContent: Bool?
 
+    /// Unique identifier of the message effect to be added to the message; for private chats only
+    public var messageEffectId: String?
+
     /// Description of the message to reply to
     public var replyParameters: TGReplyParameters?
 
-    /// Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported for messages sent on behalf of a business account
+    /// Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
     public var replyMarkup: TGReplyMarkup?
 
     /// Custom keys for coding/decoding `SendVoiceParams` struct
@@ -57,11 +60,12 @@ public struct TGSendVoiceParams: Encodable {
             case duration = "duration"
             case disableNotification = "disable_notification"
             case protectContent = "protect_content"
+            case messageEffectId = "message_effect_id"
             case replyParameters = "reply_parameters"
             case replyMarkup = "reply_markup"
     }
 
-    public init(businessConnectionId: String? = nil, chatId: TGChatId, messageThreadId: Int? = nil, voice: TGFileInfo, caption: String? = nil, parseMode: TGParseMode? = nil, captionEntities: [TGMessageEntity]? = nil, duration: Int? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyParameters: TGReplyParameters? = nil, replyMarkup: TGReplyMarkup? = nil) {
+    public init(businessConnectionId: String? = nil, chatId: TGChatId, messageThreadId: Int? = nil, voice: TGFileInfo, caption: String? = nil, parseMode: TGParseMode? = nil, captionEntities: [TGMessageEntity]? = nil, duration: Int? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, messageEffectId: String? = nil, replyParameters: TGReplyParameters? = nil, replyMarkup: TGReplyMarkup? = nil) {
             self.businessConnectionId = businessConnectionId
             self.chatId = chatId
             self.messageThreadId = messageThreadId
@@ -72,6 +76,7 @@ public struct TGSendVoiceParams: Encodable {
             self.duration = duration
             self.disableNotification = disableNotification
             self.protectContent = protectContent
+            self.messageEffectId = messageEffectId
             self.replyParameters = replyParameters
             self.replyMarkup = replyMarkup
     }
@@ -81,7 +86,7 @@ public struct TGSendVoiceParams: Encodable {
 public extension TGBot {
 
 /**
- Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .OGG file encoded with OPUS (other formats may be sent as Audio or Document). On success, the sent Message is returned. Bots can currently send voice messages of up to 50 MB in size, this limit may be changed in the future.
+ Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .OGG file encoded with OPUS, or in .MP3 format, or in .M4A format (other formats may be sent as Audio or Document). On success, the sent Message is returned. Bots can currently send voice messages of up to 50 MB in size, this limit may be changed in the future.
 
  SeeAlso Telegram Bot API Reference:
  [SendVoiceParams](https://core.telegram.org/bots/api#sendvoice)

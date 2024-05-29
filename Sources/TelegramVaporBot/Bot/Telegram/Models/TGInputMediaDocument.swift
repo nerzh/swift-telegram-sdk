@@ -20,7 +20,7 @@ public final class TGInputMediaDocument: Codable {
     }
 
     /// Type of the result, must be document
-    public var type: String
+    public var type: TGInputMediaDocumentType
 
     /// File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files »
     public var media: String
@@ -40,7 +40,7 @@ public final class TGInputMediaDocument: Codable {
     /// Optional. Disables automatic server-side content type detection for files uploaded using multipart/form-data. Always True, if the document is sent as part of an album.
     public var disableContentTypeDetection: Bool?
 
-    public init (type: String, media: String, thumbnail: TGFileInfo? = nil, caption: String? = nil, parseMode: String? = nil, captionEntities: [TGMessageEntity]? = nil, disableContentTypeDetection: Bool? = nil) {
+    public init (type: TGInputMediaDocumentType, media: String, thumbnail: TGFileInfo? = nil, caption: String? = nil, parseMode: String? = nil, captionEntities: [TGMessageEntity]? = nil, disableContentTypeDetection: Bool? = nil) {
         self.type = type
         self.media = media
         self.thumbnail = thumbnail

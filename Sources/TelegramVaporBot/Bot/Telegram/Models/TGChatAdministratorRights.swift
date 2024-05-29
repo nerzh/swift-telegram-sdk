@@ -54,7 +54,7 @@ public final class TGChatAdministratorRights: Codable {
     /// True, if the administrator can post stories to the chat
     public var canPostStories: Bool
 
-    /// True, if the administrator can edit stories posted by other users
+    /// True, if the administrator can edit stories posted by other users, post stories to the chat page, pin chat stories, and access the chat's story archive
     public var canEditStories: Bool
 
     /// True, if the administrator can delete stories posted by other users

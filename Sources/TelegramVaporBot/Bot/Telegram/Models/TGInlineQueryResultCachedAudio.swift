@@ -21,7 +21,7 @@ public final class TGInlineQueryResultCachedAudio: Codable {
     }
 
     /// Type of the result, must be audio
-    public var type: String
+    public var type: TGInlineQueryResultCachedAudioType
 
     /// Unique identifier for this result, 1-64 bytes
     public var id: String
@@ -44,7 +44,7 @@ public final class TGInlineQueryResultCachedAudio: Codable {
     /// Optional. Content of the message to be sent instead of the audio
     public var inputMessageContent: TGInputMessageContent?
 
-    public init (type: String, id: String, audioFileId: String, caption: String? = nil, parseMode: String? = nil, captionEntities: [TGMessageEntity]? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil, inputMessageContent: TGInputMessageContent? = nil) {
+    public init (type: TGInlineQueryResultCachedAudioType, id: String, audioFileId: String, caption: String? = nil, parseMode: String? = nil, captionEntities: [TGMessageEntity]? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil, inputMessageContent: TGInputMessageContent? = nil) {
         self.type = type
         self.id = id
         self.audioFileId = audioFileId

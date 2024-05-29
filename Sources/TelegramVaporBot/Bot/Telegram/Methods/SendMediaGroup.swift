@@ -27,6 +27,9 @@ public struct TGSendMediaGroupParams: Encodable {
     /// Protects the contents of the sent messages from forwarding and saving
     public var protectContent: Bool?
 
+    /// Unique identifier of the message effect to be added to the message; for private chats only
+    public var messageEffectId: String?
+
     /// Description of the message to reply to
     public var replyParameters: TGReplyParameters?
 
@@ -38,16 +41,18 @@ public struct TGSendMediaGroupParams: Encodable {
             case media = "media"
             case disableNotification = "disable_notification"
             case protectContent = "protect_content"
+            case messageEffectId = "message_effect_id"
             case replyParameters = "reply_parameters"
     }
 
-    public init(businessConnectionId: String? = nil, chatId: TGChatId, messageThreadId: Int? = nil, media: [TGInputMedia], disableNotification: Bool? = nil, protectContent: Bool? = nil, replyParameters: TGReplyParameters? = nil) {
+    public init(businessConnectionId: String? = nil, chatId: TGChatId, messageThreadId: Int? = nil, media: [TGInputMedia], disableNotification: Bool? = nil, protectContent: Bool? = nil, messageEffectId: String? = nil, replyParameters: TGReplyParameters? = nil) {
             self.businessConnectionId = businessConnectionId
             self.chatId = chatId
             self.messageThreadId = messageThreadId
             self.media = media
             self.disableNotification = disableNotification
             self.protectContent = protectContent
+            self.messageEffectId = messageEffectId
             self.replyParameters = replyParameters
     }
 }

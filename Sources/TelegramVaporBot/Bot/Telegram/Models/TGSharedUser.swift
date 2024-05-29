@@ -1,7 +1,7 @@
 // Telegram-vapor-bot - Telegram Bot Swift SDK.
 
 /**
- This object contains information about a user that was shared with the bot using a KeyboardButtonRequestUser button.
+ This object contains information about a user that was shared with the bot using a KeyboardButtonRequestUsers button.
 
  SeeAlso Telegram Bot API Reference:
  [SharedUser](https://core.telegram.org/bots/api#shareduser)

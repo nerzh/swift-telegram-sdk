@@ -16,7 +16,7 @@ public final class TGMenuButtonWebApp: Codable {
     }
 
     /// Type of the button, must be web_app
-    public var type: String
+    public var type: TGMenuButtonWebAppType
 
     /// Text on the button
     public var text: String
@@ -24,7 +24,7 @@ public final class TGMenuButtonWebApp: Codable {
     /// Description of the Web App that will be launched when the user presses the button. The Web App will be able to send an arbitrary message on behalf of the user using the method answerWebAppQuery.
     public var webApp: TGWebAppInfo
 
-    public init (type: String, text: String, webApp: TGWebAppInfo) {
+    public init (type: TGMenuButtonWebAppType, text: String, webApp: TGWebAppInfo) {
         self.type = type
         self.text = text
         self.webApp = webApp

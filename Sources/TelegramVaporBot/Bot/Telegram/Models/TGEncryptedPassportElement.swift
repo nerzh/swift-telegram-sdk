@@ -23,7 +23,7 @@ public final class TGEncryptedPassportElement: Codable {
     }
 
     /// Element type. One of “personal_details”, “passport”, “driver_license”, “identity_card”, “internal_passport”, “address”, “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration”, “temporary_registration”, “phone_number”, “email”.
-    public var type: String
+    public var type: TGEncryptedPassportElementType
 
     /// Optional. Base64-encoded encrypted Telegram Passport element data provided by the user; available only for “personal_details”, “passport”, “driver_license”, “identity_card”, “internal_passport” and “address” types. Can be decrypted and verified using the accompanying EncryptedCredentials.
     public var data: String?
@@ -52,7 +52,7 @@ public final class TGEncryptedPassportElement: Codable {
     /// Base64-encoded element hash for using in PassportElementErrorUnspecified
     public var hash: String
 
-    public init (type: String, data: String? = nil, phoneNumber: String? = nil, email: String? = nil, files: [TGPassportFile]? = nil, frontSide: TGPassportFile? = nil, reverseSide: TGPassportFile? = nil, selfie: TGPassportFile? = nil, translation: [TGPassportFile]? = nil, hash: String) {
+    public init (type: TGEncryptedPassportElementType, data: String? = nil, phoneNumber: String? = nil, email: String? = nil, files: [TGPassportFile]? = nil, frontSide: TGPassportFile? = nil, reverseSide: TGPassportFile? = nil, selfie: TGPassportFile? = nil, translation: [TGPassportFile]? = nil, hash: String) {
         self.type = type
         self.data = data
         self.phoneNumber = phoneNumber

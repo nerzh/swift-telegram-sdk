@@ -15,12 +15,12 @@ public final class TGReactionTypeEmoji: Codable {
     }
 
     /// Type of the reaction, always “emoji”
-    public var type: String
+    public var type: TGReactionTypeEmojiType
 
     /// Reaction emoji. Currently, it can be one of "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""
     public var emoji: String
 
-    public init (type: String, emoji: String) {
+    public init (type: TGReactionTypeEmojiType, emoji: String) {
         self.type = type
         self.emoji = emoji
     }

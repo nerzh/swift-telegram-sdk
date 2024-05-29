@@ -16,7 +16,7 @@ public final class TGBotCommandScopeChatMember: Codable {
     }
 
     /// Scope type, must be chat_member
-    public var type: String
+    public var type: TGBotCommandScopeChatMemberType
 
     /// Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)
     public var chatId: TGChatId
@@ -24,7 +24,7 @@ public final class TGBotCommandScopeChatMember: Codable {
     /// Unique identifier of the target user
     public var userId: Int64
 
-    public init (type: String, chatId: TGChatId, userId: Int64) {
+    public init (type: TGBotCommandScopeChatMemberType, chatId: TGChatId, userId: Int64) {
         self.type = type
         self.chatId = chatId
         self.userId = userId

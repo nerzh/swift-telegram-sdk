@@ -1,6 +1,7 @@
 // Telegram-vapor-bot - Telegram Bot Swift SDK.
 
 /**
+ Describes the opening hours of a business.
 
  SeeAlso Telegram Bot API Reference:
  [BusinessOpeningHours](https://core.telegram.org/bots/api#businessopeninghours)

@@ -34,7 +34,7 @@ public final class TGSticker: Codable {
     public var fileUniqueId: String
 
     /// Type of the sticker, currently one of “regular”, “mask”, “custom_emoji”. The type of the sticker is independent from its format, which is determined by the fields is_animated and is_video.
-    public var type: String
+    public var type: TGStickerType
 
     /// Sticker width
     public var width: Int
@@ -72,7 +72,7 @@ public final class TGSticker: Codable {
     /// Optional. File size in bytes
     public var fileSize: Int?
 
-    public init (fileId: String, fileUniqueId: String, type: String, width: Int, height: Int, isAnimated: Bool, isVideo: Bool, thumbnail: TGPhotoSize? = nil, emoji: String? = nil, setName: String? = nil, premiumAnimation: TGFile? = nil, maskPosition: TGMaskPosition? = nil, customEmojiId: String? = nil, needsRepainting: Bool? = nil, fileSize: Int? = nil) {
+    public init (fileId: String, fileUniqueId: String, type: TGStickerType, width: Int, height: Int, isAnimated: Bool, isVideo: Bool, thumbnail: TGPhotoSize? = nil, emoji: String? = nil, setName: String? = nil, premiumAnimation: TGFile? = nil, maskPosition: TGMaskPosition? = nil, customEmojiId: String? = nil, needsRepainting: Bool? = nil, fileSize: Int? = nil) {
         self.fileId = fileId
         self.fileUniqueId = fileUniqueId
         self.type = type

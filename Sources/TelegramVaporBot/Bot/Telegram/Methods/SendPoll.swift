@@ -21,8 +21,14 @@ public struct TGSendPollParams: Encodable {
     /// Poll question, 1-300 characters
     public var question: String
 
-    /// A JSON-serialized list of answer options, 2-10 strings 1-100 characters each
-    public var options: [String]
+    /// Mode for parsing entities in the question. See formatting options for more details. Currently, only custom emoji entities are allowed
+    public var questionParseMode: TGParseMode?
+
+    /// A JSON-serialized list of special entities that appear in the poll question. It can be specified instead of question_parse_mode
+    public var questionEntities: [TGMessageEntity]?
+
+    /// A JSON-serialized list of 2-10 answer options
+    public var options: [TGInputPollOption]
 
     /// True, if the poll needs to be anonymous, defaults to True
     public var isAnonymous: Bool?
@@ -42,7 +48,7 @@ public struct TGSendPollParams: Encodable {
     /// Mode for parsing entities in the explanation. See formatting options for more details.
     public var explanationParseMode: TGParseMode?
 
-    /// A JSON-serialized list of special entities that appear in the poll explanation, which can be specified instead of parse_mode
+    /// A JSON-serialized list of special entities that appear in the poll explanation. It can be specified instead of explanation_parse_mode
     public var explanationEntities: [TGMessageEntity]?
 
     /// Amount of time in seconds the poll will be active after creation, 5-600. Can't be used together with close_date.
@@ -60,10 +66,13 @@ public struct TGSendPollParams: Encodable {
     /// Protects the contents of the sent message from forwarding and saving
     public var protectContent: Bool?
 
+    /// Unique identifier of the message effect to be added to the message; for private chats only
+    public var messageEffectId: String?
+
     /// Description of the message to reply to
     public var replyParameters: TGReplyParameters?
 
-    /// Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported for messages sent on behalf of a business account
+    /// Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
     public var replyMarkup: TGReplyMarkup?
 
     /// Custom keys for coding/decoding `SendPollParams` struct
@@ -72,6 +81,8 @@ public struct TGSendPollParams: Encodable {
             case chatId = "chat_id"
             case messageThreadId = "message_thread_id"
             case question = "question"
+            case questionParseMode = "question_parse_mode"
+            case questionEntities = "question_entities"
             case options = "options"
             case isAnonymous = "is_anonymous"
             case type = "type"
@@ -85,15 +96,18 @@ public struct TGSendPollParams: Encodable {
             case isClosed = "is_closed"
             case disableNotification = "disable_notification"
             case protectContent = "protect_content"
+            case messageEffectId = "message_effect_id"
             case replyParameters = "reply_parameters"
             case replyMarkup = "reply_markup"
     }
 
-    public init(businessConnectionId: String? = nil, chatId: TGChatId, messageThreadId: Int? = nil, question: String, options: [String], isAnonymous: Bool? = nil, type: String? = nil, allowsMultipleAnswers: Bool? = nil, correctOptionId: Int? = nil, explanation: String? = nil, explanationParseMode: TGParseMode? = nil, explanationEntities: [TGMessageEntity]? = nil, openPeriod: Int? = nil, closeDate: Int? = nil, isClosed: Bool? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyParameters: TGReplyParameters? = nil, replyMarkup: TGReplyMarkup? = nil) {
+    public init(businessConnectionId: String? = nil, chatId: TGChatId, messageThreadId: Int? = nil, question: String, questionParseMode: TGParseMode? = nil, questionEntities: [TGMessageEntity]? = nil, options: [TGInputPollOption], isAnonymous: Bool? = nil, type: String? = nil, allowsMultipleAnswers: Bool? = nil, correctOptionId: Int? = nil, explanation: String? = nil, explanationParseMode: TGParseMode? = nil, explanationEntities: [TGMessageEntity]? = nil, openPeriod: Int? = nil, closeDate: Int? = nil, isClosed: Bool? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, messageEffectId: String? = nil, replyParameters: TGReplyParameters? = nil, replyMarkup: TGReplyMarkup? = nil) {
             self.businessConnectionId = businessConnectionId
             self.chatId = chatId
             self.messageThreadId = messageThreadId
             self.question = question
+            self.questionParseMode = questionParseMode
+            self.questionEntities = questionEntities
             self.options = options
             self.isAnonymous = isAnonymous
             self.type = type
@@ -107,6 +121,7 @@ public struct TGSendPollParams: Encodable {
             self.isClosed = isClosed
             self.disableNotification = disableNotification
             self.protectContent = protectContent
+            self.messageEffectId = messageEffectId
             self.replyParameters = replyParameters
             self.replyMarkup = replyMarkup
     }

@@ -18,7 +18,7 @@ public final class TGInlineQueryResultCachedSticker: Codable {
     }
 
     /// Type of the result, must be sticker
-    public var type: String
+    public var type: TGInlineQueryResultCachedStickerType
 
     /// Unique identifier for this result, 1-64 bytes
     public var id: String
@@ -32,7 +32,7 @@ public final class TGInlineQueryResultCachedSticker: Codable {
     /// Optional. Content of the message to be sent instead of the sticker
     public var inputMessageContent: TGInputMessageContent?
 
-    public init (type: String, id: String, stickerFileId: String, replyMarkup: TGInlineKeyboardMarkup? = nil, inputMessageContent: TGInputMessageContent? = nil) {
+    public init (type: TGInlineQueryResultCachedStickerType, id: String, stickerFileId: String, replyMarkup: TGInlineKeyboardMarkup? = nil, inputMessageContent: TGInputMessageContent? = nil) {
         self.type = type
         self.id = id
         self.stickerFileId = stickerFileId

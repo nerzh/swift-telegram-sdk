@@ -22,7 +22,7 @@ public final class TGInputMediaAudio: Codable {
     }
 
     /// Type of the result, must be audio
-    public var type: String
+    public var type: TGInputMediaAudioType
 
     /// File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files »
     public var media: String
@@ -48,7 +48,7 @@ public final class TGInputMediaAudio: Codable {
     /// Optional. Title of the audio
     public var title: String?
 
-    public init (type: String, media: String, thumbnail: TGFileInfo? = nil, caption: String? = nil, parseMode: String? = nil, captionEntities: [TGMessageEntity]? = nil, duration: Int? = nil, performer: String? = nil, title: String? = nil) {
+    public init (type: TGInputMediaAudioType, media: String, thumbnail: TGFileInfo? = nil, caption: String? = nil, parseMode: String? = nil, captionEntities: [TGMessageEntity]? = nil, duration: Int? = nil, performer: String? = nil, title: String? = nil) {
         self.type = type
         self.media = media
         self.thumbnail = thumbnail

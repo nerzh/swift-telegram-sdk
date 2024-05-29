@@ -24,7 +24,7 @@ public final class TGInlineQueryResultContact: Codable {
     }
 
     /// Type of the result, must be contact
-    public var type: String
+    public var type: TGInlineQueryResultContactType
 
     /// Unique identifier for this result, 1-64 Bytes
     public var id: String
@@ -56,7 +56,7 @@ public final class TGInlineQueryResultContact: Codable {
     /// Optional. Thumbnail height
     public var thumbnailHeight: Int?
 
-    public init (type: String, id: String, phoneNumber: String, firstName: String, lastName: String? = nil, vcard: String? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil, inputMessageContent: TGInputMessageContent? = nil, thumbnailUrl: String? = nil, thumbnailWidth: Int? = nil, thumbnailHeight: Int? = nil) {
+    public init (type: TGInlineQueryResultContactType, id: String, phoneNumber: String, firstName: String, lastName: String? = nil, vcard: String? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil, inputMessageContent: TGInputMessageContent? = nil, thumbnailUrl: String? = nil, thumbnailWidth: Int? = nil, thumbnailHeight: Int? = nil) {
         self.type = type
         self.id = id
         self.phoneNumber = phoneNumber

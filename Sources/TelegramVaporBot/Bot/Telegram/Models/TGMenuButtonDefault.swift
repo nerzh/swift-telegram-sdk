@@ -14,9 +14,9 @@ public final class TGMenuButtonDefault: Codable {
     }
 
     /// Type of the button, must be default
-    public var type: String
+    public var type: TGMenuButtonDefaultType
 
-    public init (type: String) {
+    public init (type: TGMenuButtonDefaultType) {
         self.type = type
     }
 }

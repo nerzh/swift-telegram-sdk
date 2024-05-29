@@ -27,6 +27,9 @@ public struct TGEditMessageCaptionParams: Encodable {
     /// A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
     public var captionEntities: [TGMessageEntity]?
 
+    /// Pass True, if the caption must be shown above the message media. Supported only for animation, photo and video messages.
+    public var showCaptionAboveMedia: Bool?
+
     /// A JSON-serialized object for an inline keyboard.
     public var replyMarkup: TGInlineKeyboardMarkup?
 
@@ -38,16 +41,18 @@ public struct TGEditMessageCaptionParams: Encodable {
             case caption = "caption"
             case parseMode = "parse_mode"
             case captionEntities = "caption_entities"
+            case showCaptionAboveMedia = "show_caption_above_media"
             case replyMarkup = "reply_markup"
     }
 
-    public init(chatId: TGChatId? = nil, messageId: Int? = nil, inlineMessageId: String? = nil, caption: String? = nil, parseMode: TGParseMode? = nil, captionEntities: [TGMessageEntity]? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil) {
+    public init(chatId: TGChatId? = nil, messageId: Int? = nil, inlineMessageId: String? = nil, caption: String? = nil, parseMode: TGParseMode? = nil, captionEntities: [TGMessageEntity]? = nil, showCaptionAboveMedia: Bool? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil) {
             self.chatId = chatId
             self.messageId = messageId
             self.inlineMessageId = inlineMessageId
             self.caption = caption
             self.parseMode = parseMode
             self.captionEntities = captionEntities
+            self.showCaptionAboveMedia = showCaptionAboveMedia
             self.replyMarkup = replyMarkup
     }
 }

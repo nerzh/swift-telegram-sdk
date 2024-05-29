@@ -1,6 +1,7 @@
 // Telegram-vapor-bot - Telegram Bot Swift SDK.
 
 /**
+ Contains information about the start page settings of a Telegram Business account.
 
  SeeAlso Telegram Bot API Reference:
  [BusinessIntro](https://core.telegram.org/bots/api#businessintro)

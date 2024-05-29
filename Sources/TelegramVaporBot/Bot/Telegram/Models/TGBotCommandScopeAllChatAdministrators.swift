@@ -14,9 +14,9 @@ public final class TGBotCommandScopeAllChatAdministrators: Codable {
     }
 
     /// Scope type, must be all_chat_administrators
-    public var type: String
+    public var type: TGBotCommandScopeAllChatAdministratorsType
 
-    public init (type: String) {
+    public init (type: TGBotCommandScopeAllChatAdministratorsType) {
         self.type = type
     }
 }

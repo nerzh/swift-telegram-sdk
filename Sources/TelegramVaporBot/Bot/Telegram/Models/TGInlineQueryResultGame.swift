@@ -17,7 +17,7 @@ public final class TGInlineQueryResultGame: Codable {
     }
 
     /// Type of the result, must be game
-    public var type: String
+    public var type: TGInlineQueryResultGameType
 
     /// Unique identifier for this result, 1-64 bytes
     public var id: String
@@ -28,7 +28,7 @@ public final class TGInlineQueryResultGame: Codable {
     /// Optional. Inline keyboard attached to the message
     public var replyMarkup: TGInlineKeyboardMarkup?
 
-    public init (type: String, id: String, gameShortName: String, replyMarkup: TGInlineKeyboardMarkup? = nil) {
+    public init (type: TGInlineQueryResultGameType, id: String, gameShortName: String, replyMarkup: TGInlineKeyboardMarkup? = nil) {
         self.type = type
         self.id = id
         self.gameShortName = gameShortName

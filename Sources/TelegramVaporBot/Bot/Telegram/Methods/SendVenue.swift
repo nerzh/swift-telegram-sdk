@@ -48,10 +48,13 @@ public struct TGSendVenueParams: Encodable {
     /// Protects the contents of the sent message from forwarding and saving
     public var protectContent: Bool?
 
+    /// Unique identifier of the message effect to be added to the message; for private chats only
+    public var messageEffectId: String?
+
     /// Description of the message to reply to
     public var replyParameters: TGReplyParameters?
 
-    /// Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported for messages sent on behalf of a business account
+    /// Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
     public var replyMarkup: TGReplyMarkup?
 
     /// Custom keys for coding/decoding `SendVenueParams` struct
@@ -69,11 +72,12 @@ public struct TGSendVenueParams: Encodable {
             case googlePlaceType = "google_place_type"
             case disableNotification = "disable_notification"
             case protectContent = "protect_content"
+            case messageEffectId = "message_effect_id"
             case replyParameters = "reply_parameters"
             case replyMarkup = "reply_markup"
     }
 
-    public init(businessConnectionId: String? = nil, chatId: TGChatId, messageThreadId: Int? = nil, latitude: Float, longitude: Float, title: String, address: String, foursquareId: String? = nil, foursquareType: String? = nil, googlePlaceId: String? = nil, googlePlaceType: String? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyParameters: TGReplyParameters? = nil, replyMarkup: TGReplyMarkup? = nil) {
+    public init(businessConnectionId: String? = nil, chatId: TGChatId, messageThreadId: Int? = nil, latitude: Float, longitude: Float, title: String, address: String, foursquareId: String? = nil, foursquareType: String? = nil, googlePlaceId: String? = nil, googlePlaceType: String? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, messageEffectId: String? = nil, replyParameters: TGReplyParameters? = nil, replyMarkup: TGReplyMarkup? = nil) {
             self.businessConnectionId = businessConnectionId
             self.chatId = chatId
             self.messageThreadId = messageThreadId
@@ -87,6 +91,7 @@ public struct TGSendVenueParams: Encodable {
             self.googlePlaceType = googlePlaceType
             self.disableNotification = disableNotification
             self.protectContent = protectContent
+            self.messageEffectId = messageEffectId
             self.replyParameters = replyParameters
             self.replyMarkup = replyMarkup
     }

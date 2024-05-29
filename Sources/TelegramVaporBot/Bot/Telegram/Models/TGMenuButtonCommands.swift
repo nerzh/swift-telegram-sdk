@@ -14,9 +14,9 @@ public final class TGMenuButtonCommands: Codable {
     }
 
     /// Type of the button, must be commands
-    public var type: String
+    public var type: TGMenuButtonCommandsType
 
-    public init (type: String) {
+    public init (type: TGMenuButtonCommandsType) {
         self.type = type
     }
 }

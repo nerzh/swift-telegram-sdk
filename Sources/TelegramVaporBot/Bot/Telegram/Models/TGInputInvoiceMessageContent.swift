@@ -41,16 +41,16 @@ public final class TGInputInvoiceMessageContent: Codable {
     /// Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.
     public var payload: String
 
-    /// Payment provider token, obtained via @BotFather
-    public var providerToken: String
+    /// Optional. Payment provider token, obtained via @BotFather. Pass an empty string for payments in Telegram Stars.
+    public var providerToken: String?
 
-    /// Three-letter ISO 4217 currency code, see more on currencies
+    /// Three-letter ISO 4217 currency code, see more on currencies. Pass “XTR” for payments in Telegram Stars.
     public var currency: String
 
-    /// Price breakdown, a JSON-serialized list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.)
+    /// Price breakdown, a JSON-serialized list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.). Must contain exactly one item for payments in Telegram Stars.
     public var prices: [TGLabeledPrice]
 
-    /// Optional. The maximum accepted amount for tips in the smallest units of the currency (integer, not float/double). For example, for a maximum tip of US$ 1.45 pass max_tip_amount = 145. See the exp parameter in currencies.json, it shows the number of digits past the decimal point for each currency (2 for the majority of currencies). Defaults to 0
+    /// Optional. The maximum accepted amount for tips in the smallest units of the currency (integer, not float/double). For example, for a maximum tip of US$ 1.45 pass max_tip_amount = 145. See the exp parameter in currencies.json, it shows the number of digits past the decimal point for each currency (2 for the majority of currencies). Defaults to 0. Not supported for payments in Telegram Stars.
     public var maxTipAmount: Int?
 
     /// Optional. A JSON-serialized array of suggested amounts of tip in the smallest units of the currency (integer, not float/double). At most 4 suggested tip amounts can be specified. The suggested tip amounts must be positive, passed in a strictly increased order and must not exceed max_tip_amount.
@@ -71,28 +71,28 @@ public final class TGInputInvoiceMessageContent: Codable {
     /// Optional. Photo height
     public var photoHeight: Int?
 
-    /// Optional. Pass True if you require the user's full name to complete the order
+    /// Optional. Pass True if you require the user's full name to complete the order. Ignored for payments in Telegram Stars.
     public var needName: Bool?
 
-    /// Optional. Pass True if you require the user's phone number to complete the order
+    /// Optional. Pass True if you require the user's phone number to complete the order. Ignored for payments in Telegram Stars.
     public var needPhoneNumber: Bool?
 
-    /// Optional. Pass True if you require the user's email address to complete the order
+    /// Optional. Pass True if you require the user's email address to complete the order. Ignored for payments in Telegram Stars.
     public var needEmail: Bool?
 
-    /// Optional. Pass True if you require the user's shipping address to complete the order
+    /// Optional. Pass True if you require the user's shipping address to complete the order. Ignored for payments in Telegram Stars.
     public var needShippingAddress: Bool?
 
-    /// Optional. Pass True if the user's phone number should be sent to provider
+    /// Optional. Pass True if the user's phone number should be sent to the provider. Ignored for payments in Telegram Stars.
     public var sendPhoneNumberToProvider: Bool?
 
-    /// Optional. Pass True if the user's email address should be sent to provider
+    /// Optional. Pass True if the user's email address should be sent to the provider. Ignored for payments in Telegram Stars.
     public var sendEmailToProvider: Bool?
 
-    /// Optional. Pass True if the final price depends on the shipping method
+    /// Optional. Pass True if the final price depends on the shipping method. Ignored for payments in Telegram Stars.
     public var isFlexible: Bool?
 
-    public init (title: String, description: String, payload: String, providerToken: String, currency: String, prices: [TGLabeledPrice], maxTipAmount: Int? = nil, suggestedTipAmounts: [Int]? = nil, providerData: String? = nil, photoUrl: String? = nil, photoSize: Int? = nil, photoWidth: Int? = nil, photoHeight: Int? = nil, needName: Bool? = nil, needPhoneNumber: Bool? = nil, needEmail: Bool? = nil, needShippingAddress: Bool? = nil, sendPhoneNumberToProvider: Bool? = nil, sendEmailToProvider: Bool? = nil, isFlexible: Bool? = nil) {
+    public init (title: String, description: String, payload: String, providerToken: String? = nil, currency: String, prices: [TGLabeledPrice], maxTipAmount: Int? = nil, suggestedTipAmounts: [Int]? = nil, providerData: String? = nil, photoUrl: String? = nil, photoSize: Int? = nil, photoWidth: Int? = nil, photoHeight: Int? = nil, needName: Bool? = nil, needPhoneNumber: Bool? = nil, needEmail: Bool? = nil, needShippingAddress: Bool? = nil, sendPhoneNumberToProvider: Bool? = nil, sendEmailToProvider: Bool? = nil, isFlexible: Bool? = nil) {
         self.title = title
         self.description = description
         self.payload = payload

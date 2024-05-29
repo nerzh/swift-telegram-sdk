@@ -94,9 +94,7 @@ class Api
       init_block << "#{TWO}self.#{var_name_camel} = #{var_name_camel}\n"
 
       # TRY TO GENERATE A CUSTOM TYPE LIKE ENUM OF STRING VALUES etc.
-      if var_name == 'type'
-        generate_custom_model_if_needed(type_name, var_desc, description)
-      end
+      generate_custom_model_if_needed(type_name, var_name, var_type, var_desc, description)
     end
 
     if block_given?
@@ -137,7 +135,9 @@ class Api
     description[/\s+can\s+be\s+one\s+of/] || 
     description[/\s+may\s+be\s+one\s+of/] || 
     description[/\s+should\s+be\s+one\s+of/] ||
-    description[/scopes\s+are\s+supported:/]
+    description[/scopes\s+are\s+supported:/] ||
+    description[/\d+\s+types:\n/] ||
+    description[/supported:\n/]
   end
 
   def fucking_telegram_any_type_name(line)
@@ -165,14 +165,6 @@ class Api
       end
     end
     out << "\n"
-    # init(from decoder: Decoder) throws {
-    #     var container = try decoder.singleValueContainer()
-    #     if let xm = try? container.decode(MNB.self) {
-    #         self = .aaa(xm)
-    #     } else {
-    #         throw Er(des: "")
-    #     }
-    # }
     out << "#{ONE}public init(from decoder: Decoder) throws {\n"
     out << "#{TWO}let container = try decoder.singleValueContainer()\n#{TWO}"
     start_trigger = false
@@ -202,15 +194,7 @@ class Api
     out << "#{THREE}throw BotError(\"Failed! Can't decode ANY_TYPE #{type_name}.\")\n"
     out << "#{TWO}}\n"
     out << "#{ONE}}\n\n"
-    # public func encode(to encoder: Encoder) throws {
-    #     var container = encoder.singleValueContainer()
-    #     switch self {
-    #     case let .aaa(value):
-    #         try container.encode(value)
-    #     case let .aaa2(value):
-    #         try container.encode(value)
-    #     }
-    # }
+    
     out << "#{ONE}public func encode(to encoder: Encoder) throws {\n"
     out << "#{TWO}var container = encoder.singleValueContainer()\n"
     out << "#{TWO}switch self {\n"
@@ -527,11 +511,13 @@ class Api
 
   private
 
-  def generate_custom_model_if_needed(type_name, custom_type_description, type_description)
-    if type_name == "MessageEntity"
-      generate_enum_type(type_name, custom_type_description, type_description)
-    elsif type_name == "Chat"
-      generate_enum_type(type_name, custom_type_description, type_description)
+  def generate_custom_model_if_needed(type_name, var_name, var_type, custom_type_description, type_description)
+    if var_name == 'type'
+      if var_type.upcase == 'String'.upcase
+        if !search_cases_for_enum_type_of_variable_with_type_name(custom_type_description).empty?
+          generate_enum_type(type_name, custom_type_description, type_description)
+        end
+      end
     end
   end
 
@@ -584,7 +570,7 @@ class Api
   	#when ['Chat', 'type']
   	#    return 'type_string'
   	when ["#{PREFIX_LIB}ChatMember", 'status']
-  			return 'status_string'
+  		return 'status_string'
   	else
   		if var_name == 'type' && var_type == 'String'
   			return 'type_string'
@@ -595,10 +581,30 @@ class Api
   	end
   end
 
+  private def search_cases_for_enum_type_of_variable_with_type_name(var_description)
+    var_desc = var_description.clone
+    result_types = []
+    if var_desc[/must be\s+(.+)/]
+      case_name = $1
+      result_types << case_name
+      return result_types
+    end
+
+    while var_desc[/^[\s\S]+?“([^”]+)”/]
+      case_name = $1
+      result_types << case_name
+      var_desc.sub!(/^[\s\S]+?“[^”]+”/, "")
+    end
+    return result_types
+  end
+
   def convert_type(var_name, var_desc, var_type, type_name, var_optional)
-    if var_name == "type"
-      return "#{PREFIX_LIB}ChatType" if var_desc.include?("Type of chat")
-      return "#{PREFIX_LIB}MessageEntityType" if var_desc.include?("Type of the entity")
+    if var_name == 'type'
+      if var_type.upcase == 'String'.upcase
+        if !search_cases_for_enum_type_of_variable_with_type_name(var_desc).empty?
+          return "#{PREFIX_LIB}#{type_name}Type"
+        end
+      end
     end
     
     case [var_type, var_optional]
@@ -866,38 +872,6 @@ end
 
 
 class Api
-  
-  def each_model_content(&block)
-    if block
-      STDOUT.sync = true
-      FileUtils.rm_rf("#{API_DIR}/#{METHODS_DIR_NAME}")
-      FileUtils.rm_rf("#{API_DIR}/#{MODELS_DIR_NAME}")
-      html = File.open(HTML_FILE, "rb").read
-      doc = Nokogiri::HTML(html)
-      doc.css("br").each { |node| node.replace("\n") }
-      doc.search("h4").each do |node|
-        title = node.text.strip
-        next unless title.split.count == 1
-
-        # These types are complex and created manually:
-        next unless ![
-          'InlineQueryResult', 
-          'InputFile', 
-          'InputMedia', 
-          'InputMessageContent', 
-          'PassportElementError', 
-          'ChatMember'
-        ].include?(title)
-
-        kind = (title.chars.first == title.chars.first.upcase) ? :type : :method
-
-        if kind == :type
-          type_name, variables_block, model_content = generate_model_file(node, true)
-          block.call(type_name, variables_block, model_content)
-        end
-      end
-    end
-  end
 
   def main
   	STDOUT.sync = true
@@ -916,12 +890,7 @@ class Api
 
 			# These types are complex and created manually:
 			next unless ![
-        'InlineQueryResult', 
-        'InputFile', 
-        'InputMedia', 
-        'InputMessageContent', 
-        'PassportElementError', 
-        'ChatMember'
+        'InputFile'
       ].include?(title)
 
 			kind = (title.chars.first == title.chars.first.upcase) ? :type : :method

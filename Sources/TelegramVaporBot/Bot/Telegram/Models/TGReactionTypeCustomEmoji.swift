@@ -15,12 +15,12 @@ public final class TGReactionTypeCustomEmoji: Codable {
     }
 
     /// Type of the reaction, always “custom_emoji”
-    public var type: String
+    public var type: TGReactionTypeCustomEmojiType
 
     /// Custom emoji identifier
     public var customEmojiId: String
 
-    public init (type: String, customEmojiId: String) {
+    public init (type: TGReactionTypeCustomEmojiType, customEmojiId: String) {
         self.type = type
         self.customEmojiId = customEmojiId
     }

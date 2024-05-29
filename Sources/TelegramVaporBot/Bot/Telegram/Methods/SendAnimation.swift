@@ -42,6 +42,9 @@ public struct TGSendAnimationParams: Encodable {
     /// A JSON-serialized list of special entities that appear in the caption, which can be specified instead of parse_mode
     public var captionEntities: [TGMessageEntity]?
 
+    /// Pass True, if the caption must be shown above the message media
+    public var showCaptionAboveMedia: Bool?
+
     /// Pass True if the animation needs to be covered with a spoiler animation
     public var hasSpoiler: Bool?
 
@@ -51,10 +54,13 @@ public struct TGSendAnimationParams: Encodable {
     /// Protects the contents of the sent message from forwarding and saving
     public var protectContent: Bool?
 
+    /// Unique identifier of the message effect to be added to the message; for private chats only
+    public var messageEffectId: String?
+
     /// Description of the message to reply to
     public var replyParameters: TGReplyParameters?
 
-    /// Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user. Not supported for messages sent on behalf of a business account
+    /// Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
     public var replyMarkup: TGReplyMarkup?
 
     /// Custom keys for coding/decoding `SendAnimationParams` struct
@@ -70,14 +76,16 @@ public struct TGSendAnimationParams: Encodable {
             case caption = "caption"
             case parseMode = "parse_mode"
             case captionEntities = "caption_entities"
+            case showCaptionAboveMedia = "show_caption_above_media"
             case hasSpoiler = "has_spoiler"
             case disableNotification = "disable_notification"
             case protectContent = "protect_content"
+            case messageEffectId = "message_effect_id"
             case replyParameters = "reply_parameters"
             case replyMarkup = "reply_markup"
     }
 
-    public init(businessConnectionId: String? = nil, chatId: TGChatId, messageThreadId: Int? = nil, animation: TGFileInfo, duration: Int? = nil, width: Int? = nil, height: Int? = nil, thumbnail: TGFileInfo? = nil, caption: String? = nil, parseMode: TGParseMode? = nil, captionEntities: [TGMessageEntity]? = nil, hasSpoiler: Bool? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyParameters: TGReplyParameters? = nil, replyMarkup: TGReplyMarkup? = nil) {
+    public init(businessConnectionId: String? = nil, chatId: TGChatId, messageThreadId: Int? = nil, animation: TGFileInfo, duration: Int? = nil, width: Int? = nil, height: Int? = nil, thumbnail: TGFileInfo? = nil, caption: String? = nil, parseMode: TGParseMode? = nil, captionEntities: [TGMessageEntity]? = nil, showCaptionAboveMedia: Bool? = nil, hasSpoiler: Bool? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, messageEffectId: String? = nil, replyParameters: TGReplyParameters? = nil, replyMarkup: TGReplyMarkup? = nil) {
             self.businessConnectionId = businessConnectionId
             self.chatId = chatId
             self.messageThreadId = messageThreadId
@@ -89,9 +97,11 @@ public struct TGSendAnimationParams: Encodable {
             self.caption = caption
             self.parseMode = parseMode
             self.captionEntities = captionEntities
+            self.showCaptionAboveMedia = showCaptionAboveMedia
             self.hasSpoiler = hasSpoiler
             self.disableNotification = disableNotification
             self.protectContent = protectContent
+            self.messageEffectId = messageEffectId
             self.replyParameters = replyParameters
             self.replyMarkup = replyMarkup
     }

@@ -21,7 +21,7 @@ public final class TGPassportElementErrorDataField: Codable {
     public var source: String
 
     /// The section of the user's Telegram Passport which has the error, one of “personal_details”, “passport”, “driver_license”, “identity_card”, “internal_passport”, “address”
-    public var type: String
+    public var type: TGPassportElementErrorDataFieldType
 
     /// Name of the data field which has the error
     public var fieldName: String
@@ -32,7 +32,7 @@ public final class TGPassportElementErrorDataField: Codable {
     /// Error message
     public var message: String
 
-    public init (source: String, type: String, fieldName: String, dataHash: String, message: String) {
+    public init (source: String, type: TGPassportElementErrorDataFieldType, fieldName: String, dataHash: String, message: String) {
         self.source = source
         self.type = type
         self.fieldName = fieldName

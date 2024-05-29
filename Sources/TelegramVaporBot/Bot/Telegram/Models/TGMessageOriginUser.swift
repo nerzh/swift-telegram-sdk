@@ -16,7 +16,7 @@ public final class TGMessageOriginUser: Codable {
     }
 
     /// Type of the message origin, always “user”
-    public var type: String
+    public var type: TGMessageOriginUserType
 
     /// Date the message was sent originally in Unix time
     public var date: Int
@@ -24,7 +24,7 @@ public final class TGMessageOriginUser: Codable {
     /// User that sent the message originally
     public var senderUser: TGUser
 
-    public init (type: String, date: Int, senderUser: TGUser) {
+    public init (type: TGMessageOriginUserType, date: Int, senderUser: TGUser) {
         self.type = type
         self.date = date
         self.senderUser = senderUser

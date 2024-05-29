@@ -16,6 +16,7 @@ public final class TGInputMediaAnimation: Codable {
         case caption = "caption"
         case parseMode = "parse_mode"
         case captionEntities = "caption_entities"
+        case showCaptionAboveMedia = "show_caption_above_media"
         case width = "width"
         case height = "height"
         case duration = "duration"
@@ -23,7 +24,7 @@ public final class TGInputMediaAnimation: Codable {
     }
 
     /// Type of the result, must be animation
-    public var type: String
+    public var type: TGInputMediaAnimationType
 
     /// File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files »
     public var media: String
@@ -40,6 +41,9 @@ public final class TGInputMediaAnimation: Codable {
     /// Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
     public var captionEntities: [TGMessageEntity]?
 
+    /// Optional. Pass True, if the caption must be shown above the message media
+    public var showCaptionAboveMedia: Bool?
+
     /// Optional. Animation width
     public var width: Int?
 
@@ -52,13 +56,14 @@ public final class TGInputMediaAnimation: Codable {
     /// Optional. Pass True if the animation needs to be covered with a spoiler animation
     public var hasSpoiler: Bool?
 
-    public init (type: String, media: String, thumbnail: TGFileInfo? = nil, caption: String? = nil, parseMode: String? = nil, captionEntities: [TGMessageEntity]? = nil, width: Int? = nil, height: Int? = nil, duration: Int? = nil, hasSpoiler: Bool? = nil) {
+    public init (type: TGInputMediaAnimationType, media: String, thumbnail: TGFileInfo? = nil, caption: String? = nil, parseMode: String? = nil, captionEntities: [TGMessageEntity]? = nil, showCaptionAboveMedia: Bool? = nil, width: Int? = nil, height: Int? = nil, duration: Int? = nil, hasSpoiler: Bool? = nil) {
         self.type = type
         self.media = media
         self.thumbnail = thumbnail
         self.caption = caption
         self.parseMode = parseMode
         self.captionEntities = captionEntities
+        self.showCaptionAboveMedia = showCaptionAboveMedia
         self.width = width
         self.height = height
         self.duration = duration

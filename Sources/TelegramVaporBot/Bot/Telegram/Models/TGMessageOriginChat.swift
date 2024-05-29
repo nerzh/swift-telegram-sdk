@@ -17,7 +17,7 @@ public final class TGMessageOriginChat: Codable {
     }
 
     /// Type of the message origin, always “chat”
-    public var type: String
+    public var type: TGMessageOriginChatType
 
     /// Date the message was sent originally in Unix time
     public var date: Int
@@ -28,7 +28,7 @@ public final class TGMessageOriginChat: Codable {
     /// Optional. For messages originally sent by an anonymous chat administrator, original message author signature
     public var authorSignature: String?
 
-    public init (type: String, date: Int, senderChat: TGChat, authorSignature: String? = nil) {
+    public init (type: TGMessageOriginChatType, date: Int, senderChat: TGChat, authorSignature: String? = nil) {
         self.type = type
         self.date = date
         self.senderChat = senderChat

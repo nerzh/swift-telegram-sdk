@@ -27,7 +27,7 @@ public final class TGInlineQueryResultDocument: Codable {
     }
 
     /// Type of the result, must be document
-    public var type: String
+    public var type: TGInlineQueryResultDocumentType
 
     /// Unique identifier for this result, 1-64 bytes
     public var id: String
@@ -68,7 +68,7 @@ public final class TGInlineQueryResultDocument: Codable {
     /// Optional. Thumbnail height
     public var thumbnailHeight: Int?
 
-    public init (type: String, id: String, title: String, caption: String? = nil, parseMode: String? = nil, captionEntities: [TGMessageEntity]? = nil, documentUrl: String, mimeType: String, description: String? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil, inputMessageContent: TGInputMessageContent? = nil, thumbnailUrl: String? = nil, thumbnailWidth: Int? = nil, thumbnailHeight: Int? = nil) {
+    public init (type: TGInlineQueryResultDocumentType, id: String, title: String, caption: String? = nil, parseMode: String? = nil, captionEntities: [TGMessageEntity]? = nil, documentUrl: String, mimeType: String, description: String? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil, inputMessageContent: TGInputMessageContent? = nil, thumbnailUrl: String? = nil, thumbnailWidth: Int? = nil, thumbnailHeight: Int? = nil) {
         self.type = type
         self.id = id
         self.title = title

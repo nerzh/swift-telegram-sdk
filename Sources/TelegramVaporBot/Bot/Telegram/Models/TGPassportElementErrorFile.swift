@@ -20,7 +20,7 @@ public final class TGPassportElementErrorFile: Codable {
     public var source: String
 
     /// The section of the user's Telegram Passport which has the issue, one of “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration”, “temporary_registration”
-    public var type: String
+    public var type: TGPassportElementErrorFileType
 
     /// Base64-encoded file hash
     public var fileHash: String
@@ -28,7 +28,7 @@ public final class TGPassportElementErrorFile: Codable {
     /// Error message
     public var message: String
 
-    public init (source: String, type: String, fileHash: String, message: String) {
+    public init (source: String, type: TGPassportElementErrorFileType, fileHash: String, message: String) {
         self.source = source
         self.type = type
         self.fileHash = fileHash

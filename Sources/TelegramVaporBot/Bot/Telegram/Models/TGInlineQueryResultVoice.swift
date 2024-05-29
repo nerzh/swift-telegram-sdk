@@ -23,7 +23,7 @@ public final class TGInlineQueryResultVoice: Codable {
     }
 
     /// Type of the result, must be voice
-    public var type: String
+    public var type: TGInlineQueryResultVoiceType
 
     /// Unique identifier for this result, 1-64 bytes
     public var id: String
@@ -52,7 +52,7 @@ public final class TGInlineQueryResultVoice: Codable {
     /// Optional. Content of the message to be sent instead of the voice recording
     public var inputMessageContent: TGInputMessageContent?
 
-    public init (type: String, id: String, voiceUrl: String, title: String, caption: String? = nil, parseMode: String? = nil, captionEntities: [TGMessageEntity]? = nil, voiceDuration: Int? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil, inputMessageContent: TGInputMessageContent? = nil) {
+    public init (type: TGInlineQueryResultVoiceType, id: String, voiceUrl: String, title: String, caption: String? = nil, parseMode: String? = nil, captionEntities: [TGMessageEntity]? = nil, voiceDuration: Int? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil, inputMessageContent: TGInputMessageContent? = nil) {
         self.type = type
         self.id = id
         self.voiceUrl = voiceUrl

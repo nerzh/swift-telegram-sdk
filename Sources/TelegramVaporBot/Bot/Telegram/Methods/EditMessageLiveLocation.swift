@@ -24,6 +24,9 @@ public struct TGEditMessageLiveLocationParams: Encodable {
     /// Longitude of new location
     public var longitude: Float
 
+    /// New period in seconds during which the location can be updated, starting from the message send date. If 0x7FFFFFFF is specified, then the location can be updated forever. Otherwise, the new value must not exceed the current live_period by more than a day, and the live location expiration date must remain within the next 90 days. If not specified, then live_period remains unchanged
+    public var livePeriod: Int?
+
     /// The radius of uncertainty for the location, measured in meters; 0-1500
     public var horizontalAccuracy: Float?
 
@@ -43,18 +46,20 @@ public struct TGEditMessageLiveLocationParams: Encodable {
             case inlineMessageId = "inline_message_id"
             case latitude = "latitude"
             case longitude = "longitude"
+            case livePeriod = "live_period"
             case horizontalAccuracy = "horizontal_accuracy"
             case heading = "heading"
             case proximityAlertRadius = "proximity_alert_radius"
             case replyMarkup = "reply_markup"
     }
 
-    public init(chatId: TGChatId? = nil, messageId: Int? = nil, inlineMessageId: String? = nil, latitude: Float, longitude: Float, horizontalAccuracy: Float? = nil, heading: Int? = nil, proximityAlertRadius: Int? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil) {
+    public init(chatId: TGChatId? = nil, messageId: Int? = nil, inlineMessageId: String? = nil, latitude: Float, longitude: Float, livePeriod: Int? = nil, horizontalAccuracy: Float? = nil, heading: Int? = nil, proximityAlertRadius: Int? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil) {
             self.chatId = chatId
             self.messageId = messageId
             self.inlineMessageId = inlineMessageId
             self.latitude = latitude
             self.longitude = longitude
+            self.livePeriod = livePeriod
             self.horizontalAccuracy = horizontalAccuracy
             self.heading = heading
             self.proximityAlertRadius = proximityAlertRadius

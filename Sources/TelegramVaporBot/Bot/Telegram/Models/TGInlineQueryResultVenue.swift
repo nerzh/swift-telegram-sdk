@@ -28,7 +28,7 @@ public final class TGInlineQueryResultVenue: Codable {
     }
 
     /// Type of the result, must be venue
-    public var type: String
+    public var type: TGInlineQueryResultVenueType
 
     /// Unique identifier for this result, 1-64 Bytes
     public var id: String
@@ -72,7 +72,7 @@ public final class TGInlineQueryResultVenue: Codable {
     /// Optional. Thumbnail height
     public var thumbnailHeight: Int?
 
-    public init (type: String, id: String, latitude: Float, longitude: Float, title: String, address: String, foursquareId: String? = nil, foursquareType: String? = nil, googlePlaceId: String? = nil, googlePlaceType: String? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil, inputMessageContent: TGInputMessageContent? = nil, thumbnailUrl: String? = nil, thumbnailWidth: Int? = nil, thumbnailHeight: Int? = nil) {
+    public init (type: TGInlineQueryResultVenueType, id: String, latitude: Float, longitude: Float, title: String, address: String, foursquareId: String? = nil, foursquareType: String? = nil, googlePlaceId: String? = nil, googlePlaceType: String? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil, inputMessageContent: TGInputMessageContent? = nil, thumbnailUrl: String? = nil, thumbnailWidth: Int? = nil, thumbnailHeight: Int? = nil) {
         self.type = type
         self.id = id
         self.latitude = latitude

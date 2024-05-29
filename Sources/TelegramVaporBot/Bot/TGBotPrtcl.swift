@@ -268,7 +268,7 @@ public protocol TGBotPrtcl {
 
 
     @discardableResult
-    func getChat(params: TGGetChatParams) async throws -> TGChat
+    func getChat(params: TGGetChatParams) async throws -> TGChatFullInfo
 
 
 
@@ -594,6 +594,11 @@ public protocol TGBotPrtcl {
 
     @discardableResult
     func answerPreCheckoutQuery(params: TGAnswerPreCheckoutQueryParams) async throws -> Bool
+
+
+
+    @discardableResult
+    func refundStarPayment(params: TGRefundStarPaymentParams) async throws -> Bool
 
 
 

@@ -30,6 +30,9 @@ public struct TGCopyMessageParams: Encodable {
     /// A JSON-serialized list of special entities that appear in the new caption, which can be specified instead of parse_mode
     public var captionEntities: [TGMessageEntity]?
 
+    /// Pass True, if the caption must be shown above the message media. Ignored if a new caption isn't specified.
+    public var showCaptionAboveMedia: Bool?
+
     /// Sends the message silently. Users will receive a notification with no sound.
     public var disableNotification: Bool?
 
@@ -39,7 +42,7 @@ public struct TGCopyMessageParams: Encodable {
     /// Description of the message to reply to
     public var replyParameters: TGReplyParameters?
 
-    /// Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply keyboard or to force a reply from the user.
+    /// Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove a reply keyboard or to force a reply from the user
     public var replyMarkup: TGReplyMarkup?
 
     /// Custom keys for coding/decoding `CopyMessageParams` struct
@@ -51,13 +54,14 @@ public struct TGCopyMessageParams: Encodable {
             case caption = "caption"
             case parseMode = "parse_mode"
             case captionEntities = "caption_entities"
+            case showCaptionAboveMedia = "show_caption_above_media"
             case disableNotification = "disable_notification"
             case protectContent = "protect_content"
             case replyParameters = "reply_parameters"
             case replyMarkup = "reply_markup"
     }
 
-    public init(chatId: TGChatId, messageThreadId: Int? = nil, fromChatId: TGChatId, messageId: Int, caption: String? = nil, parseMode: TGParseMode? = nil, captionEntities: [TGMessageEntity]? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyParameters: TGReplyParameters? = nil, replyMarkup: TGReplyMarkup? = nil) {
+    public init(chatId: TGChatId, messageThreadId: Int? = nil, fromChatId: TGChatId, messageId: Int, caption: String? = nil, parseMode: TGParseMode? = nil, captionEntities: [TGMessageEntity]? = nil, showCaptionAboveMedia: Bool? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyParameters: TGReplyParameters? = nil, replyMarkup: TGReplyMarkup? = nil) {
             self.chatId = chatId
             self.messageThreadId = messageThreadId
             self.fromChatId = fromChatId
@@ -65,6 +69,7 @@ public struct TGCopyMessageParams: Encodable {
             self.caption = caption
             self.parseMode = parseMode
             self.captionEntities = captionEntities
+            self.showCaptionAboveMedia = showCaptionAboveMedia
             self.disableNotification = disableNotification
             self.protectContent = protectContent
             self.replyParameters = replyParameters

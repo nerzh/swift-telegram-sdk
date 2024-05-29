@@ -14,9 +14,9 @@ public final class TGBotCommandScopeDefault: Codable {
     }
 
     /// Scope type, must be default
-    public var type: String
+    public var type: TGBotCommandScopeDefaultType
 
-    public init (type: String) {
+    public init (type: TGBotCommandScopeDefaultType) {
         self.type = type
     }
 }

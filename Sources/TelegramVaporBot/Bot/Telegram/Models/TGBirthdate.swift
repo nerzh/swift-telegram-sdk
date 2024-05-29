@@ -1,6 +1,7 @@
 // Telegram-vapor-bot - Telegram Bot Swift SDK.
 
 /**
+ Describes the birthdate of a user.
 
  SeeAlso Telegram Bot API Reference:
  [Birthdate](https://core.telegram.org/bots/api#birthdate)

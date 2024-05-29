@@ -18,7 +18,7 @@ public final class TGMessageOriginChannel: Codable {
     }
 
     /// Type of the message origin, always “channel”
-    public var type: String
+    public var type: TGMessageOriginChannelType
 
     /// Date the message was sent originally in Unix time
     public var date: Int
@@ -32,7 +32,7 @@ public final class TGMessageOriginChannel: Codable {
     /// Optional. Signature of the original post author
     public var authorSignature: String?
 
-    public init (type: String, date: Int, chat: TGChat, messageId: Int, authorSignature: String? = nil) {
+    public init (type: TGMessageOriginChannelType, date: Int, chat: TGChat, messageId: Int, authorSignature: String? = nil) {
         self.type = type
         self.date = date
         self.chat = chat

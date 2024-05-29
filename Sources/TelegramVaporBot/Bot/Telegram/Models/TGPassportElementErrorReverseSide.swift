@@ -20,7 +20,7 @@ public final class TGPassportElementErrorReverseSide: Codable {
     public var source: String
 
     /// The section of the user's Telegram Passport which has the issue, one of “driver_license”, “identity_card”
-    public var type: String
+    public var type: TGPassportElementErrorReverseSideType
 
     /// Base64-encoded hash of the file with the reverse side of the document
     public var fileHash: String
@@ -28,7 +28,7 @@ public final class TGPassportElementErrorReverseSide: Codable {
     /// Error message
     public var message: String
 
-    public init (source: String, type: String, fileHash: String, message: String) {
+    public init (source: String, type: TGPassportElementErrorReverseSideType, fileHash: String, message: String) {
         self.source = source
         self.type = type
         self.fileHash = fileHash

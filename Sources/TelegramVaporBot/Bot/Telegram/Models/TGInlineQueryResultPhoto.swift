@@ -21,12 +21,13 @@ public final class TGInlineQueryResultPhoto: Codable {
         case caption = "caption"
         case parseMode = "parse_mode"
         case captionEntities = "caption_entities"
+        case showCaptionAboveMedia = "show_caption_above_media"
         case replyMarkup = "reply_markup"
         case inputMessageContent = "input_message_content"
     }
 
     /// Type of the result, must be photo
-    public var type: String
+    public var type: TGInlineQueryResultPhotoType
 
     /// Unique identifier for this result, 1-64 bytes
     public var id: String
@@ -58,13 +59,16 @@ public final class TGInlineQueryResultPhoto: Codable {
     /// Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
     public var captionEntities: [TGMessageEntity]?
 
+    /// Optional. Pass True, if the caption must be shown above the message media
+    public var showCaptionAboveMedia: Bool?
+
     /// Optional. Inline keyboard attached to the message
     public var replyMarkup: TGInlineKeyboardMarkup?
 
     /// Optional. Content of the message to be sent instead of the photo
     public var inputMessageContent: TGInputMessageContent?
 
-    public init (type: String, id: String, photoUrl: String, thumbnailUrl: String, photoWidth: Int? = nil, photoHeight: Int? = nil, title: String? = nil, description: String? = nil, caption: String? = nil, parseMode: String? = nil, captionEntities: [TGMessageEntity]? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil, inputMessageContent: TGInputMessageContent? = nil) {
+    public init (type: TGInlineQueryResultPhotoType, id: String, photoUrl: String, thumbnailUrl: String, photoWidth: Int? = nil, photoHeight: Int? = nil, title: String? = nil, description: String? = nil, caption: String? = nil, parseMode: String? = nil, captionEntities: [TGMessageEntity]? = nil, showCaptionAboveMedia: Bool? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil, inputMessageContent: TGInputMessageContent? = nil) {
         self.type = type
         self.id = id
         self.photoUrl = photoUrl
@@ -76,6 +80,7 @@ public final class TGInlineQueryResultPhoto: Codable {
         self.caption = caption
         self.parseMode = parseMode
         self.captionEntities = captionEntities
+        self.showCaptionAboveMedia = showCaptionAboveMedia
         self.replyMarkup = replyMarkup
         self.inputMessageContent = inputMessageContent
     }

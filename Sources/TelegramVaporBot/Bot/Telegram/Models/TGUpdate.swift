@@ -54,7 +54,7 @@ public final class TGUpdate: Codable {
     /// Optional. The bot was connected to or disconnected from a business account, or a user edited an existing connection with the bot
     public var businessConnection: TGBusinessConnection?
 
-    /// Optional. New non-service message from a connected business account
+    /// Optional. New message from a connected business account
     public var businessMessage: TGMessage?
 
     /// Optional. New version of a message from a connected business account
