@@ -538,7 +538,14 @@ class Api
       out.write "public enum #{custom_type_name}: String, Codable {\n"
 
       cases = search_cases_for_enum_type_of_variable_with_type_name(custom_type_description)
-      reserved_names = ['private', 'public']
+      reserved_names = [
+        'associatedtype', 'class', 'deinit', 'enum', 'extension', 'fileprivate', 'func', 'import', 'init', 
+        'inout', 'internal', 'let', 'open', 'operator', 'private', 'precedencegroup', 'protocol', 'public', 
+        'rethrows', 'static', 'struct', 'subscript', 'typealias', 'var', 'break', 'case', 'catch', 'continue', 
+        'default', 'defer', 'do', 'else', 'fallthrough', 'for', 'guard', 'if', 'in', 'repeat', 'return', 
+        'throw', 'switch', 'where', 'while', 'any', 'as', 'await', 'catch', 'false', 'is', 'nil', 'rethrows', 
+        'self', 'super', 'throw', 'throws', 'true', 'try'
+      ]
       cases.each do |case_name|
         case_value = case_name.clone
         case_name = "#{case_name.camel_case_lower}"

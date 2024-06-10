@@ -8,7 +8,7 @@
  */
 
 public enum TGBotCommandScopeDefaultType: String, Codable {
-    case default = "default"
+    case `default` = "default"
     case undefined
 
     public init(from decoder: Decoder) throws {
