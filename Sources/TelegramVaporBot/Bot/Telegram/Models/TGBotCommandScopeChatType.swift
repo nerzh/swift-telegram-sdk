@@ -8,6 +8,7 @@
  */
 
 public enum TGBotCommandScopeChatType: String, Codable {
+    case chat = "chat"
     case undefined
 
     public init(from decoder: Decoder) throws {

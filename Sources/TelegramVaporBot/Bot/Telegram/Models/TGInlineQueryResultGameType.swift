@@ -8,6 +8,7 @@
  */
 
 public enum TGInlineQueryResultGameType: String, Codable {
+    case game = "game"
     case undefined
 
     public init(from decoder: Decoder) throws {

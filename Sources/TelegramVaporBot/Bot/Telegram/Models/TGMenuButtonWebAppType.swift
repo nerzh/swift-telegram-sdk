@@ -8,6 +8,7 @@
  */
 
 public enum TGMenuButtonWebAppType: String, Codable {
+    case webApp = "web_app"
     case undefined
 
     public init(from decoder: Decoder) throws {

@@ -8,6 +8,7 @@
  */
 
 public enum TGInlineQueryResultCachedAudioType: String, Codable {
+    case audio = "audio"
     case undefined
 
     public init(from decoder: Decoder) throws {

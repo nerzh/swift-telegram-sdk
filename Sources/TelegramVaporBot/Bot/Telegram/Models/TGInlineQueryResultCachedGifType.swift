@@ -8,6 +8,7 @@
  */
 
 public enum TGInlineQueryResultCachedGifType: String, Codable {
+    case gif = "gif"
     case undefined
 
     public init(from decoder: Decoder) throws {

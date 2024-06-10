@@ -8,6 +8,7 @@
  */
 
 public enum TGInlineQueryResultContactType: String, Codable {
+    case contact = "contact"
     case undefined
 
     public init(from decoder: Decoder) throws {

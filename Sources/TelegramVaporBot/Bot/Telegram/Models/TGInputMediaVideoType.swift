@@ -8,6 +8,7 @@
  */
 
 public enum TGInputMediaVideoType: String, Codable {
+    case video = "video"
     case undefined
 
     public init(from decoder: Decoder) throws {

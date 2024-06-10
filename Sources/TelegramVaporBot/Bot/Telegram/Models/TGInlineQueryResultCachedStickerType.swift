@@ -8,6 +8,7 @@
  */
 
 public enum TGInlineQueryResultCachedStickerType: String, Codable {
+    case sticker = "sticker"
     case undefined
 
     public init(from decoder: Decoder) throws {

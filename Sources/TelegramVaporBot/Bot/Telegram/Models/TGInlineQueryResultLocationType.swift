@@ -8,6 +8,7 @@
  */
 
 public enum TGInlineQueryResultLocationType: String, Codable {
+    case location = "location"
     case undefined
 
     public init(from decoder: Decoder) throws {

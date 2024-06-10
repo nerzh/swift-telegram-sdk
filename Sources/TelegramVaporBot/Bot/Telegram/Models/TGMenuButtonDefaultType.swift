@@ -8,6 +8,7 @@
  */
 
 public enum TGMenuButtonDefaultType: String, Codable {
+    case default = "default"
     case undefined
 
     public init(from decoder: Decoder) throws {

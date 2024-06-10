@@ -8,6 +8,7 @@
  */
 
 public enum TGInlineQueryResultDocumentType: String, Codable {
+    case document = "document"
     case undefined
 
     public init(from decoder: Decoder) throws {
