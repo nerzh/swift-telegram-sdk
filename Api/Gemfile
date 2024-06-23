@@ -2,3 +2,4 @@ source "https://rubygems.org"
 
 gem "nokogiri", ">= 1.10.4"
 gem "byebug"
+gem 'solargraph', require: false, group: :development

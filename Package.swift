@@ -1,30 +1,28 @@
-// swift-tools-version:5.8
+// swift-tools-version:5.10
 
 import PackageDescription
 
-let name: String = "TelegramVaporBot"
-
 let package = Package(
-    name: name,
+    name: "TelegramVaporBot",
     platforms: [
-        .macOS(.v12)
+        .macOS(.v14)
     ],
     products: [
         .library(
-            name: name,
-            targets: [name]),
+            name: "TelegramVaporBot",
+            targets: ["TelegramVaporBot"]),
     ],
     dependencies: [
+        .package(url: "https://github.com/photovirus/TelegramBotKit.git", .upToNextMajor(from: "1.0.0")),
         .package(url: "https://github.com/vapor/vapor.git", .upToNextMajor(from: "4.80.0")),
-        .package(url: "https://github.com/nerzh/swift-regular-expression", .upToNextMajor(from: "0.2.4")),
     ],
     targets: [
         .target(
-            name: name,
+            name: "TelegramVaporBot",
             dependencies: [
                 .product(name: "Vapor", package: "vapor"),
-                .product(name: "SwiftRegularExpression", package: "swift-regular-expression"),
+                .product(name: "TelegramBotKit", package: "TelegramBotKit"),
             ]
-        )
+        ),
     ]
 )

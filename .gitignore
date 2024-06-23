@@ -1,11 +1,10 @@
 .DS_Store
-/.build
-/Packages
-/*.xcodeproj
-xcuserdata/
-DerivedData/
+.byebug*
+.nova
+.build
 .swiftpm
-Package.resolved
 Api/Gemfile.lock
 Api/tg*
-.byebug*
+Api/.*
+Api/bin/*
+Package.resolved

@@ -8,36 +8,58 @@ Bundler.require(:default)
 require 'fileutils'
 
 HTML_FILE = 'tg-api.html'
-LIB_FOLDER_NAME = 'TelegramVaporBot'
-API_DIR = "../Sources/#{LIB_FOLDER_NAME}/Bot/Telegram"
-LIB_DIR = "../Sources/#{LIB_FOLDER_NAME}"
+LIB_FOLDER_NAME = 'TelegramBotKit'
 API_FILE = 'tg-api.txt'
 
 TYPE_HEADER = <<EOT
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// TelegramBot - Telegram Bot Swift SDK.
+// Auto-generated file, do not edit.
 
 EOT
 
 METHOD_HEADER = <<EOT
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// TelegramBot - Telegram Bot Swift SDK.
+// Auto-generated file, do not edit.
 
 EOT
 
-ONE   = "    "
-TWO   = "        "
-THREE = "            "
-FOUR  = "                "
+TAB = "    "
 PREFIX_LIB = "TG"
 
 MODELS_DIR_NAME = "Models"
 METHODS_DIR_NAME = 'Methods'
 
+def lib_dir()
+  return "../Sources/#{LIB_FOLDER_NAME}"
+end
+
+def api_dir()
+  return "#{lib_dir()}/Generated"
+end
+
+def * str # Override the *() method
+    if str.is_a? String # If argument is String
+        temp = ""
+        self.times do
+            temp << str
+        end
+        temp
+    else # If the argument is not String
+        mul = 0
+        self.times do
+            mul += str
+        end
+        mul
+    end
+end
+
+
 class Api
 
   def write_model_to_file(node, &block)
     type_name = node.text
-    FileUtils.mkpath "#{API_DIR}/#{MODELS_DIR_NAME}"
-    File.open("#{API_DIR}/#{MODELS_DIR_NAME}/#{PREFIX_LIB}#{type_name}.swift", "wb") do | out |
+    FileUtils.mkpath "#{api_dir()}/#{MODELS_DIR_NAME}"
+    File.open("#{api_dir()}/#{MODELS_DIR_NAME}/#{PREFIX_LIB}#{type_name}.swift", "wb") do | out |
       type_name, variables_block, model_content = generate_model_file(node, false, &block)
       out.write model_content
     end
@@ -48,12 +70,12 @@ class Api
     type_name = current_node.text
     current_node = current_node.next_element
     description = fetch_description(current_node)
-    
+
     out = ""
     out << TYPE_HEADER
-    if type_name == "MaskPosition"
-      out << "import Vapor\n\n"
-    end
+    # if type_name == "MaskPosition"
+    #   out << "import Vapor\n\n"
+    # end
     out << "/**\n"
     description.each_line do |line|
       out << " #{line.strip}\n"
@@ -78,20 +100,20 @@ class Api
       var_type = td[1].text
       var_desc = td[2].text
       var_optional = var_desc.start_with? "Optional"
-      
+
       correct_var_type = convert_type(var_name, var_desc, var_type, type_name, var_optional)
       correct_var_type_init = correct_var_type[-1] == "?" ? correct_var_type + " = nil" : correct_var_type
       var_name_camel = var_name.camel_case_lower
 
-      keys_block << "#{TWO}case #{var_name_camel} = \"#{var_name}\"\n"
-            
+      keys_block << "#{TAB*2}case #{var_name_camel} = \"#{var_name}\"\n"
+
       var_desc.each_line do |line|
-        vars_block << "#{ONE}/// #{line.strip}\n"
+        vars_block << "#{TAB}/// #{line.strip}\n"
       end
-            
-      vars_block << "#{ONE}public var #{var_name_camel}: #{correct_var_type}\n\n"
+
+      vars_block << "#{TAB}public var #{var_name_camel}: #{correct_var_type}\n\n"
       init_params_block << "#{var_name_camel}: #{correct_var_type_init}, "
-      init_block << "#{TWO}self.#{var_name_camel} = #{var_name_camel}\n"
+      init_block << "#{TAB*2}self.#{var_name_camel} = #{var_name_camel}\n"
 
       # TRY TO GENERATE A CUSTOM TYPE LIKE ENUM OF STRING VALUES etc.
       generate_custom_model_if_needed(type_name, var_name, var_type, var_desc, description)
@@ -106,24 +128,24 @@ class Api
     end
 
     var_protocol = "Codable"
-    
+
     if fucking_telegram_any_type?(description)
       return [type_name, vars_block, ''] if skip_fucking_telegram_any_type
       content = generate_fucking_telegram_any_type(type_name, var_protocol, description)
       out << content
     else
       out <<  "public final class #{PREFIX_LIB}#{type_name}: #{var_protocol} {\n\n"
-    
+
       if keys_block != ""
-        out << "#{ONE}/// Custom keys for coding/decoding `#{type_name}` struct\n"\
-        "#{ONE}public enum CodingKeys: String, CodingKey {\n"\
+        out << "#{TAB}/// Custom keys for coding/decoding `#{type_name}` struct\n"\
+        "#{TAB}public enum CodingKeys: String, CodingKey {\n"\
         "#{keys_block}"\
-        "#{ONE}}\n"\
+        "#{TAB}}\n"\
         "\n"\
         "#{vars_block}"\
-        "#{ONE}public init (#{init_params_block.chomp(', ')}) {\n"\
+        "#{TAB}public init (#{init_params_block.chomp(', ')}) {\n"\
         "#{init_block}"\
-        "#{ONE}}\n"
+        "#{TAB}}\n"
       end
       out << "}\n"
     end
@@ -132,8 +154,8 @@ class Api
   end
 
   def fucking_telegram_any_type?(description)
-    description[/\s+can\s+be\s+one\s+of/] || 
-    description[/\s+may\s+be\s+one\s+of/] || 
+    description[/\s+can\s+be\s+one\s+of/] ||
+    description[/\s+may\s+be\s+one\s+of/] ||
     description[/\s+should\s+be\s+one\s+of/] ||
     description[/scopes\s+are\s+supported:/] ||
     description[/\d+\s+types:\n/] ||
@@ -161,12 +183,12 @@ class Api
         end
         case_name = case_type_name.clone
         case_name[0] = case_name[0].downcase
-        out << "#{ONE}case #{case_name}(#{PREFIX_LIB}#{case_type_name})\n"
+        out << "#{TAB}case #{case_name}(#{PREFIX_LIB}#{case_type_name})\n"
       end
     end
     out << "\n"
-    out << "#{ONE}public init(from decoder: Decoder) throws {\n"
-    out << "#{TWO}let container = try decoder.singleValueContainer()\n#{TWO}"
+    out << "#{TAB}public init(from decoder: Decoder) throws {\n"
+    out << "#{TAB*2}let container = try decoder.singleValueContainer()\n#{TAB*2}"
     start_trigger = false
     else_trigger = false
     description.each_line do |line|
@@ -182,22 +204,22 @@ class Api
         end
         case_name = case_type_name.clone
         case_name[0] = case_name[0].downcase
-        # out << "#{ONE}case #{case_name}(#{PREFIX_LIB}#{case_type_name})\n"
+        # out << "#{TAB}case #{case_name}(#{PREFIX_LIB}#{case_type_name})\n"
         e_l_s_e = else_trigger ? " else " : ""
         else_trigger = true
         out << "#{e_l_s_e}if let value = try? container.decode(#{PREFIX_LIB}#{case_type_name}.self) {\n"
-        out << "#{THREE}self = .#{case_name}(value)\n"
-        out << "#{TWO}}"
+        out << "#{TAB*3}self = .#{case_name}(value)\n"
+        out << "#{TAB*2}}"
       end
     end
     out << " else {\n"
-    out << "#{THREE}throw BotError(\"Failed! Can't decode ANY_TYPE #{type_name}.\")\n"
-    out << "#{TWO}}\n"
-    out << "#{ONE}}\n\n"
-    
-    out << "#{ONE}public func encode(to encoder: Encoder) throws {\n"
-    out << "#{TWO}var container = encoder.singleValueContainer()\n"
-    out << "#{TWO}switch self {\n"
+    out << "#{TAB*3}throw BotError(reason: \"Failed! Can't decode ANY_TYPE #{type_name}.\")\n"
+    out << "#{TAB*2}}\n"
+    out << "#{TAB}}\n\n"
+
+    out << "#{TAB}public func encode(to encoder: Encoder) throws {\n"
+    out << "#{TAB*2}var container = encoder.singleValueContainer()\n"
+    out << "#{TAB*2}switch self {\n"
     start_trigger = false
     description.each_line do |line|
       if fucking_telegram_any_type?(line)
@@ -212,25 +234,26 @@ class Api
         end
         case_name = case_type_name.clone
         case_name[0] = case_name[0].downcase
-        out << "#{TWO}case let .#{case_name}(value):\n"
-        out << "#{THREE}try container.encode(value)\n"
+        out << "#{TAB*2}case let .#{case_name}(value):\n"
+        out << "#{TAB*3}try container.encode(value)\n"
       end
     end
-    out << "#{TWO}}\n"
-    out << "#{ONE}}\n"
+    out << "#{TAB*2}}\n"
+    out << "#{TAB}}\n"
     out << "}\n"
 
     out
   end
 
   def write_method_to_file(node)
-    FileUtils.mkpath "#{API_DIR}/#{METHODS_DIR_NAME}"
+    FileUtils.mkpath "#{api_dir()}/#{METHODS_DIR_NAME}"
 
     current_node = node
     method_name = current_node.text
     methods_signature = ''
-    File.open("#{API_DIR}/#{METHODS_DIR_NAME}/#{method_name.capitalize_first}.swift", "wb") do | out |
-      content, methods_signature = generate_method(node)
+    content, methods_signature = generate_method(node)
+    file_path = "#{api_dir()}/#{METHODS_DIR_NAME}/#{PREFIX_LIB}#{method_name.capitalize_first}Params.swift"
+    File.open("#{api_dir()}/#{METHODS_DIR_NAME}/#{method_name.capitalize_first}.swift", "wb") do | out |
       out.write content
     end
 
@@ -241,9 +264,12 @@ class Api
     current_node = node
     methods_signature = ""
     method_name = current_node.text
-    out = ""
+
+    bot_name = "#{PREFIX_LIB}Bot"
+
+    out = ''
+
     out << METHOD_HEADER
-    out << "import Vapor\n\n"
 
     current_node = current_node.next_element
     description = fetch_description(current_node)
@@ -254,8 +280,8 @@ class Api
 
     codable_params_struct = ""
     codable_params_enum = ""
-    
-    out << "/// DESCRIPTION:\n/// #{description.gsub(/\n/, "\n/// ")}\n\n\n"
+
+    out << "/// DESCRIPTION:\n/// #{description.gsub(/\n/, "\n/// ")}\n\n"
 
     anchor = method_name.downcase
 
@@ -264,10 +290,10 @@ class Api
     all_enums = ""
     init_params_body = ""
     init_params = ""
-    
+
     has_obligatory_params = false
     has_upload_type = false
-    
+
     current_node.search('tr').each do |node|
       td = node.search('td')
       next unless !(td[0].nil? || td[0] == 0) && (td[0].text != 'Parameters')
@@ -276,7 +302,7 @@ class Api
       var_type = td[1].text
       var_optional = td[2].text.strip != 'Yes'
       var_desc = td[3].text
-      
+
       if !has_obligatory_params
         if !var_optional
           has_obligatory_params = true
@@ -284,11 +310,11 @@ class Api
       end
 
       swift_type_name = make_swift_type_name(var_name, var_type)
-      
+
       if swift_type_name == "#{PREFIX_LIB}FileInfo" || swift_type_name == "#{PREFIX_LIB}InputFile"
         has_upload_type = true
       end
-      
+
       all_params << make_request_parameter(method_name, swift_type_name, var_name, var_type, var_optional, var_desc)
       all_enums << make_request_value(method_name, swift_type_name, var_name, var_type, var_optional, var_desc)
       init_params << make_init_params(method_name, swift_type_name, var_name, var_type, var_optional, var_desc)
@@ -319,53 +345,54 @@ class Api
     #Generate description
     method_description = ""
     method_description << "/**\n"
-    
+
     description.each_line do |line|
-        method_description << " #{line.strip}\n"
+      method_description << " #{line.strip}\n"
     end
-    
+
     method_description << "\n"
     method_description << " SeeAlso Telegram Bot API Reference:\n"
     method_description << " [#{method_name_capitalized}](https://core.telegram.org/bots/api\##{anchor})\n"
     method_description << " \n"
     method_description << " - Parameters:\n"
-    method_description << "#{ONE} - params: Parameters container, see `#{method_name_capitalized}` struct\n"
+    method_description << "#{TAB} - params: Parameters container, see `#{method_name_capitalized}` struct\n"
     method_description << " - Throws: Throws on errors\n"
     method_description << " - Returns: `#{result_type}`\n"
-    method_description << " */\n"
-
+    method_description << " **/"
 
     async_method_content = ""
+
     if all_params.empty?
       # generate method
       out << "\n"
-      out << "public extension #{PREFIX_LIB}Bot {\n"
+      out << "public extension #{bot_name}Prtcl {\n"
       out << method_description
 
+
       # async method section
-      async_method_content << "#{ONE}@discardableResult\n"
-      async_method_content << "#{ONE}func #{method_name}() async throws -> #{result_type}"
+      async_method_content << "#{TAB}@discardableResult\n"
+      async_method_content << "#{TAB}func #{method_name}() async throws -> #{result_type}"
 
       methods_signature << "\n\n#{async_method_content.gsub(/ = nil/, '')}"
       async_method_content << " {\n"
     else
       # generate output type
       encodable_type = "Encodable"
-    
+
       # if has_upload_type
       #   encodable_type = "Encodable"
       # end
       out << "/// Parameters container struct for `#{method_name}` method\n"
       out << "public struct #{PREFIX_LIB}#{method_name_capitalized}: #{encodable_type} {\n\n"
       out << "#{all_params}"
-      out << "#{ONE}/// Custom keys for coding/decoding `#{method_name_capitalized}` struct\n"
-      out << "#{ONE}public enum CodingKeys: String, CodingKey {\n"
+      out << "#{TAB}/// Custom keys for coding/decoding `#{method_name_capitalized}` struct\n"
+      out << "#{TAB}public enum CodingKeys: String, CodingKey {\n"
       out << "#{all_enums}"
-      out << "#{ONE}}\n"
+      out << "#{TAB}}\n"
       out << "\n"
-      out << "#{ONE}public init(#{init_params.chomp(', ')}) {\n"
+      out << "#{TAB}public init(#{init_params.chomp(', ')}) {\n"
       out << "#{init_params_body}"
-      out << "#{ONE}}\n"
+      out << "#{TAB}}\n"
       out << "}\n"
       out << "\n"
       if has_obligatory_params
@@ -373,29 +400,27 @@ class Api
       else
         params_block = "(params: #{PREFIX_LIB}#{method_name_capitalized}? = nil)"
       end
-      
-      out << "\n"
-      out << "public extension #{PREFIX_LIB}Bot {\n"
+      out << "public extension #{bot_name}Prtcl {\n"
       out << "\n"
       out << method_description
 
       # async method section
-      async_method_content << "#{ONE}@discardableResult\n"
-      async_method_content << "#{ONE}func #{method_name}#{params_block} async throws -> #{result_type}"
+      async_method_content << "#{TAB}@discardableResult\n"
+      async_method_content << "#{TAB}func #{method_name}#{params_block} async throws -> #{result_type}"
 
       methods_signature << "\n\n#{async_method_content.gsub(/ = nil/, '')}"
       async_method_content << " {\n"
     end
 
-    async_method_content << "#{TWO}let methodURL: URI = .init(string: getMethodURL(\"#{method_name}\"))\n"
+    async_method_content << "#{TAB*2}let methodURL: #{PREFIX_LIB}Client.#{PREFIX_LIB}URI = .init(string: getMethodURL(\"#{method_name}\"))\n"
     if all_params.empty?
-      async_method_content << "#{TWO}let result: #{result_type} = try await tgClient.post(methodURL)\n"
+      async_method_content << "#{TAB*2}let result: #{result_type} = try await tgClient.post(methodURL)\n"
     else
-      async_method_content << "#{TWO}let result: #{result_type} = try await tgClient.post(methodURL, params: params, as: nil)\n"
+      async_method_content << "#{TAB*2}let result: #{result_type} = try await tgClient.post(methodURL, params: params, as: nil)\n"
     end
 
-    async_method_content << "#{TWO}return result\n"
-    async_method_content << "#{ONE}}\n"
+    async_method_content << "#{TAB*2}return result\n"
+    async_method_content << "#{TAB}}\n"
     async_method_content << "}\n"
 
     out << "\n#{async_method_content}"
@@ -405,17 +430,18 @@ class Api
 
   def write_bot_protocol_to_file(signatures)
     protocol = METHOD_HEADER
-    protocol << "import Vapor\n\n"
-    protocol << "public protocol #{PREFIX_LIB}BotPrtcl {\n\n"
-    protocol << "#{ONE}var app: Vapor.Application { get }\n"
-    protocol << "#{ONE}var botId: String { get }\n"
-    protocol << "#{ONE}var tgURI: URI { get }\n"
-    protocol << "#{ONE}var tgClient: TGClientPrtcl { get }\n"
-    protocol << "#{ONE}static var log: Logger { get }\n\n"
-    signatures.each { |signature| protocol << "#{signature}\n\n" }
+    protocol << "import Logging\n\n"
+    protocol << "public protocol #{PREFIX_LIB}BotPrtcl\n"
+    protocol << "where #{PREFIX_LIB}Client.#{PREFIX_LIB}Bot == Self {\n\n"
+    protocol << "#{TAB}associatedtype #{PREFIX_LIB}Client: #{PREFIX_LIB}ClientPrtcl\n\n"
+    protocol << "#{TAB}var botId: String { get }\n"
+    protocol << "#{TAB}var tgClient: #{PREFIX_LIB}Client { get }\n"
+    protocol << "#{TAB}static var log: Logger { get }\n\n"
+    protocol << "#{TAB}func getMethodURL(_ methodName: String) -> String"
+    signatures.each { |signature| protocol << "#{signature}" }
     protocol << "}\n\n"
 
-    File.open("#{LIB_DIR}/Bot/#{PREFIX_LIB}BotPrtcl.swift", "wb") do | out |
+    File.open("#{api_dir()}/#{PREFIX_LIB}BotPrtcl.swift", "wb") do | out |
       out.write protocol
     end
   end
@@ -425,7 +451,7 @@ class Api
     doc = Nokogiri::HTML(html)
 
     doc.css("br").each { |node| node.replace("\n") }
-    
+
     keys_block = []
     vars_block = []
     init_params_block = []
@@ -455,21 +481,21 @@ class Api
           var_type = td[1].text
           var_desc = td[2].text
           var_optional = var_desc.start_with? "Optional"
-          
+
           correct_var_type = convert_type(var_name, var_desc, var_type, type_name, var_optional)
           correct_var_type_init = correct_var_type
           var_name_camel = var_name.camel_case_lower
 
-          keys_block << "#{TWO}case #{var_name_camel} = \"#{var_name}\"\n"
-                
+          keys_block << "#{TAB*2}case #{var_name_camel} = \"#{var_name}\"\n"
+
           var_desc.each_line do |line|
-            vars_block << "#{ONE}/// #{line.strip}\n"
+            vars_block << "#{TAB}/// #{line.strip}\n"
           end
-          
+
           if var_name_camel == 'user' || var_name_camel == 'status'
-            vars_block << "#{ONE}public var #{var_name_camel}: #{correct_var_type}\n\n"
+            vars_block << "#{TAB}public var #{var_name_camel}: #{correct_var_type}\n\n"
           else
-            vars_block << "#{ONE}public var #{var_name_camel}: #{correct_var_type[/\?$/] ? correct_var_type : "#{correct_var_type}?"}\n\n"
+            vars_block << "#{TAB}public var #{var_name_camel}: #{correct_var_type[/\?$/] ? correct_var_type : "#{correct_var_type}?"}\n\n"
           end
 
           if var_name_camel == 'user' || var_name_camel == 'status'
@@ -478,7 +504,7 @@ class Api
             init_params_block << "#{var_name_camel}: #{correct_var_type_init[/\?$/] ? correct_var_type_init : "#{correct_var_type_init}?"}, "
           end
 
-          init_block << "#{TWO}self.#{var_name_camel} = #{var_name_camel}\n"
+          init_block << "#{TAB*2}self.#{var_name_camel} = #{var_name_camel}\n"
         end
       end
     end
@@ -523,8 +549,8 @@ class Api
 
   def generate_enum_type(type_name, custom_type_description, type_description)
     custom_type_name = "#{PREFIX_LIB}#{type_name}Type"
-    FileUtils.mkpath "#{API_DIR}/#{MODELS_DIR_NAME}"
-    File.open("#{API_DIR}/#{MODELS_DIR_NAME}/#{custom_type_name}.swift", "wb") do | out |
+    FileUtils.mkpath "#{api_dir()}/#{MODELS_DIR_NAME}"
+    File.open("#{api_dir()}/#{MODELS_DIR_NAME}/#{custom_type_name}.swift", "wb") do | out |
       out.write TYPE_HEADER
       out.write "/**\n"
       type_description.each_line do |line|
@@ -533,17 +559,17 @@ class Api
       out.write "\n"
       out.write " SeeAlso Telegram Bot API Reference:\n"
       out.write " [#{type_name}](https://core.telegram.org/bots/api\##{type_name.downcase})\n"
-      out.write " */\n\n"
-      
+      out.write " **/\n"
+
       out.write "public enum #{custom_type_name}: String, Codable {\n"
 
       cases = search_cases_for_enum_type_of_variable_with_type_name(custom_type_description)
       reserved_names = [
-        'associatedtype', 'class', 'deinit', 'enum', 'extension', 'fileprivate', 'func', 'import', 'init', 
-        'inout', 'internal', 'let', 'open', 'operator', 'private', 'precedencegroup', 'protocol', 'public', 
-        'rethrows', 'static', 'struct', 'subscript', 'typealias', 'var', 'break', 'case', 'catch', 'continue', 
-        'default', 'defer', 'do', 'else', 'fallthrough', 'for', 'guard', 'if', 'in', 'repeat', 'return', 
-        'throw', 'switch', 'where', 'while', 'any', 'as', 'await', 'catch', 'false', 'is', 'nil', 'rethrows', 
+        'associatedtype', 'class', 'deinit', 'enum', 'extension', 'fileprivate', 'func', 'import', 'init',
+        'inout', 'internal', 'let', 'open', 'operator', 'private', 'precedencegroup', 'protocol', 'public',
+        'rethrows', 'static', 'struct', 'subscript', 'typealias', 'var', 'break', 'case', 'catch', 'continue',
+        'default', 'defer', 'do', 'else', 'fallthrough', 'for', 'guard', 'if', 'in', 'repeat', 'return',
+        'throw', 'switch', 'where', 'while', 'any', 'as', 'await', 'catch', 'false', 'is', 'nil', 'rethrows',
         'self', 'super', 'throw', 'throws', 'true', 'try'
       ]
       cases.each do |case_name|
@@ -552,19 +578,19 @@ class Api
         if reserved_names.include?(case_name)
           case_name = "`#{case_name.camel_case_lower}`"
         end
-        out.write "#{ONE}case #{case_name} = \"#{case_value}\"\n"
+        out.write "#{TAB}case #{case_name} = \"#{case_value}\"\n"
       end
 
-      out.write "#{ONE}case undefined\n"
+      out.write "#{TAB}case undefined\n"
       out.write "\n"
-      out.write "#{ONE}public init(from decoder: Decoder) throws {\n"
-      out.write "#{TWO}let value = try decoder.singleValueContainer().decode(String.self)\n"
-      out.write "#{TWO}guard let type = #{custom_type_name}(rawValue: value) else {\n"
-      out.write "#{THREE}self = .undefined\n"
-      out.write "#{THREE}return\n"
-      out.write "#{TWO}}\n"
-      out.write "#{TWO}self = type\n"
-      out.write "#{ONE}}\n"
+      out.write "#{TAB}public init(from decoder: Decoder) throws {\n"
+      out.write "#{TAB*2}let value = try decoder.singleValueContainer().decode(String.self)\n"
+      out.write "#{TAB*2}guard let type = #{custom_type_name}(rawValue: value) else {\n"
+      out.write "#{TAB*3}self = .undefined\n"
+      out.write "#{TAB*3}return\n"
+      out.write "#{TAB*2}}\n"
+      out.write "#{TAB*2}self = type\n"
+      out.write "#{TAB}}\n"
       out.write "}"
     end
   end
@@ -612,7 +638,7 @@ class Api
         end
       end
     end
-    
+
     case [var_type, var_optional]
     when ['Integer or String', true]
       return "#{PREFIX_LIB}ChatId?" if var_name.include?('chat_id')
@@ -629,8 +655,8 @@ class Api
     when ['InputFile or String', false]
       return "#{PREFIX_LIB}FileInfo"
     when ['Integer', true]
-      is64bit = var_name.include?("user_id") || 
-                var_name.include?("chat_id") || 
+      is64bit = var_name.include?("user_id") ||
+                var_name.include?("chat_id") ||
                 var_desc.include?("64 bit integer") ||
                 (type_name == 'User' && var_name == 'id') ||
                 (type_name == 'Chat' && var_name == 'id')
@@ -653,7 +679,7 @@ class Api
     when ['Boolean', false], ['True', false]
       if var_type == 'True'
         return "Bool = true"
-      else 
+      else
         return "Bool"
       end
     else
@@ -696,14 +722,14 @@ class Api
   def make_request_parameter(request_name, swift_type_name, var_name, var_type, var_optional, var_desc)
     parameters = ""
     var_desc.each_line do |line|
-      parameters << "#{ONE}/// #{line.strip}\n"
+      parameters << "#{TAB}/// #{line.strip}\n"
     end
-    parameters << "#{ONE}public var #{var_name.camel_case_lower}: #{swift_type_name}#{var_optional ? '?' : ''}\n\n"
+    parameters << "#{TAB}public var #{var_name.camel_case_lower}: #{swift_type_name}#{var_optional ? '?' : ''}\n\n"
     return parameters
   end
 
   def make_request_value(request_name, swift_type_name, var_name, var_type, var_optional, var_desc)
-  	return "#{THREE}case #{var_name.camel_case_lower} = \"#{var_name}\"\n"
+  	return "#{TAB*2}case #{var_name.camel_case_lower} = \"#{var_name}\"\n"
   end
 
   def make_init_params(request_name, swift_type_name, var_name, var_type, var_optional, var_desc)
@@ -713,13 +739,13 @@ class Api
 
   def make_init_body(request_name, swift_type_name, var_name, var_type, var_optional, var_desc)
   	var_name_cameled = var_name.camel_case_lower
-  	return "#{THREE}self.#{var_name_cameled} = #{var_name_cameled}\n"
+  	return "#{TAB*3}self.#{var_name_cameled} = #{var_name_cameled}\n"
   end
 
   def deduce_result_type(description)
     type_name = description[/Returns.+as (.+) on/, 1]
     return type_name unless type_name.nil?
-    
+
     type_name = description[/Returns.+(Array of\s+\w+)/, 1]
     (return type_name) unless type_name.nil?
 
@@ -731,16 +757,16 @@ class Api
 
   	type_name = description[/invite link as (.+) on success/, 1]
   	return type_name unless type_name.nil?
-  	
+
   	type_name = description[/(\w+) with the final results is returned/, 1]
   	return type_name unless type_name.nil?
-  	
+
   	type_name = description[/An (.+) objects is returned/, 1]
   	return type_name unless type_name.nil?
 
   	type_name = description[/returns an (.+) objects/, 1]
   	return type_name unless type_name.nil?
-      
+
     type_name = description[/returns a (\w+) object/, 1]
     return type_name unless type_name.nil?
 
@@ -767,7 +793,7 @@ class Api
 
   	type_name = description[/Returns (.+) on/, 1]
   	return type_name unless type_name.nil?
-  	
+
   	type_name = description[/invite link as (.+) on success/, 1]
   	return type_name unless type_name.nil?
 
@@ -780,7 +806,7 @@ class Api
       var_type.sub!(/#{array_prefix}/i, '')
       var_type.strip!
       return "[#{PREFIX_LIB}InputMedia]" if var_type[/InputMedia/]
-      return "[#{make_swift_type_name(var_name, var_type)}]"
+    return "[#{make_swift_type_name(var_name, var_type)}]"
     end
 
     case var_type
@@ -882,13 +908,13 @@ class Api
   def main
   	STDOUT.sync = true
 
-    FileUtils.rm_rf("#{API_DIR}/#{METHODS_DIR_NAME}")
-    FileUtils.rm_rf("#{API_DIR}/#{MODELS_DIR_NAME}")
+    FileUtils.rm_rf("#{api_dir()}/#{METHODS_DIR_NAME}")
+    FileUtils.rm_rf("#{api_dir()}/#{MODELS_DIR_NAME}")
 		html = File.open(HTML_FILE, "rb").read
 		doc = Nokogiri::HTML(html)
 
 		doc.css("br").each { |node| node.replace("\n") }
-		
+
     methods_signatures_for_bot_protocol = []
 		doc.search("h4").each do |node|
 			title = node.text.strip

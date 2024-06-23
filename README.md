@@ -2,7 +2,7 @@
 
 ### Please, support with ⭐️
 
-🤖 The wrapper for the Telegram Bot API written in Swift with Vapor. It's not a framework. There is no special syntax here. This is a library that implements all [Telegram Bot API methods](https://core.telegram.org/bots/api#available-methods), which is available to you to work with Vapor.
+🤖 The wrapper for the Telegram Bot API written in Swift with Vapor. It's not a framework. There is no special syntax here. This is a library based on [TelegramBotKit](https://github.com/photovirus/TelegramBotKit) that implements all [Telegram Bot API methods](https://core.telegram.org/bots/api#available-methods), which is available to you to work with Vapor.
 
 #### Example Telegram Bot based on Swift Telegram Vapor Bot - Here
 [Telegram-bot-example](https://github.com/nerzh/telegram-vapor-bot/tree/master/Telegram-bot-example)
@@ -26,7 +26,7 @@ final class DefaultBotHandlers {
         await commandShowButtonsHandler(app: app, connection: connection)
         await buttonsActionHandler(app: app, connection: connection)
     }
-    
+
     /// Handler for all updates
     private static func defaultBaseHandler(app: Vapor.Application, connection: TGConnectionPrtcl) async {
         await connection.dispatcher.add(TGBaseHandler({ update, bot in
@@ -76,7 +76,7 @@ final class DefaultBotHandlers {
                                                             cacheTime: nil)
             try await bot.answerCallbackQuery(params: params)
         })
-        
+
         await connection.dispatcher.add(TGCallbackQueryHandler(pattern: "press 2") { update, bot in
             let params: TGAnswerCallbackQueryParams = .init(callbackQueryId: update.callbackQuery?.id ?? "0",
                                                             text: update.callbackQuery?.data  ?? "data not exist",
@@ -105,7 +105,7 @@ actor TGBotConnection {
     var connection: TGConnectionPrtcl {
         self._connection
     }
-    
+
     func setConnection(_ conn: TGConnectionPrtcl) {
         self._connection = conn
     }
@@ -188,14 +188,14 @@ import Vapor
 import TelegramVaporBot
 
 final class TelegramController: RouteCollection {
-    
+
     func boot(routes: Vapor.RoutesBuilder) throws {
         routes.post("telegramWebHook", use: telegramWebHook)
     }
 }
 
 extension TelegramController {
-    
+
     func telegramWebHook(_ req: Request) async throws -> Bool {
         let update: TGUpdate = try req.content.decode(TGUpdate.self)
         return try await TGBOT.connection.dispatcher.process([update])
