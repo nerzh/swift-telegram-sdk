@@ -8,6 +8,7 @@
  */
 
 public enum TGInputMediaAnimationType: String, Codable {
+    case animation = "animation"
     case undefined
 
     public init(from decoder: Decoder) throws {

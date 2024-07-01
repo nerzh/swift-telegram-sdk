@@ -9,6 +9,7 @@
  */
 
 public enum TGInlineQueryResultVideoType: String, Codable {
+    case video = "video"
     case undefined
 
     public init(from decoder: Decoder) throws {

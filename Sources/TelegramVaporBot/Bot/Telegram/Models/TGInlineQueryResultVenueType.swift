@@ -8,6 +8,7 @@
  */
 
 public enum TGInlineQueryResultVenueType: String, Codable {
+    case venue = "venue"
     case undefined
 
     public init(from decoder: Decoder) throws {

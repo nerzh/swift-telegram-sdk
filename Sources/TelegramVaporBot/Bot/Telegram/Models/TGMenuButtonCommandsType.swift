@@ -8,6 +8,7 @@
  */
 
 public enum TGMenuButtonCommandsType: String, Codable {
+    case commands = "commands"
     case undefined
 
     public init(from decoder: Decoder) throws {

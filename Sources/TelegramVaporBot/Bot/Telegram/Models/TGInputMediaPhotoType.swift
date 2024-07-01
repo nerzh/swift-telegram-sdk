@@ -8,6 +8,7 @@
  */
 
 public enum TGInputMediaPhotoType: String, Codable {
+    case photo = "photo"
     case undefined
 
     public init(from decoder: Decoder) throws {

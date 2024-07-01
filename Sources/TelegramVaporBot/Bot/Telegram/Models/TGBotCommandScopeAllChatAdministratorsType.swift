@@ -8,6 +8,7 @@
  */
 
 public enum TGBotCommandScopeAllChatAdministratorsType: String, Codable {
+    case allChatAdministrators = "all_chat_administrators"
     case undefined
 
     public init(from decoder: Decoder) throws {

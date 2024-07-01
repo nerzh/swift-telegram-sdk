@@ -536,20 +536,25 @@ class Api
       out.write " */\n\n"
       
       out.write "public enum #{custom_type_name}: String, Codable {\n"
-      descr = custom_type_description
-      regexp = /(“.+?”|".+?")/
-      while descr[regexp] do
-        enum_case = $1
-        enum_case.gsub!(/(“|”|")/, '')
-        descr.sub!(regexp, '')
-        reserved_names = ['private', 'public']
-        case_name = "#{enum_case.camel_case_lower}"
-        if reserved_names.include?(enum_case)
-          case_name = "`#{enum_case.camel_case_lower}`"
+
+      cases = search_cases_for_enum_type_of_variable_with_type_name(custom_type_description)
+      reserved_names = [
+        'associatedtype', 'class', 'deinit', 'enum', 'extension', 'fileprivate', 'func', 'import', 'init', 
+        'inout', 'internal', 'let', 'open', 'operator', 'private', 'precedencegroup', 'protocol', 'public', 
+        'rethrows', 'static', 'struct', 'subscript', 'typealias', 'var', 'break', 'case', 'catch', 'continue', 
+        'default', 'defer', 'do', 'else', 'fallthrough', 'for', 'guard', 'if', 'in', 'repeat', 'return', 
+        'throw', 'switch', 'where', 'while', 'any', 'as', 'await', 'catch', 'false', 'is', 'nil', 'rethrows', 
+        'self', 'super', 'throw', 'throws', 'true', 'try'
+      ]
+      cases.each do |case_name|
+        case_value = case_name.clone
+        case_name = "#{case_name.camel_case_lower}"
+        if reserved_names.include?(case_name)
+          case_name = "`#{case_name.camel_case_lower}`"
         end
-        case_value = enum_case
         out.write "#{ONE}case #{case_name} = \"#{case_value}\"\n"
       end
+
       out.write "#{ONE}case undefined\n"
       out.write "\n"
       out.write "#{ONE}public init(from decoder: Decoder) throws {\n"
@@ -584,6 +589,7 @@ class Api
   private def search_cases_for_enum_type_of_variable_with_type_name(var_description)
     var_desc = var_description.clone
     result_types = []
+    # p var_desc
     if var_desc[/must be\s+(.+)/]
       case_name = $1
       result_types << case_name
