@@ -3,11 +3,14 @@
 import Vapor
 
 /// DESCRIPTION:
-/// Use this method to edit captions of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
+/// Use this method to edit captions of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
 
 
 /// Parameters container struct for `editMessageCaption` method
 public struct TGEditMessageCaptionParams: Encodable {
+
+    /// Unique identifier of the business connection on behalf of which the message to be edited was sent
+    public var businessConnectionId: String?
 
     /// Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     public var chatId: TGChatId?
@@ -35,6 +38,7 @@ public struct TGEditMessageCaptionParams: Encodable {
 
     /// Custom keys for coding/decoding `EditMessageCaptionParams` struct
     public enum CodingKeys: String, CodingKey {
+            case businessConnectionId = "business_connection_id"
             case chatId = "chat_id"
             case messageId = "message_id"
             case inlineMessageId = "inline_message_id"
@@ -45,7 +49,8 @@ public struct TGEditMessageCaptionParams: Encodable {
             case replyMarkup = "reply_markup"
     }
 
-    public init(chatId: TGChatId? = nil, messageId: Int? = nil, inlineMessageId: String? = nil, caption: String? = nil, parseMode: TGParseMode? = nil, captionEntities: [TGMessageEntity]? = nil, showCaptionAboveMedia: Bool? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil) {
+    public init(businessConnectionId: String? = nil, chatId: TGChatId? = nil, messageId: Int? = nil, inlineMessageId: String? = nil, caption: String? = nil, parseMode: TGParseMode? = nil, captionEntities: [TGMessageEntity]? = nil, showCaptionAboveMedia: Bool? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil) {
+            self.businessConnectionId = businessConnectionId
             self.chatId = chatId
             self.messageId = messageId
             self.inlineMessageId = inlineMessageId
@@ -61,7 +66,7 @@ public struct TGEditMessageCaptionParams: Encodable {
 public extension TGBot {
 
 /**
- Use this method to edit captions of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
+ Use this method to edit captions of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
 
  SeeAlso Telegram Bot API Reference:
  [EditMessageCaptionParams](https://core.telegram.org/bots/api#editmessagecaption)

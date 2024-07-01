@@ -24,10 +24,10 @@ public final class TGVideoNote: Codable {
     /// Unique identifier for this file, which is supposed to be the same over time and for different bots. Can't be used to download or reuse the file.
     public var fileUniqueId: String
 
-    /// Video width and height (diameter of the video message) as defined by sender
+    /// Video width and height (diameter of the video message) as defined by the sender
     public var length: Int
 
-    /// Duration of the video in seconds as defined by sender
+    /// Duration of the video in seconds as defined by the sender
     public var duration: Int
 
     /// Optional. Video thumbnail

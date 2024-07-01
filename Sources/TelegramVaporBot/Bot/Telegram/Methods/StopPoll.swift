@@ -9,6 +9,9 @@ import Vapor
 /// Parameters container struct for `stopPoll` method
 public struct TGStopPollParams: Encodable {
 
+    /// Unique identifier of the business connection on behalf of which the message to be edited was sent
+    public var businessConnectionId: String?
+
     /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     public var chatId: TGChatId
 
@@ -20,12 +23,14 @@ public struct TGStopPollParams: Encodable {
 
     /// Custom keys for coding/decoding `StopPollParams` struct
     public enum CodingKeys: String, CodingKey {
+            case businessConnectionId = "business_connection_id"
             case chatId = "chat_id"
             case messageId = "message_id"
             case replyMarkup = "reply_markup"
     }
 
-    public init(chatId: TGChatId, messageId: Int, replyMarkup: TGInlineKeyboardMarkup? = nil) {
+    public init(businessConnectionId: String? = nil, chatId: TGChatId, messageId: Int, replyMarkup: TGInlineKeyboardMarkup? = nil) {
+            self.businessConnectionId = businessConnectionId
             self.chatId = chatId
             self.messageId = messageId
             self.replyMarkup = replyMarkup

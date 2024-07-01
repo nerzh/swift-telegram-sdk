@@ -28,7 +28,7 @@ public final class TGInlineKeyboardButton: Codable {
     /// Optional. HTTP or tg:// URL to be opened when the button is pressed. Links tg://user?id=<user_id> can be used to mention a user by their identifier without using a username, if this is allowed by their privacy settings.
     public var url: String?
 
-    /// Optional. Data to be sent in a callback query to the bot when button is pressed, 1-64 bytes. Not supported for messages sent on behalf of a Telegram Business account.
+    /// Optional. Data to be sent in a callback query to the bot when the button is pressed, 1-64 bytes
     public var callbackData: String?
 
     /// Optional. Description of the Web App that will be launched when the user presses the button. The Web App will be able to send an arbitrary message on behalf of the user using the method answerWebAppQuery. Available only in private chats between a user and the bot. Not supported for messages sent on behalf of a Telegram Business account.

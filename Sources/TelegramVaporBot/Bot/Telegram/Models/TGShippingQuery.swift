@@ -22,7 +22,7 @@ public final class TGShippingQuery: Codable {
     /// User who sent the query
     public var from: TGUser
 
-    /// Bot specified invoice payload
+    /// Bot-specified invoice payload
     public var invoicePayload: String
 
     /// User specified shipping address

@@ -9,6 +9,9 @@ import Vapor
 /// Parameters container struct for `editMessageLiveLocation` method
 public struct TGEditMessageLiveLocationParams: Encodable {
 
+    /// Unique identifier of the business connection on behalf of which the message to be edited was sent
+    public var businessConnectionId: String?
+
     /// Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     public var chatId: TGChatId?
 
@@ -41,6 +44,7 @@ public struct TGEditMessageLiveLocationParams: Encodable {
 
     /// Custom keys for coding/decoding `EditMessageLiveLocationParams` struct
     public enum CodingKeys: String, CodingKey {
+            case businessConnectionId = "business_connection_id"
             case chatId = "chat_id"
             case messageId = "message_id"
             case inlineMessageId = "inline_message_id"
@@ -53,7 +57,8 @@ public struct TGEditMessageLiveLocationParams: Encodable {
             case replyMarkup = "reply_markup"
     }
 
-    public init(chatId: TGChatId? = nil, messageId: Int? = nil, inlineMessageId: String? = nil, latitude: Float, longitude: Float, livePeriod: Int? = nil, horizontalAccuracy: Float? = nil, heading: Int? = nil, proximityAlertRadius: Int? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil) {
+    public init(businessConnectionId: String? = nil, chatId: TGChatId? = nil, messageId: Int? = nil, inlineMessageId: String? = nil, latitude: Float, longitude: Float, livePeriod: Int? = nil, horizontalAccuracy: Float? = nil, heading: Int? = nil, proximityAlertRadius: Int? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil) {
+            self.businessConnectionId = businessConnectionId
             self.chatId = chatId
             self.messageId = messageId
             self.inlineMessageId = inlineMessageId

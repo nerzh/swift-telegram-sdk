@@ -9,6 +9,9 @@ import Vapor
 /// Parameters container struct for `stopMessageLiveLocation` method
 public struct TGStopMessageLiveLocationParams: Encodable {
 
+    /// Unique identifier of the business connection on behalf of which the message to be edited was sent
+    public var businessConnectionId: String?
+
     /// Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     public var chatId: TGChatId?
 
@@ -23,13 +26,15 @@ public struct TGStopMessageLiveLocationParams: Encodable {
 
     /// Custom keys for coding/decoding `StopMessageLiveLocationParams` struct
     public enum CodingKeys: String, CodingKey {
+            case businessConnectionId = "business_connection_id"
             case chatId = "chat_id"
             case messageId = "message_id"
             case inlineMessageId = "inline_message_id"
             case replyMarkup = "reply_markup"
     }
 
-    public init(chatId: TGChatId? = nil, messageId: Int? = nil, inlineMessageId: String? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil) {
+    public init(businessConnectionId: String? = nil, chatId: TGChatId? = nil, messageId: Int? = nil, inlineMessageId: String? = nil, replyMarkup: TGInlineKeyboardMarkup? = nil) {
+            self.businessConnectionId = businessConnectionId
             self.chatId = chatId
             self.messageId = messageId
             self.inlineMessageId = inlineMessageId

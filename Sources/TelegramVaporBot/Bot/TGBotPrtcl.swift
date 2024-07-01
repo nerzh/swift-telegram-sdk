@@ -108,6 +108,11 @@ public protocol TGBotPrtcl {
 
 
     @discardableResult
+    func sendPaidMedia(params: TGSendPaidMediaParams) async throws -> TGMessage
+
+
+
+    @discardableResult
     func sendMediaGroup(params: TGSendMediaGroupParams) async throws -> [TGMessage]
 
 
@@ -594,6 +599,11 @@ public protocol TGBotPrtcl {
 
     @discardableResult
     func answerPreCheckoutQuery(params: TGAnswerPreCheckoutQueryParams) async throws -> Bool
+
+
+
+    @discardableResult
+    func getStarTransactions(params: TGGetStarTransactionsParams?) async throws -> TGStarTransactions
 
 
 

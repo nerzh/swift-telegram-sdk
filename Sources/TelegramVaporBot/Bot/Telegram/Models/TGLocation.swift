@@ -18,10 +18,10 @@ public final class TGLocation: Codable {
         case proximityAlertRadius = "proximity_alert_radius"
     }
 
-    /// Latitude as defined by sender
+    /// Latitude as defined by the sender
     public var latitude: Float
 
-    /// Longitude as defined by sender
+    /// Longitude as defined by the sender
     public var longitude: Float
 
     /// Optional. The radius of uncertainty for the location, measured in meters; 0-1500

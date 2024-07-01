@@ -41,6 +41,7 @@ public final class TGChatFullInfo: Codable {
         case inviteLink = "invite_link"
         case pinnedMessage = "pinned_message"
         case permissions = "permissions"
+        case canSendPaidMedia = "can_send_paid_media"
         case slowModeDelay = "slow_mode_delay"
         case unrestrictBoostCount = "unrestrict_boost_count"
         case messageAutoDeleteTime = "message_auto_delete_time"
@@ -148,6 +149,9 @@ public final class TGChatFullInfo: Codable {
     /// Optional. Default chat member permissions, for groups and supergroups
     public var permissions: TGChatPermissions?
 
+    /// Optional. True, if paid media messages can be sent or forwarded to the channel chat. The field is available only for channel chats.
+    public var canSendPaidMedia: Bool?
+
     /// Optional. For supergroups, the minimum allowed delay between consecutive messages sent by each unprivileged user; in seconds
     public var slowModeDelay: Int?
 
@@ -184,7 +188,7 @@ public final class TGChatFullInfo: Codable {
     /// Optional. For supergroups, the location to which the supergroup is connected
     public var location: TGChatLocation?
 
-    public init (id: Int, type: TGChatFullInfoType, title: String? = nil, username: String? = nil, firstName: String? = nil, lastName: String? = nil, isForum: Bool? = nil, accentColorId: Int, maxReactionCount: Int, photo: TGChatPhoto? = nil, activeUsernames: [String]? = nil, birthdate: TGBirthdate? = nil, businessIntro: TGBusinessIntro? = nil, businessLocation: TGBusinessLocation? = nil, businessOpeningHours: TGBusinessOpeningHours? = nil, personalChat: TGChat? = nil, availableReactions: [TGReactionType]? = nil, backgroundCustomEmojiId: String? = nil, profileAccentColorId: Int? = nil, profileBackgroundCustomEmojiId: String? = nil, emojiStatusCustomEmojiId: String? = nil, emojiStatusExpirationDate: Int? = nil, bio: String? = nil, hasPrivateForwards: Bool? = nil, hasRestrictedVoiceAndVideoMessages: Bool? = nil, joinToSendMessages: Bool? = nil, joinByRequest: Bool? = nil, description: String? = nil, inviteLink: String? = nil, pinnedMessage: TGMessage? = nil, permissions: TGChatPermissions? = nil, slowModeDelay: Int? = nil, unrestrictBoostCount: Int? = nil, messageAutoDeleteTime: Int? = nil, hasAggressiveAntiSpamEnabled: Bool? = nil, hasHiddenMembers: Bool? = nil, hasProtectedContent: Bool? = nil, hasVisibleHistory: Bool? = nil, stickerSetName: String? = nil, canSetStickerSet: Bool? = nil, customEmojiStickerSetName: String? = nil, linkedChatId: Int64? = nil, location: TGChatLocation? = nil) {
+    public init (id: Int, type: TGChatFullInfoType, title: String? = nil, username: String? = nil, firstName: String? = nil, lastName: String? = nil, isForum: Bool? = nil, accentColorId: Int, maxReactionCount: Int, photo: TGChatPhoto? = nil, activeUsernames: [String]? = nil, birthdate: TGBirthdate? = nil, businessIntro: TGBusinessIntro? = nil, businessLocation: TGBusinessLocation? = nil, businessOpeningHours: TGBusinessOpeningHours? = nil, personalChat: TGChat? = nil, availableReactions: [TGReactionType]? = nil, backgroundCustomEmojiId: String? = nil, profileAccentColorId: Int? = nil, profileBackgroundCustomEmojiId: String? = nil, emojiStatusCustomEmojiId: String? = nil, emojiStatusExpirationDate: Int? = nil, bio: String? = nil, hasPrivateForwards: Bool? = nil, hasRestrictedVoiceAndVideoMessages: Bool? = nil, joinToSendMessages: Bool? = nil, joinByRequest: Bool? = nil, description: String? = nil, inviteLink: String? = nil, pinnedMessage: TGMessage? = nil, permissions: TGChatPermissions? = nil, canSendPaidMedia: Bool? = nil, slowModeDelay: Int? = nil, unrestrictBoostCount: Int? = nil, messageAutoDeleteTime: Int? = nil, hasAggressiveAntiSpamEnabled: Bool? = nil, hasHiddenMembers: Bool? = nil, hasProtectedContent: Bool? = nil, hasVisibleHistory: Bool? = nil, stickerSetName: String? = nil, canSetStickerSet: Bool? = nil, customEmojiStickerSetName: String? = nil, linkedChatId: Int64? = nil, location: TGChatLocation? = nil) {
         self.id = id
         self.type = type
         self.title = title
@@ -216,6 +220,7 @@ public final class TGChatFullInfo: Codable {
         self.inviteLink = inviteLink
         self.pinnedMessage = pinnedMessage
         self.permissions = permissions
+        self.canSendPaidMedia = canSendPaidMedia
         self.slowModeDelay = slowModeDelay
         self.unrestrictBoostCount = unrestrictBoostCount
         self.messageAutoDeleteTime = messageAutoDeleteTime

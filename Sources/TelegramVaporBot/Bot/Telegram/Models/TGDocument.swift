@@ -24,13 +24,13 @@ public final class TGDocument: Codable {
     /// Unique identifier for this file, which is supposed to be the same over time and for different bots. Can't be used to download or reuse the file.
     public var fileUniqueId: String
 
-    /// Optional. Document thumbnail as defined by sender
+    /// Optional. Document thumbnail as defined by the sender
     public var thumbnail: TGPhotoSize?
 
-    /// Optional. Original filename as defined by sender
+    /// Optional. Original filename as defined by the sender
     public var fileName: String?
 
-    /// Optional. MIME type of the file as defined by sender
+    /// Optional. MIME type of the file as defined by the sender
     public var mimeType: String?
 
     /// Optional. File size in bytes. It can be bigger than 2^31 and some programming languages may have difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for storing this value.
