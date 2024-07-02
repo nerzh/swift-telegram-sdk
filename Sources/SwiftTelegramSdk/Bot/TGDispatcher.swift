@@ -17,7 +17,7 @@ public protocol TGDispatcherPrtcl {
     func process(_ updates: [TGUpdate])
 }
 
-public class TGDefaultDispatcher: TGDispatcherPrtcl {
+open class TGDefaultDispatcher: TGDispatcherPrtcl {
     public var handlersGroup: [[TGHandlerPrtcl]] = []
     private var beforeAllCallback: ([TGUpdate]) async throws -> Bool = { _ in true }
     private var handlersId: Int = 0
