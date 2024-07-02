@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Informs a user that some of the Telegram Passport elements they provided contains errors. The user will not be able to re-submit their Passport to you until the errors are fixed (the contents of the field for which you returned the error must change). Returns True on success.
@@ -46,7 +46,9 @@ public extension TGBot {
 
     @discardableResult
     func setPassportDataErrors(params: TGSetPassportDataErrorsParams) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("setPassportDataErrors"))
+        guard let methodURL: URL = .init(string: getMethodURL("setPassportDataErrors")) else {
+            throw BotError("Bad URL: \(getMethodURL("setPassportDataErrors"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

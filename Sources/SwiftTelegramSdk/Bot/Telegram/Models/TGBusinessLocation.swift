@@ -1,4 +1,4 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
 /**
  Contains information about the location of a Telegram Business account.

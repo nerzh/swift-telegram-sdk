@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to get information about the connection of the bot with a business account. Returns a BusinessConnection object on success.
@@ -39,7 +39,9 @@ public extension TGBot {
 
     @discardableResult
     func getBusinessConnection(params: TGGetBusinessConnectionParams) async throws -> TGBusinessConnection {
-        let methodURL: URI = .init(string: getMethodURL("getBusinessConnection"))
+        guard let methodURL: URL = .init(string: getMethodURL("getBusinessConnection")) else {
+            throw BotError("Bad URL: \(getMethodURL("getBusinessConnection"))")
+        }
         let result: TGBusinessConnection = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

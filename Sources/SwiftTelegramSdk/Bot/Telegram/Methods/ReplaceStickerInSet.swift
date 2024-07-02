@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to replace an existing sticker in a sticker set with a new one. The method is equivalent to calling deleteStickerFromSet, then addStickerToSet, then setStickerPositionInSet. Returns True on success.
@@ -54,7 +54,9 @@ public extension TGBot {
 
     @discardableResult
     func replaceStickerInSet(params: TGReplaceStickerInSetParams) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("replaceStickerInSet"))
+        guard let methodURL: URL = .init(string: getMethodURL("replaceStickerInSet")) else {
+            throw BotError("Bad URL: \(getMethodURL("replaceStickerInSet"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

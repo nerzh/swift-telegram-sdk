@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method when you need to tell the user that something is happening on the bot's side. The status is set for 5 seconds or less (when a message arrives from your bot, Telegram clients clear its typing status). Returns True on success.
@@ -58,7 +58,9 @@ public extension TGBot {
 
     @discardableResult
     func sendChatAction(params: TGSendChatActionParams) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("sendChatAction"))
+        guard let methodURL: URL = .init(string: getMethodURL("sendChatAction")) else {
+            throw BotError("Bad URL: \(getMethodURL("sendChatAction"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

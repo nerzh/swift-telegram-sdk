@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to change the title of a chat. Titles can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns True on success.
@@ -44,7 +44,9 @@ public extension TGBot {
 
     @discardableResult
     func setChatTitle(params: TGSetChatTitleParams) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("setChatTitle"))
+        guard let methodURL: URL = .init(string: getMethodURL("setChatTitle")) else {
+            throw BotError("Bad URL: \(getMethodURL("setChatTitle"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

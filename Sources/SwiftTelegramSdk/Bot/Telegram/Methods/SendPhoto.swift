@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to send photos. On success, the sent Message is returned.
@@ -104,7 +104,9 @@ public extension TGBot {
 
     @discardableResult
     func sendPhoto(params: TGSendPhotoParams) async throws -> TGMessage {
-        let methodURL: URI = .init(string: getMethodURL("sendPhoto"))
+        guard let methodURL: URL = .init(string: getMethodURL("sendPhoto")) else {
+            throw BotError("Bad URL: \(getMethodURL("sendPhoto"))")
+        }
         let result: TGMessage = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

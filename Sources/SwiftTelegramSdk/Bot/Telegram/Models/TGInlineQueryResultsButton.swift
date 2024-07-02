@@ -1,4 +1,4 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
 /**
  This object represents a button to be shown above inline query results. You must use exactly one of the optional fields.

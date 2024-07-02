@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// If you sent an invoice requesting a shipping address and the parameter is_flexible was specified, the Bot API will send an Update with a shipping_query field to the bot. Use this method to reply to shipping queries. On success, True is returned.
@@ -54,7 +54,9 @@ public extension TGBot {
 
     @discardableResult
     func answerShippingQuery(params: TGAnswerShippingQueryParams) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("answerShippingQuery"))
+        guard let methodURL: URL = .init(string: getMethodURL("answerShippingQuery")) else {
+            throw BotError("Bad URL: \(getMethodURL("answerShippingQuery"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

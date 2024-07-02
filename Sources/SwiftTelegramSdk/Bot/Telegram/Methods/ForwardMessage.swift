@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to forward messages of any kind. Service messages and messages with protected content can't be forwarded. On success, the sent Message is returned.
@@ -64,7 +64,9 @@ public extension TGBot {
 
     @discardableResult
     func forwardMessage(params: TGForwardMessageParams) async throws -> TGMessage {
-        let methodURL: URI = .init(string: getMethodURL("forwardMessage"))
+        guard let methodURL: URL = .init(string: getMethodURL("forwardMessage")) else {
+            throw BotError("Bad URL: \(getMethodURL("forwardMessage"))")
+        }
         let result: TGMessage = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

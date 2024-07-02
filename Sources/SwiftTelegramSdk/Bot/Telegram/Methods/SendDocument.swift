@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to send general files. On success, the sent Message is returned. Bots can currently send files of any type of up to 50 MB in size, this limit may be changed in the future.
@@ -104,7 +104,9 @@ public extension TGBot {
 
     @discardableResult
     func sendDocument(params: TGSendDocumentParams) async throws -> TGMessage {
-        let methodURL: URI = .init(string: getMethodURL("sendDocument"))
+        guard let methodURL: URL = .init(string: getMethodURL("sendDocument")) else {
+            throw BotError("Bad URL: \(getMethodURL("sendDocument"))")
+        }
         let result: TGMessage = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

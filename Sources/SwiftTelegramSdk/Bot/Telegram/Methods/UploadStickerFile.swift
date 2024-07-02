@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to upload a file with a sticker for later use in the createNewStickerSet, addStickerToSet, or replaceStickerInSet methods (the file can be used multiple times). Returns the uploaded File on success.
@@ -49,7 +49,9 @@ public extension TGBot {
 
     @discardableResult
     func uploadStickerFile(params: TGUploadStickerFileParams) async throws -> TGFile {
-        let methodURL: URI = .init(string: getMethodURL("uploadStickerFile"))
+        guard let methodURL: URL = .init(string: getMethodURL("uploadStickerFile")) else {
+            throw BotError("Bad URL: \(getMethodURL("uploadStickerFile"))")
+        }
         let result: TGFile = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

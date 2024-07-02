@@ -1,4 +1,4 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
 /**
  Represents a chat member that isn't currently a member of the chat, but may join it themselves.

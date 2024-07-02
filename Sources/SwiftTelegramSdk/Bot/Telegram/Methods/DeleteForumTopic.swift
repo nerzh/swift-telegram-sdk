@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to delete a forum topic along with all its messages in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_delete_messages administrator rights. Returns True on success.
@@ -44,7 +44,9 @@ public extension TGBot {
 
     @discardableResult
     func deleteForumTopic(params: TGDeleteForumTopicParams) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("deleteForumTopic"))
+        guard let methodURL: URL = .init(string: getMethodURL("deleteForumTopic")) else {
+            throw BotError("Bad URL: \(getMethodURL("deleteForumTopic"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

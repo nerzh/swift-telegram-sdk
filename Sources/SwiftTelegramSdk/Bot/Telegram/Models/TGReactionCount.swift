@@ -1,4 +1,4 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
 /**
  Represents a reaction added to a message along with the number of times it was added.

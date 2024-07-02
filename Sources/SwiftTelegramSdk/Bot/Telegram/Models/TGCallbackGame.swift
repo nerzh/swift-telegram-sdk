@@ -1,4 +1,4 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
 /**
  A placeholder, currently holds no information. Use BotFather to set up your game.

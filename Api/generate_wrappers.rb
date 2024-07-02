@@ -240,6 +240,7 @@ class Api
     method_name = current_node.text
     out = ""
     out << METHOD_HEADER
+    out << "import Foundation\n\n"
 
     current_node = current_node.next_element
     description = fetch_description(current_node)
@@ -383,7 +384,9 @@ class Api
       async_method_content << " {\n"
     end
 
-    async_method_content << "#{TWO}let methodURL: URI = .init(string: getMethodURL(\"#{method_name}\"))\n"
+    async_method_content << "#{TWO}guard let methodURL: URL = .init(string: getMethodURL(\"#{method_name}\")) else {\n"
+    async_method_content << "#{THREE}throw BotError(\"Bad URL: \\(getMethodURL(\"#{method_name}\"))\")\n"
+    async_method_content << "#{TWO}}\n"
     if all_params.empty?
       async_method_content << "#{TWO}let result: #{result_type} = try await tgClient.post(methodURL)\n"
     else
@@ -401,12 +404,13 @@ class Api
 
   def write_bot_protocol_to_file(signatures)
     protocol = METHOD_HEADER
+    protocol << "import Foundation\n"
     protocol << "import Logging\n\n"
     protocol << "public protocol #{PREFIX_LIB}BotPrtcl {\n\n"
     protocol << "#{ONE}var connectionType: TGConnectionType { get }\n"
     protocol << "#{ONE}var dispatcher: TGDispatcherPrtcl { get }\n"
     protocol << "#{ONE}var botId: String { get }\n"
-    protocol << "#{ONE}var tgURI: URI { get }\n"
+    protocol << "#{ONE}var tgURI: URL { get }\n"
     protocol << "#{ONE}var tgClient: TGClientPrtcl { get }\n"
     protocol << "#{ONE}static var log: Logger { get }\n\n"
     protocol << "#{ONE}@discardableResult\n"

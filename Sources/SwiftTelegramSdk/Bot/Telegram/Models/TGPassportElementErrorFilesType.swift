@@ -1,4 +1,4 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
 /**
  Represents an issue with a list of scans. The error is considered resolved when the list of files containing the scans changes.

@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to send answers to callback queries sent from inline keyboards. The answer will be displayed to the user as a notification at the top of the chat screen or as an alert. On success, True is returned.
@@ -63,7 +63,9 @@ public extension TGBot {
 
     @discardableResult
     func answerCallbackQuery(params: TGAnswerCallbackQueryParams) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("answerCallbackQuery"))
+        guard let methodURL: URL = .init(string: getMethodURL("answerCallbackQuery")) else {
+            throw BotError("Bad URL: \(getMethodURL("answerCallbackQuery"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

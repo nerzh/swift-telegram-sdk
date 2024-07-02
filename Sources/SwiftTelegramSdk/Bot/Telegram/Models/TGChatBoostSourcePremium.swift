@@ -1,4 +1,4 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
 /**
  The boost was obtained by subscribing to Telegram Premium or by gifting a Telegram Premium subscription to another user.

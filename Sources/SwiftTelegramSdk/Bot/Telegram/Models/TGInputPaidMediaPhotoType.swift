@@ -1,4 +1,4 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
 /**
  The paid media to send is a photo.
@@ -8,6 +8,7 @@
  */
 
 public enum TGInputPaidMediaPhotoType: String, Codable {
+    case photo = "photo"
     case undefined
 
     public init(from decoder: Decoder) throws {

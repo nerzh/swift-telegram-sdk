@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to get the current value of the bot's menu button in a private chat, or the default menu button. Returns MenuButton on success.
@@ -39,7 +39,9 @@ public extension TGBot {
 
     @discardableResult
     func getChatMenuButton(params: TGGetChatMenuButtonParams? = nil) async throws -> TGMenuButton {
-        let methodURL: URI = .init(string: getMethodURL("getChatMenuButton"))
+        guard let methodURL: URL = .init(string: getMethodURL("getChatMenuButton")) else {
+            throw BotError("Bad URL: \(getMethodURL("getChatMenuButton"))")
+        }
         let result: TGMenuButton = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to set the thumbnail of a regular or mask sticker set. The format of the thumbnail file must match the format of the stickers in the set. Returns True on success.
@@ -54,7 +54,9 @@ public extension TGBot {
 
     @discardableResult
     func setStickerSetThumbnail(params: TGSetStickerSetThumbnailParams) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("setStickerSetThumbnail"))
+        guard let methodURL: URL = .init(string: getMethodURL("setStickerSetThumbnail")) else {
+            throw BotError("Bad URL: \(getMethodURL("setStickerSetThumbnail"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

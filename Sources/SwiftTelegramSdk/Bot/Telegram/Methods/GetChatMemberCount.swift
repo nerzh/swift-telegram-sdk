@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to get the number of members in a chat. Returns Int on success.
@@ -39,7 +39,9 @@ public extension TGBot {
 
     @discardableResult
     func getChatMemberCount(params: TGGetChatMemberCountParams) async throws -> Int {
-        let methodURL: URI = .init(string: getMethodURL("getChatMemberCount"))
+        guard let methodURL: URL = .init(string: getMethodURL("getChatMemberCount")) else {
+            throw BotError("Bad URL: \(getMethodURL("getChatMemberCount"))")
+        }
         let result: Int = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

@@ -1,4 +1,4 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
 /**
  This object represents an inline button that switches the current user to inline mode in a chosen chat, with an optional default inline query.

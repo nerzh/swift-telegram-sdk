@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// As of v.4.0, Telegram clients support rounded square MPEG4 videos of up to 1 minute long. Use this method to send video messages. On success, the sent Message is returned.
@@ -94,7 +94,9 @@ public extension TGBot {
 
     @discardableResult
     func sendVideoNote(params: TGSendVideoNoteParams) async throws -> TGMessage {
-        let methodURL: URI = .init(string: getMethodURL("sendVideoNote"))
+        guard let methodURL: URL = .init(string: getMethodURL("sendVideoNote")) else {
+            throw BotError("Bad URL: \(getMethodURL("sendVideoNote"))")
+        }
         let result: TGMessage = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

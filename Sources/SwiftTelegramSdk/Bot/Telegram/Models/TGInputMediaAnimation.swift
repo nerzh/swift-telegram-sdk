@@ -1,4 +1,4 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
 /**
  Represents an animation file (GIF or H.264/MPEG-4 AVC video without sound) to be sent.

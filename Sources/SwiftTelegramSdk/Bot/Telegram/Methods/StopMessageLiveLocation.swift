@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to stop updating a live location message before live_period expires. On success, if the message is not an inline message, the edited Message is returned, otherwise True is returned.
@@ -59,7 +59,9 @@ public extension TGBot {
 
     @discardableResult
     func stopMessageLiveLocation(params: TGStopMessageLiveLocationParams? = nil) async throws -> TGMessageOrBool {
-        let methodURL: URI = .init(string: getMethodURL("stopMessageLiveLocation"))
+        guard let methodURL: URL = .init(string: getMethodURL("stopMessageLiveLocation")) else {
+            throw BotError("Bad URL: \(getMethodURL("stopMessageLiveLocation"))")
+        }
         let result: TGMessageOrBool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

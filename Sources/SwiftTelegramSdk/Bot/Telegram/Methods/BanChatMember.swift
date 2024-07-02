@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to ban a user in a group, a supergroup or a channel. In the case of supergroups and channels, the user will not be able to return to the chat on their own using invite links, etc., unless unbanned first. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns True on success.
@@ -54,7 +54,9 @@ public extension TGBot {
 
     @discardableResult
     func banChatMember(params: TGBanChatMemberParams) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("banChatMember"))
+        guard let methodURL: URL = .init(string: getMethodURL("banChatMember")) else {
+            throw BotError("Bad URL: \(getMethodURL("banChatMember"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

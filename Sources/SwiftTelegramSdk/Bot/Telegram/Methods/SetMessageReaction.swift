@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to change the chosen reactions on a message. Service messages can't be reacted to. Automatically forwarded messages from a channel to its discussion group have the same available reactions as messages in the channel. Returns True on success.
@@ -54,7 +54,9 @@ public extension TGBot {
 
     @discardableResult
     func setMessageReaction(params: TGSetMessageReactionParams) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("setMessageReaction"))
+        guard let methodURL: URL = .init(string: getMethodURL("setMessageReaction")) else {
+            throw BotError("Bad URL: \(getMethodURL("setMessageReaction"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

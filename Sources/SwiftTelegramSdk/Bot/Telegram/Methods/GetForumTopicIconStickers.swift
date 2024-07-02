@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to get custom emoji stickers, which can be used as a forum topic icon by any user. Requires no parameters. Returns an Array of Sticker objects.
@@ -22,7 +22,9 @@ public extension TGBot {
 
     @discardableResult
     func getForumTopicIconStickers() async throws -> [TGSticker] {
-        let methodURL: URI = .init(string: getMethodURL("getForumTopicIconStickers"))
+        guard let methodURL: URL = .init(string: getMethodURL("getForumTopicIconStickers")) else {
+            throw BotError("Bad URL: \(getMethodURL("getForumTopicIconStickers"))")
+        }
         let result: [TGSticker] = try await tgClient.post(methodURL)
         return result
     }

@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to get the current default administrator rights of the bot. Returns ChatAdministratorRights on success.
@@ -39,7 +39,9 @@ public extension TGBot {
 
     @discardableResult
     func getMyDefaultAdministratorRights(params: TGGetMyDefaultAdministratorRightsParams? = nil) async throws -> TGChatAdministratorRights {
-        let methodURL: URI = .init(string: getMethodURL("getMyDefaultAdministratorRights"))
+        guard let methodURL: URL = .init(string: getMethodURL("getMyDefaultAdministratorRights")) else {
+            throw BotError("Bad URL: \(getMethodURL("getMyDefaultAdministratorRights"))")
+        }
         let result: TGChatAdministratorRights = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

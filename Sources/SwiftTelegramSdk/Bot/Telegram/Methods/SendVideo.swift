@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to send video files, Telegram clients support MPEG4 videos (other formats may be sent as Document). On success, the sent Message is returned. Bots can currently send video files of up to 50 MB in size, this limit may be changed in the future.
@@ -129,7 +129,9 @@ public extension TGBot {
 
     @discardableResult
     func sendVideo(params: TGSendVideoParams) async throws -> TGMessage {
-        let methodURL: URI = .init(string: getMethodURL("sendVideo"))
+        guard let methodURL: URL = .init(string: getMethodURL("sendVideo")) else {
+            throw BotError("Bad URL: \(getMethodURL("sendVideo"))")
+        }
         let result: TGMessage = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

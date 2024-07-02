@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Returns the bot's Telegram Star transactions in chronological order. On success, returns a StarTransactions object.
@@ -44,7 +44,9 @@ public extension TGBot {
 
     @discardableResult
     func getStarTransactions(params: TGGetStarTransactionsParams? = nil) async throws -> TGStarTransactions {
-        let methodURL: URI = .init(string: getMethodURL("getStarTransactions"))
+        guard let methodURL: URL = .init(string: getMethodURL("getStarTransactions")) else {
+            throw BotError("Bad URL: \(getMethodURL("getStarTransactions"))")
+        }
         let result: TGStarTransactions = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

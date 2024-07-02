@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to set the title of a created sticker set. Returns True on success.
@@ -44,7 +44,9 @@ public extension TGBot {
 
     @discardableResult
     func setStickerSetTitle(params: TGSetStickerSetTitleParams) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("setStickerSetTitle"))
+        guard let methodURL: URL = .init(string: getMethodURL("setStickerSetTitle")) else {
+            throw BotError("Bad URL: \(getMethodURL("setStickerSetTitle"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to edit live location messages. A location can be edited until its live_period expires or editing is explicitly disabled by a call to stopMessageLiveLocation. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned.
@@ -89,7 +89,9 @@ public extension TGBot {
 
     @discardableResult
     func editMessageLiveLocation(params: TGEditMessageLiveLocationParams) async throws -> TGMessageOrBool {
-        let methodURL: URI = .init(string: getMethodURL("editMessageLiveLocation"))
+        guard let methodURL: URL = .init(string: getMethodURL("editMessageLiveLocation")) else {
+            throw BotError("Bad URL: \(getMethodURL("editMessageLiveLocation"))")
+        }
         let result: TGMessageOrBool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

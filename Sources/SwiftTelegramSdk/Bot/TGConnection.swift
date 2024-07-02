@@ -16,7 +16,7 @@ public enum TGConnectionType {
     case longpolling(limit: Int?,
                      timeout: Int?,
                      allowedUpdates: [TGUpdate.CodingKeys]?)
-    case webhook(webHookURL: URI)
+    case webhook(webHookURL: URL)
 }
 
 public final class TGLongPollingConnection: TGConnectionPrtcl {
@@ -62,16 +62,16 @@ public final class TGLongPollingConnection: TGConnectionPrtcl {
         if let lastUpdate: TGUpdate = response.last {
             offsetUpdates = lastUpdate.updateId
         }
-        try await bot.dispatcher.process(response)
+        bot.dispatcher.process(response)
     }
 }
 
 
 public final class TGWebHookConnection: TGConnectionPrtcl {
     
-    public let webHookURL: URI
+    public let webHookURL: URL
     
-    public init(webHookURL: URI) async throws {
+    public init(webHookURL: URL) async throws {
         self.webHookURL = webHookURL
     }
     

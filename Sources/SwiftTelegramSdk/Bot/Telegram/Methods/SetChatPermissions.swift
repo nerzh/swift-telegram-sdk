@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to set default chat permissions for all members. The bot must be an administrator in the group or a supergroup for this to work and must have the can_restrict_members administrator rights. Returns True on success.
@@ -49,7 +49,9 @@ public extension TGBot {
 
     @discardableResult
     func setChatPermissions(params: TGSetChatPermissionsParams) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("setChatPermissions"))
+        guard let methodURL: URL = .init(string: getMethodURL("setChatPermissions")) else {
+            throw BotError("Bad URL: \(getMethodURL("setChatPermissions"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to send a group of photos, videos, documents or audios as an album. Documents and audio files can be only grouped in an album with messages of the same type. On success, an array of Messages that were sent is returned.
@@ -74,7 +74,9 @@ public extension TGBot {
 
     @discardableResult
     func sendMediaGroup(params: TGSendMediaGroupParams) async throws -> [TGMessage] {
-        let methodURL: URI = .init(string: getMethodURL("sendMediaGroup"))
+        guard let methodURL: URL = .init(string: getMethodURL("sendMediaGroup")) else {
+            throw BotError("Bad URL: \(getMethodURL("sendMediaGroup"))")
+        }
         let result: [TGMessage] = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

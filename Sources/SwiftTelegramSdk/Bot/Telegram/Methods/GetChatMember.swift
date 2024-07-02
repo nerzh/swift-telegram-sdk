@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to get information about a member of a chat. The method is only guaranteed to work for other users if the bot is an administrator in the chat. Returns a ChatMember object on success.
@@ -44,7 +44,9 @@ public extension TGBot {
 
     @discardableResult
     func getChatMember(params: TGGetChatMemberParams) async throws -> TGChatMember {
-        let methodURL: URI = .init(string: getMethodURL("getChatMember"))
+        guard let methodURL: URL = .init(string: getMethodURL("getChatMember")) else {
+            throw BotError("Bad URL: \(getMethodURL("getChatMember"))")
+        }
         let result: TGChatMember = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

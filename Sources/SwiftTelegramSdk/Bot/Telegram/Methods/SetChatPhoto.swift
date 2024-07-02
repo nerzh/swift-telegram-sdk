@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to set a new profile photo for the chat. Photos can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns True on success.
@@ -44,7 +44,9 @@ public extension TGBot {
 
     @discardableResult
     func setChatPhoto(params: TGSetChatPhotoParams) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("setChatPhoto"))
+        guard let methodURL: URL = .init(string: getMethodURL("setChatPhoto")) else {
+            throw BotError("Bad URL: \(getMethodURL("setChatPhoto"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

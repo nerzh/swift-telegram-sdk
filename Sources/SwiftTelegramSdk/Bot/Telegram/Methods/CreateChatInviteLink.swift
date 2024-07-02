@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to create an additional invite link for a chat. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. The link can be revoked using the method revokeChatInviteLink. Returns the new invite link as ChatInviteLink object.
@@ -59,7 +59,9 @@ public extension TGBot {
 
     @discardableResult
     func createChatInviteLink(params: TGCreateChatInviteLinkParams) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("createChatInviteLink"))
+        guard let methodURL: URL = .init(string: getMethodURL("createChatInviteLink")) else {
+            throw BotError("Bad URL: \(getMethodURL("createChatInviteLink"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

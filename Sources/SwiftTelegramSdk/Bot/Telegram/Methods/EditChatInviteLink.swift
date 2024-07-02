@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to edit a non-primary invite link created by the bot. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns the edited invite link as a ChatInviteLink object.
@@ -64,7 +64,9 @@ public extension TGBot {
 
     @discardableResult
     func editChatInviteLink(params: TGEditChatInviteLinkParams) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("editChatInviteLink"))
+        guard let methodURL: URL = .init(string: getMethodURL("editChatInviteLink")) else {
+            throw BotError("Bad URL: \(getMethodURL("editChatInviteLink"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

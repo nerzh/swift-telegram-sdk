@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to delete a sticker set that was created by the bot. Returns True on success.
@@ -39,7 +39,9 @@ public extension TGBot {
 
     @discardableResult
     func deleteStickerSet(params: TGDeleteStickerSetParams) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("deleteStickerSet"))
+        guard let methodURL: URL = .init(string: getMethodURL("deleteStickerSet")) else {
+            throw BotError("Bad URL: \(getMethodURL("deleteStickerSet"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

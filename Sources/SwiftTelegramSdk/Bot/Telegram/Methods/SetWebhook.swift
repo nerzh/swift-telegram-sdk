@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to specify a URL and receive incoming updates via an outgoing webhook. Whenever there is an update for the bot, we will send an HTTPS POST request to the specified URL, containing a JSON-serialized Update. In case of an unsuccessful request, we will give up after a reasonable amount of attempts. Returns True on success.
@@ -72,7 +72,9 @@ public extension TGBot {
 
     @discardableResult
     func setWebhook(params: TGSetWebhookParams) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("setWebhook"))
+        guard let methodURL: URL = .init(string: getMethodURL("setWebhook")) else {
+            throw BotError("Bad URL: \(getMethodURL("setWebhook"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

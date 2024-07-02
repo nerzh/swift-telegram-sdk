@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to get information about custom emoji stickers by their identifiers. Returns an Array of Sticker objects.
@@ -39,7 +39,9 @@ public extension TGBot {
 
     @discardableResult
     func getCustomEmojiStickers(params: TGGetCustomEmojiStickersParams) async throws -> [TGSticker] {
-        let methodURL: URI = .init(string: getMethodURL("getCustomEmojiStickers"))
+        guard let methodURL: URL = .init(string: getMethodURL("getCustomEmojiStickers")) else {
+            throw BotError("Bad URL: \(getMethodURL("getCustomEmojiStickers"))")
+        }
         let result: [TGSticker] = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to get current webhook status. Requires no parameters. On success, returns a WebhookInfo object. If the bot is using getUpdates, will return an object with the url field empty.
@@ -22,7 +22,9 @@ public extension TGBot {
 
     @discardableResult
     func getWebhookInfo() async throws -> TGWebhookInfo {
-        let methodURL: URI = .init(string: getMethodURL("getWebhookInfo"))
+        guard let methodURL: URL = .init(string: getMethodURL("getWebhookInfo")) else {
+            throw BotError("Bad URL: \(getMethodURL("getWebhookInfo"))")
+        }
         let result: TGWebhookInfo = try await tgClient.post(methodURL)
         return result
     }

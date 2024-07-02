@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to unban a previously banned channel chat in a supergroup or channel. The bot must be an administrator for this to work and must have the appropriate administrator rights. Returns True on success.
@@ -44,7 +44,9 @@ public extension TGBot {
 
     @discardableResult
     func unbanChatSenderChat(params: TGUnbanChatSenderChatParams) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("unbanChatSenderChat"))
+        guard let methodURL: URL = .init(string: getMethodURL("unbanChatSenderChat")) else {
+            throw BotError("Bad URL: \(getMethodURL("unbanChatSenderChat"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

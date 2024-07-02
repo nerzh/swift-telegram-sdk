@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to approve a chat join request. The bot must be an administrator in the chat for this to work and must have the can_invite_users administrator right. Returns True on success.
@@ -44,7 +44,9 @@ public extension TGBot {
 
     @discardableResult
     func approveChatJoinRequest(params: TGApproveChatJoinRequestParams) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("approveChatJoinRequest"))
+        guard let methodURL: URL = .init(string: getMethodURL("approveChatJoinRequest")) else {
+            throw BotError("Bad URL: \(getMethodURL("approveChatJoinRequest"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

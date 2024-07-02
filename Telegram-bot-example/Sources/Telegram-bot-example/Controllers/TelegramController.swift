@@ -7,7 +7,7 @@
 
 import Foundation
 import Vapor
-import TelegramVaporBot
+import SwiftTelegramSdk
 
 final class TelegramController: RouteCollection {
     

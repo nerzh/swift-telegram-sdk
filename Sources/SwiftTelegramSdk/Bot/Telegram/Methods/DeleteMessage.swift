@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to delete a message, including service messages, with the following limitations:
@@ -62,7 +62,9 @@ public extension TGBot {
 
     @discardableResult
     func deleteMessage(params: TGDeleteMessageParams) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("deleteMessage"))
+        guard let methodURL: URL = .init(string: getMethodURL("deleteMessage")) else {
+            throw BotError("Bad URL: \(getMethodURL("deleteMessage"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

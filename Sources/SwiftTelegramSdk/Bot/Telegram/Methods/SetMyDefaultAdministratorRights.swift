@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to change the default administrator rights requested by the bot when it's added as an administrator to groups or channels. These rights will be suggested to users, but they are free to modify the list before adding the bot. Returns True on success.
@@ -44,7 +44,9 @@ public extension TGBot {
 
     @discardableResult
     func setMyDefaultAdministratorRights(params: TGSetMyDefaultAdministratorRightsParams? = nil) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("setMyDefaultAdministratorRights"))
+        guard let methodURL: URL = .init(string: getMethodURL("setMyDefaultAdministratorRights")) else {
+            throw BotError("Bad URL: \(getMethodURL("setMyDefaultAdministratorRights"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to change the bot's description, which is shown in the chat with the bot if the chat is empty. Returns True on success.
@@ -44,7 +44,9 @@ public extension TGBot {
 
     @discardableResult
     func setMyDescription(params: TGSetMyDescriptionParams? = nil) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("setMyDescription"))
+        guard let methodURL: URL = .init(string: getMethodURL("setMyDescription")) else {
+            throw BotError("Bad URL: \(getMethodURL("setMyDescription"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

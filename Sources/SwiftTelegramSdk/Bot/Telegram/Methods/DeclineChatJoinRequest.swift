@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to decline a chat join request. The bot must be an administrator in the chat for this to work and must have the can_invite_users administrator right. Returns True on success.
@@ -44,7 +44,9 @@ public extension TGBot {
 
     @discardableResult
     func declineChatJoinRequest(params: TGDeclineChatJoinRequestParams) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("declineChatJoinRequest"))
+        guard let methodURL: URL = .init(string: getMethodURL("declineChatJoinRequest")) else {
+            throw BotError("Bad URL: \(getMethodURL("declineChatJoinRequest"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

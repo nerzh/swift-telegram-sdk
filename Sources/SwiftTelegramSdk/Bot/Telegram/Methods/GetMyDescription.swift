@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to get the current bot description for the given user language. Returns BotDescription on success.
@@ -39,7 +39,9 @@ public extension TGBot {
 
     @discardableResult
     func getMyDescription(params: TGGetMyDescriptionParams? = nil) async throws -> TGBotDescription {
-        let methodURL: URI = .init(string: getMethodURL("getMyDescription"))
+        guard let methodURL: URL = .init(string: getMethodURL("getMyDescription")) else {
+            throw BotError("Bad URL: \(getMethodURL("getMyDescription"))")
+        }
         let result: TGBotDescription = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

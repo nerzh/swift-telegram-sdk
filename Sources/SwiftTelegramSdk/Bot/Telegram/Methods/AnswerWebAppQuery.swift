@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to set the result of an interaction with a Web App and send a corresponding message on behalf of the user to the chat from which the query originated. On success, a SentWebAppMessage object is returned.
@@ -44,7 +44,9 @@ public extension TGBot {
 
     @discardableResult
     func answerWebAppQuery(params: TGAnswerWebAppQueryParams) async throws -> TGSentWebAppMessage {
-        let methodURL: URI = .init(string: getMethodURL("answerWebAppQuery"))
+        guard let methodURL: URL = .init(string: getMethodURL("answerWebAppQuery")) else {
+            throw BotError("Bad URL: \(getMethodURL("answerWebAppQuery"))")
+        }
         let result: TGSentWebAppMessage = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

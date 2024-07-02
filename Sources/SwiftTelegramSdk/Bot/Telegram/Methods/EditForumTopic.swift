@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to edit name and icon of a topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have can_manage_topics administrator rights, unless it is the creator of the topic. Returns True on success.
@@ -54,7 +54,9 @@ public extension TGBot {
 
     @discardableResult
     func editForumTopic(params: TGEditForumTopicParams) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("editForumTopic"))
+        guard let methodURL: URL = .init(string: getMethodURL("editForumTopic")) else {
+            throw BotError("Bad URL: \(getMethodURL("editForumTopic"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

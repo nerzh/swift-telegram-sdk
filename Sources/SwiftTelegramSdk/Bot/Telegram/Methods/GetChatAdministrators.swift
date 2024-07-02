@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to get a list of administrators in a chat, which aren't bots. Returns an Array of ChatMember objects.
@@ -39,7 +39,9 @@ public extension TGBot {
 
     @discardableResult
     func getChatAdministrators(params: TGGetChatAdministratorsParams) async throws -> [TGChatMember] {
-        let methodURL: URI = .init(string: getMethodURL("getChatAdministrators"))
+        guard let methodURL: URL = .init(string: getMethodURL("getChatAdministrators")) else {
+            throw BotError("Bad URL: \(getMethodURL("getChatAdministrators"))")
+        }
         let result: [TGChatMember] = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

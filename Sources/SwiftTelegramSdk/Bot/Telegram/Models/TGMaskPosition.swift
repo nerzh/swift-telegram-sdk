@@ -1,6 +1,4 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
-
-import Vapor
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
 /**
  This object describes the position on faces where a mask should be placed by default.

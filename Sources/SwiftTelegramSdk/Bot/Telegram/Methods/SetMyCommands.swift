@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to change the list of the bot's commands. See this manual for more details about bot commands. Returns True on success.
@@ -49,7 +49,9 @@ public extension TGBot {
 
     @discardableResult
     func setMyCommands(params: TGSetMyCommandsParams) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("setMyCommands"))
+        guard let methodURL: URL = .init(string: getMethodURL("setMyCommands")) else {
+            throw BotError("Bad URL: \(getMethodURL("setMyCommands"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Refunds a successful payment in Telegram Stars. Returns True on success.
@@ -44,7 +44,9 @@ public extension TGBot {
 
     @discardableResult
     func refundStarPayment(params: TGRefundStarPaymentParams) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("refundStarPayment"))
+        guard let methodURL: URL = .init(string: getMethodURL("refundStarPayment")) else {
+            throw BotError("Bad URL: \(getMethodURL("refundStarPayment"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

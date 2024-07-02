@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to restrict a user in a supergroup. The bot must be an administrator in the supergroup for this to work and must have the appropriate administrator rights. Pass True for all permissions to lift restrictions from a user. Returns True on success.
@@ -59,7 +59,9 @@ public extension TGBot {
 
     @discardableResult
     func restrictChatMember(params: TGRestrictChatMemberParams) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("restrictChatMember"))
+        guard let methodURL: URL = .init(string: getMethodURL("restrictChatMember")) else {
+            throw BotError("Bad URL: \(getMethodURL("restrictChatMember"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

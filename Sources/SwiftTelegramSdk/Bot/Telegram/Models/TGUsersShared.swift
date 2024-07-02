@@ -1,4 +1,4 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
 /**
  This object contains information about the users whose identifiers were shared with the bot using a KeyboardButtonRequestUsers button.

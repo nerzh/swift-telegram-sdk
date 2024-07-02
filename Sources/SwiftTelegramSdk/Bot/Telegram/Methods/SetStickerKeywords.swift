@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to change search keywords assigned to a regular or custom emoji sticker. The sticker must belong to a sticker set created by the bot. Returns True on success.
@@ -44,7 +44,9 @@ public extension TGBot {
 
     @discardableResult
     func setStickerKeywords(params: TGSetStickerKeywordsParams) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("setStickerKeywords"))
+        guard let methodURL: URL = .init(string: getMethodURL("setStickerKeywords")) else {
+            throw BotError("Bad URL: \(getMethodURL("setStickerKeywords"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to set a custom title for an administrator in a supergroup promoted by the bot. Returns True on success.
@@ -49,7 +49,9 @@ public extension TGBot {
 
     @discardableResult
     func setChatAdministratorCustomTitle(params: TGSetChatAdministratorCustomTitleParams) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("setChatAdministratorCustomTitle"))
+        guard let methodURL: URL = .init(string: getMethodURL("setChatAdministratorCustomTitle")) else {
+            throw BotError("Bad URL: \(getMethodURL("setChatAdministratorCustomTitle"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

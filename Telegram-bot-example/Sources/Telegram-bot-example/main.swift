@@ -1,5 +1,5 @@
 import Vapor
-import TelegramVaporBot
+import SwiftTelegramSdk
 
 var env = try Environment.detect()
 try LoggingSystem.bootstrap(from: &env)

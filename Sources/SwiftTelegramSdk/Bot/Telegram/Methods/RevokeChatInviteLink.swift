@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to revoke an invite link created by the bot. If the primary link is revoked, a new link is automatically generated. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Returns the revoked invite link as ChatInviteLink object.
@@ -44,7 +44,9 @@ public extension TGBot {
 
     @discardableResult
     func revokeChatInviteLink(params: TGRevokeChatInviteLinkParams) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("revokeChatInviteLink"))
+        guard let methodURL: URL = .init(string: getMethodURL("revokeChatInviteLink")) else {
+            throw BotError("Bad URL: \(getMethodURL("revokeChatInviteLink"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

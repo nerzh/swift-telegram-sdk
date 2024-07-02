@@ -7,7 +7,7 @@
 
 import Foundation
 import Vapor
-import TelegramVaporBot
+import SwiftTelegramSdk
 
 public enum TGHTTPMediaType: String, Equatable {
     case formData
@@ -18,22 +18,23 @@ private struct TGEmptyParams: Encodable {}
 
 public final class VaporTGClient: TGClientPrtcl {
     
+    public typealias HTTPMediaType = SwiftTelegramSdk.HTTPMediaType
     private let client: Vapor.Client
-
+    
     public init(client: Vapor.Client) {
         self.client = client
     }
-
+    
     @discardableResult
     public func get<Params: Encodable, Response: Decodable>
     (
-        _ url: URI,
+        _ url: URL,
         params: Params? = nil,
-        as mediaType: Vapor.HTTPMediaType? = nil
+        as mediaType: HTTPMediaType? = nil
     ) async throws -> Response {
-        let clientResponse: ClientResponse = try await client.get(url, headers: HTTPHeaders()) { clientRequest in
+        let clientResponse: ClientResponse = try await client.get(URI(string: url.absoluteString), headers: HTTPHeaders()) { clientRequest in
             if mediaType == .formData || mediaType == nil {
-//                #warning("THIS CODE FOR FAST FIX, BECAUSE https://github.com/vapor/multipart-kit/issues/63 not accepted yet")
+                #warning("THIS CODE FOR FAST FIX, BECAUSE https://github.com/vapor/multipart-kit/issues/63 not accepted yet")
                 var rawMultipart: (body: NSMutableData, boundary: String)!
                 do {
                     /// Content-Disposition: form-data; name="nested_object"
@@ -47,10 +48,15 @@ public final class VaporTGClient: TGClientPrtcl {
                 let buffer = ByteBuffer.init(data: rawMultipart.body as Data)
                 clientRequest.body = buffer
             } else {
-                if let currentParams: Params = params {
-                    try clientRequest.content.encode(currentParams, as: mediaType ?? .json)
+                let mediaType: Vapor.HTTPMediaType = if let mediaType {
+                    .init(type: mediaType.type, subType: mediaType.subType, parameters: mediaType.parameters)
                 } else {
-                    try clientRequest.content.encode(TGEmptyParams(), as: mediaType ?? .json)
+                    .json
+                }
+                if let currentParams: Params = params {
+                    try clientRequest.content.encode(currentParams, as: mediaType)
+                } else {
+                    try clientRequest.content.encode(TGEmptyParams(), as: mediaType)
                 }
             }
         }
@@ -59,25 +65,25 @@ public final class VaporTGClient: TGClientPrtcl {
     }
     
     @discardableResult
-    public func get<Response: Decodable>(_ url: URI) async throws -> Response {
+    public func get<Response: Decodable>(_ url: URL) async throws -> Response {
         try await get(url, params: TGEmptyParams(), as: nil)
     }
-
+    
     @discardableResult
-    public func get<Response: Decodable>(_ url: URI, as mediaType: Vapor.HTTPMediaType) async throws -> Response {
+    public func get<Response: Decodable>(_ url: URL, as mediaType: HTTPMediaType) async throws -> Response {
         try await get(url, params: TGEmptyParams(), as: mediaType)
     }
-
+    
     @discardableResult
     public func post<Params: Encodable, Response: Decodable>
     (
-        _ url: URI,
+        _ url: URL,
         params: Params? = nil,
-        as mediaType: Vapor.HTTPMediaType? = nil
+        as mediaType: HTTPMediaType? = nil
     ) async throws -> Response {
-        let clientResponse: ClientResponse = try await client.post(url, headers: HTTPHeaders()) { clientRequest in
+        let clientResponse: ClientResponse = try await client.post(URI(string: url.absoluteString), headers: HTTPHeaders()) { clientRequest in
             if mediaType == .formData || mediaType == nil {
-//                #warning("THIS CODE FOR FAST FIX, BECAUSE https://github.com/vapor/multipart-kit/issues/63 not accepted yet")
+                #warning("THIS CODE FOR FAST FIX, BECAUSE https://github.com/vapor/multipart-kit/issues/63 not accepted yet")
                 var rawMultipart: (body: NSMutableData, boundary: String)!
                 do {
                     /// Content-Disposition: form-data; name="nested_object"
@@ -95,9 +101,14 @@ public final class VaporTGClient: TGClientPrtcl {
                 let buffer = ByteBuffer.init(data: rawMultipart.body as Data)
                 clientRequest.body = buffer
                 /// Debug
-//                TGBot.log.critical("url: \(url)\n\(String(decoding: rawMultipart.body, as: UTF8.self))")
+                // TGBot.log.critical("url: \(url)\n\(String(decoding: rawMultipart.body, as: UTF8.self))")
             } else {
-                try clientRequest.content.encode(params ?? (TGEmptyParams() as! Params), as: mediaType ?? .json)
+                let mediaType: Vapor.HTTPMediaType = if let mediaType {
+                    .init(type: mediaType.type, subType: mediaType.subType, parameters: mediaType.parameters)
+                } else {
+                    .json
+                }
+                try clientRequest.content.encode(params ?? (TGEmptyParams() as! Params), as: mediaType)
             }
         }
         let telegramContainer: TGTelegramContainer = try clientResponse.content.decode(TGTelegramContainer<Response>.self)
@@ -105,15 +116,15 @@ public final class VaporTGClient: TGClientPrtcl {
     }
     
     @discardableResult
-    public func post<Response: Decodable>(_ url: URI) async throws -> Response {
+    public func post<Response: Decodable>(_ url: URL) async throws -> Response {
         try await post(url, params: TGEmptyParams(), as: nil)
     }
     
     @discardableResult
-    public func post<Response: Decodable>(_ url: URI, as mediaType: Vapor.HTTPMediaType) async throws -> Response {
+    public func post<Response: Decodable>(_ url: URL, as mediaType: HTTPMediaType) async throws -> Response {
         try await post(url, params: TGEmptyParams(), as: mediaType)
     }
-
+    
     private func processContainer<T: Decodable>(_ container: TGTelegramContainer<T>) throws -> T {
         guard container.ok else {
             let desc = """
@@ -128,7 +139,7 @@ public final class VaporTGClient: TGClientPrtcl {
             TGBot.log.error(error.logMessage)
             throw error
         }
-
+        
         guard let result = container.result else {
             let error = BotError(
                 type: .server,
@@ -137,17 +148,31 @@ public final class VaporTGClient: TGClientPrtcl {
             TGBot.log.error(error.logMessage)
             throw error
         }
-
+        
         let logString = """
-
+        
         Response:
         Code: \(container.errorCode ?? 0)
         Status OK: \(container.ok)
         Description: \(container.description ?? "Empty")
-
+        
         """
         TGBot.log.trace(logString.logMessage)
         return result
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

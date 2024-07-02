@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to set the score of the specified user in a game message. On success, if the message is not an inline message, the Message is returned, otherwise True is returned. Returns an error, if the new score is not greater than the user's current score in the chat and force is False.
@@ -69,7 +69,9 @@ public extension TGBot {
 
     @discardableResult
     func setGameScore(params: TGSetGameScoreParams) async throws -> TGMessageOrBool {
-        let methodURL: URI = .init(string: getMethodURL("setGameScore"))
+        guard let methodURL: URL = .init(string: getMethodURL("setGameScore")) else {
+            throw BotError("Bad URL: \(getMethodURL("setGameScore"))")
+        }
         let result: TGMessageOrBool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

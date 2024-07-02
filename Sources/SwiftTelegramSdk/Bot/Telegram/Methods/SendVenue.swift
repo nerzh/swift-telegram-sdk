@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to send information about a venue. On success, the sent Message is returned.
@@ -114,7 +114,9 @@ public extension TGBot {
 
     @discardableResult
     func sendVenue(params: TGSendVenueParams) async throws -> TGMessage {
-        let methodURL: URI = .init(string: getMethodURL("sendVenue"))
+        guard let methodURL: URL = .init(string: getMethodURL("sendVenue")) else {
+            throw BotError("Bad URL: \(getMethodURL("sendVenue"))")
+        }
         let result: TGMessage = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

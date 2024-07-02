@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to reopen a closed topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights, unless it is the creator of the topic. Returns True on success.
@@ -44,7 +44,9 @@ public extension TGBot {
 
     @discardableResult
     func reopenForumTopic(params: TGReopenForumTopicParams) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("reopenForumTopic"))
+        guard let methodURL: URL = .init(string: getMethodURL("reopenForumTopic")) else {
+            throw BotError("Bad URL: \(getMethodURL("reopenForumTopic"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

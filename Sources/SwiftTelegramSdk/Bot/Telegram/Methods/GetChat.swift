@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to get up-to-date information about the chat. Returns a ChatFullInfo object on success.
@@ -39,7 +39,9 @@ public extension TGBot {
 
     @discardableResult
     func getChat(params: TGGetChatParams) async throws -> TGChatFullInfo {
-        let methodURL: URI = .init(string: getMethodURL("getChat"))
+        guard let methodURL: URL = .init(string: getMethodURL("getChat")) else {
+            throw BotError("Bad URL: \(getMethodURL("getChat"))")
+        }
         let result: TGChatFullInfo = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

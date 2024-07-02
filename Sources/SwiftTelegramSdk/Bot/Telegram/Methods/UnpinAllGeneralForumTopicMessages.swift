@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to clear the list of pinned messages in a General forum topic. The bot must be an administrator in the chat for this to work and must have the can_pin_messages administrator right in the supergroup. Returns True on success.
@@ -39,7 +39,9 @@ public extension TGBot {
 
     @discardableResult
     func unpinAllGeneralForumTopicMessages(params: TGUnpinAllGeneralForumTopicMessagesParams) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("unpinAllGeneralForumTopicMessages"))
+        guard let methodURL: URL = .init(string: getMethodURL("unpinAllGeneralForumTopicMessages")) else {
+            throw BotError("Bad URL: \(getMethodURL("unpinAllGeneralForumTopicMessages"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

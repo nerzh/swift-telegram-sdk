@@ -6,16 +6,18 @@
 //
 
 import Foundation
+import Logging
 
 public final class TGBot: TGBotPrtcl {
+    
     
     public let connectionType: TGConnectionType
     public let dispatcher: TGDispatcherPrtcl
     public let botId: String
-    public let tgURI: URI
+    public let tgURI: URL
     public let tgClient: TGClientPrtcl
     
-    public static let standardTGURL: URI = .init(string: "https://api.telegram.org")
+    public static let standardTGURL: URL = .init(string: "https://api.telegram.org")!
     public static var log = Logger(label: "com.tgbot")
     
     private var connection: TGConnectionPrtcl
@@ -23,7 +25,7 @@ public final class TGBot: TGBotPrtcl {
     public init(connectionType: TGConnectionType,
                 dispatcher: TGDispatcherPrtcl? = nil,
                 tgClient: TGClientPrtcl,
-                tgURI: URI = TGBot.standardTGURL,
+                tgURI: URL = TGBot.standardTGURL,
                 botId: String
     ) async throws {
         self.connectionType = connectionType

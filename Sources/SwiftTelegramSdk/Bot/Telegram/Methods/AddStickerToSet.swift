@@ -1,4 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
+
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to add a new sticker to a set created by the bot. Emoji sticker sets can have up to 200 stickers. Other sticker sets can have up to 120 stickers. Returns True on success.
@@ -47,7 +49,9 @@ public extension TGBot {
 
     @discardableResult
     func addStickerToSet(params: TGAddStickerToSetParams) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("addStickerToSet"))
+        guard let methodURL: URL = .init(string: getMethodURL("addStickerToSet")) else {
+            throw BotError("Bad URL: \(getMethodURL("addStickerToSet"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

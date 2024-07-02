@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to send answers to an inline query. On success, True is returned.
@@ -66,7 +66,9 @@ public extension TGBot {
 
     @discardableResult
     func answerInlineQuery(params: TGAnswerInlineQueryParams) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("answerInlineQuery"))
+        guard let methodURL: URL = .init(string: getMethodURL("answerInlineQuery")) else {
+            throw BotError("Bad URL: \(getMethodURL("answerInlineQuery"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

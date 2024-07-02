@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to unhide the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights. Returns True on success.
@@ -39,7 +39,9 @@ public extension TGBot {
 
     @discardableResult
     func unhideGeneralForumTopic(params: TGUnhideGeneralForumTopicParams) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("unhideGeneralForumTopic"))
+        guard let methodURL: URL = .init(string: getMethodURL("unhideGeneralForumTopic")) else {
+            throw BotError("Bad URL: \(getMethodURL("unhideGeneralForumTopic"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

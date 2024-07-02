@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method for your bot to leave a group, supergroup or channel. Returns True on success.
@@ -39,7 +39,9 @@ public extension TGBot {
 
     @discardableResult
     func leaveChat(params: TGLeaveChatParams) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("leaveChat"))
+        guard let methodURL: URL = .init(string: getMethodURL("leaveChat")) else {
+            throw BotError("Bad URL: \(getMethodURL("leaveChat"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

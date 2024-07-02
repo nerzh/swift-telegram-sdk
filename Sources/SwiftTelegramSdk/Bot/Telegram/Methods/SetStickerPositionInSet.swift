@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to move a sticker in a set created by the bot to a specific position. Returns True on success.
@@ -44,7 +44,9 @@ public extension TGBot {
 
     @discardableResult
     func setStickerPositionInSet(params: TGSetStickerPositionInSetParams) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("setStickerPositionInSet"))
+        guard let methodURL: URL = .init(string: getMethodURL("setStickerPositionInSet")) else {
+            throw BotError("Bad URL: \(getMethodURL("setStickerPositionInSet"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

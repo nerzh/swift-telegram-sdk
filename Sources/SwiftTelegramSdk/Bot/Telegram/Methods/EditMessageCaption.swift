@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to edit captions of messages. On success, if the edited message is not an inline message, the edited Message is returned, otherwise True is returned. Note that business messages that were not sent by the bot and do not contain an inline keyboard can only be edited within 48 hours from the time they were sent.
@@ -79,7 +79,9 @@ public extension TGBot {
 
     @discardableResult
     func editMessageCaption(params: TGEditMessageCaptionParams? = nil) async throws -> TGMessageOrBool {
-        let methodURL: URI = .init(string: getMethodURL("editMessageCaption"))
+        guard let methodURL: URL = .init(string: getMethodURL("editMessageCaption")) else {
+            throw BotError("Bad URL: \(getMethodURL("editMessageCaption"))")
+        }
         let result: TGMessageOrBool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

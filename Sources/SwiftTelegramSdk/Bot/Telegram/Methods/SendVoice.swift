@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .OGG file encoded with OPUS, or in .MP3 format, or in .M4A format (other formats may be sent as Audio or Document). On success, the sent Message is returned. Bots can currently send voice messages of up to 50 MB in size, this limit may be changed in the future.
@@ -99,7 +99,9 @@ public extension TGBot {
 
     @discardableResult
     func sendVoice(params: TGSendVoiceParams) async throws -> TGMessage {
-        let methodURL: URI = .init(string: getMethodURL("sendVoice"))
+        guard let methodURL: URL = .init(string: getMethodURL("sendVoice")) else {
+            throw BotError("Bad URL: \(getMethodURL("sendVoice"))")
+        }
         let result: TGMessage = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

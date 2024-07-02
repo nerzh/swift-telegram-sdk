@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to get a sticker set. On success, a StickerSet object is returned.
@@ -39,7 +39,9 @@ public extension TGBot {
 
     @discardableResult
     func getStickerSet(params: TGGetStickerSetParams) async throws -> TGStickerSet {
-        let methodURL: URI = .init(string: getMethodURL("getStickerSet"))
+        guard let methodURL: URL = .init(string: getMethodURL("getStickerSet")) else {
+            throw BotError("Bad URL: \(getMethodURL("getStickerSet"))")
+        }
         let result: TGStickerSet = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

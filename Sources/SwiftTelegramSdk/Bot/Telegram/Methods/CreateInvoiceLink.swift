@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to create a link for an invoice. Returns the created invoice link as String on success.
@@ -134,7 +134,9 @@ public extension TGBot {
 
     @discardableResult
     func createInvoiceLink(params: TGCreateInvoiceLinkParams) async throws -> String {
-        let methodURL: URI = .init(string: getMethodURL("createInvoiceLink"))
+        guard let methodURL: URL = .init(string: getMethodURL("createInvoiceLink")) else {
+            throw BotError("Bad URL: \(getMethodURL("createInvoiceLink"))")
+        }
         let result: String = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

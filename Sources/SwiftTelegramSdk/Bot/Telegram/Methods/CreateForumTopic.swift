@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to create a topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights. Returns information about the created topic as a ForumTopic object.
@@ -54,7 +54,9 @@ public extension TGBot {
 
     @discardableResult
     func createForumTopic(params: TGCreateForumTopicParams) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("createForumTopic"))
+        guard let methodURL: URL = .init(string: getMethodURL("createForumTopic")) else {
+            throw BotError("Bad URL: \(getMethodURL("createForumTopic"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to send an animated emoji that will display a random value. On success, the sent Message is returned.
@@ -79,7 +79,9 @@ public extension TGBot {
 
     @discardableResult
     func sendDice(params: TGSendDiceParams) async throws -> TGMessage {
-        let methodURL: URI = .init(string: getMethodURL("sendDice"))
+        guard let methodURL: URL = .init(string: getMethodURL("sendDice")) else {
+            throw BotError("Bad URL: \(getMethodURL("sendDice"))")
+        }
         let result: TGMessage = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to create a new sticker set owned by a user. The bot will be able to edit the sticker set thus created. Returns True on success.
@@ -64,7 +64,9 @@ public extension TGBot {
 
     @discardableResult
     func createNewStickerSet(params: TGCreateNewStickerSetParams) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("createNewStickerSet"))
+        guard let methodURL: URL = .init(string: getMethodURL("createNewStickerSet")) else {
+            throw BotError("Bad URL: \(getMethodURL("createNewStickerSet"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

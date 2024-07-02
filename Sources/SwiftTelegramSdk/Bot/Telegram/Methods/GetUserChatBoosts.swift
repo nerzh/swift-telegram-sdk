@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to get the list of boosts added to a chat by a user. Requires administrator rights in the chat. Returns a UserChatBoosts object.
@@ -44,7 +44,9 @@ public extension TGBot {
 
     @discardableResult
     func getUserChatBoosts(params: TGGetUserChatBoostsParams) async throws -> TGUserChatBoosts {
-        let methodURL: URI = .init(string: getMethodURL("getUserChatBoosts"))
+        guard let methodURL: URL = .init(string: getMethodURL("getUserChatBoosts")) else {
+            throw BotError("Bad URL: \(getMethodURL("getUserChatBoosts"))")
+        }
         let result: TGUserChatBoosts = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

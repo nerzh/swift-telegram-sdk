@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to unban a previously banned user in a supergroup or channel. The user will not return to the group or channel automatically, but will be able to join via link, etc. The bot must be an administrator for this to work. By default, this method guarantees that after the call the user is not a member of the chat, but will be able to join it. So if the user is a member of the chat they will also be removed from the chat. If you don't want this, use the parameter only_if_banned. Returns True on success.
@@ -49,7 +49,9 @@ public extension TGBot {
 
     @discardableResult
     func unbanChatMember(params: TGUnbanChatMemberParams) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("unbanChatMember"))
+        guard let methodURL: URL = .init(string: getMethodURL("unbanChatMember")) else {
+            throw BotError("Bad URL: \(getMethodURL("unbanChatMember"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

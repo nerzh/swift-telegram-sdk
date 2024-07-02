@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// A simple method for testing your bot's authentication token. Requires no parameters. Returns basic information about the bot in form of a User object.
@@ -22,7 +22,9 @@ public extension TGBot {
 
     @discardableResult
     func getMe() async throws -> TGUser {
-        let methodURL: URI = .init(string: getMethodURL("getMe"))
+        guard let methodURL: URL = .init(string: getMethodURL("getMe")) else {
+            throw BotError("Bad URL: \(getMethodURL("getMe"))")
+        }
         let result: TGUser = try await tgClient.post(methodURL)
         return result
     }

@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to get the current bot name for the given user language. Returns BotName on success.
@@ -39,7 +39,9 @@ public extension TGBot {
 
     @discardableResult
     func getMyName(params: TGGetMyNameParams? = nil) async throws -> TGBotName {
-        let methodURL: URI = .init(string: getMethodURL("getMyName"))
+        guard let methodURL: URL = .init(string: getMethodURL("getMyName")) else {
+            throw BotError("Bad URL: \(getMethodURL("getMyName"))")
+        }
         let result: TGBotName = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

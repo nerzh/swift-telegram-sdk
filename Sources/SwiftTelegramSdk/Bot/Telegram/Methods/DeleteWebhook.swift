@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to remove webhook integration if you decide to switch back to getUpdates. Returns True on success.
@@ -39,7 +39,9 @@ public extension TGBot {
 
     @discardableResult
     func deleteWebhook(params: TGDeleteWebhookParams? = nil) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("deleteWebhook"))
+        guard let methodURL: URL = .init(string: getMethodURL("deleteWebhook")) else {
+            throw BotError("Bad URL: \(getMethodURL("deleteWebhook"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

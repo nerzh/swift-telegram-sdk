@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to send phone contacts. On success, the sent Message is returned.
@@ -94,7 +94,9 @@ public extension TGBot {
 
     @discardableResult
     func sendContact(params: TGSendContactParams) async throws -> TGMessage {
-        let methodURL: URI = .init(string: getMethodURL("sendContact"))
+        guard let methodURL: URL = .init(string: getMethodURL("sendContact")) else {
+            throw BotError("Bad URL: \(getMethodURL("sendContact"))")
+        }
         let result: TGMessage = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

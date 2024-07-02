@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to delete a group sticker set from a supergroup. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Use the field can_set_sticker_set optionally returned in getChat requests to check if the bot can use this method. Returns True on success.
@@ -39,7 +39,9 @@ public extension TGBot {
 
     @discardableResult
     func deleteChatStickerSet(params: TGDeleteChatStickerSetParams) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("deleteChatStickerSet"))
+        guard let methodURL: URL = .init(string: getMethodURL("deleteChatStickerSet")) else {
+            throw BotError("Bad URL: \(getMethodURL("deleteChatStickerSet"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

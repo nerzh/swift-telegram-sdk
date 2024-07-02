@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to receive incoming updates using long polling (wiki). Returns an Array of Update objects.
@@ -56,7 +56,9 @@ public extension TGBot {
 
     @discardableResult
     func getUpdates(params: TGGetUpdatesParams? = nil) async throws -> [TGUpdate] {
-        let methodURL: URI = .init(string: getMethodURL("getUpdates"))
+        guard let methodURL: URL = .init(string: getMethodURL("getUpdates")) else {
+            throw BotError("Bad URL: \(getMethodURL("getUpdates"))")
+        }
         let result: [TGUpdate] = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

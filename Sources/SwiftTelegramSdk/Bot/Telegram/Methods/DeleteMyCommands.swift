@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to delete the list of the bot's commands for the given scope and user language. After deletion, higher level commands will be shown to affected users. Returns True on success.
@@ -44,7 +44,9 @@ public extension TGBot {
 
     @discardableResult
     func deleteMyCommands(params: TGDeleteMyCommandsParams? = nil) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("deleteMyCommands"))
+        guard let methodURL: URL = .init(string: getMethodURL("deleteMyCommands")) else {
+            throw BotError("Bad URL: \(getMethodURL("deleteMyCommands"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

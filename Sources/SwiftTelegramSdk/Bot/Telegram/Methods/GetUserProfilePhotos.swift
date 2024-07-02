@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to get a list of profile pictures for a user. Returns a UserProfilePhotos object.
@@ -49,7 +49,9 @@ public extension TGBot {
 
     @discardableResult
     func getUserProfilePhotos(params: TGGetUserProfilePhotosParams) async throws -> TGUserProfilePhotos {
-        let methodURL: URI = .init(string: getMethodURL("getUserProfilePhotos"))
+        guard let methodURL: URL = .init(string: getMethodURL("getUserProfilePhotos")) else {
+            throw BotError("Bad URL: \(getMethodURL("getUserProfilePhotos"))")
+        }
         let result: TGUserProfilePhotos = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

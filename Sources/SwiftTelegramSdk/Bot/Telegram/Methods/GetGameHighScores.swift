@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to get data for high score tables. Will return the score of the specified user and several of their neighbors in a game. Returns an Array of GameHighScore objects.
@@ -56,7 +56,9 @@ public extension TGBot {
 
     @discardableResult
     func getGameHighScores(params: TGGetGameHighScoresParams) async throws -> [TGGameHighScore] {
-        let methodURL: URI = .init(string: getMethodURL("getGameHighScores"))
+        guard let methodURL: URL = .init(string: getMethodURL("getGameHighScores")) else {
+            throw BotError("Bad URL: \(getMethodURL("getGameHighScores"))")
+        }
         let result: [TGGameHighScore] = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

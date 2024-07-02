@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to promote or demote a user in a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate administrator rights. Pass False for all boolean parameters to demote a user. Returns True on success.
@@ -119,7 +119,9 @@ public extension TGBot {
 
     @discardableResult
     func promoteChatMember(params: TGPromoteChatMemberParams) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("promoteChatMember"))
+        guard let methodURL: URL = .init(string: getMethodURL("promoteChatMember")) else {
+            throw BotError("Bad URL: \(getMethodURL("promoteChatMember"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

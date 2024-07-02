@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to copy messages of any kind. Service messages, paid media messages, giveaway messages, giveaway winners messages, and invoice messages can't be copied. A quiz poll can be copied only if the value of the field correct_option_id is known to the bot. The method is analogous to the method forwardMessage, but the copied message doesn't have a link to the original message. Returns the MessageId of the sent message on success.
@@ -94,7 +94,9 @@ public extension TGBot {
 
     @discardableResult
     func copyMessage(params: TGCopyMessageParams) async throws -> TGMessageId {
-        let methodURL: URI = .init(string: getMethodURL("copyMessage"))
+        guard let methodURL: URL = .init(string: getMethodURL("copyMessage")) else {
+            throw BotError("Bad URL: \(getMethodURL("copyMessage"))")
+        }
         let result: TGMessageId = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

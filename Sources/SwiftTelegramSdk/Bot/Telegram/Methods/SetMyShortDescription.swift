@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to change the bot's short description, which is shown on the bot's profile page and is sent together with the link when users share the bot. Returns True on success.
@@ -44,7 +44,9 @@ public extension TGBot {
 
     @discardableResult
     func setMyShortDescription(params: TGSetMyShortDescriptionParams? = nil) async throws -> Bool {
-        let methodURL: URI = .init(string: getMethodURL("setMyShortDescription"))
+        guard let methodURL: URL = .init(string: getMethodURL("setMyShortDescription")) else {
+            throw BotError("Bad URL: \(getMethodURL("setMyShortDescription"))")
+        }
         let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

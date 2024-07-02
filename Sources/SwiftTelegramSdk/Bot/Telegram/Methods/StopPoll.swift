@@ -1,6 +1,6 @@
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
-import Vapor
+import Foundation
 
 /// DESCRIPTION:
 /// Use this method to stop a poll which was sent by the bot. On success, the stopped Poll is returned.
@@ -54,7 +54,9 @@ public extension TGBot {
 
     @discardableResult
     func stopPoll(params: TGStopPollParams) async throws -> TGPoll {
-        let methodURL: URI = .init(string: getMethodURL("stopPoll"))
+        guard let methodURL: URL = .init(string: getMethodURL("stopPoll")) else {
+            throw BotError("Bad URL: \(getMethodURL("stopPoll"))")
+        }
         let result: TGPoll = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }

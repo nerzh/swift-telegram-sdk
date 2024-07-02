@@ -10,8 +10,8 @@ var targetDependencies: [PackageDescription.Target.Dependency] = [
     .product(name: "Vapor", package: "vapor"),
 ]
 
-packageDependencies.append(.package(path: "/Users/nerzh/mydata/swift_projects/TelegramVaporBot"))
-targetDependencies.append(.product(name: "TelegramVaporBot", package: "TelegramVaporBot"))
+packageDependencies.append(.package(path: "/Users/nerzh/mydata/swift_projects/SwiftTelegramSdk"))
+targetDependencies.append(.product(name: "SwiftTelegramSdk", package: "SwiftTelegramSdk"))
 
 //packageDependencies.append(.package(url: "https://github.com/nerzh/telegram-vapor-bot", .upToNextMajor(from: "2.1.0")))
 //targetDependencies.append(.product(name: "TelegramVaporBot", package: "telegram-vapor-bot"))
