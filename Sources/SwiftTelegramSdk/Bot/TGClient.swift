@@ -6,14 +6,6 @@
 //
 
 import Foundation
-import Vapor
-
-public enum TGHTTPMediaType: String, Equatable {
-    case formData
-    case json
-}
-
-private struct TGEmptyParams: Encodable {}
 
 public protocol TGClientPrtcl {
     

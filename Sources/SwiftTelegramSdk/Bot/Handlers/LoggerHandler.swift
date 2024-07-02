@@ -22,7 +22,7 @@ public class TGLoggerHandler: TGHandlerPrtcl {
         return true
     }
     
-    public func handle(update: TGUpdate, bot: TGBot) async throws {
+    public func handle(update: TGUpdate) async throws {
         TGBot.log.log(level: logLevel, update.logMessage)
     }
 }

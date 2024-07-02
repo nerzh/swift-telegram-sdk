@@ -1,16 +1,17 @@
 // Telegram-vapor-bot - Telegram Bot Swift SDK.
-
-import Vapor
+import Logging
 
 public protocol TGBotPrtcl {
 
-    var app: Vapor.Application { get }
+    var connectionType: TGConnectionType { get }
+    var dispatcher: TGDispatcherPrtcl { get }
     var botId: String { get }
     var tgURI: URI { get }
     var tgClient: TGClientPrtcl { get }
     static var log: Logger { get }
 
-
+    @discardableResult
+    func start() async throws -> Bool
 
     @discardableResult
     func getUpdates(params: TGGetUpdatesParams?) async throws -> [TGUpdate]
@@ -631,4 +632,3 @@ public protocol TGBotPrtcl {
     func getGameHighScores(params: TGGetGameHighScoresParams) async throws -> [TGGameHighScore]
 
 }
-

@@ -37,7 +37,7 @@ public class TGCallbackQueryHandler: TGHandlerPrtcl {
         return true
     }
     
-    public func handle(update: TGUpdate, bot: TGBot) async throws {
-        try await callbackAsync(update, bot)
+    public func handle(update: TGUpdate) async throws {
+        try await callbackAsync(update)
     }
 }

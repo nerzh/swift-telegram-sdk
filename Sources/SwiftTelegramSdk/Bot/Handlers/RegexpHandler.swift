@@ -49,7 +49,7 @@ public class TGRegexpHandler: TGHandlerPrtcl {
         return text.regexp(regexp.pattern, regexp.options).keys.count > 0
     }
     
-    public func handle(update: TGUpdate, bot: TGBot) async throws {
-        try await callbackAsync(update, bot)
+    public func handle(update: TGUpdate) async throws {
+        try await callbackAsync(update)
     }
 }

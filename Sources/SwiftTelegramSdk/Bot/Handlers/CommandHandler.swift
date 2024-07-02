@@ -86,7 +86,7 @@ public class TGCommandHandler: TGHandlerPrtcl {
         return !commands.intersection(types).isEmpty
     }
     
-    public func handle(update: TGUpdate, bot: TGBot) async throws {
-        try await callbackAsync(update, bot)
+    public func handle(update: TGUpdate) async throws {
+        try await callbackAsync(update)
     }
 }

@@ -8,18 +8,18 @@ Bundler.require(:default)
 require 'fileutils'
 
 HTML_FILE = 'tg-api.html'
-LIB_FOLDER_NAME = 'TelegramVaporBot'
+LIB_FOLDER_NAME = 'SwiftTelegramSdk'
 API_DIR = "../Sources/#{LIB_FOLDER_NAME}/Bot/Telegram"
 LIB_DIR = "../Sources/#{LIB_FOLDER_NAME}"
 API_FILE = 'tg-api.txt'
 
 TYPE_HEADER = <<EOT
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
 EOT
 
 METHOD_HEADER = <<EOT
-// Telegram-vapor-bot - Telegram Bot Swift SDK.
+// Swift Telegram SDK - Telegram Bot Swift SDK.
 
 EOT
 
@@ -51,9 +51,6 @@ class Api
     
     out = ""
     out << TYPE_HEADER
-    if type_name == "MaskPosition"
-      out << "import Vapor\n\n"
-    end
     out << "/**\n"
     description.each_line do |line|
       out << " #{line.strip}\n"
@@ -243,7 +240,6 @@ class Api
     method_name = current_node.text
     out = ""
     out << METHOD_HEADER
-    out << "import Vapor\n\n"
 
     current_node = current_node.next_element
     description = fetch_description(current_node)
@@ -405,13 +401,16 @@ class Api
 
   def write_bot_protocol_to_file(signatures)
     protocol = METHOD_HEADER
-    protocol << "import Vapor\n\n"
+    protocol << "import Logging\n\n"
     protocol << "public protocol #{PREFIX_LIB}BotPrtcl {\n\n"
-    protocol << "#{ONE}var app: Vapor.Application { get }\n"
+    protocol << "#{ONE}var connectionType: TGConnectionType { get }\n"
+    protocol << "#{ONE}var dispatcher: TGDispatcherPrtcl { get }\n"
     protocol << "#{ONE}var botId: String { get }\n"
     protocol << "#{ONE}var tgURI: URI { get }\n"
     protocol << "#{ONE}var tgClient: TGClientPrtcl { get }\n"
     protocol << "#{ONE}static var log: Logger { get }\n\n"
+    protocol << "#{ONE}@discardableResult\n"
+    protocol << "#{ONE}func start() async throws -> Bool\n\n"
     signatures.each { |signature| protocol << "#{signature}\n\n" }
     protocol << "}\n\n"
 

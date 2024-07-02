@@ -1,7 +1,5 @@
 // Telegram-vapor-bot - Telegram Bot Swift SDK.
 
-import Vapor
-
 /// DESCRIPTION:
 /// Use this method to add a new sticker to a set created by the bot. Emoji sticker sets can have up to 200 stickers. Other sticker sets can have up to 120 stickers. Returns True on success.
 

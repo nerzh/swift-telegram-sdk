@@ -6,23 +6,20 @@
 //
 
 import Foundation
-import Vapor
-
 
 public protocol TGConnectionPrtcl {
-    
-    var bot: TGBot { get }
-    var dispatcher: TGDispatcherPrtcl { get }
-    
     @discardableResult
-    func start() async throws -> Bool
+    func start(bot: TGBot) async throws -> Bool
 }
 
+public enum TGConnectionType {
+    case longpolling(limit: Int?,
+                     timeout: Int?,
+                     allowedUpdates: [TGUpdate.CodingKeys]?)
+    case webhook(webHookURL: URI)
+}
 
 public final class TGLongPollingConnection: TGConnectionPrtcl {
-    
-    public let bot: TGBot
-    public let dispatcher: TGDispatcherPrtcl
     public var limit: Int?
     public var timeout: Int? = 10
     public var allowedUpdates: [TGUpdate.CodingKeys]?
@@ -30,36 +27,32 @@ public final class TGLongPollingConnection: TGConnectionPrtcl {
     private var offsetUpdates: Int = 0
     private var newOffsetUpdates: Int { offsetUpdates + 1 }
     
-    public init(bot: TGBot,
-                dispatcher: TGDispatcherPrtcl.Type = TGDefaultDispatcher.self,
-                limit: Int? = nil,
+    public init(limit: Int? = nil,
                 timeout: Int? = nil,
                 allowedUpdates: [TGUpdate.CodingKeys]? = nil
     ) async throws {
-        self.bot = bot
-        self.dispatcher = try await dispatcher.init(bot: bot)
         self.limit = limit
         self.timeout = timeout ?? self.timeout
         self.allowedUpdates = allowedUpdates
     }
     
     @discardableResult
-    public func start() async throws -> Bool {
+    public func start(bot: TGBot) async throws -> Bool {
         /// delete webhook because: You will not be able to receive updates using getUpdates for as long as an outgoing webhook is set up.
         let deleteWebHookParams: TGDeleteWebhookParams = .init(dropPendingUpdates: false)
         try await bot.deleteWebhook(params: deleteWebHookParams)
         Task.detached { [weak self] in
             guard let self = self else { return }
             while !Task.isCancelled {
-                try await Task.sleep(nanoseconds: 100)
-                try await self.getUpdates()
+                try? await Task.sleep(nanoseconds: 1_000_000_000)
+                try? await self.getUpdates(bot: bot)
             }
         }
         
         return true
     }
     
-    private func getUpdates() async throws {
+    private func getUpdates(bot: TGBot) async throws {
         let allowedUpdates: [String] = (allowedUpdates ?? []).map { $0.rawValue }
         let params: TGGetUpdatesParams = .init(offset: newOffsetUpdates,
                                                limit: limit,
@@ -69,25 +62,21 @@ public final class TGLongPollingConnection: TGConnectionPrtcl {
         if let lastUpdate: TGUpdate = response.last {
             offsetUpdates = lastUpdate.updateId
         }
-        try await dispatcher.process(response)
+        try await bot.dispatcher.process(response)
     }
 }
 
 
 public final class TGWebHookConnection: TGConnectionPrtcl {
     
-    public let bot: TGBot
-    public let dispatcher: TGDispatcherPrtcl
     public let webHookURL: URI
     
-    public init(bot: TGBot, webHookURL: URI, dispatcher: TGDispatcherPrtcl.Type = TGDefaultDispatcher.self) async throws {
-        self.bot = bot
+    public init(webHookURL: URI) async throws {
         self.webHookURL = webHookURL
-        self.dispatcher = try await dispatcher.init(bot: bot)
     }
     
     @discardableResult
-    public func start() async throws -> Bool {
+    public func start(bot: TGBot) async throws -> Bool {
         let webHookParams: TGSetWebhookParams = .init(url: webHookURL.description)
         return try await bot.setWebhook(params: webHookParams)
     }

@@ -14,13 +14,18 @@ public func configure(_ app: Application) async throws {
     /// set level of debug if you needed
 //    TGBot.log.logLevel = .error
     TGBot.log.logLevel = app.logger.logLevel
-    let bot: TGBot = .init(app: app, botId: tgApi)
-    await TGBOT.setConnection(try await TGLongPollingConnection(bot: bot))
+    let bot: TGBot = try await .init(connectionType: .longpolling(limit: nil,
+                                                                  timeout: nil,
+                                                                  allowedUpdates: nil),
+                                     dispatcher: nil,
+                                     tgClient: VaporTGClient(client: app.client),
+                                     tgURI: TGBot.standardTGURL,
+                                     botId: tgApi)
     /// OR SET WEBHOOK CONNECTION
     /// await TGBOT.setConnection(try await TGWebHookConnection(bot: bot, webHookURL: "https://your_domain/telegramWebHook"))
-    
-    await DefaultBotHandlers.addHandlers(app: app, connection: TGBOT.connection)
-    try await TGBOT.connection.start()
+    await DefaultBotHandlers.addHandlers(bot: bot)
+    await botActor.setBot(bot)
+    try await botActor.bot.start()
 
     try routes(app)
 }
