@@ -43,10 +43,17 @@ public final class TGLongPollingConnection: TGConnectionPrtcl {
         try await bot.deleteWebhook(params: deleteWebHookParams)
         Task.detached { [weak self] in
             guard let self = self else { return }
-            while !Task.isCancelled {
-                try? await Task.sleep(nanoseconds: 1_000_000_000)
-                try? await self.getUpdates(bot: bot)
+            var cancell: Bool = false
+            while !Task.isCancelled && !cancell {
+                do {
+                    try await Task.sleep(nanoseconds: 1_000_000_000)
+                    try await self.getUpdates(bot: bot)
+                } catch {
+                    TGBot.log.warning("\(BotError(error).localizedDescription)")
+                    cancell = true
+                }
             }
+            try await start(bot: bot)
         }
         
         return true
