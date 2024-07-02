@@ -9,13 +9,13 @@ import Foundation
 import SwiftTelegramSdk
 
 actor TGBotActor {
-    private var _bot: TGBotPrtcl!
+    private var _bot: TGBot!
 
-    var bot: TGBotPrtcl {
+    var bot: TGBot {
         self._bot
     }
     
-    func setBot(_ bot: TGBotPrtcl) {
+    func setBot(_ bot: TGBot) {
         self._bot = bot
     }
 }
