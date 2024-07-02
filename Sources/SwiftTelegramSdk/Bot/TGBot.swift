@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Oleh Hudeichuk on 21.05.2021.
 //
@@ -15,8 +15,11 @@ public final class TGBot: TGBotPrtcl {
     public let botId: String
     public let tgURI: URL
     public let tgClient: TGClientPrtcl
+    public var log: Logger = .init(label: "com.tgbot")
     
     public static let standardTGURL: URL = .init(string: "https://api.telegram.org")!
+    
+    @available(*, deprecated, message: "Please use instance property \"log\". This static property doesn't work")
     public static var log = Logger(label: "com.tgbot")
     
     private var connection: TGConnectionPrtcl
@@ -31,8 +34,9 @@ public final class TGBot: TGBotPrtcl {
         switch connectionType {
         case let .longpolling(limit, timeout, allowedUpdates):
             self.connection = try await TGLongPollingConnection(limit: limit,
-                                                      timeout: timeout,
-                                                      allowedUpdates: allowedUpdates)
+                                                                timeout: timeout,
+                                                                allowedUpdates: allowedUpdates,
+                                                                log: log)
         case let .webhook(webHookURL):
             self.connection = try await TGWebHookConnection(webHookURL: webHookURL)
         }
@@ -42,7 +46,7 @@ public final class TGBot: TGBotPrtcl {
         if let dispatcher {
             self.dispatcher = dispatcher
         } else {
-            self.dispatcher = try await TGDefaultDispatcher()
+            self.dispatcher = try await TGDefaultDispatcher(log: log)
         }
     }
     

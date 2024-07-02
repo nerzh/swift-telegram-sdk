@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Logging
 
 public protocol TGConnectionPrtcl {
     @discardableResult
@@ -26,11 +27,14 @@ public final class TGLongPollingConnection: TGConnectionPrtcl {
     
     private var offsetUpdates: Int = 0
     private var newOffsetUpdates: Int { offsetUpdates + 1 }
+    private var log: Logger
     
     public init(limit: Int? = nil,
                 timeout: Int? = nil,
-                allowedUpdates: [TGUpdate.CodingKeys]? = nil
+                allowedUpdates: [TGUpdate.CodingKeys]? = nil,
+                log: Logger
     ) async throws {
+        self.log = log
         self.limit = limit
         self.timeout = timeout ?? self.timeout
         self.allowedUpdates = allowedUpdates
@@ -49,7 +53,7 @@ public final class TGLongPollingConnection: TGConnectionPrtcl {
                     try await Task.sleep(nanoseconds: 1_000_000_000)
                     try await self.getUpdates(bot: bot)
                 } catch {
-                    TGBot.log.warning("\(BotError(error).localizedDescription)")
+                    log.warning("\(BotError(error).localizedDescription)")
                     cancell = true
                 }
             }

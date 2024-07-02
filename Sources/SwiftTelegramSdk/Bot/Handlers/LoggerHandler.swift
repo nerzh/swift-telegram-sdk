@@ -11,11 +11,10 @@ import Logging
 public class TGLoggerHandler: TGHandlerPrtcl {
     
     public var id: Int = 0
+    let log: Logger
     
-    let logLevel: Logger.Level
-    
-    public init(level: Logger.Level) {
-        self.logLevel = level
+    public init(log: Logger) {
+        self.log = log
     }
     
     public func check(update: TGUpdate) -> Bool {
@@ -23,13 +22,12 @@ public class TGLoggerHandler: TGHandlerPrtcl {
     }
     
     public func handle(update: TGUpdate) async throws {
-        TGBot.log.log(level: logLevel, update.logMessage)
+        log.log(level: log.logLevel, update.logMessage)
     }
 }
 
 extension TGUpdate {
     var description: String {
-        
         //TODO: Improve description algorithm, serialization/deserialization too heavy
         var resultString = "[]"
         
@@ -41,7 +39,7 @@ extension TGUpdate {
                 resultString = json
             }
         } catch {
-            TGBot.log.error(error.logMessage)
+            Logger(label: "TGUpdate").log(level: .error, error.logMessage)
         }
         return resultString
     }

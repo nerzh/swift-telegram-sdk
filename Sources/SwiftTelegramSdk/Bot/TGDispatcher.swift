@@ -6,20 +6,22 @@
 //
 
 import Foundation
+import Logging
 
 public protocol TGDispatcherPrtcl {
     var handlersGroup: [[TGHandlerPrtcl]] { get set }
-    /// The higher level has the highest priority
+    /// priority - priority of execution by handlers
     func add(_ handler: TGHandlerPrtcl, priority: Int) async
     func add(_ handler: TGHandlerPrtcl) async
     func addBeforeAllCallback(_ callback: @Sendable @escaping ([TGUpdate]) async throws -> Bool)
-    func remove(_ handler: TGHandlerPrtcl, from level: Int?) async
+    func remove(_ handler: TGHandlerPrtcl, from priority: Int?) async
     func process(_ updates: [TGUpdate])
     func handle() async throws
 }
 
 open class TGDefaultDispatcher: TGDispatcherPrtcl {
     public var handlersGroup: [[TGHandlerPrtcl]] = []
+    private var log: Logger
     private var beforeAllCallback: ([TGUpdate]) async throws -> Bool = { _ in true }
     private var handlersId: Int = 0
     private var nextHandlerId: Int {
@@ -33,31 +35,32 @@ open class TGDefaultDispatcher: TGDispatcherPrtcl {
     private typealias Position = Int
     private var handlersIndex: [Level: [IndexId: Position]] = .init()
 
-    required public init() async throws {
+    required public init(log: Logger) async throws {
+        self.log = log
         try await handle()
     }
     
     open func handle() async throws {}
 
-    public func add(_ handler: TGHandlerPrtcl, priority level: Int) {
+    public func add(_ handler: TGHandlerPrtcl, priority: Int) {
         /// add uniq index id
         var handler: TGHandlerPrtcl = handler
-        handler.id = self.nextHandlerId
+        handler.id = nextHandlerId
         
         /// add handler
         var handlerPosition: Int = 0
-        let correctLevel: Int = level >= 0 ? level : 0
-        if self.handlersGroup.count > correctLevel {
+        let correctLevel: Int = priority >= 0 ? priority : 0
+        if handlersGroup.count > correctLevel {
             self.handlersGroup[correctLevel].append(handler)
-            handlerPosition = self.handlersGroup[correctLevel].count - 1
+            handlerPosition = handlersGroup[correctLevel].count - 1
         } else {
-            self.handlersGroup.append([handler])
-            handlerPosition = self.handlersGroup[self.handlersGroup.count - 1].count - 1
+            handlersGroup.append([handler])
+            handlerPosition = handlersGroup[handlersGroup.count - 1].count - 1
         }
         
         /// add handler to index
-        if self.handlersIndex[level] == nil { self.handlersIndex[level] = .init() }
-        self.handlersIndex[level]?[handler.id] = handlerPosition
+        if handlersIndex[priority] == nil { handlersIndex[priority] = .init() }
+        handlersIndex[priority]?[handler.id] = handlerPosition
     }
 
     public func add(_ handler: TGHandlerPrtcl) async {
@@ -68,19 +71,22 @@ open class TGDefaultDispatcher: TGDispatcherPrtcl {
         beforeAllCallback = callback
     }
 
-    public func remove(_ handler: TGHandlerPrtcl, from level: Int?) {
-        let level: Level = level ?? 0
+    public func remove(_ handler: TGHandlerPrtcl, from priority: Int?) {
+        let priority: Level = priority ?? 0
         let indexId: IndexId = handler.id
         guard
-            let index: [IndexId: Position] = self.handlersIndex[level],
+            let index: [IndexId: Position] = handlersIndex[priority],
             let position: Position = index[indexId]
         else {
             return
         }
         let positionIndex = position - 1
-        if self.handlersGroup[level].count > positionIndex, self.handlersGroup[level][positionIndex].id == handler.id {
-            self.handlersGroup[level].remove(at: positionIndex)
-            self.handlersIndex[level]?.removeValue(forKey: indexId)
+        if 
+            handlersGroup[priority].count > positionIndex,
+            handlersGroup[priority][positionIndex].id == handler.id
+        {
+            handlersGroup[priority].remove(at: positionIndex)
+            handlersIndex[priority]?.removeValue(forKey: indexId)
         }
     }
     
@@ -90,11 +96,12 @@ open class TGDefaultDispatcher: TGDispatcherPrtcl {
             if allowNext {
                 try await withThrowingTaskGroup(of: Void.self, body: { group in
                     for update in updates {
-                        group.addTask {
+                        group.addTask { [weak self] in
+                            guard let self = self else { return }
                             do {
                                 try await self.processByHandler(update)
                             } catch {
-                                TGBot.log.error("\(makeError(BotError(error)).localizedDescription)")
+                                log.error("\(makeError(BotError(error)).localizedDescription)")
                             }
                         }
                     }
@@ -105,8 +112,9 @@ open class TGDefaultDispatcher: TGDispatcherPrtcl {
     }
     
     private func processByHandler(_ update: TGUpdate) async throws {
-        TGBot.log.debug("\(dump(update))")
-        try await withThrowingTaskGroup(of: Void.self, body: { group in
+        log.debug("\(dump(update))")
+        try await withThrowingTaskGroup(of: Void.self, body: { [weak self] group in
+            guard let self = self else { return }
             for i in 1...self.handlersGroup.count {
                 for handler in self.handlersGroup[self.handlersGroup.count - i] {
                     if handler.check(update: update) {
@@ -114,7 +122,7 @@ open class TGDefaultDispatcher: TGDispatcherPrtcl {
                             do {
                                 try await handler.handle(update: update)
                             } catch {
-                                TGBot.log.error("\(makeError(BotError(error)).localizedDescription)")
+                                self.log.error("\(makeError(BotError(error)).localizedDescription)")
                             }
                         }
                     }
