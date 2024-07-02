@@ -6,8 +6,11 @@
 //
 
 import Foundation
+import Logging
 
 public protocol TGClientPrtcl {
+    
+    var log: Logger { get set }
     
     @discardableResult
     func get<Params: Encodable, Response: Decodable>(_ url: URL, params: Params?, as mediaType: HTTPMediaType?) async throws -> Response

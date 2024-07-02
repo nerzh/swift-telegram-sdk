@@ -14,7 +14,7 @@ public final class TGBot: TGBotPrtcl {
     public let dispatcher: TGDispatcherPrtcl
     public let botId: String
     public let tgURI: URL
-    public let tgClient: TGClientPrtcl
+    public var tgClient: TGClientPrtcl
     public var log: Logger = .init(label: "com.tgbot")
     
     public static let standardTGURL: URL = .init(string: "https://api.telegram.org")!
@@ -41,6 +41,7 @@ public final class TGBot: TGBotPrtcl {
             self.connection = try await TGWebHookConnection(webHookURL: webHookURL)
         }
         self.tgClient = tgClient
+        self.tgClient.log = log
         self.botId = botId
         self.tgURI = tgURI
         if let dispatcher {
