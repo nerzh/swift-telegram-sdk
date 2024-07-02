@@ -15,6 +15,7 @@ public protocol TGDispatcherPrtcl {
     func addBeforeAllCallback(_ callback: @Sendable @escaping ([TGUpdate]) async throws -> Bool)
     func remove(_ handler: TGHandlerPrtcl, from level: Int?) async
     func process(_ updates: [TGUpdate])
+    func handle() async throws
 }
 
 open class TGDefaultDispatcher: TGDispatcherPrtcl {
@@ -36,7 +37,7 @@ open class TGDefaultDispatcher: TGDispatcherPrtcl {
         try await handle()
     }
     
-    public func handle() async throws {}
+    open func handle() async throws {}
 
     public func add(_ handler: TGHandlerPrtcl, priority level: Int) {
         /// add uniq index id
