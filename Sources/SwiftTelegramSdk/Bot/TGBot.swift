@@ -10,7 +10,6 @@ import Logging
 
 public final class TGBot: TGBotPrtcl {
     
-    
     public let connectionType: TGConnectionType
     public let dispatcher: TGDispatcherPrtcl
     public let botId: String
