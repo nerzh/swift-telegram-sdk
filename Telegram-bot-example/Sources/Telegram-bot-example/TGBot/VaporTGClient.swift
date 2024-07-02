@@ -19,6 +19,7 @@ private struct TGEmptyParams: Encodable {}
 public final class VaporTGClient: TGClientPrtcl {
     
     public typealias HTTPMediaType = SwiftTelegramSdk.HTTPMediaType
+    public var log: Logging.Logger = .init(label: "VaporTGClient")
     private let client: Vapor.Client
     
     public init(client: Vapor.Client) {
@@ -40,9 +41,9 @@ public final class VaporTGClient: TGClientPrtcl {
                     /// Content-Disposition: form-data; name="nested_object"
                     ///
                     /// { json string }
-                    rawMultipart = try (params ?? (TGEmptyParams() as! Params)).toMultiPartFormData()
+                    rawMultipart = try (params ?? (TGEmptyParams() as! Params)).toMultiPartFormData(log: log)
                 } catch {
-                    TGBot.log.critical(error.logMessage)
+                    log.critical(error.logMessage)
                 }
                 clientRequest.headers.add(name: "Content-Type", value: "multipart/form-data; boundary=\(rawMultipart.boundary)")
                 let buffer = ByteBuffer.init(data: rawMultipart.body as Data)
@@ -90,12 +91,12 @@ public final class VaporTGClient: TGClientPrtcl {
                     ///
                     /// { json string }
                     if let currentParams: Params = params {
-                        rawMultipart = try currentParams.toMultiPartFormData()
+                        rawMultipart = try currentParams.toMultiPartFormData(log: log)
                     } else {
-                        rawMultipart = try TGEmptyParams().toMultiPartFormData()
+                        rawMultipart = try TGEmptyParams().toMultiPartFormData(log: log)
                     }
                 } catch {
-                    TGBot.log.critical("Post request error: \(error.logMessage)")
+                    log.critical("Post request error: \(error.logMessage)")
                 }
                 clientRequest.headers.add(name: "Content-Type", value: "multipart/form-data; boundary=\(rawMultipart.boundary)")
                 let buffer = ByteBuffer.init(data: rawMultipart.body as Data)
@@ -136,7 +137,7 @@ public final class VaporTGClient: TGClientPrtcl {
                 type: .server,
                 description: desc
             )
-            TGBot.log.error(error.logMessage)
+            log.error(error.logMessage)
             throw error
         }
         
@@ -145,7 +146,7 @@ public final class VaporTGClient: TGClientPrtcl {
                 type: .server,
                 reason: "Response marked as `Ok`, but doesn't contain `result` field."
             )
-            TGBot.log.error(error.logMessage)
+            log.error(error.logMessage)
             throw error
         }
         
@@ -157,7 +158,7 @@ public final class VaporTGClient: TGClientPrtcl {
         Description: \(container.description ?? "Empty")
         
         """
-        TGBot.log.trace(logString.logMessage)
+        log.trace(logString.logMessage)
         return result
     }
 }
