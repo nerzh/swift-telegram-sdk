@@ -21,8 +21,14 @@ public func configure(_ app: Application) async throws {
                                      tgClient: VaporTGClient(client: app.client),
                                      tgURI: TGBot.standardTGURL,
                                      botId: tgApi)
-    /// OR SET WEBHOOK CONNECTION
-    /// await TGBOT.setConnection(try await TGWebHookConnection(bot: bot, webHookURL: "https://your_domain/telegramWebHook"))
+
+/// OR SET WEBHOOK CONNECTION
+///    let bot: TGBot = try await .init(connectionType: .webhook(webHookURL: "https://your_domain/telegramWebHook"),
+///                                     dispatcher: nil,
+///                                     tgClient: VaporTGClient(client: app.client),
+///                                     tgURI: TGBot.standardTGURL,
+///                                     botId: tgApi)
+    
     await DefaultBotHandlers.addHandlers(bot: bot)
     await botActor.setBot(bot)
     try await botActor.bot.start()

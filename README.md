@@ -1,59 +1,54 @@
-# Telegram Vapor Bot (SDK for creating Telegram Bots in Swift)
+# Swift Telegram Sdk for Telegram Bot Api (SDK for creating Telegram Bots in Swift)
 
 ### Please, support with ⭐️
 
 🤖 The wrapper for the Telegram Bot API written in Swift with Vapor. It's not a framework. There is no special syntax here. This is a library that implements all [Telegram Bot API methods](https://core.telegram.org/bots/api#available-methods), which is available to you to work with Vapor.
 
-#### Example Telegram Bot based on Swift Telegram Vapor Bot - Here
-[Telegram-bot-example](https://github.com/nerzh/telegram-vapor-bot/tree/master/Telegram-bot-example)
-
 #### Swift Server Side Community
 [Swift Server Side Community - Ukraine / Russian / CIS Telegram Chat](https://t.me/server_side_swift)
 
-### Usage
+### Usage with Vapor
+#### Example Telegram Bot based on Swift Telegram Vapor Bot - Here
+[Telegram-bot-example](https://github.com/nerzh/telegram-vapor-bot/tree/master/Telegram-bot-example)
 
 #### create folder with your handlers **TGHandlers/DefaultBotHandlers.swift**
 ```swift
 import Vapor
-import TelegramVaporBot
+import SwiftTelegramSdk
 
 final class DefaultBotHandlers {
 
-    static func addHandlers(app: Vapor.Application, connection: TGConnectionPrtcl) async {
-        await defaultBaseHandler(app: app, connection: connection)
-        await messageHandler(app: app, connection: connection)
-        await commandPingHandler(app: app, connection: connection)
-        await commandShowButtonsHandler(app: app, connection: connection)
-        await buttonsActionHandler(app: app, connection: connection)
+    static func addHandlers(bot: TGBot) async {
+        await defaultBaseHandler(bot: bot)
+        await messageHandler(bot: bot)
+        await commandPingHandler(bot: bot)
+        await commandShowButtonsHandler(bot: bot)
+        await buttonsActionHandler(bot: bot)
     }
     
-    /// Handler for all updates
-    private static func defaultBaseHandler(app: Vapor.Application, connection: TGConnectionPrtcl) async {
-        await connection.dispatcher.add(TGBaseHandler({ update, bot in
+    private static func defaultBaseHandler(bot: TGBot) async {
+        await bot.dispatcher.add(TGBaseHandler({ update in
             guard let message = update.message else { return }
             let params: TGSendMessageParams = .init(chatId: .chat(message.chat.id), text: "TGBaseHandler")
-            try await connection.bot.sendMessage(params: params)
+            try await bot.sendMessage(params: params)
         }))
     }
 
-    /// Handler for Messages
-    private static func messageHandler(app: Vapor.Application, connection: TGConnectionPrtcl) async {
-        await connection.dispatcher.add(TGMessageHandler(filters: (.all && !.command.names(["/ping", "/show_buttons"]))) { update, bot in
+    private static func messageHandler(bot: TGBot) async {
+        await bot.dispatcher.add(TGMessageHandler(filters: (.all && !.command.names(["/ping", "/show_buttons"]))) { update in
             let params: TGSendMessageParams = .init(chatId: .chat(update.message!.chat.id), text: "Success")
-            try await connection.bot.sendMessage(params: params)
+            try await bot.sendMessage(params: params)
         })
     }
 
-    /// Handler for Commands
-    private static func commandPingHandler(app: Vapor.Application, connection: TGConnectionPrtcl) async {
-        await connection.dispatcher.add(TGCommandHandler(commands: ["/ping"]) { update, bot in
+    private static func commandPingHandler(bot: TGBot) async {
+        await bot.dispatcher.add(TGCommandHandler(commands: ["/ping"]) { update in
             try await update.message?.reply(text: "pong", bot: bot)
         })
     }
 
-    /// Show buttons
-    private static func commandShowButtonsHandler(app: Vapor.Application, connection: TGConnectionPrtcl) async {
-        await connection.dispatcher.add(TGCommandHandler(commands: ["/show_buttons"]) { update, bot in
+    private static func commandShowButtonsHandler(bot: TGBot) async {
+        await bot.dispatcher.add(TGCommandHandler(commands: ["/show_buttons"]) { update in
             guard let userId = update.message?.from?.id else { fatalError("user id not found") }
             let buttons: [[TGInlineKeyboardButton]] = [
                 [.init(text: "Button 1", callbackData: "press 1"), .init(text: "Button 2", callbackData: "press 2")]
@@ -62,28 +57,33 @@ final class DefaultBotHandlers {
             let params: TGSendMessageParams = .init(chatId: .chat(userId),
                                                     text: "Keyboard active",
                                                     replyMarkup: .inlineKeyboardMarkup(keyboard))
-            try await connection.bot.sendMessage(params: params)
+            try await bot.sendMessage(params: params)
         })
     }
 
-    /// Handler for buttons callbacks
-    private static func buttonsActionHandler(app: Vapor.Application, connection: TGConnectionPrtcl) async {
-        await connection.dispatcher.add(TGCallbackQueryHandler(pattern: "press 1") { update, bot in
+    private static func buttonsActionHandler(bot: TGBot) async {
+        await bot.dispatcher.add(TGCallbackQueryHandler(pattern: "press 1") { update in
+            TGBot.log.info("press 1")
+            guard let userId = update.callbackQuery?.from.id else { fatalError("user id not found") }
             let params: TGAnswerCallbackQueryParams = .init(callbackQueryId: update.callbackQuery?.id ?? "0",
                                                             text: update.callbackQuery?.data  ?? "data not exist",
                                                             showAlert: nil,
                                                             url: nil,
                                                             cacheTime: nil)
             try await bot.answerCallbackQuery(params: params)
+            try await bot.sendMessage(params: .init(chatId: .chat(userId), text: "press 1"))
         })
         
-        await connection.dispatcher.add(TGCallbackQueryHandler(pattern: "press 2") { update, bot in
+        await bot.dispatcher.add(TGCallbackQueryHandler(pattern: "press 2") { update in
+            TGBot.log.info("press 2")
+            guard let userId = update.callbackQuery?.from.id else { fatalError("user id not found") }
             let params: TGAnswerCallbackQueryParams = .init(callbackQueryId: update.callbackQuery?.id ?? "0",
                                                             text: update.callbackQuery?.data  ?? "data not exist",
                                                             showAlert: nil,
                                                             url: nil,
                                                             cacheTime: nil)
             try await bot.answerCallbackQuery(params: params)
+            try await bot.sendMessage(params: .init(chatId: .chat(userId), text: "press 2"))
         })
     }
 }
@@ -97,17 +97,17 @@ Add Actor for TGConnection
 
 ```swift
 import Foundation
-import TelegramVaporBot
+import SwiftTelegramSdk
 
-actor TGBotConnection {
-    private var _connection: TGConnectionPrtcl!
+actor TGBotActor {
+    private var _bot: TGBotPrtcl!
 
-    var connection: TGConnectionPrtcl {
-        self._connection
+    var bot: TGBotPrtcl {
+        self._bot
     }
     
-    func setConnection(_ conn: TGConnectionPrtcl) {
-        self._connection = conn
+    func setBot(_ bot: TGBotPrtcl) {
+        self._bot = bot
     }
 }
 ```
@@ -120,7 +120,7 @@ make strong reference to TGBotConnection instance and add "await" to configure
 import Vapor
 import TelegramVaporBot
 
-let TGBOT: TGBotConnection = .init()
+let botActor: TGBotActor = .init()
 
 try await configure(app)
 ```
@@ -130,20 +130,29 @@ try await configure(app)
 #### for longpolling you should only configure vapor **configure.swift**
 
 ```swift
-import TelegramVaporBot
+import Foundation
+import Vapor
+import SwiftTelegramSdk
 
 public func configure(_ app: Application) async throws {
     let tgApi: String = "XXXXXXXXXX:YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
     /// set level of debug if you needed
+//    TGBot.log.logLevel = .error
     TGBot.log.logLevel = app.logger.logLevel
-    let bot: TGBot = .init(app: app, botId: tgApi)
-    await TGBOT.setConnection(try await TGLongPollingConnection(bot: bot))
-    await DefaultBotHandlers.addHandlers(app: app, connection: TGBOT.connection)
-    try await TGBOT.connection.start()
+    let bot: TGBot = try await .init(connectionType: .longpolling(limit: nil,
+                                                                  timeout: nil,
+                                                                  allowedUpdates: nil),
+                                     dispatcher: nil,
+                                     tgClient: VaporTGClient(client: app.client),
+                                     tgURI: TGBot.standardTGURL,
+                                     botId: tgApi)
+    
+    await DefaultBotHandlers.addHandlers(bot: bot)
+    await botActor.setBot(bot)
+    try await botActor.bot.start()
 
     try routes(app)
 }
-
 ```
 
 
@@ -153,28 +162,33 @@ public func configure(_ app: Application) async throws {
 #### vapor **configure.swift**
 
 ```swift
-import TelegramVaporBot
+import Foundation
+import Vapor
+import SwiftTelegramSdk
 
 public func configure(_ app: Application) async throws {
     let tgApi: String = "XXXXXXXXXX:YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
     /// set level of debug if you needed
+//    TGBot.log.logLevel = .error
     TGBot.log.logLevel = app.logger.logLevel
-    let bot: TGBot = .init(app: app, botId: tgApi)
-    await TGBOT.setConnection(try await TGWebHookConnection(bot: bot, webHookURL: "https://your_domain/telegramWebHook"))
-    await DefaultBotHandlers.addHandlers(app: app, connection: TGBOT.connection)
-    try await TGBOT.connection.start()
+    let bot: TGBot = try await .init(connectionType: .webhook(webHookURL: "https://your_domain/telegramWebHook"),
+                                     dispatcher: nil,
+                                     tgClient: VaporTGClient(client: app.client),
+                                     tgURI: TGBot.standardTGURL,
+                                     botId: tgApi)
+    
+    await DefaultBotHandlers.addHandlers(bot: bot)
+    await botActor.setBot(bot)
+    try await botActor.bot.start()
 
     try routes(app)
 }
-
 ```
 
 #### vapor **routes.swift**
 
 ```swift
 import Vapor
-import TelegramVaporBot
-
 
 func routes(_ app: Application) throws {
     try app.register(collection: TelegramController())
@@ -184,8 +198,9 @@ func routes(_ app: Application) throws {
 #### vapor **TelegramController.swift**
 
 ```swift
+import Foundation
 import Vapor
-import TelegramVaporBot
+import SwiftTelegramSdk
 
 final class TelegramController: RouteCollection {
     
@@ -198,10 +213,10 @@ extension TelegramController {
     
     func telegramWebHook(_ req: Request) async throws -> Bool {
         let update: TGUpdate = try req.content.decode(TGUpdate.self)
-        return try await TGBOT.connection.dispatcher.process([update])
+        await botActor.bot.dispatcher.process([update])
+        return true
     }
 }
-
 ```
 
 
@@ -217,7 +232,7 @@ var packageDependencies: [Package.Dependency] = [
     .package(url: "https://github.com/vapor/vapor.git", .upToNextMajor(from: "4.57.0")),
 ]
 
-packageDependencies.append(.package(url: "https://github.com/nerzh/telegram-vapor-bot", .upToNextMajor(from: "2.1.0")))
+packageDependencies.append(.package(url: "https://github.com/nerzh/swift-telegram-sdk", .upToNextMajor(from: "3.0.0")))
 
 
 let package = Package(
@@ -231,7 +246,7 @@ let package = Package(
             name: "Telegram-bot-example",
             dependencies: [
                 .product(name: "Vapor", package: "vapor"),
-                .product(name: "TelegramVaporBot", package: "telegram-vapor-bot"),
+                .product(name: "SwiftTelegramSdk", package: "swift-telegram-sdk"),
             ]
         )
     ]
