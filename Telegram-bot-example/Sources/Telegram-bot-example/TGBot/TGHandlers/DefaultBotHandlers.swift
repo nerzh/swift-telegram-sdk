@@ -55,7 +55,7 @@ final class DefaultBotHandlers {
 
     private static func buttonsActionHandler(bot: TGBot) async {
         await bot.dispatcher.add(TGCallbackQueryHandler(pattern: "press 1") { update in
-            TGBot.log.info("press 1")
+            bot.log.info("press 1")
             guard let userId = update.callbackQuery?.from.id else { fatalError("user id not found") }
             let params: TGAnswerCallbackQueryParams = .init(callbackQueryId: update.callbackQuery?.id ?? "0",
                                                             text: update.callbackQuery?.data  ?? "data not exist",
@@ -67,7 +67,7 @@ final class DefaultBotHandlers {
         })
         
         await bot.dispatcher.add(TGCallbackQueryHandler(pattern: "press 2") { update in
-            TGBot.log.info("press 2")
+            bot.log.info("press 2")
             guard let userId = update.callbackQuery?.from.id else { fatalError("user id not found") }
             let params: TGAnswerCallbackQueryParams = .init(callbackQueryId: update.callbackQuery?.id ?? "0",
                                                             text: update.callbackQuery?.data  ?? "data not exist",
