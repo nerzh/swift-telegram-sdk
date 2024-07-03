@@ -27,7 +27,6 @@ public func configure(_ app: Application) async throws {
                                      log: app.logger)
     /// set level of debug if you needed
     //    bot.log.logLevel = .error
-    bot.log.logLevel = app.logger.logLevel
     await botActor.setBot(bot)
     await DefaultBotHandlers.addHandlers(bot: botActor.bot)
     try await botActor.bot.start()
