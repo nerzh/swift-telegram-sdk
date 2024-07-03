@@ -10,7 +10,7 @@ public protocol TGBotPrtcl {
     var botId: String { get }
     var tgURI: URL { get }
     var tgClient: TGClientPrtcl { get }
-    static var log: Logger { get }
+    var log: Logger { get }
 
     @discardableResult
     func start() async throws -> Bool

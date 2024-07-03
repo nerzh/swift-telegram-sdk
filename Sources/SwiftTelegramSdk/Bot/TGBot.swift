@@ -10,25 +10,24 @@ import Logging
 
 public final class TGBot: TGBotPrtcl {
     
+    public static let standardTGURL: URL = .init(string: "https://api.telegram.org")!
+    @available(*, deprecated, message: "Please use instance property \"log\". This static property doesn't work")
+    public static var log = Logger(label: "com.tgbot")
+    
     public let connectionType: TGConnectionType
     public let dispatcher: TGDispatcherPrtcl
     public let botId: String
     public let tgURI: URL
     public var tgClient: TGClientPrtcl
     public var log: Logger = .init(label: "com.tgbot")
-    
-    public static let standardTGURL: URL = .init(string: "https://api.telegram.org")!
-    
-    @available(*, deprecated, message: "Please use instance property \"log\". This static property doesn't work")
-    public static var log = Logger(label: "com.tgbot")
-    
     private var connection: TGConnectionPrtcl
     
     public init(connectionType: TGConnectionType,
                 dispatcher: TGDispatcherPrtcl? = nil,
                 tgClient: TGClientPrtcl,
                 tgURI: URL = TGBot.standardTGURL,
-                botId: String
+                botId: String,
+                log: Logger = .init(label: "com.tgbot")
     ) async throws {
         self.connectionType = connectionType
         switch connectionType {
@@ -49,6 +48,7 @@ public final class TGBot: TGBotPrtcl {
         } else {
             self.dispatcher = try await TGDefaultDispatcher(log: log)
         }
+        self.log = log
     }
     
     public func getMethodURL(_ methodName: String) -> String {

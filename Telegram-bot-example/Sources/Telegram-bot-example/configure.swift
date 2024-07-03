@@ -11,10 +11,6 @@ import SwiftTelegramSdk
 
 public func configure(_ app: Application) async throws {
     let tgApi: String = "XXXXXXXXXX:YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
-    /// set level of debug if you needed
-//    TGBot.log.logLevel = .error
-    TGBot.log.logLevel = app.logger.logLevel
-    
     /// OR SET WEBHOOK CONNECTION
     ///    let bot: TGBot = try await .init(connectionType: .webhook(webHookURL: "https://your_domain/telegramWebHook"),
     ///                                     dispatcher: nil,
@@ -27,7 +23,11 @@ public func configure(_ app: Application) async throws {
                                      dispatcher: nil,
                                      tgClient: VaporTGClient(client: app.client),
                                      tgURI: TGBot.standardTGURL,
-                                     botId: tgApi)
+                                     botId: tgApi,
+                                     log: app.logger)
+    /// set level of debug if you needed
+    //    bot.log.logLevel = .error
+    bot.log.logLevel = app.logger.logLevel
     await botActor.setBot(bot)
     await DefaultBotHandlers.addHandlers(bot: botActor.bot)
     try await botActor.bot.start()
