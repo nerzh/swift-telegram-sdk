@@ -27,55 +27,6 @@ public final class VaporTGClient: TGClientPrtcl {
     }
     
     @discardableResult
-    public func get<Params: Encodable, Response: Decodable>
-    (
-        _ url: URL,
-        params: Params? = nil,
-        as mediaType: HTTPMediaType? = nil
-    ) async throws -> Response {
-        let clientResponse: ClientResponse = try await client.get(URI(string: url.absoluteString), headers: HTTPHeaders()) { clientRequest in
-            if mediaType == .formData || mediaType == nil {
-                #warning("THIS CODE FOR FAST FIX, BECAUSE https://github.com/vapor/multipart-kit/issues/63 not accepted yet")
-                var rawMultipart: (body: NSMutableData, boundary: String)!
-                do {
-                    /// Content-Disposition: form-data; name="nested_object"
-                    ///
-                    /// { json string }
-                    rawMultipart = try (params ?? (TGEmptyParams() as! Params)).toMultiPartFormData(log: log)
-                } catch {
-                    log.critical(error.logMessage)
-                }
-                clientRequest.headers.add(name: "Content-Type", value: "multipart/form-data; boundary=\(rawMultipart.boundary)")
-                let buffer = ByteBuffer.init(data: rawMultipart.body as Data)
-                clientRequest.body = buffer
-            } else {
-                let mediaType: Vapor.HTTPMediaType = if let mediaType {
-                    .init(type: mediaType.type, subType: mediaType.subType, parameters: mediaType.parameters)
-                } else {
-                    .json
-                }
-                if let currentParams: Params = params {
-                    try clientRequest.content.encode(currentParams, as: mediaType)
-                } else {
-                    try clientRequest.content.encode(TGEmptyParams(), as: mediaType)
-                }
-            }
-        }
-        let telegramContainer: TGTelegramContainer = try clientResponse.content.decode(TGTelegramContainer<Response>.self)
-        return try processContainer(telegramContainer)
-    }
-    
-    @discardableResult
-    public func get<Response: Decodable>(_ url: URL) async throws -> Response {
-        try await get(url, params: TGEmptyParams(), as: nil)
-    }
-    
-    @discardableResult
-    public func get<Response: Decodable>(_ url: URL, as mediaType: HTTPMediaType) async throws -> Response {
-        try await get(url, params: TGEmptyParams(), as: mediaType)
-    }
-    
-    @discardableResult
     public func post<Params: Encodable, Response: Decodable>
     (
         _ url: URL,
@@ -119,11 +70,6 @@ public final class VaporTGClient: TGClientPrtcl {
     @discardableResult
     public func post<Response: Decodable>(_ url: URL) async throws -> Response {
         try await post(url, params: TGEmptyParams(), as: nil)
-    }
-    
-    @discardableResult
-    public func post<Response: Decodable>(_ url: URL, as mediaType: HTTPMediaType) async throws -> Response {
-        try await post(url, params: TGEmptyParams(), as: mediaType)
     }
     
     private func processContainer<T: Decodable>(_ container: TGTelegramContainer<T>) throws -> T {

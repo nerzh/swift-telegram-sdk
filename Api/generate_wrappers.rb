@@ -412,8 +412,7 @@ class Api
     protocol << "#{ONE}var botId: String { get }\n"
     protocol << "#{ONE}var tgURI: URL { get }\n"
     protocol << "#{ONE}var tgClient: TGClientPrtcl { get }\n"
-    protocol << "#{ONE}var log: Logger { get }\n"
-    protocol << "#{ONE}static var log: Logger { get }\n\n"
+    protocol << "#{ONE}var log: Logger { get }\n\n"
     protocol << "#{ONE}@discardableResult\n"
     protocol << "#{ONE}func start() async throws -> Bool\n\n"
     signatures.each { |signature| protocol << "#{signature}\n\n" }
