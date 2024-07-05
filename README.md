@@ -7,10 +7,25 @@
 #### Swift Server Side Community
 [Swift Server Side Community - Ukraine / Russian / CIS Telegram Chat](https://t.me/server_side_swift)
 
-### Usage with Vapor
-#### Example Telegram Bot based on Swift Telegram Vapor Bot - Here
-[Telegram-bot-example](https://github.com/nerzh/telegram-vapor-bot/tree/master/Telegram-vapor-bot-example)
+# Usage
+#### You should to implement TGClientPrtcl protocol
+#### You can see an example of TGClient in the implementation for Vapor: [VaporTGClient](https://github.com/nerzh/swift-telegram-sdk/blob/master/Telegram-vapor-bot-example/Sources/Telegram-vapor-bot-example/TGBot/VaporTGClient.swift)
+```swift
+import Logging
 
+public protocol TGClientPrtcl {
+    
+    var log: Logger { get set }
+    
+    @discardableResult
+    func post<Params: Encodable, Response: Decodable>(_ url: URL, params: Params?, as mediaType: HTTPMediaType?) async throws -> Response
+    
+    @discardableResult
+    func post<Response: Decodable>(_ url: URL) async throws -> Response
+}
+```
+# Usage with Vapor
+#### Example Swift Telegram Bot with Vapor - [Telegram-vapor-bot-example](https://github.com/nerzh/telegram-vapor-bot/tree/master/Telegram-vapor-bot-example)
 #### create folder with your handlers **TGHandlers/DefaultBotHandlers.swift**
 ```swift
 import Vapor
@@ -93,20 +108,20 @@ final class DefaultBotHandlers {
 
 #### Create file **TGBotConnectionActor.swift**
 
-Add Actor for TGConnection
+Add Actor for TGBot
 
 ```swift
 import Foundation
 import SwiftTelegramSdk
 
 actor TGBotActor {
-    private var _bot: TGBotPrtcl!
+    private var _bot: TGBot!
 
-    var bot: TGBotPrtcl {
+    var bot: TGBot {
         self._bot
     }
     
-    func setBot(_ bot: TGBotPrtcl) {
+    func setBot(_ bot: TGBot) {
         self._bot = bot
     }
 }
