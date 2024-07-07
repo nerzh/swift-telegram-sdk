@@ -15,7 +15,7 @@ public protocol TGDispatcherPrtcl {
     func add(_ handler: TGHandlerPrtcl) async
     func addBeforeAllCallback(_ callback: @Sendable @escaping ([TGUpdate]) async throws -> Bool)
     func remove(_ handler: TGHandlerPrtcl, from priority: Int?) async
-    func process(_ updates: [TGUpdate])
+    func process(_ updates: [TGUpdate]) async throws
     func handle() async throws
 }
 
@@ -90,24 +90,18 @@ open class TGDefaultDispatcher: TGDispatcherPrtcl {
         }
     }
     
-    public func process(_ updates: [TGUpdate]) {
-        Task.detached {
-            let allowNext: Bool = try await self.beforeAllCallback(updates)
-            if allowNext {
-                try await withThrowingTaskGroup(of: Void.self, body: { group in
-                    for update in updates {
-                        group.addTask { [weak self] in
-                            guard let self = self else { return }
-                            do {
-                                try await self.processByHandler(update)
-                            } catch {
-                                log.error("\(makeError(BotError(error)).localizedDescription)")
-                            }
-                        }
+    public func process(_ updates: [TGUpdate]) async throws {
+        let allowNext: Bool = try await self.beforeAllCallback(updates)
+        if allowNext {
+            try await withThrowingTaskGroup(of: Void.self, body: { group in
+                for update in updates {
+                    group.addTask { [weak self] in
+                        guard let self = self else { return }
+                        try await self.processByHandler(update)
                     }
-                    try await group.waitForAll()
-                })
-            }
+                }
+                try await group.waitForAll()
+            })
         }
     }
     
@@ -119,11 +113,7 @@ open class TGDefaultDispatcher: TGDispatcherPrtcl {
                 for handler in self.handlersGroup[self.handlersGroup.count - i] {
                     if handler.check(update: update) {
                         group.addTask {
-                            do {
-                                try await handler.handle(update: update)
-                            } catch {
-                                self.log.error("\(makeError(BotError(error)).localizedDescription)")
-                            }
+                            try await handler.handle(update: update)
                         }
                     }
                 }
