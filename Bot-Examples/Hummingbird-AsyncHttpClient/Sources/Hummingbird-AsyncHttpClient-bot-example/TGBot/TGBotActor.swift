@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  TGBotActor.swift
+//  Hummingbird-AsyncHttpClient-bot-example
 //
 //  Created by Oleh Hudeichuk on 17.04.2023.
 //
