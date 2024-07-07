@@ -2,14 +2,14 @@
 
 ### Please, support with ⭐️
 
-🤖 The wrapper for the Telegram Bot API written in Swift with Vapor. It's not a framework. There is no special syntax here. This is a library that implements all [Telegram Bot API methods](https://core.telegram.org/bots/api#available-methods), which is available to you to work with Vapor.
+🤖 The wrapper for the Telegram Bot API written in Swift. It's not a framework. There is no special syntax here. This is a library that implements all [Telegram Bot API methods](https://core.telegram.org/bots/api#available-methods), which is available to you to work with Vapor, Smoke, FlyingFox.
 
 #### Swift Server Side Community
 [Swift Server Side Community - Ukraine / Russian / CIS Telegram Chat](https://t.me/server_side_swift)
 
 # Usage
 #### You should to implement TGClientPrtcl protocol
-#### You can see an example of TGClient in the implementation for Vapor: [VaporTGClient](https://github.com/nerzh/swift-telegram-sdk/blob/master/Telegram-vapor-bot-example/Sources/Telegram-vapor-bot-example/TGBot/VaporTGClient.swift)
+#### You can see an example of TGClient in the implementation for Vapor: [VaporTGClient](https://github.com/nerzh/swift-telegram-sdk/blob/master/Bot-Examples/Vapor/Sources/Vapor-telegram-bot-example/TGBot/VaporTGClient.swift)
 ```swift
 import Logging
 
@@ -25,7 +25,7 @@ public protocol TGClientPrtcl {
 }
 ```
 # Usage with Vapor
-#### Example Swift Telegram Bot with Vapor - [Telegram-vapor-bot-example](https://github.com/nerzh/telegram-vapor-bot/tree/master/Telegram-vapor-bot-example)
+#### Example Swift Telegram Bot with Vapor - [Telegram-vapor-bot-example](https://github.com/nerzh/telegram-vapor-bot/tree/master/Bot-Examples/Vapor/Sources/Vapor-telegram-bot-example)
 #### create folder with your handlers **TGHandlers/DefaultBotHandlers.swift**
 ```swift
 import Vapor
@@ -268,7 +268,9 @@ let package = Package(
 
 
 ```
+# Usage with other server frameworks
+#### You can also see examples of TGClient in implementations for Hummingbird, Smoke and FlyingFox: [Bot-Examples](https://github.com/nerzh/swift-telegram-sdk/tree/master/Bot-Examples)
 
-### Acknowledgments
+# Acknowledgments
 
 Inspired by [Telegrammer](https://github.com/givip/Telegrammer)
