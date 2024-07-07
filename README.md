@@ -268,7 +268,9 @@ let package = Package(
 
 
 ```
+# Usage with other server frameworks
+#### You can also see examples of TGClient in implementations for Hummingbird ans Smoke: [Bot-Examples](https://github.com/nerzh/swift-telegram-sdk/tree/master/Bot-Examples)
 
-### Acknowledgments
+# Acknowledgments
 
 Inspired by [Telegrammer](https://github.com/givip/Telegrammer)
