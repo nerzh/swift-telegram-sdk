@@ -7,7 +7,6 @@
 
 import Logging
 import Foundation
-import Hummingbird
 import AsyncHTTPClient
 import SwiftTelegramSdk
 
