@@ -2,7 +2,7 @@
 
 ### Please, support with ⭐️
 
-🤖 The wrapper for the Telegram Bot API written in Swift with Vapor. It's not a framework. There is no special syntax here. This is a library that implements all [Telegram Bot API methods](https://core.telegram.org/bots/api#available-methods), which is available to you to work with Vapor.
+🤖 The wrapper for the Telegram Bot API written in Swift. It's not a framework. There is no special syntax here. This is a library that implements all [Telegram Bot API methods](https://core.telegram.org/bots/api#available-methods), which is available to you to work with Vapor, Smoke, FlyingFox.
 
 #### Swift Server Side Community
 [Swift Server Side Community - Ukraine / Russian / CIS Telegram Chat](https://t.me/server_side_swift)
@@ -269,7 +269,7 @@ let package = Package(
 
 ```
 # Usage with other server frameworks
-#### You can also see examples of TGClient in implementations for Hummingbird ans Smoke: [Bot-Examples](https://github.com/nerzh/swift-telegram-sdk/tree/master/Bot-Examples)
+#### You can also see examples of TGClient in implementations for Hummingbird, Smoke and FlyingFox: [Bot-Examples](https://github.com/nerzh/swift-telegram-sdk/tree/master/Bot-Examples)
 
 # Acknowledgments
 
