@@ -9,7 +9,7 @@
 
 # Usage
 #### You should to implement TGClientPrtcl protocol
-#### You can see an example of TGClient in the implementation for Vapor: [VaporTGClient](https://github.com/nerzh/swift-telegram-sdk/blob/master/Telegram-vapor-bot-example/Sources/Telegram-vapor-bot-example/TGBot/VaporTGClient.swift)
+#### You can see an example of TGClient in the implementation for Vapor: [VaporTGClient](https://github.com/nerzh/swift-telegram-sdk/blob/master/Bot-Examples/Vapor/Sources/Vapor-telegram-bot-example/TGBot/VaporTGClient.swift)
 ```swift
 import Logging
 
@@ -25,7 +25,7 @@ public protocol TGClientPrtcl {
 }
 ```
 # Usage with Vapor
-#### Example Swift Telegram Bot with Vapor - [Telegram-vapor-bot-example](https://github.com/nerzh/telegram-vapor-bot/tree/master/Telegram-vapor-bot-example)
+#### Example Swift Telegram Bot with Vapor - [Telegram-vapor-bot-example](https://github.com/nerzh/telegram-vapor-bot/tree/master/Bot-Examples/Vapor/Sources/Vapor-telegram-bot-example)
 #### create folder with your handlers **TGHandlers/DefaultBotHandlers.swift**
 ```swift
 import Vapor
