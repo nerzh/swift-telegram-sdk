@@ -1,8 +1,8 @@
 //
 //  VaporTGClient.swift
+//  Vapor-telegram-bot-example
 //
-//
-//  Created by O. Hudeichuk on 01.07.2024.
+//  Created by Oleh Hudeichuk on 01.07.2024.
 //
 
 import Foundation
@@ -108,18 +108,3 @@ public final class VaporTGClient: TGClientPrtcl {
         return result
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
