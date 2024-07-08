@@ -20,14 +20,13 @@ func configure(appContext: TelegramApplicationContext) async throws {
     //                                  log: appContext.logger)
     
     /// SET LONGPOLLING CONNECTION
+    // set level of debug if you needed
+//    var logger = appContext.logger
+//    logger.logLevel = .error
     let bot: TGBot = try await .init(connectionType: .longpolling(limit: nil,
                                      timeout: nil, allowedUpdates: nil),
                                      dispatcher: nil, tgClient: AsyncHttpTGClient(),
                                      tgURI: TGBot.standardTGURL, botId: tgApi, log: appContext.logger)
-    
-    // set level of debug if you needed
-    // bot.log.logLevel = .error
-    
     await appContext.botActor.setBot(bot)
     await DefaultBotHandlers.addHandlers(bot: appContext.botActor.bot)
     try await appContext.botActor.bot.start()
