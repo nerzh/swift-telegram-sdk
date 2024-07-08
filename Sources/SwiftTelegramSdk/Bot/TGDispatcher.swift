@@ -100,7 +100,7 @@ open class TGDefaultDispatcher: TGDispatcherPrtcl {
                         do {
                             try await handler.handle(update: update)
                         } catch {
-                            self.log.error("\(makeError(BotError(error)).localizedDescription)")
+                            self.log.error("\(makeError(BotError(String(describing: error))).localizedDescription)")
                         }
                     }
                 }
