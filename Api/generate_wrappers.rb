@@ -411,7 +411,7 @@ class Api
     protocol << "#{ONE}var dispatcher: TGDispatcherPrtcl { get }\n"
     protocol << "#{ONE}var botId: String { get }\n"
     protocol << "#{ONE}var tgURI: URL { get }\n"
-    protocol << "#{ONE}var tgClient: TGClientPrtcl { get }\n"
+    protocol << "#{ONE}var tgClient: TGClientPrtcl { get async throws }\n"
     protocol << "#{ONE}var log: Logger { get }\n\n"
     protocol << "#{ONE}@discardableResult\n"
     protocol << "#{ONE}func start() async throws -> Bool\n\n"

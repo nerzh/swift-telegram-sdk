@@ -9,7 +9,7 @@ public protocol TGBotPrtcl {
     var dispatcher: TGDispatcherPrtcl { get }
     var botId: String { get }
     var tgURI: URL { get }
-    var tgClient: TGClientPrtcl { get }
+    var tgClient: TGClientPrtcl { get async throws }
     var log: Logger { get }
 
     @discardableResult
