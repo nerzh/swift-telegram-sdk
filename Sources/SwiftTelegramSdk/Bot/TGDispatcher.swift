@@ -91,7 +91,7 @@ open class TGDefaultDispatcher: TGDispatcherPrtcl {
     }
     
     private func processByHandler(_ update: TGUpdate) {
-        log.debug("\(dump(update))")
+        log.trace("\(dump(update))")
         for i in 1...handlersGroup.count {
             for handler in handlersGroup[handlersGroup.count - i] {
                 if handler.check(update: update) {
@@ -108,3 +108,5 @@ open class TGDefaultDispatcher: TGDispatcherPrtcl {
         }
     }
 }
+
+

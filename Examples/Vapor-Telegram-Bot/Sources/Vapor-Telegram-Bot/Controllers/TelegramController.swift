@@ -20,13 +20,7 @@ extension TelegramController {
     
     func telegramWebHook(_ req: Request) async throws -> Bool {
         let update: TGUpdate = try req.content.decode(TGUpdate.self)
-        Task.detached {
-            do {
-                try await botActor.bot.dispatcher.process([update])
-            } catch {
-                await botActor.bot.log.error("\(makeError(BotError(error)).localizedDescription)")
-            }
-        }
+        Task { await botActor.bot.dispatcher.process([update]) }
         return true
     }
 }
