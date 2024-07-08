@@ -1,26 +1,28 @@
-// swift-tools-version:5.8
+// swift-tools-version:5.9
 
 import PackageDescription
 
 let packageDependencies: [Package.Dependency] = [
-    .package(url: "https://github.com/vapor/vapor.git", .upToNextMajor(from: "4.57.0")),
+    .package(url: "https://github.com/amzn/smoke-framework.git", from: "2.0.0"),
+    .package(url: "https://github.com/swift-server/async-http-client.git", from: "1.6.0"),
     .package(url: "https://github.com/nerzh/swift-telegram-sdk", .upToNextMajor(from: "3.0.3"))
 ]
 
 let targetDependencies: [PackageDescription.Target.Dependency] = [
-    .product(name: "Vapor", package: "vapor"),
+    .product(name: "SmokeOperationsHTTP1Server", package: "smoke-framework"),
+    .product(name: "AsyncHTTPClient", package: "async-http-client"),
     .product(name: "SwiftTelegramSdk", package: "swift-telegram-sdk")
 ]
 
 let package = Package(
-    name: "Vapor-telegram-bot-example",
+    name: "Smoke-AsyncHttpClient-Telegram-Bot",
     platforms: [
-        .macOS(.v12)
+        .macOS(.v14)
     ],
     dependencies: packageDependencies,
     targets: [
         .executableTarget(
-            name: "Vapor-telegram-bot-example",
+            name: "Smoke-AsyncHttpClient-Telegram-Bot",
             dependencies: targetDependencies
         )
     ]
