@@ -49,11 +49,12 @@ public final class TGLongPollingConnection: TGConnectionPrtcl {
             guard let self = self else { return }
             var cancell: Bool = false
             while !Task.isCancelled && !cancell {
+                try await Task.sleep(nanoseconds: 1_000_000_000)
                 do {
-                    try await Task.sleep(nanoseconds: 1_000_000_000)
-                    try await self.getUpdates(bot: bot)
+                    let updates: [TGUpdate] = try await self.getUpdates(bot: bot)
+                    bot.dispatcher.process(updates)
                 } catch {
-                    log.warning("\(BotError(error).localizedDescription)")
+                    self.log.error("\(BotError(error).localizedDescription)")
                     cancell = true
                 }
             }
@@ -63,7 +64,7 @@ public final class TGLongPollingConnection: TGConnectionPrtcl {
         return true
     }
     
-    private func getUpdates(bot: TGBot) async throws {
+    private func getUpdates(bot: TGBot) async throws -> [TGUpdate] {
         let allowedUpdates: [String] = (allowedUpdates ?? []).map { $0.rawValue }
         let params: TGGetUpdatesParams = .init(offset: newOffsetUpdates,
                                                limit: limit,
@@ -73,7 +74,7 @@ public final class TGLongPollingConnection: TGConnectionPrtcl {
         if let lastUpdate: TGUpdate = response.last {
             offsetUpdates = lastUpdate.updateId
         }
-        bot.dispatcher.process(response)
+        return response
     }
 }
 

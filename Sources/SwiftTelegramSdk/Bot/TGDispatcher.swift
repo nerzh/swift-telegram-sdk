@@ -13,16 +13,14 @@ public protocol TGDispatcherPrtcl {
     /// priority - priority of execution by handlers
     func add(_ handler: TGHandlerPrtcl, priority: Int) async
     func add(_ handler: TGHandlerPrtcl) async
-    func addBeforeAllCallback(_ callback: @Sendable @escaping ([TGUpdate]) async throws -> Bool)
     func remove(_ handler: TGHandlerPrtcl, from priority: Int?) async
-    func process(_ updates: [TGUpdate]) async throws
+    func process(_ updates: [TGUpdate])
     func handle() async throws
 }
 
 open class TGDefaultDispatcher: TGDispatcherPrtcl {
     public var handlersGroup: [[TGHandlerPrtcl]] = []
     private var log: Logger
-    private var beforeAllCallback: ([TGUpdate]) async throws -> Bool = { _ in true }
     private var handlersId: Int = 0
     private var nextHandlerId: Int {
         handlersId += 1
@@ -67,10 +65,6 @@ open class TGDefaultDispatcher: TGDispatcherPrtcl {
         add(handler, priority: 0)
     }
 
-    public func addBeforeAllCallback(_ callback: @escaping ([TGUpdate]) async throws -> Bool) {
-        beforeAllCallback = callback
-    }
-
     public func remove(_ handler: TGHandlerPrtcl, from priority: Int?) {
         let priority: Level = priority ?? 0
         let indexId: IndexId = handler.id
@@ -90,35 +84,27 @@ open class TGDefaultDispatcher: TGDispatcherPrtcl {
         }
     }
     
-    public func process(_ updates: [TGUpdate]) async throws {
-        let allowNext: Bool = try await self.beforeAllCallback(updates)
-        if allowNext {
-            try await withThrowingTaskGroup(of: Void.self, body: { group in
-                for update in updates {
-                    group.addTask { [weak self] in
-                        guard let self = self else { return }
-                        try await self.processByHandler(update)
-                    }
-                }
-                try await group.waitForAll()
-            })
+    public func process(_ updates: [TGUpdate]) {
+        for update in updates {
+            self.processByHandler(update)
         }
     }
     
-    private func processByHandler(_ update: TGUpdate) async throws {
+    private func processByHandler(_ update: TGUpdate) {
         log.debug("\(dump(update))")
-        try await withThrowingTaskGroup(of: Void.self, body: { [weak self] group in
-            guard let self = self else { return }
-            for i in 1...self.handlersGroup.count {
-                for handler in self.handlersGroup[self.handlersGroup.count - i] {
-                    if handler.check(update: update) {
-                        group.addTask {
+        for i in 1...handlersGroup.count {
+            for handler in handlersGroup[handlersGroup.count - i] {
+                if handler.check(update: update) {
+                    Task.detached(priority: .high) { [weak self] in
+                        guard let self = self else { return }
+                        do {
                             try await handler.handle(update: update)
+                        } catch {
+                            self.log.error("\(makeError(BotError(error)).localizedDescription)")
                         }
                     }
                 }
             }
-            try await group.waitForAll()
-        })
+        }
     }
 }
