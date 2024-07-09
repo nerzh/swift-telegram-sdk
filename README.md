@@ -23,7 +23,7 @@
 - [Smoke Telegram Bot (AsyncHttpClient)](https://github.com/nerzh/swift-telegram-sdk/tree/master/Examples/Smoke-AsyncHttpClient-Telegram-Bot)
 - [FlyingFox Telegram Bot (AsyncHttpClient)](https://github.com/nerzh/swift-telegram-sdk/tree/master/Examples/FlyingFox-AsyncHttpClient-Telegram-Bot)
 
-# Advanced Usage
+# Advanced Example Usage
 ## You should to implement TGClientPrtcl protocol
 To configure and run a bot with or without any framework, you need to implement a simple TGClient protocol to send requests to the network with Content-Type: multipart/form-data.
 You can see an example here: [VaporTGClient](https://github.com/nerzh/swift-telegram-sdk/blob/master/Examples/Vapor-Telegram-Bot/Sources/Vapor-Telegram-Bot/TGBot/VaporTGClient.swift)
