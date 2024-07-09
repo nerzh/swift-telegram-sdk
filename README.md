@@ -9,9 +9,13 @@
 
 # Usage
 - Clone one of [examples](https://github.com/nerzh/swift-telegram-sdk/tree/master/Examples)
-  - git clone https://github.com/nerzh/swift-telegram-sdk/tree/master/Examples/Vapor-Telegram-Bot
+  ```shell
+  git clone https://github.com/nerzh/swift-telegram-sdk/tree/master/Examples/Vapor-Telegram-Bot
+  ```
 - Add your telegram bot id to [configure.swift](https://github.com/nerzh/swift-telegram-sdk/blob/master/Examples/Vapor-Telegram-Bot/Sources/Vapor-Telegram-Bot/configure.swift)
-  - let tgApi: String = "XXXXXXXXXX:YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
+  ```swift
+  let tgApi: String = "XXXXXXXXXX:YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
+  ```
 - Run in Xcode or build and run binary file
 - check commands in your telegram bots
   - /ping
