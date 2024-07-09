@@ -92,15 +92,15 @@ open class TGDefaultDispatcher: TGDispatcherPrtcl {
     
     private func processByHandler(_ update: TGUpdate) {
         log.trace("\(dump(update))")
+        if handlersGroup.isEmpty { return }
         for i in 1...handlersGroup.count {
             for handler in handlersGroup[handlersGroup.count - i] {
                 if handler.check(update: update) {
-                    Task.detached(priority: .high) { [weak self] in
-                        guard let self = self else { return }
+                    Task.detached(priority: .high) { [log] in
                         do {
                             try await handler.handle(update: update)
                         } catch {
-                            self.log.error("\(makeError(BotError(String(describing: error))).localizedDescription)")
+                            log.error("\(makeError(BotError(String(describing: error))).localizedDescription)")
                         }
                     }
                 }
@@ -108,5 +108,3 @@ open class TGDefaultDispatcher: TGDispatcherPrtcl {
         }
     }
 }
-
-
