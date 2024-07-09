@@ -8,8 +8,26 @@
 [Swift Server Side Community - Ukraine / Russian / CIS Telegram Chat](https://t.me/server_side_swift)
 
 # Usage
-#### You should to implement TGClientPrtcl protocol
-#### You can see an example of TGClient in the implementation for Vapor: [VaporTGClient](https://github.com/nerzh/swift-telegram-sdk/blob/master/Bot-Examples/Vapor/Sources/Vapor-telegram-bot-example/TGBot/VaporTGClient.swift)
+- Clone one of [examples](https://github.com/nerzh/swift-telegram-sdk/tree/master/Examples)
+  - git clone https://github.com/nerzh/swift-telegram-sdk/tree/master/Examples/Vapor-Telegram-Bot
+- Add your telegram bot id to [configure.swift](https://github.com/nerzh/swift-telegram-sdk/blob/master/Examples/Vapor-Telegram-Bot/Sources/Vapor-Telegram-Bot/configure.swift)
+  - let tgApi: String = "XXXXXXXXXX:YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
+- Run in Xcode or build and run binary file
+- check commands in your telegram bots
+  - /ping
+  - /show_buttons
+# Examples
+- [Vapor Telegram Bot](https://github.com/nerzh/swift-telegram-sdk/tree/master/Examples/Vapor-Telegram-Bot)
+- [Hummingbird Telegram Bot (AsyncHttpClient)](https://github.com/nerzh/swift-telegram-sdk/tree/master/Examples/Hummingbird-AsyncHttpClient-Telegram-Bot)
+- [Hummingbird Telegram Bot (URLSession)](https://github.com/nerzh/swift-telegram-sdk/tree/master/Examples/Hummingbird-URLSession-Telegram-Bot)
+- [Smoke Telegram Bot (AsyncHttpClient)](https://github.com/nerzh/swift-telegram-sdk/tree/master/Examples/Smoke-AsyncHttpClient-Telegram-Bot)
+- [FlyingFox Telegram Bot (AsyncHttpClient)](https://github.com/nerzh/swift-telegram-sdk/tree/master/Examples/FlyingFox-AsyncHttpClient-Telegram-Bot)
+
+# Advanced Usage
+## You should to implement TGClientPrtcl protocol
+To configure and run a bot with or without any framework, you need to implement a simple TGClient protocol to send requests to the network with Content-Type: multipart/form-data.
+You can see an example here: [VaporTGClient](https://github.com/nerzh/swift-telegram-sdk/blob/master/Examples/Vapor-Telegram-Bot/Sources/Vapor-Telegram-Bot/TGBot/VaporTGClient.swift)
+
 ```swift
 import Logging
 
@@ -24,11 +42,36 @@ public protocol TGClientPrtcl {
     func post<Response: Decodable>(_ url: URL) async throws -> Response
 }
 ```
-# Usage with Vapor
-#### Example Swift Telegram Bot with Vapor - [Telegram-vapor-bot-example](https://github.com/nerzh/telegram-vapor-bot/tree/master/Bot-Examples/Vapor/Sources/Vapor-telegram-bot-example)
-#### create folder with your handlers **TGHandlers/DefaultBotHandlers.swift**
+## Bot configuration.
+### Define bot ID
 ```swift
-import Vapor
+let tgApi: String = "XXXXXXXXXX:YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
+```
+### Define connection type
+##### LongPolling
+```swift
+var connectionType: TGConnectionType = .longpolling(limit: nil,
+                                                    timeout: nil,
+                                                    allowedUpdates: nil)
+```
+##### WebHook
+```swift
+var connectionType: TGConnectionType = .webhook(webHookURL: URL(string: "\(TG_WEBHOOK_DOMAIN!)/\(TGWebHookRouteName)")!)
+```
+### Start bot with added handlers
+```swift
+let bot: TGBot = try await .init(connectionType: connectionType,
+                                 dispatcher: nil,
+                                 tgClient: VaporTGClient(client: app.client),
+                                 tgURI: TGBot.standardTGURL,
+                                 botId: botId,
+                                 log: app.logger)
+try await DefaultBotHandlers.addHandlers(bot: bot)
+try await botActor.bot.start()
+```
+
+### DefaultBotHandlers code example
+```swift
 import SwiftTelegramSdk
 
 final class DefaultBotHandlers {
@@ -104,134 +147,6 @@ final class DefaultBotHandlers {
 }
 ```
 
-### Setup
-
-#### Create file **TGBotConnectionActor.swift**
-
-Add Actor for TGBot
-
-```swift
-import Foundation
-import SwiftTelegramSdk
-
-actor TGBotActor {
-    private var _bot: TGBot!
-
-    var bot: TGBot {
-        self._bot
-    }
-    
-    func setBot(_ bot: TGBot) {
-        self._bot = bot
-    }
-}
-```
-
-#### vapor **main.swift**
-
-make strong reference to TGBotConnection instance and add "await" to configure
-
-```swift
-import Vapor
-import TelegramVaporBot
-
-let botActor: TGBotActor = .init()
-
-try await configure(app)
-```
-
-### Use with LongPolling
-
-#### for longpolling you should only configure vapor **configure.swift**
-
-```swift
-import Foundation
-import Vapor
-import SwiftTelegramSdk
-
-public func configure(_ app: Application) async throws {
-    let tgApi: String = "XXXXXXXXXX:YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
-    let bot: TGBot = try await .init(connectionType: .longpolling(limit: nil,
-                                                                  timeout: nil,
-                                                                  allowedUpdates: nil),
-                                     dispatcher: nil,
-                                     tgClient: VaporTGClient(client: app.client),
-                                     tgURI: TGBot.standardTGURL,
-                                     botId: tgApi,
-                                     log: app.logger)
-    /// set level of debug if you needed
-    //    bot.log.logLevel = .error
-    await botActor.setBot(bot)
-    await DefaultBotHandlers.addHandlers(bot: botActor.bot)
-    try await botActor.bot.start()
-
-    try routes(app)
-}
-```
-
-
-
-### Use with Webhooks
-
-#### vapor **configure.swift**
-
-```swift
-import Foundation
-import Vapor
-import SwiftTelegramSdk
-
-public func configure(_ app: Application) async throws {
-    let tgApi: String = "XXXXXXXXXX:YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
-    let bot: TGBot = try await .init(connectionType: .webhook(webHookURL: URL(string: "https://your_domain/telegramWebHook")!),
-                                     dispatcher: nil,
-                                     tgClient: VaporTGClient(client: app.client),
-                                     tgURI: TGBot.standardTGURL,
-                                     botId: tgApi,
-                                     log: app.logger)
-    /// set level of debug if you needed
-    //    bot.log.logLevel = .error
-    await botActor.setBot(bot)
-    await DefaultBotHandlers.addHandlers(bot: botActor.bot)
-    try await botActor.bot.start()
-
-    try routes(app)
-}
-```
-
-#### vapor **routes.swift**
-
-```swift
-import Vapor
-
-func routes(_ app: Application) throws {
-    try app.register(collection: TelegramController())
-}
-```
-
-#### vapor **TelegramController.swift**
-
-```swift
-import Foundation
-import Vapor
-import SwiftTelegramSdk
-
-final class TelegramController: RouteCollection {
-    
-    func boot(routes: Vapor.RoutesBuilder) throws {
-        routes.post("telegramWebHook", use: telegramWebHook)
-    }
-}
-
-extension TelegramController {
-    
-    func telegramWebHook(_ req: Request) async throws -> Bool {
-        let update: TGUpdate = try req.content.decode(TGUpdate.self)
-        await botActor.bot.dispatcher.process([update])
-        return true
-    }
-}
-```
-
 
 ### Add to your Vapor project with Swift Package Manager
 add to yor Package.json
@@ -268,9 +183,6 @@ let package = Package(
 
 
 ```
-# Usage with other server frameworks
-#### You can also see examples of TGClient in implementations for Hummingbird, Smoke and FlyingFox: [Bot-Examples](https://github.com/nerzh/swift-telegram-sdk/tree/master/Bot-Examples)
-
 # Acknowledgments
 
 Inspired by [Telegrammer](https://github.com/givip/Telegrammer)
