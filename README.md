@@ -8,6 +8,22 @@
 [Swift Server Side Community - Ukraine / Russian / CIS Telegram Chat](https://t.me/server_side_swift)
 
 # Usage
+- Clone one of [examples](https://github.com/nerzh/swift-telegram-sdk/tree/master/Examples)
+  - git clone https://github.com/nerzh/swift-telegram-sdk/tree/master/Examples/Vapor-Telegram-Bot
+- Add your telegram bot id to [configure.swift](https://github.com/nerzh/swift-telegram-sdk/blob/master/Examples/Vapor-Telegram-Bot/Sources/Vapor-Telegram-Bot/configure.swift)
+  - let tgApi: String = "XXXXXXXXXX:YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
+- Run in Xcode or build and run binary file
+- check commands in your telegram bots
+  - /ping
+  - /show_buttons
+# Examples
+- [Vapor Telegram Bot](https://github.com/nerzh/swift-telegram-sdk/tree/master/Examples/Vapor-Telegram-Bot)
+- [Hummingbird Telegram Bot (AsyncHttpClient)](https://github.com/nerzh/swift-telegram-sdk/tree/master/Examples/Hummingbird-AsyncHttpClient-Telegram-Bot)
+- [Hummingbird Telegram Bot (URLSession)](https://github.com/nerzh/swift-telegram-sdk/tree/master/Examples/Hummingbird-URLSession-Telegram-Bot)
+- [Smoke Telegram Bot (AsyncHttpClient)](https://github.com/nerzh/swift-telegram-sdk/tree/master/Examples/Smoke-AsyncHttpClient-Telegram-Bot)
+- [FlyingFox Telegram Bot (AsyncHttpClient)](https://github.com/nerzh/swift-telegram-sdk/tree/master/Examples/FlyingFox-AsyncHttpClient-Telegram-Bot)
+
+# Advanced Usage
 #### You should to implement TGClientPrtcl protocol
 #### You can see an example of TGClient in the implementation for Vapor: [VaporTGClient](https://github.com/nerzh/swift-telegram-sdk/blob/master/Bot-Examples/Vapor/Sources/Vapor-telegram-bot-example/TGBot/VaporTGClient.swift)
 ```swift
