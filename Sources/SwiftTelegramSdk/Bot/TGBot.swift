@@ -20,7 +20,6 @@ actor TGClientActor {
         if lastTime < UInt(Date().timeIntervalSince1970) {
             lastTime = UInt(Date().timeIntervalSince1970)
             counter = 0
-//            log.info("RESET COUNTER \(counter)")
             return true
         }
         if counter <= telegramApiRequestLimitPerSecond { counter += 1 }
@@ -29,10 +28,8 @@ actor TGClientActor {
     
     func client() async throws -> TGClientPrtcl {
         while !canSendRequest() {
-//            log.info("WAIT COUNTER \(counter) from \(telegramApiRequestLimitPerSecond)")
             try await Task.sleep(nanoseconds: 1)
         }
-//        log.info("COUNTER \(counter) from \(telegramApiRequestLimitPerSecond)")
         return _client
     }
     

@@ -54,15 +54,15 @@ public extension TGBot {
  - Parameters:
      - params: Parameters container, see `CreateChatInviteLinkParams` struct
  - Throws: Throws on errors
- - Returns: `Bool`
+ - Returns: `TGChatInviteLink`
  */
 
     @discardableResult
-    func createChatInviteLink(params: TGCreateChatInviteLinkParams) async throws -> Bool {
+    func createChatInviteLink(params: TGCreateChatInviteLinkParams) async throws -> TGChatInviteLink {
         guard let methodURL: URL = .init(string: getMethodURL("createChatInviteLink")) else {
             throw BotError("Bad URL: \(getMethodURL("createChatInviteLink"))")
         }
-        let result: Bool = try await tgClient.post(methodURL, params: params, as: nil)
+        let result: TGChatInviteLink = try await tgClient.post(methodURL, params: params, as: nil)
         return result
     }
 }

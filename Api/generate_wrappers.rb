@@ -246,7 +246,7 @@ class Api
     description = fetch_description(current_node)
     current_node = get_table_node(current_node)
 
-    result_type = deduce_result_type(description)
+    result_type = reduce_result_type(description)
     result_type = make_swift_type_name('', result_type)
 
     codable_params_struct = ""
@@ -719,7 +719,7 @@ class Api
   	return "#{THREE}self.#{var_name_cameled} = #{var_name_cameled}\n"
   end
 
-  def deduce_result_type(description)
+  def reduce_result_type(description)
     type_name = description[/Returns.+as (.+) on/, 1]
     return type_name unless type_name.nil?
     
@@ -773,6 +773,9 @@ class Api
   	
   	type_name = description[/invite link as (.+) on success/, 1]
   	return type_name unless type_name.nil?
+
+    type_name = description[/eturns the new invite link as (\w+) object/, 1]
+    return type_name unless type_name.nil?
 
   	return 'Boolean'
   end
