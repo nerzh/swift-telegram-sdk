@@ -28,7 +28,7 @@ actor TGClientActor {
     func client() async throws -> TGClientPrtcl {
         defer { counter += 1 }
         while !canSendRequest() {
-            try await Task.sleep(nanoseconds: 1)
+            try await Task.sleep(nanoseconds: 10_000_000)
         }
         return _client
     }
