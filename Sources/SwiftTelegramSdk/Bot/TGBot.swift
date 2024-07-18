@@ -13,20 +13,20 @@ actor TGClientActor {
     private var telegramApiRequestLimitPerSecond: UInt
     private var lastTime: UInt = UInt(Date().timeIntervalSince1970)
     private var counter: UInt = 0
-    private var log: Logger
     
     func canSendRequest() -> Bool {
         if telegramApiRequestLimitPerSecond <= 0 { return true }
-        if lastTime < UInt(Date().timeIntervalSince1970) {
-            lastTime = UInt(Date().timeIntervalSince1970)
+        let currentTime: UInt = UInt(Date().timeIntervalSince1970)
+        if lastTime < currentTime {
+            lastTime = currentTime
             counter = 0
             return true
         }
-        if counter <= telegramApiRequestLimitPerSecond { counter += 1 }
-        return counter <= telegramApiRequestLimitPerSecond
+        return counter < telegramApiRequestLimitPerSecond
     }
     
     func client() async throws -> TGClientPrtcl {
+        defer { counter += 1 }
         while !canSendRequest() {
             try await Task.sleep(nanoseconds: 1)
         }
@@ -37,9 +37,8 @@ actor TGClientActor {
         self._client = client
     }
     
-    init(apiRequestLimit: UInt = 30, log: Logger? = nil) {
+    init(apiRequestLimit: UInt = 30) {
         self.telegramApiRequestLimitPerSecond = apiRequestLimit
-        self.log = log ?? .init(label: "TGClientActor")
     }
 }
 
@@ -79,10 +78,10 @@ public final class TGBot: TGBotPrtcl {
                                                                 timeout: timeout,
                                                                 allowedUpdates: allowedUpdates,
                                                                 log: log)
-            self.clientActor = TGClientActor(apiRequestLimit: apiRequestLimitLongPolling, log: log)
+            self.clientActor = TGClientActor(apiRequestLimit: apiRequestLimitLongPolling)
         case let .webhook(webHookURL):
             self.connection = try await TGWebHookConnection(webHookURL: webHookURL)
-            self.clientActor = TGClientActor(apiRequestLimit: apiRequestLimitWebHook, log: log)
+            self.clientActor = TGClientActor(apiRequestLimit: apiRequestLimitWebHook)
         }
         var tgClient = tgClient
         tgClient.log = log
