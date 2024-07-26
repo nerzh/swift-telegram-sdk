@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol ErrorCommon: ErrorCommonMessage {
+public protocol TGErrorCommon: ErrorCommonMessage {
     var title: String { get set }
     var reason: String { get set }
     
@@ -17,18 +17,18 @@ protocol ErrorCommon: ErrorCommonMessage {
     init(_ error: Error)
 }
 
-protocol ErrorCommonMessage: LocalizedError, Error, Decodable {
+public protocol ErrorCommonMessage: LocalizedError, Error, Decodable {
     init(_ reason: String)
     static func mess(_ reason: String) -> Self
 }
 
-extension ErrorCommonMessage {
+public extension ErrorCommonMessage {
     static func mess(_ reason: String) -> Self {
         Self(reason)
     }
 }
 
-extension ErrorCommon {
+public extension TGErrorCommon {
     var title: String { "" }
     var reason: String { "" }
     var description: String { "[\(title)] \(reason)" }

@@ -8,7 +8,7 @@
 import Foundation
 import Logging
 
-public class BotError: ErrorCommon {
+public class BotError: TGErrorCommon {
     
     public var title: String = ""
     
