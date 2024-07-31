@@ -46,19 +46,16 @@ public final class TGLongPollingConnection: TGConnectionPrtcl {
         let deleteWebHookParams: TGDeleteWebhookParams = .init(dropPendingUpdates: false)
         try await bot.deleteWebhook(params: deleteWebHookParams)
         Task.detached { [weak self] in
-            guard let self = self else { return }
-            var cancell: Bool = false
-            while !Task.isCancelled && !cancell {
-                try await Task.sleep(nanoseconds: 1_000_000_000)
+            while !Task.isCancelled {
+                guard let self = self else { break }
                 do {
+                    try await Task.sleep(nanoseconds: 1_000_000_000)
                     let updates: [TGUpdate] = try await self.getUpdates(bot: bot)
                     bot.dispatcher.process(updates)
                 } catch {
                     self.log.error("\(BotError(error).localizedDescription)")
-                    cancell = true
                 }
             }
-            try await start(bot: bot)
         }
         
         return true
