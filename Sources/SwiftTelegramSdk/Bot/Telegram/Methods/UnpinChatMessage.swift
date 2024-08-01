@@ -9,19 +9,24 @@ import Foundation
 /// Parameters container struct for `unpinChatMessage` method
 public struct TGUnpinChatMessageParams: Encodable {
 
+    /// Unique identifier of the business connection on behalf of which the message will be unpinned
+    public var businessConnectionId: String?
+
     /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     public var chatId: TGChatId
 
-    /// Identifier of a message to unpin. If not specified, the most recent pinned message (by sending date) will be unpinned.
+    /// Identifier of the message to unpin. Required if business_connection_id is specified. If not specified, the most recent pinned message (by sending date) will be unpinned.
     public var messageId: Int?
 
     /// Custom keys for coding/decoding `UnpinChatMessageParams` struct
     public enum CodingKeys: String, CodingKey {
+            case businessConnectionId = "business_connection_id"
             case chatId = "chat_id"
             case messageId = "message_id"
     }
 
-    public init(chatId: TGChatId, messageId: Int? = nil) {
+    public init(businessConnectionId: String? = nil, chatId: TGChatId, messageId: Int? = nil) {
+            self.businessConnectionId = businessConnectionId
             self.chatId = chatId
             self.messageId = messageId
     }

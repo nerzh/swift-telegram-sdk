@@ -9,6 +9,9 @@ import Foundation
 /// Parameters container struct for `pinChatMessage` method
 public struct TGPinChatMessageParams: Encodable {
 
+    /// Unique identifier of the business connection on behalf of which the message will be pinned
+    public var businessConnectionId: String?
+
     /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
     public var chatId: TGChatId
 
@@ -20,12 +23,14 @@ public struct TGPinChatMessageParams: Encodable {
 
     /// Custom keys for coding/decoding `PinChatMessageParams` struct
     public enum CodingKeys: String, CodingKey {
+            case businessConnectionId = "business_connection_id"
             case chatId = "chat_id"
             case messageId = "message_id"
             case disableNotification = "disable_notification"
     }
 
-    public init(chatId: TGChatId, messageId: Int, disableNotification: Bool? = nil) {
+    public init(businessConnectionId: String? = nil, chatId: TGChatId, messageId: Int, disableNotification: Bool? = nil) {
+            self.businessConnectionId = businessConnectionId
             self.chatId = chatId
             self.messageId = messageId
             self.disableNotification = disableNotification
