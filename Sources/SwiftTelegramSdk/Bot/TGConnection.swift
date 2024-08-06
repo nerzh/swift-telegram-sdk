@@ -45,18 +45,37 @@ public final class TGLongPollingConnection: TGConnectionPrtcl {
         /// delete webhook because: You will not be able to receive updates using getUpdates for as long as an outgoing webhook is set up.
         let deleteWebHookParams: TGDeleteWebhookParams = .init(dropPendingUpdates: false)
         try await bot.deleteWebhook(params: deleteWebHookParams)
-        Task.detached { [weak self] in
-            while !Task.isCancelled {
+//        Task.detached { [weak self] in
+//            while !Task.isCancelled {
+//                guard let self = self else { break }
+//                do {
+//                    try await Task.sleep(nanoseconds: 1_000_000_000)
+//                    let updates: [TGUpdate] = try await self.getUpdates(bot: bot)
+//                    bot.dispatcher.process(updates)
+//                } catch {
+//                    self.log.error("\(BotError(error).localizedDescription)")
+//                }
+//            }
+//        }
+        
+        /// try fix longpolling freeze with threads 🤷🏻‍♂️
+        Thread { [weak self] in
+            let group = DispatchGroup()
+            while true {
                 guard let self = self else { break }
-                do {
-                    try await Task.sleep(nanoseconds: 1_000_000_000)
-                    let updates: [TGUpdate] = try await self.getUpdates(bot: bot)
-                    bot.dispatcher.process(updates)
-                } catch {
-                    self.log.error("\(BotError(error).localizedDescription)")
+                group.enter()
+                Task.detached {
+                    do {
+                        let updates: [TGUpdate] = try await self.getUpdates(bot: bot)
+                        bot.dispatcher.process(updates)
+                    } catch {
+                        self.log.error("\(BotError(error).localizedDescription)")
+                    }
+                    group.leave()
                 }
+                group.wait()
             }
-        }
+        }.start()
         
         return true
     }
