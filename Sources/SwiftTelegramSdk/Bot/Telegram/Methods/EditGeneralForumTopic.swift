@@ -3,7 +3,7 @@
 import Foundation
 
 /// DESCRIPTION:
-/// Use this method to edit the name of the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have can_manage_topics administrator rights. Returns True on success.
+/// Use this method to edit the name of the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights. Returns True on success.
 
 
 /// Parameters container struct for `editGeneralForumTopic` method
@@ -31,7 +31,7 @@ public struct TGEditGeneralForumTopicParams: Encodable {
 public extension TGBot {
 
 /**
- Use this method to edit the name of the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have can_manage_topics administrator rights. Returns True on success.
+ Use this method to edit the name of the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights. Returns True on success.
 
  SeeAlso Telegram Bot API Reference:
  [EditGeneralForumTopicParams](https://core.telegram.org/bots/api#editgeneralforumtopic)

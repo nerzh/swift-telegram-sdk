@@ -223,6 +223,16 @@ public protocol TGBotPrtcl {
 
 
     @discardableResult
+    func createChatSubscriptionInviteLink(params: TGCreateChatSubscriptionInviteLinkParams) async throws -> Bool
+
+
+
+    @discardableResult
+    func editChatSubscriptionInviteLink(params: TGEditChatSubscriptionInviteLinkParams) async throws -> Bool
+
+
+
+    @discardableResult
     func revokeChatInviteLink(params: TGRevokeChatInviteLinkParams) async throws -> Bool
 
 

@@ -3,13 +3,16 @@
 import Foundation
 
 /// DESCRIPTION:
-/// Use this method to send paid media to channel chats. On success, the sent Message is returned.
+/// Use this method to send paid media. On success, the sent Message is returned.
 
 
 /// Parameters container struct for `sendPaidMedia` method
 public struct TGSendPaidMediaParams: Encodable {
 
-    /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+    /// Unique identifier of the business connection on behalf of which the message will be sent
+    public var businessConnectionId: String?
+
+    /// Unique identifier for the target chat or username of the target channel (in the format @channelusername). If the chat is a channel, all Telegram Star proceeds from this media will be credited to the chat's balance. Otherwise, they will be credited to the bot's balance.
     public var chatId: TGChatId
 
     /// The number of Telegram Stars that must be paid to buy access to the media
@@ -44,6 +47,7 @@ public struct TGSendPaidMediaParams: Encodable {
 
     /// Custom keys for coding/decoding `SendPaidMediaParams` struct
     public enum CodingKeys: String, CodingKey {
+            case businessConnectionId = "business_connection_id"
             case chatId = "chat_id"
             case starCount = "star_count"
             case media = "media"
@@ -57,7 +61,8 @@ public struct TGSendPaidMediaParams: Encodable {
             case replyMarkup = "reply_markup"
     }
 
-    public init(chatId: TGChatId, starCount: Int, media: [TGInputPaidMedia], caption: String? = nil, parseMode: TGParseMode? = nil, captionEntities: [TGMessageEntity]? = nil, showCaptionAboveMedia: Bool? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyParameters: TGReplyParameters? = nil, replyMarkup: TGReplyMarkup? = nil) {
+    public init(businessConnectionId: String? = nil, chatId: TGChatId, starCount: Int, media: [TGInputPaidMedia], caption: String? = nil, parseMode: TGParseMode? = nil, captionEntities: [TGMessageEntity]? = nil, showCaptionAboveMedia: Bool? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyParameters: TGReplyParameters? = nil, replyMarkup: TGReplyMarkup? = nil) {
+            self.businessConnectionId = businessConnectionId
             self.chatId = chatId
             self.starCount = starCount
             self.media = media
@@ -76,7 +81,7 @@ public struct TGSendPaidMediaParams: Encodable {
 public extension TGBot {
 
 /**
- Use this method to send paid media to channel chats. On success, the sent Message is returned.
+ Use this method to send paid media. On success, the sent Message is returned.
 
  SeeAlso Telegram Bot API Reference:
  [SendPaidMediaParams](https://core.telegram.org/bots/api#sendpaidmedia)

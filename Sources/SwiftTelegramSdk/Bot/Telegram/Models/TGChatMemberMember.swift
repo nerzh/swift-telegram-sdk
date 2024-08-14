@@ -12,6 +12,7 @@ public final class TGChatMemberMember: Codable {
     public enum CodingKeys: String, CodingKey {
         case status = "status"
         case user = "user"
+        case untilDate = "until_date"
     }
 
     /// The member's status in the chat, always “member”
@@ -20,8 +21,12 @@ public final class TGChatMemberMember: Codable {
     /// Information about the user
     public var user: TGUser
 
-    public init (status: String, user: TGUser) {
+    /// Optional. Date when the user's subscription will expire; Unix time
+    public var untilDate: Int?
+
+    public init (status: String, user: TGUser, untilDate: Int? = nil) {
         self.status = status
         self.user = user
+        self.untilDate = untilDate
     }
 }
