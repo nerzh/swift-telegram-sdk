@@ -13,6 +13,7 @@ public final class TGGiveawayCompleted: Codable {
         case winnerCount = "winner_count"
         case unclaimedPrizeCount = "unclaimed_prize_count"
         case giveawayMessage = "giveaway_message"
+        case isStarGiveaway = "is_star_giveaway"
     }
 
     /// Number of winners in the giveaway
@@ -24,9 +25,13 @@ public final class TGGiveawayCompleted: Codable {
     /// Optional. Message with the giveaway that was completed, if it wasn't deleted
     public var giveawayMessage: TGMessage?
 
-    public init (winnerCount: Int, unclaimedPrizeCount: Int? = nil, giveawayMessage: TGMessage? = nil) {
+    /// Optional. True, if the giveaway is a Telegram Star giveaway. Otherwise, currently, the giveaway is a Telegram Premium giveaway.
+    public var isStarGiveaway: Bool?
+
+    public init (winnerCount: Int, unclaimedPrizeCount: Int? = nil, giveawayMessage: TGMessage? = nil, isStarGiveaway: Bool? = nil) {
         self.winnerCount = winnerCount
         self.unclaimedPrizeCount = unclaimedPrizeCount
         self.giveawayMessage = giveawayMessage
+        self.isStarGiveaway = isStarGiveaway
     }
 }

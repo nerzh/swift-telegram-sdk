@@ -17,6 +17,7 @@ public final class TGGiveaway: Codable {
         case hasPublicWinners = "has_public_winners"
         case prizeDescription = "prize_description"
         case countryCodes = "country_codes"
+        case prizeStarCount = "prize_star_count"
         case premiumSubscriptionMonthCount = "premium_subscription_month_count"
     }
 
@@ -41,10 +42,13 @@ public final class TGGiveaway: Codable {
     /// Optional. A list of two-letter ISO 3166-1 alpha-2 country codes indicating the countries from which eligible users for the giveaway must come. If empty, then all users can participate in the giveaway. Users with a phone number that was bought on Fragment can always participate in giveaways.
     public var countryCodes: [String]?
 
-    /// Optional. The number of months the Telegram Premium subscription won from the giveaway will be active for
+    /// Optional. The number of Telegram Stars to be split between giveaway winners; for Telegram Star giveaways only
+    public var prizeStarCount: Int?
+
+    /// Optional. The number of months the Telegram Premium subscription won from the giveaway will be active for; for Telegram Premium giveaways only
     public var premiumSubscriptionMonthCount: Int?
 
-    public init (chats: [TGChat], winnersSelectionDate: Int, winnerCount: Int, onlyNewMembers: Bool? = nil, hasPublicWinners: Bool? = nil, prizeDescription: String? = nil, countryCodes: [String]? = nil, premiumSubscriptionMonthCount: Int? = nil) {
+    public init (chats: [TGChat], winnersSelectionDate: Int, winnerCount: Int, onlyNewMembers: Bool? = nil, hasPublicWinners: Bool? = nil, prizeDescription: String? = nil, countryCodes: [String]? = nil, prizeStarCount: Int? = nil, premiumSubscriptionMonthCount: Int? = nil) {
         self.chats = chats
         self.winnersSelectionDate = winnersSelectionDate
         self.winnerCount = winnerCount
@@ -52,6 +56,7 @@ public final class TGGiveaway: Codable {
         self.hasPublicWinners = hasPublicWinners
         self.prizeDescription = prizeDescription
         self.countryCodes = countryCodes
+        self.prizeStarCount = prizeStarCount
         self.premiumSubscriptionMonthCount = premiumSubscriptionMonthCount
     }
 }

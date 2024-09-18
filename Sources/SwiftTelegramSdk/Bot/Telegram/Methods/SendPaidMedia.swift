@@ -15,11 +15,14 @@ public struct TGSendPaidMediaParams: Encodable {
     /// Unique identifier for the target chat or username of the target channel (in the format @channelusername). If the chat is a channel, all Telegram Star proceeds from this media will be credited to the chat's balance. Otherwise, they will be credited to the bot's balance.
     public var chatId: TGChatId
 
-    /// The number of Telegram Stars that must be paid to buy access to the media
+    /// The number of Telegram Stars that must be paid to buy access to the media; 1-2500
     public var starCount: Int
 
     /// A JSON-serialized array describing the media to be sent; up to 10 items
     public var media: [TGInputPaidMedia]
+
+    /// Bot-defined paid media payload, 0-128 bytes. This will not be displayed to the user, use it for your internal processes.
+    public var payload: String?
 
     /// Media caption, 0-1024 characters after entities parsing
     public var caption: String?
@@ -51,6 +54,7 @@ public struct TGSendPaidMediaParams: Encodable {
             case chatId = "chat_id"
             case starCount = "star_count"
             case media = "media"
+            case payload = "payload"
             case caption = "caption"
             case parseMode = "parse_mode"
             case captionEntities = "caption_entities"
@@ -61,11 +65,12 @@ public struct TGSendPaidMediaParams: Encodable {
             case replyMarkup = "reply_markup"
     }
 
-    public init(businessConnectionId: String? = nil, chatId: TGChatId, starCount: Int, media: [TGInputPaidMedia], caption: String? = nil, parseMode: TGParseMode? = nil, captionEntities: [TGMessageEntity]? = nil, showCaptionAboveMedia: Bool? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyParameters: TGReplyParameters? = nil, replyMarkup: TGReplyMarkup? = nil) {
+    public init(businessConnectionId: String? = nil, chatId: TGChatId, starCount: Int, media: [TGInputPaidMedia], payload: String? = nil, caption: String? = nil, parseMode: TGParseMode? = nil, captionEntities: [TGMessageEntity]? = nil, showCaptionAboveMedia: Bool? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyParameters: TGReplyParameters? = nil, replyMarkup: TGReplyMarkup? = nil) {
             self.businessConnectionId = businessConnectionId
             self.chatId = chatId
             self.starCount = starCount
             self.media = media
+            self.payload = payload
             self.caption = caption
             self.parseMode = parseMode
             self.captionEntities = captionEntities

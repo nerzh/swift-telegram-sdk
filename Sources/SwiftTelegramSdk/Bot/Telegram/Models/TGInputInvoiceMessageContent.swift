@@ -38,7 +38,7 @@ public final class TGInputInvoiceMessageContent: Codable {
     /// Product description, 1-255 characters
     public var description: String
 
-    /// Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.
+    /// Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use it for your internal processes.
     public var payload: String
 
     /// Optional. Payment provider token, obtained via @BotFather. Pass an empty string for payments in Telegram Stars.

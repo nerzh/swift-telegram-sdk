@@ -19,6 +19,8 @@ public final class TGChatInviteLink: Codable {
         case expireDate = "expire_date"
         case memberLimit = "member_limit"
         case pendingJoinRequestCount = "pending_join_request_count"
+        case subscriptionPeriod = "subscription_period"
+        case subscriptionPrice = "subscription_price"
     }
 
     /// The invite link. If the link was created by another chat administrator, then the second part of the link will be replaced with “…”.
@@ -48,7 +50,13 @@ public final class TGChatInviteLink: Codable {
     /// Optional. Number of pending join requests created using this link
     public var pendingJoinRequestCount: Int?
 
-    public init (inviteLink: String, creator: TGUser, createsJoinRequest: Bool, isPrimary: Bool, isRevoked: Bool, name: String? = nil, expireDate: Int? = nil, memberLimit: Int? = nil, pendingJoinRequestCount: Int? = nil) {
+    /// Optional. The number of seconds the subscription will be active for before the next payment
+    public var subscriptionPeriod: Int?
+
+    /// Optional. The amount of Telegram Stars a user must pay initially and after each subsequent subscription period to be a member of the chat using the link
+    public var subscriptionPrice: Int?
+
+    public init (inviteLink: String, creator: TGUser, createsJoinRequest: Bool, isPrimary: Bool, isRevoked: Bool, name: String? = nil, expireDate: Int? = nil, memberLimit: Int? = nil, pendingJoinRequestCount: Int? = nil, subscriptionPeriod: Int? = nil, subscriptionPrice: Int? = nil) {
         self.inviteLink = inviteLink
         self.creator = creator
         self.createsJoinRequest = createsJoinRequest
@@ -58,5 +66,7 @@ public final class TGChatInviteLink: Codable {
         self.expireDate = expireDate
         self.memberLimit = memberLimit
         self.pendingJoinRequestCount = pendingJoinRequestCount
+        self.subscriptionPeriod = subscriptionPeriod
+        self.subscriptionPrice = subscriptionPrice
     }
 }

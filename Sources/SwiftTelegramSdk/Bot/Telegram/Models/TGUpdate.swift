@@ -27,6 +27,7 @@ public final class TGUpdate: Codable {
         case callbackQuery = "callback_query"
         case shippingQuery = "shipping_query"
         case preCheckoutQuery = "pre_checkout_query"
+        case purchasedPaidMedia = "purchased_paid_media"
         case poll = "poll"
         case pollAnswer = "poll_answer"
         case myChatMember = "my_chat_member"
@@ -84,6 +85,9 @@ public final class TGUpdate: Codable {
     /// Optional. New incoming pre-checkout query. Contains full information about checkout
     public var preCheckoutQuery: TGPreCheckoutQuery?
 
+    /// Optional. A user purchased paid media with a non-empty payload sent by the bot in a non-channel chat
+    public var purchasedPaidMedia: TGPaidMediaPurchased?
+
     /// Optional. New poll state. Bots receive only updates about manually stopped polls and polls, which are sent by the bot
     public var poll: TGPoll?
 
@@ -105,7 +109,7 @@ public final class TGUpdate: Codable {
     /// Optional. A boost was removed from a chat. The bot must be an administrator in the chat to receive these updates.
     public var removedChatBoost: TGChatBoostRemoved?
 
-    public init (updateId: Int, message: TGMessage? = nil, editedMessage: TGMessage? = nil, channelPost: TGMessage? = nil, editedChannelPost: TGMessage? = nil, businessConnection: TGBusinessConnection? = nil, businessMessage: TGMessage? = nil, editedBusinessMessage: TGMessage? = nil, deletedBusinessMessages: TGBusinessMessagesDeleted? = nil, messageReaction: TGMessageReactionUpdated? = nil, messageReactionCount: TGMessageReactionCountUpdated? = nil, inlineQuery: TGInlineQuery? = nil, chosenInlineResult: TGChosenInlineResult? = nil, callbackQuery: TGCallbackQuery? = nil, shippingQuery: TGShippingQuery? = nil, preCheckoutQuery: TGPreCheckoutQuery? = nil, poll: TGPoll? = nil, pollAnswer: TGPollAnswer? = nil, myChatMember: TGChatMemberUpdated? = nil, chatMember: TGChatMemberUpdated? = nil, chatJoinRequest: TGChatJoinRequest? = nil, chatBoost: TGChatBoostUpdated? = nil, removedChatBoost: TGChatBoostRemoved? = nil) {
+    public init (updateId: Int, message: TGMessage? = nil, editedMessage: TGMessage? = nil, channelPost: TGMessage? = nil, editedChannelPost: TGMessage? = nil, businessConnection: TGBusinessConnection? = nil, businessMessage: TGMessage? = nil, editedBusinessMessage: TGMessage? = nil, deletedBusinessMessages: TGBusinessMessagesDeleted? = nil, messageReaction: TGMessageReactionUpdated? = nil, messageReactionCount: TGMessageReactionCountUpdated? = nil, inlineQuery: TGInlineQuery? = nil, chosenInlineResult: TGChosenInlineResult? = nil, callbackQuery: TGCallbackQuery? = nil, shippingQuery: TGShippingQuery? = nil, preCheckoutQuery: TGPreCheckoutQuery? = nil, purchasedPaidMedia: TGPaidMediaPurchased? = nil, poll: TGPoll? = nil, pollAnswer: TGPollAnswer? = nil, myChatMember: TGChatMemberUpdated? = nil, chatMember: TGChatMemberUpdated? = nil, chatJoinRequest: TGChatJoinRequest? = nil, chatBoost: TGChatBoostUpdated? = nil, removedChatBoost: TGChatBoostRemoved? = nil) {
         self.updateId = updateId
         self.message = message
         self.editedMessage = editedMessage
@@ -122,6 +126,7 @@ public final class TGUpdate: Codable {
         self.callbackQuery = callbackQuery
         self.shippingQuery = shippingQuery
         self.preCheckoutQuery = preCheckoutQuery
+        self.purchasedPaidMedia = purchasedPaidMedia
         self.poll = poll
         self.pollAnswer = pollAnswer
         self.myChatMember = myChatMember

@@ -14,6 +14,7 @@ public final class TGTransactionPartnerUser: Codable {
         case user = "user"
         case invoicePayload = "invoice_payload"
         case paidMedia = "paid_media"
+        case paidMediaPayload = "paid_media_payload"
     }
 
     /// Type of the transaction partner, always “user”
@@ -28,10 +29,14 @@ public final class TGTransactionPartnerUser: Codable {
     /// Optional. Information about the paid media bought by the user
     public var paidMedia: [TGPaidMedia]?
 
-    public init (type: TGTransactionPartnerUserType, user: TGUser, invoicePayload: String? = nil, paidMedia: [TGPaidMedia]? = nil) {
+    /// Optional. Bot-specified paid media payload
+    public var paidMediaPayload: String?
+
+    public init (type: TGTransactionPartnerUserType, user: TGUser, invoicePayload: String? = nil, paidMedia: [TGPaidMedia]? = nil, paidMediaPayload: String? = nil) {
         self.type = type
         self.user = user
         self.invoicePayload = invoicePayload
         self.paidMedia = paidMedia
+        self.paidMediaPayload = paidMediaPayload
     }
 }

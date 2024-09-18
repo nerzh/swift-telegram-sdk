@@ -16,6 +16,7 @@ public final class TGGiveawayWinners: Codable {
         case winnerCount = "winner_count"
         case winners = "winners"
         case additionalChatCount = "additional_chat_count"
+        case prizeStarCount = "prize_star_count"
         case premiumSubscriptionMonthCount = "premium_subscription_month_count"
         case unclaimedPrizeCount = "unclaimed_prize_count"
         case onlyNewMembers = "only_new_members"
@@ -41,7 +42,10 @@ public final class TGGiveawayWinners: Codable {
     /// Optional. The number of other chats the user had to join in order to be eligible for the giveaway
     public var additionalChatCount: Int?
 
-    /// Optional. The number of months the Telegram Premium subscription won from the giveaway will be active for
+    /// Optional. The number of Telegram Stars that were split between giveaway winners; for Telegram Star giveaways only
+    public var prizeStarCount: Int?
+
+    /// Optional. The number of months the Telegram Premium subscription won from the giveaway will be active for; for Telegram Premium giveaways only
     public var premiumSubscriptionMonthCount: Int?
 
     /// Optional. Number of undistributed prizes
@@ -56,13 +60,14 @@ public final class TGGiveawayWinners: Codable {
     /// Optional. Description of additional giveaway prize
     public var prizeDescription: String?
 
-    public init (chat: TGChat, giveawayMessageId: Int, winnersSelectionDate: Int, winnerCount: Int, winners: [TGUser], additionalChatCount: Int? = nil, premiumSubscriptionMonthCount: Int? = nil, unclaimedPrizeCount: Int? = nil, onlyNewMembers: Bool? = nil, wasRefunded: Bool? = nil, prizeDescription: String? = nil) {
+    public init (chat: TGChat, giveawayMessageId: Int, winnersSelectionDate: Int, winnerCount: Int, winners: [TGUser], additionalChatCount: Int? = nil, prizeStarCount: Int? = nil, premiumSubscriptionMonthCount: Int? = nil, unclaimedPrizeCount: Int? = nil, onlyNewMembers: Bool? = nil, wasRefunded: Bool? = nil, prizeDescription: String? = nil) {
         self.chat = chat
         self.giveawayMessageId = giveawayMessageId
         self.winnersSelectionDate = winnersSelectionDate
         self.winnerCount = winnerCount
         self.winners = winners
         self.additionalChatCount = additionalChatCount
+        self.prizeStarCount = prizeStarCount
         self.premiumSubscriptionMonthCount = premiumSubscriptionMonthCount
         self.unclaimedPrizeCount = unclaimedPrizeCount
         self.onlyNewMembers = onlyNewMembers
