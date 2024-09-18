@@ -62,6 +62,28 @@ var connectionType: TGConnectionType = .longpolling(limit: nil,
 ```swift
 var connectionType: TGConnectionType = .webhook(webHookURL: URL(string: "\(TG_WEBHOOK_DOMAIN!)/\(TGWebHookRouteName)")!)
 ```
+```swift
+/// Add route for webhook. For example Vapor:
+
+/// routes.swift
+func routes(_ app: Application) throws {
+    try app.register(collection: TelegramController())
+}
+
+
+/// TelegramController.swift
+final class TelegramController: RouteCollection {
+    func boot(routes: Vapor.RoutesBuilder) throws {
+        routes.post(TGWebHookRouteName, use: telegramWebHook)
+    }
+
+    func telegramWebHook(_ req: Request) async throws -> Bool {
+        let update: TGUpdate = try req.content.decode(TGUpdate.self)
+        Task { await botActor.bot.dispatcher.process([update]) }
+        return true
+    }
+}
+```
 ### Start bot with added handlers
 ```swift
 let bot: TGBot = try await .init(connectionType: connectionType,
