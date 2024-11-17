@@ -163,6 +163,11 @@ public protocol TGBotPrtcl {
 
 
     @discardableResult
+    func setUserEmojiStatus(params: TGSetUserEmojiStatusParams) async throws -> Bool
+
+
+
+    @discardableResult
     func getFile(params: TGGetFileParams) async throws -> TGFile
 
 
@@ -588,12 +593,27 @@ public protocol TGBotPrtcl {
 
 
     @discardableResult
+    func getAvailableGifts() async throws -> TGGifts
+
+
+
+    @discardableResult
+    func sendGift(params: TGSendGiftParams) async throws -> Bool
+
+
+
+    @discardableResult
     func answerInlineQuery(params: TGAnswerInlineQueryParams) async throws -> Bool
 
 
 
     @discardableResult
     func answerWebAppQuery(params: TGAnswerWebAppQueryParams) async throws -> TGSentWebAppMessage
+
+
+
+    @discardableResult
+    func savePreparedInlineMessage(params: TGSavePreparedInlineMessageParams) async throws -> TGPreparedInlineMessage
 
 
 
@@ -624,6 +644,11 @@ public protocol TGBotPrtcl {
 
     @discardableResult
     func refundStarPayment(params: TGRefundStarPaymentParams) async throws -> Bool
+
+
+
+    @discardableResult
+    func editUserStarSubscription(params: TGEditUserStarSubscriptionParams) async throws -> Bool
 
 
 

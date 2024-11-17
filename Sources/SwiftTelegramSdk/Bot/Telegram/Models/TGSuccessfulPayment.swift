@@ -13,6 +13,9 @@ public final class TGSuccessfulPayment: Codable {
         case currency = "currency"
         case totalAmount = "total_amount"
         case invoicePayload = "invoice_payload"
+        case subscriptionExpirationDate = "subscription_expiration_date"
+        case isRecurring = "is_recurring"
+        case isFirstRecurring = "is_first_recurring"
         case shippingOptionId = "shipping_option_id"
         case orderInfo = "order_info"
         case telegramPaymentChargeId = "telegram_payment_charge_id"
@@ -28,6 +31,15 @@ public final class TGSuccessfulPayment: Codable {
     /// Bot-specified invoice payload
     public var invoicePayload: String
 
+    /// Optional. Expiration date of the subscription, in Unix time; for recurring payments only
+    public var subscriptionExpirationDate: Int?
+
+    /// Optional. True, if the payment is a recurring payment for a subscription
+    public var isRecurring: Bool?
+
+    /// Optional. True, if the payment is the first payment for a subscription
+    public var isFirstRecurring: Bool?
+
     /// Optional. Identifier of the shipping option chosen by the user
     public var shippingOptionId: String?
 
@@ -40,10 +52,13 @@ public final class TGSuccessfulPayment: Codable {
     /// Provider payment identifier
     public var providerPaymentChargeId: String
 
-    public init (currency: String, totalAmount: Int, invoicePayload: String, shippingOptionId: String? = nil, orderInfo: TGOrderInfo? = nil, telegramPaymentChargeId: String, providerPaymentChargeId: String) {
+    public init (currency: String, totalAmount: Int, invoicePayload: String, subscriptionExpirationDate: Int? = nil, isRecurring: Bool? = nil, isFirstRecurring: Bool? = nil, shippingOptionId: String? = nil, orderInfo: TGOrderInfo? = nil, telegramPaymentChargeId: String, providerPaymentChargeId: String) {
         self.currency = currency
         self.totalAmount = totalAmount
         self.invoicePayload = invoicePayload
+        self.subscriptionExpirationDate = subscriptionExpirationDate
+        self.isRecurring = isRecurring
+        self.isFirstRecurring = isFirstRecurring
         self.shippingOptionId = shippingOptionId
         self.orderInfo = orderInfo
         self.telegramPaymentChargeId = telegramPaymentChargeId

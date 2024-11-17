@@ -18,6 +18,7 @@ public final class TGInlineKeyboardButton: Codable {
         case switchInlineQuery = "switch_inline_query"
         case switchInlineQueryCurrentChat = "switch_inline_query_current_chat"
         case switchInlineQueryChosenChat = "switch_inline_query_chosen_chat"
+        case copyText = "copy_text"
         case callbackGame = "callback_game"
         case pay = "pay"
     }
@@ -48,6 +49,9 @@ public final class TGInlineKeyboardButton: Codable {
     /// Optional. If set, pressing the button will prompt the user to select one of their chats of the specified type, open that chat and insert the bot's username and the specified inline query in the input field. Not supported for messages sent on behalf of a Telegram Business account.
     public var switchInlineQueryChosenChat: TGSwitchInlineQueryChosenChat?
 
+    /// Optional. Description of the button that copies the specified text to the clipboard.
+    public var copyText: TGCopyTextButton?
+
     /// Optional. Description of the game that will be launched when the user presses the button.
     /// 
     /// NOTE: This type of button must always be the first button in the first row.
@@ -58,7 +62,7 @@ public final class TGInlineKeyboardButton: Codable {
     /// NOTE: This type of button must always be the first button in the first row and can only be used in invoice messages.
     public var pay: Bool?
 
-    public init (text: String, url: String? = nil, callbackData: String? = nil, webApp: TGWebAppInfo? = nil, loginUrl: TGLoginUrl? = nil, switchInlineQuery: String? = nil, switchInlineQueryCurrentChat: String? = nil, switchInlineQueryChosenChat: TGSwitchInlineQueryChosenChat? = nil, callbackGame: TGCallbackGame? = nil, pay: Bool? = nil) {
+    public init (text: String, url: String? = nil, callbackData: String? = nil, webApp: TGWebAppInfo? = nil, loginUrl: TGLoginUrl? = nil, switchInlineQuery: String? = nil, switchInlineQueryCurrentChat: String? = nil, switchInlineQueryChosenChat: TGSwitchInlineQueryChosenChat? = nil, copyText: TGCopyTextButton? = nil, callbackGame: TGCallbackGame? = nil, pay: Bool? = nil) {
         self.text = text
         self.url = url
         self.callbackData = callbackData
@@ -67,6 +71,7 @@ public final class TGInlineKeyboardButton: Codable {
         self.switchInlineQuery = switchInlineQuery
         self.switchInlineQueryCurrentChat = switchInlineQueryCurrentChat
         self.switchInlineQueryChosenChat = switchInlineQueryChosenChat
+        self.copyText = copyText
         self.callbackGame = callbackGame
         self.pay = pay
     }

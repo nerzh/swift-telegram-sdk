@@ -30,6 +30,9 @@ public struct TGSendStickerParams: Encodable {
     /// Protects the contents of the sent message from forwarding and saving
     public var protectContent: Bool?
 
+    /// Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+    public var allowPaidBroadcast: Bool?
+
     /// Unique identifier of the message effect to be added to the message; for private chats only
     public var messageEffectId: String?
 
@@ -48,12 +51,13 @@ public struct TGSendStickerParams: Encodable {
             case emoji = "emoji"
             case disableNotification = "disable_notification"
             case protectContent = "protect_content"
+            case allowPaidBroadcast = "allow_paid_broadcast"
             case messageEffectId = "message_effect_id"
             case replyParameters = "reply_parameters"
             case replyMarkup = "reply_markup"
     }
 
-    public init(businessConnectionId: String? = nil, chatId: TGChatId, messageThreadId: Int? = nil, sticker: TGFileInfo, emoji: String? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, messageEffectId: String? = nil, replyParameters: TGReplyParameters? = nil, replyMarkup: TGReplyMarkup? = nil) {
+    public init(businessConnectionId: String? = nil, chatId: TGChatId, messageThreadId: Int? = nil, sticker: TGFileInfo, emoji: String? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, allowPaidBroadcast: Bool? = nil, messageEffectId: String? = nil, replyParameters: TGReplyParameters? = nil, replyMarkup: TGReplyMarkup? = nil) {
             self.businessConnectionId = businessConnectionId
             self.chatId = chatId
             self.messageThreadId = messageThreadId
@@ -61,6 +65,7 @@ public struct TGSendStickerParams: Encodable {
             self.emoji = emoji
             self.disableNotification = disableNotification
             self.protectContent = protectContent
+            self.allowPaidBroadcast = allowPaidBroadcast
             self.messageEffectId = messageEffectId
             self.replyParameters = replyParameters
             self.replyMarkup = replyMarkup

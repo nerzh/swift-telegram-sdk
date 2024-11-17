@@ -5,6 +5,7 @@
  TransactionPartnerUser
  TransactionPartnerFragment
  TransactionPartnerTelegramAds
+ TransactionPartnerTelegramApi
  TransactionPartnerOther
 
  SeeAlso Telegram Bot API Reference:
@@ -14,6 +15,7 @@ public enum TGTransactionPartner: Codable {
     case transactionPartnerUser(TGTransactionPartnerUser)
     case transactionPartnerFragment(TGTransactionPartnerFragment)
     case transactionPartnerTelegramAds(TGTransactionPartnerTelegramAds)
+    case transactionPartnerTelegramApi(TGTransactionPartnerTelegramApi)
     case transactionPartnerOther(TGTransactionPartnerOther)
 
     public init(from decoder: Decoder) throws {
@@ -24,6 +26,8 @@ public enum TGTransactionPartner: Codable {
             self = .transactionPartnerFragment(value)
         } else if let value = try? container.decode(TGTransactionPartnerTelegramAds.self) {
             self = .transactionPartnerTelegramAds(value)
+        } else if let value = try? container.decode(TGTransactionPartnerTelegramApi.self) {
+            self = .transactionPartnerTelegramApi(value)
         } else if let value = try? container.decode(TGTransactionPartnerOther.self) {
             self = .transactionPartnerOther(value)
         } else {
@@ -39,6 +43,8 @@ public enum TGTransactionPartner: Codable {
         case let .transactionPartnerFragment(value):
             try container.encode(value)
         case let .transactionPartnerTelegramAds(value):
+            try container.encode(value)
+        case let .transactionPartnerTelegramApi(value):
             try container.encode(value)
         case let .transactionPartnerOther(value):
             try container.encode(value)

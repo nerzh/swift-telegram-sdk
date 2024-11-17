@@ -9,6 +9,9 @@ import Foundation
 /// Parameters container struct for `createInvoiceLink` method
 public struct TGCreateInvoiceLinkParams: Encodable {
 
+    /// Unique identifier of the business connection on behalf of which the link will be created
+    public var businessConnectionId: String?
+
     /// Product name, 1-32 characters
     public var title: String
 
@@ -26,6 +29,9 @@ public struct TGCreateInvoiceLinkParams: Encodable {
 
     /// Price breakdown, a JSON-serialized list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.). Must contain exactly one item for payments in Telegram Stars.
     public var prices: [TGLabeledPrice]
+
+    /// The number of seconds the subscription will be active for before the next payment. The currency must be set to “XTR” (Telegram Stars) if the parameter is used. Currently, it must always be 2592000 (30 days) if specified.
+    public var subscriptionPeriod: Int?
 
     /// The maximum accepted amount for tips in the smallest units of the currency (integer, not float/double). For example, for a maximum tip of US$ 1.45 pass max_tip_amount = 145. See the exp parameter in currencies.json, it shows the number of digits past the decimal point for each currency (2 for the majority of currencies). Defaults to 0. Not supported for payments in Telegram Stars.
     public var maxTipAmount: Int?
@@ -71,12 +77,14 @@ public struct TGCreateInvoiceLinkParams: Encodable {
 
     /// Custom keys for coding/decoding `CreateInvoiceLinkParams` struct
     public enum CodingKeys: String, CodingKey {
+            case businessConnectionId = "business_connection_id"
             case title = "title"
             case description = "description"
             case payload = "payload"
             case providerToken = "provider_token"
             case currency = "currency"
             case prices = "prices"
+            case subscriptionPeriod = "subscription_period"
             case maxTipAmount = "max_tip_amount"
             case suggestedTipAmounts = "suggested_tip_amounts"
             case providerData = "provider_data"
@@ -93,13 +101,15 @@ public struct TGCreateInvoiceLinkParams: Encodable {
             case isFlexible = "is_flexible"
     }
 
-    public init(title: String, description: String, payload: String, providerToken: String? = nil, currency: String, prices: [TGLabeledPrice], maxTipAmount: Int? = nil, suggestedTipAmounts: [Int]? = nil, providerData: String? = nil, photoUrl: String? = nil, photoSize: Int? = nil, photoWidth: Int? = nil, photoHeight: Int? = nil, needName: Bool? = nil, needPhoneNumber: Bool? = nil, needEmail: Bool? = nil, needShippingAddress: Bool? = nil, sendPhoneNumberToProvider: Bool? = nil, sendEmailToProvider: Bool? = nil, isFlexible: Bool? = nil) {
+    public init(businessConnectionId: String? = nil, title: String, description: String, payload: String, providerToken: String? = nil, currency: String, prices: [TGLabeledPrice], subscriptionPeriod: Int? = nil, maxTipAmount: Int? = nil, suggestedTipAmounts: [Int]? = nil, providerData: String? = nil, photoUrl: String? = nil, photoSize: Int? = nil, photoWidth: Int? = nil, photoHeight: Int? = nil, needName: Bool? = nil, needPhoneNumber: Bool? = nil, needEmail: Bool? = nil, needShippingAddress: Bool? = nil, sendPhoneNumberToProvider: Bool? = nil, sendEmailToProvider: Bool? = nil, isFlexible: Bool? = nil) {
+            self.businessConnectionId = businessConnectionId
             self.title = title
             self.description = description
             self.payload = payload
             self.providerToken = providerToken
             self.currency = currency
             self.prices = prices
+            self.subscriptionPeriod = subscriptionPeriod
             self.maxTipAmount = maxTipAmount
             self.suggestedTipAmounts = suggestedTipAmounts
             self.providerData = providerData

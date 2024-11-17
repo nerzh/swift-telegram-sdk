@@ -17,7 +17,7 @@ public final class TGStarTransaction: Codable {
         case receiver = "receiver"
     }
 
-    /// Unique identifier of the transaction. Coincides with the identifer of the original transaction for refund transactions. Coincides with SuccessfulPayment.telegram_payment_charge_id for successful incoming payments from users.
+    /// Unique identifier of the transaction. Coincides with the identifier of the original transaction for refund transactions. Coincides with SuccessfulPayment.telegram_payment_charge_id for successful incoming payments from users.
     public var id: String
 
     /// Number of Telegram Stars transferred by the transaction

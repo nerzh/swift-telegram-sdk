@@ -27,6 +27,9 @@ public struct TGSendMediaGroupParams: Encodable {
     /// Protects the contents of the sent messages from forwarding and saving
     public var protectContent: Bool?
 
+    /// Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+    public var allowPaidBroadcast: Bool?
+
     /// Unique identifier of the message effect to be added to the message; for private chats only
     public var messageEffectId: String?
 
@@ -41,17 +44,19 @@ public struct TGSendMediaGroupParams: Encodable {
             case media = "media"
             case disableNotification = "disable_notification"
             case protectContent = "protect_content"
+            case allowPaidBroadcast = "allow_paid_broadcast"
             case messageEffectId = "message_effect_id"
             case replyParameters = "reply_parameters"
     }
 
-    public init(businessConnectionId: String? = nil, chatId: TGChatId, messageThreadId: Int? = nil, media: [TGInputMedia], disableNotification: Bool? = nil, protectContent: Bool? = nil, messageEffectId: String? = nil, replyParameters: TGReplyParameters? = nil) {
+    public init(businessConnectionId: String? = nil, chatId: TGChatId, messageThreadId: Int? = nil, media: [TGInputMedia], disableNotification: Bool? = nil, protectContent: Bool? = nil, allowPaidBroadcast: Bool? = nil, messageEffectId: String? = nil, replyParameters: TGReplyParameters? = nil) {
             self.businessConnectionId = businessConnectionId
             self.chatId = chatId
             self.messageThreadId = messageThreadId
             self.media = media
             self.disableNotification = disableNotification
             self.protectContent = protectContent
+            self.allowPaidBroadcast = allowPaidBroadcast
             self.messageEffectId = messageEffectId
             self.replyParameters = replyParameters
     }

@@ -42,6 +42,9 @@ public struct TGSendPaidMediaParams: Encodable {
     /// Protects the contents of the sent message from forwarding and saving
     public var protectContent: Bool?
 
+    /// Pass True to allow up to 1000 messages per second, ignoring broadcasting limits for a fee of 0.1 Telegram Stars per message. The relevant Stars will be withdrawn from the bot's balance
+    public var allowPaidBroadcast: Bool?
+
     /// Description of the message to reply to
     public var replyParameters: TGReplyParameters?
 
@@ -61,11 +64,12 @@ public struct TGSendPaidMediaParams: Encodable {
             case showCaptionAboveMedia = "show_caption_above_media"
             case disableNotification = "disable_notification"
             case protectContent = "protect_content"
+            case allowPaidBroadcast = "allow_paid_broadcast"
             case replyParameters = "reply_parameters"
             case replyMarkup = "reply_markup"
     }
 
-    public init(businessConnectionId: String? = nil, chatId: TGChatId, starCount: Int, media: [TGInputPaidMedia], payload: String? = nil, caption: String? = nil, parseMode: TGParseMode? = nil, captionEntities: [TGMessageEntity]? = nil, showCaptionAboveMedia: Bool? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, replyParameters: TGReplyParameters? = nil, replyMarkup: TGReplyMarkup? = nil) {
+    public init(businessConnectionId: String? = nil, chatId: TGChatId, starCount: Int, media: [TGInputPaidMedia], payload: String? = nil, caption: String? = nil, parseMode: TGParseMode? = nil, captionEntities: [TGMessageEntity]? = nil, showCaptionAboveMedia: Bool? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, allowPaidBroadcast: Bool? = nil, replyParameters: TGReplyParameters? = nil, replyMarkup: TGReplyMarkup? = nil) {
             self.businessConnectionId = businessConnectionId
             self.chatId = chatId
             self.starCount = starCount
@@ -77,6 +81,7 @@ public struct TGSendPaidMediaParams: Encodable {
             self.showCaptionAboveMedia = showCaptionAboveMedia
             self.disableNotification = disableNotification
             self.protectContent = protectContent
+            self.allowPaidBroadcast = allowPaidBroadcast
             self.replyParameters = replyParameters
             self.replyMarkup = replyMarkup
     }
