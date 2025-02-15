@@ -3,6 +3,8 @@
 /**
  This object describes the source of a transaction, or its recipient for outgoing transactions. Currently, it can be one of
  TransactionPartnerUser
+ TransactionPartnerChat
+ TransactionPartnerAffiliateProgram
  TransactionPartnerFragment
  TransactionPartnerTelegramAds
  TransactionPartnerTelegramApi
@@ -13,6 +15,8 @@
  **/
 public enum TGTransactionPartner: Codable {
     case transactionPartnerUser(TGTransactionPartnerUser)
+    case transactionPartnerChat(TGTransactionPartnerChat)
+    case transactionPartnerAffiliateProgram(TGTransactionPartnerAffiliateProgram)
     case transactionPartnerFragment(TGTransactionPartnerFragment)
     case transactionPartnerTelegramAds(TGTransactionPartnerTelegramAds)
     case transactionPartnerTelegramApi(TGTransactionPartnerTelegramApi)
@@ -22,6 +26,10 @@ public enum TGTransactionPartner: Codable {
         let container = try decoder.singleValueContainer()
         if let value = try? container.decode(TGTransactionPartnerUser.self) {
             self = .transactionPartnerUser(value)
+        } else if let value = try? container.decode(TGTransactionPartnerChat.self) {
+            self = .transactionPartnerChat(value)
+        } else if let value = try? container.decode(TGTransactionPartnerAffiliateProgram.self) {
+            self = .transactionPartnerAffiliateProgram(value)
         } else if let value = try? container.decode(TGTransactionPartnerFragment.self) {
             self = .transactionPartnerFragment(value)
         } else if let value = try? container.decode(TGTransactionPartnerTelegramAds.self) {
@@ -39,6 +47,10 @@ public enum TGTransactionPartner: Codable {
         var container = encoder.singleValueContainer()
         switch self {
         case let .transactionPartnerUser(value):
+            try container.encode(value)
+        case let .transactionPartnerChat(value):
+            try container.encode(value)
+        case let .transactionPartnerAffiliateProgram(value):
             try container.encode(value)
         case let .transactionPartnerFragment(value):
             try container.encode(value)

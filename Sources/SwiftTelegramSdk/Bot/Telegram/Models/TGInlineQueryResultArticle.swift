@@ -16,7 +16,6 @@ public final class TGInlineQueryResultArticle: Codable {
         case inputMessageContent = "input_message_content"
         case replyMarkup = "reply_markup"
         case url = "url"
-        case hideUrl = "hide_url"
         case description = "description"
         case thumbnailUrl = "thumbnail_url"
         case thumbnailWidth = "thumbnail_width"
@@ -41,9 +40,6 @@ public final class TGInlineQueryResultArticle: Codable {
     /// Optional. URL of the result
     public var url: String?
 
-    /// Optional. Pass True if you don't want the URL to be shown in the message
-    public var hideUrl: Bool?
-
     /// Optional. Short description of the result
     public var description: String?
 
@@ -56,14 +52,13 @@ public final class TGInlineQueryResultArticle: Codable {
     /// Optional. Thumbnail height
     public var thumbnailHeight: Int?
 
-    public init (type: TGInlineQueryResultArticleType, id: String, title: String, inputMessageContent: TGInputMessageContent, replyMarkup: TGInlineKeyboardMarkup? = nil, url: String? = nil, hideUrl: Bool? = nil, description: String? = nil, thumbnailUrl: String? = nil, thumbnailWidth: Int? = nil, thumbnailHeight: Int? = nil) {
+    public init (type: TGInlineQueryResultArticleType, id: String, title: String, inputMessageContent: TGInputMessageContent, replyMarkup: TGInlineKeyboardMarkup? = nil, url: String? = nil, description: String? = nil, thumbnailUrl: String? = nil, thumbnailWidth: Int? = nil, thumbnailHeight: Int? = nil) {
         self.type = type
         self.id = id
         self.title = title
         self.inputMessageContent = inputMessageContent
         self.replyMarkup = replyMarkup
         self.url = url
-        self.hideUrl = hideUrl
         self.description = description
         self.thumbnailUrl = thumbnailUrl
         self.thumbnailWidth = thumbnailWidth

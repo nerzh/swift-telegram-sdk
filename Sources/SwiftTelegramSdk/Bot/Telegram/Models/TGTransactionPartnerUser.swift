@@ -12,6 +12,7 @@ public final class TGTransactionPartnerUser: Codable {
     public enum CodingKeys: String, CodingKey {
         case type = "type"
         case user = "user"
+        case affiliate = "affiliate"
         case invoicePayload = "invoice_payload"
         case subscriptionPeriod = "subscription_period"
         case paidMedia = "paid_media"
@@ -24,6 +25,9 @@ public final class TGTransactionPartnerUser: Codable {
 
     /// Information about the user
     public var user: TGUser
+
+    /// Optional. Information about the affiliate that received a commission via this transaction
+    public var affiliate: TGAffiliateInfo?
 
     /// Optional. Bot-specified invoice payload
     public var invoicePayload: String?
@@ -38,11 +42,12 @@ public final class TGTransactionPartnerUser: Codable {
     public var paidMediaPayload: String?
 
     /// Optional. The gift sent to the user by the bot
-    public var gift: String?
+    public var gift: TGGift?
 
-    public init (type: TGTransactionPartnerUserType, user: TGUser, invoicePayload: String? = nil, subscriptionPeriod: Int? = nil, paidMedia: [TGPaidMedia]? = nil, paidMediaPayload: String? = nil, gift: String? = nil) {
+    public init (type: TGTransactionPartnerUserType, user: TGUser, affiliate: TGAffiliateInfo? = nil, invoicePayload: String? = nil, subscriptionPeriod: Int? = nil, paidMedia: [TGPaidMedia]? = nil, paidMediaPayload: String? = nil, gift: TGGift? = nil) {
         self.type = type
         self.user = user
+        self.affiliate = affiliate
         self.invoicePayload = invoicePayload
         self.subscriptionPeriod = subscriptionPeriod
         self.paidMedia = paidMedia

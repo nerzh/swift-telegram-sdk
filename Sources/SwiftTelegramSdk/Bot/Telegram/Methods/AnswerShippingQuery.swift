@@ -18,7 +18,7 @@ public struct TGAnswerShippingQueryParams: Encodable {
     /// Required if ok is True. A JSON-serialized array of available shipping options.
     public var shippingOptions: [TGShippingOption]?
 
-    /// Required if ok is False. Error message in human readable form that explains why it is impossible to complete the order (e.g. "Sorry, delivery to your desired address is unavailable'). Telegram will display this message to the user.
+    /// Required if ok is False. Error message in human readable form that explains why it is impossible to complete the order (e.g. “Sorry, delivery to your desired address is unavailable”). Telegram will display this message to the user.
     public var errorMessage: String?
 
     /// Custom keys for coding/decoding `AnswerShippingQueryParams` struct

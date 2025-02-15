@@ -33,7 +33,7 @@ public final class TGInlineQueryResultGif: Codable {
     /// Unique identifier for this result, 1-64 bytes
     public var id: String
 
-    /// A valid URL for the GIF file. File size must not exceed 1MB
+    /// A valid URL for the GIF file
     public var gifUrl: String
 
     /// Optional. Width of the GIF

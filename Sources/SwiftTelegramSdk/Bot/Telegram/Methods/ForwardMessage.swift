@@ -18,6 +18,9 @@ public struct TGForwardMessageParams: Encodable {
     /// Unique identifier for the chat where the original message was sent (or channel username in the format @channelusername)
     public var fromChatId: TGChatId
 
+    /// New start timestamp for the forwarded video in the message
+    public var videoStartTimestamp: Int?
+
     /// Sends the message silently. Users will receive a notification with no sound.
     public var disableNotification: Bool?
 
@@ -32,15 +35,17 @@ public struct TGForwardMessageParams: Encodable {
             case chatId = "chat_id"
             case messageThreadId = "message_thread_id"
             case fromChatId = "from_chat_id"
+            case videoStartTimestamp = "video_start_timestamp"
             case disableNotification = "disable_notification"
             case protectContent = "protect_content"
             case messageId = "message_id"
     }
 
-    public init(chatId: TGChatId, messageThreadId: Int? = nil, fromChatId: TGChatId, disableNotification: Bool? = nil, protectContent: Bool? = nil, messageId: Int) {
+    public init(chatId: TGChatId, messageThreadId: Int? = nil, fromChatId: TGChatId, videoStartTimestamp: Int? = nil, disableNotification: Bool? = nil, protectContent: Bool? = nil, messageId: Int) {
             self.chatId = chatId
             self.messageThreadId = messageThreadId
             self.fromChatId = fromChatId
+            self.videoStartTimestamp = videoStartTimestamp
             self.disableNotification = disableNotification
             self.protectContent = protectContent
             self.messageId = messageId

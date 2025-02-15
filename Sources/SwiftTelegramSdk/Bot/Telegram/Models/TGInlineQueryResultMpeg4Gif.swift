@@ -33,7 +33,7 @@ public final class TGInlineQueryResultMpeg4Gif: Codable {
     /// Unique identifier for this result, 1-64 bytes
     public var id: String
 
-    /// A valid URL for the MPEG4 file. File size must not exceed 1MB
+    /// A valid URL for the MPEG4 file
     public var mpeg4Url: String
 
     /// Optional. Video width

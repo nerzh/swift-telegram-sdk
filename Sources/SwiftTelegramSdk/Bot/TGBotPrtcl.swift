@@ -603,6 +603,26 @@ public protocol TGBotPrtcl {
 
 
     @discardableResult
+    func verifyUser(params: TGVerifyUserParams) async throws -> Bool
+
+
+
+    @discardableResult
+    func verifyChat(params: TGVerifyChatParams) async throws -> Bool
+
+
+
+    @discardableResult
+    func removeUserVerification(params: TGRemoveUserVerificationParams) async throws -> Bool
+
+
+
+    @discardableResult
+    func removeChatVerification(params: TGRemoveChatVerificationParams) async throws -> Bool
+
+
+
+    @discardableResult
     func answerInlineQuery(params: TGAnswerInlineQueryParams) async throws -> Bool
 
 
