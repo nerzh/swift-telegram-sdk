@@ -7,6 +7,14 @@
 #### Swift Server Side Community
 [Swift Server Side Community - Ukraine / Russian / CIS Telegram Chat](https://t.me/server_side_swift)
 
+# ⚠️ SWIFT 6
+
+Now for use in Swift 6, to avoid many compiler errors, please use the import as indicated below. In the future I plan to release a version with support for the new parallelism paradigm from Swift 6
+
+```swift
+@preconcurrency import SwiftTelegramSdk
+```
+
 # Usage
 - Clone one of [examples](https://github.com/nerzh/swift-telegram-sdk/tree/master/Examples)
   ```shell
