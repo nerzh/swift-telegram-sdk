@@ -624,17 +624,9 @@ class Api
       return "#{PREFIX_LIB}ChatId" if var_name.include?('chat_id')
       return 'String'
     when ['String', true]
-      if var_desc[/attach:\/\/<file_attach_name>/]
-        return "#{PREFIX_LIB}FileInfo?"    
-      else
-        return "String?"
-      end
+      return "String?"
     when ['String', false]
-      if var_desc[/attach:\/\/<file_attach_name>/]
-        return "#{PREFIX_LIB}FileInfo"    
-      else
-        return "String"
-      end
+      return "String"
     when ['InputFile or String', true]
       return "#{PREFIX_LIB}FileInfo?"
     when ['InputFile or String', false]
