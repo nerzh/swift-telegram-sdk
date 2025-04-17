@@ -30,13 +30,13 @@ public final class TGInputMediaVideo: Codable {
     public var type: TGInputMediaVideoType
 
     /// File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files »
-    public var media: String
+    public var media: TGFileInfo
 
     /// Optional. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the thumbnail was uploaded using multipart/form-data under <file_attach_name>. More information on Sending Files »
-    public var thumbnail: String?
+    public var thumbnail: TGFileInfo?
 
     /// Optional. Cover for the video in the message. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files »
-    public var cover: String?
+    public var cover: TGFileInfo?
 
     /// Optional. Start timestamp for the video in the message
     public var startTimestamp: Int?
@@ -68,7 +68,7 @@ public final class TGInputMediaVideo: Codable {
     /// Optional. Pass True if the video needs to be covered with a spoiler animation
     public var hasSpoiler: Bool?
 
-    public init (type: TGInputMediaVideoType, media: String, thumbnail: String? = nil, cover: String? = nil, startTimestamp: Int? = nil, caption: String? = nil, parseMode: String? = nil, captionEntities: [TGMessageEntity]? = nil, showCaptionAboveMedia: Bool? = nil, width: Int? = nil, height: Int? = nil, duration: Int? = nil, supportsStreaming: Bool? = nil, hasSpoiler: Bool? = nil) {
+    public init (type: TGInputMediaVideoType, media: TGFileInfo, thumbnail: TGFileInfo? = nil, cover: TGFileInfo? = nil, startTimestamp: Int? = nil, caption: String? = nil, parseMode: String? = nil, captionEntities: [TGMessageEntity]? = nil, showCaptionAboveMedia: Bool? = nil, width: Int? = nil, height: Int? = nil, duration: Int? = nil, supportsStreaming: Bool? = nil, hasSpoiler: Bool? = nil) {
         self.type = type
         self.media = media
         self.thumbnail = thumbnail

@@ -624,9 +624,17 @@ class Api
       return "#{PREFIX_LIB}ChatId" if var_name.include?('chat_id')
       return 'String'
     when ['String', true]
-      return "String?"
+      if var_desc[/attach:\/\/<file_attach_name>/]
+        return "#{PREFIX_LIB}FileInfo?"    
+      else
+        return "String?"
+      end
     when ['String', false]
-      return "String"
+      if var_desc[/attach:\/\/<file_attach_name>/]
+        return "#{PREFIX_LIB}FileInfo"    
+      else
+        return "String"
+      end
     when ['InputFile or String', true]
       return "#{PREFIX_LIB}FileInfo?"
     when ['InputFile or String', false]
@@ -720,19 +728,19 @@ class Api
   end
 
   def reduce_result_type(description)
-    type_name = description[/Returns.+as (.+) on/, 1]
+    type_name = description[/Returns.+as (\w+) on/, 1]
     return type_name unless type_name.nil?
     
     type_name = description[/Returns.+(Array of\s+\w+)/, 1]
     (return type_name) unless type_name.nil?
 
-    type_name = description[/On success, an (.+)s that were sent is returned/, 1]
+    type_name = description[/On success, an (\w+)s that were sent is returned/, 1]
     return type_name unless type_name.nil?
 
     type_name = description[/On success, an (array of\s+\w+?)\s.+/, 1]
     (return type_name) unless type_name.nil?
 
-  	type_name = description[/invite link as (.+) on success/, 1]
+  	type_name = description[/invite link as (\w+) on success/, 1]
   	return type_name unless type_name.nil?
   	
   	type_name = description[/(\w+) with the final results is returned/, 1]
@@ -741,16 +749,16 @@ class Api
   	type_name = description[/An (.+) objects is returned/, 1]
   	return type_name unless type_name.nil?
 
-  	type_name = description[/returns an (.+) objects/, 1]
+  	type_name = description[/returns an (\w+) objects/, 1]
   	return type_name unless type_name.nil?
       
     type_name = description[/returns a (\w+) object/, 1]
     return type_name unless type_name.nil?
 
-  	type_name = description[/in form of a (.+) object/, 1]
+  	type_name = description[/in form of a (\w+) object/, 1]
   	return type_name unless type_name.nil?
 
-  	type_name = description[/, a (.+) object is returned/, 1]
+  	type_name = description[/, a (\w+) object is returned/, 1]
   	return type_name unless type_name.nil?
 
   	type_name = description[/(\w+) is returned, otherwise True is returned/, 1]
@@ -759,19 +767,19 @@ class Api
   	type_name = description[/(\w+) is returned/, 1]
   	return type_name unless type_name.nil?
 
-  	type_name = description[/Returns a (.+) object/, 1]
+  	type_name = description[/Returns a (\w+) object/, 1]
   	return type_name unless type_name.nil?
 
-  	type_name = description[/Returns the uploaded (.+) on success./, 1]
+  	type_name = description[/Returns the uploaded (\w+) on success./, 1]
   	return type_name unless type_name.nil?
 
-    type_name = description[/Returns the (.+) of the sent message/, 1]
+    type_name = description[/Returns the (\w+) of the sent message/, 1]
     return type_name unless type_name.nil?
 
-  	type_name = description[/Returns (.+) on/, 1]
+  	type_name = description[/Returns (\w+) on/, 1]
   	return type_name unless type_name.nil?
   	
-  	type_name = description[/invite link as (.+) on success/, 1]
+  	type_name = description[/invite link as (\w+) on success/, 1]
   	return type_name unless type_name.nil?
 
     type_name = description[/eturns the new invite link as (\w+) object/, 1]
@@ -810,7 +818,7 @@ class Api
     when 'MessageOrBoolean'
       return "#{PREFIX_LIB}MessageOrBool"
     when 'Messages'
-      return "[#{PREFIX_LIB}Message]"
+      return "#{PREFIX_LIB}Message"
     when 'String'
       return "#{PREFIX_LIB}ParseMode" if var_name.include?('parse_mode')
       return 'String'

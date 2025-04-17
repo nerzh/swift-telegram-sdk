@@ -15,7 +15,7 @@ public struct TGSendPaidMediaParams: Encodable {
     /// Unique identifier for the target chat or username of the target channel (in the format @channelusername). If the chat is a channel, all Telegram Star proceeds from this media will be credited to the chat's balance. Otherwise, they will be credited to the bot's balance.
     public var chatId: TGChatId
 
-    /// The number of Telegram Stars that must be paid to buy access to the media; 1-2500
+    /// The number of Telegram Stars that must be paid to buy access to the media; 1-10000
     public var starCount: Int
 
     /// A JSON-serialized array describing the media to be sent; up to 10 items

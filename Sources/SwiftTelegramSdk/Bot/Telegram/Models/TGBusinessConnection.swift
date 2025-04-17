@@ -14,7 +14,7 @@ public final class TGBusinessConnection: Codable {
         case user = "user"
         case userChatId = "user_chat_id"
         case date = "date"
-        case canReply = "can_reply"
+        case rights = "rights"
         case isEnabled = "is_enabled"
     }
 
@@ -30,18 +30,18 @@ public final class TGBusinessConnection: Codable {
     /// Date the connection was established in Unix time
     public var date: Int
 
-    /// True, if the bot can act on behalf of the business account in chats that were active in the last 24 hours
-    public var canReply: Bool
+    /// Optional. Rights of the business bot
+    public var rights: TGBusinessBotRights?
 
     /// True, if the connection is active
     public var isEnabled: Bool
 
-    public init (id: String, user: TGUser, userChatId: Int64, date: Int, canReply: Bool, isEnabled: Bool) {
+    public init (id: String, user: TGUser, userChatId: Int64, date: Int, rights: TGBusinessBotRights? = nil, isEnabled: Bool) {
         self.id = id
         self.user = user
         self.userChatId = userChatId
         self.date = date
-        self.canReply = canReply
+        self.rights = rights
         self.isEnabled = isEnabled
     }
 }

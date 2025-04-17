@@ -23,7 +23,7 @@ public final class TGInputMediaPhoto: Codable {
     public var type: TGInputMediaPhotoType
 
     /// File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended), pass an HTTP URL for Telegram to get a file from the Internet, or pass “attach://<file_attach_name>” to upload a new one using multipart/form-data under <file_attach_name> name. More information on Sending Files »
-    public var media: String
+    public var media: TGFileInfo
 
     /// Optional. Caption of the photo to be sent, 0-1024 characters after entities parsing
     public var caption: String?
@@ -40,7 +40,7 @@ public final class TGInputMediaPhoto: Codable {
     /// Optional. Pass True if the photo needs to be covered with a spoiler animation
     public var hasSpoiler: Bool?
 
-    public init (type: TGInputMediaPhotoType, media: String, caption: String? = nil, parseMode: String? = nil, captionEntities: [TGMessageEntity]? = nil, showCaptionAboveMedia: Bool? = nil, hasSpoiler: Bool? = nil) {
+    public init (type: TGInputMediaPhotoType, media: TGFileInfo, caption: String? = nil, parseMode: String? = nil, captionEntities: [TGMessageEntity]? = nil, showCaptionAboveMedia: Bool? = nil, hasSpoiler: Bool? = nil) {
         self.type = type
         self.media = media
         self.caption = caption
