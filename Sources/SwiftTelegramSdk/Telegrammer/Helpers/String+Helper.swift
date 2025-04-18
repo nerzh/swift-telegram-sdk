@@ -8,8 +8,10 @@
 import Foundation
 import Logging
 import SwiftRegularExpression
-#if os(Linux)
+#if canImport(Glibc)
 import Glibc
+#elseif canImport(Musl)
+import Musl
 #endif
 
 public extension String {
@@ -66,8 +68,10 @@ public extension Int {
     }
 
     static func random(_ lower: Int = 0, _ upper: Int = 100) -> Int {
-        #if os(Linux)
+        #if canImport(Glibc)
         return Int(Glibc.random() % (upper - lower + 1))
+        #elseif canImport(Musl)
+        return Int(Musl.random() % (upper - lower + 1))
         #else
         return Int(arc4random_uniform(UInt32(upper - lower + 1)))
         #endif
