@@ -29,4 +29,22 @@ public final class TGChatMemberBanned: Codable {
         self.user = user
         self.untilDate = untilDate
     }
+
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let status = try container.decode(String.self, forKey: .status)
+        guard status == "kicked" else {
+            throw DecodingError
+                .dataCorrupted(
+                    DecodingError.Context(
+                        codingPath: decoder.codingPath,
+                        debugDescription: "Wrong status value"
+                    )
+                )
+        }
+        self.status = status
+        self.user = try container.decode(TGUser.self, forKey: .user)
+        self.untilDate = try container.decode(Int.self, forKey: .untilDate)
+    }
+
 }

@@ -24,4 +24,21 @@ public final class TGChatMemberLeft: Codable {
         self.status = status
         self.user = user
     }
+
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let status = try container.decode(String.self, forKey: .status)
+        guard status == "left" else {
+            throw DecodingError
+                .dataCorrupted(
+                    DecodingError.Context(
+                        codingPath: decoder.codingPath,
+                        debugDescription: "Wrong status value"
+                    )
+                )
+        }
+        self.status = status
+        self.user = try container.decode(TGUser.self, forKey: .user)
+    }
+
 }

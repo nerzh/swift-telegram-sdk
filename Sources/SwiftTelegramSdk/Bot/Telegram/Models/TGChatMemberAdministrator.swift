@@ -109,4 +109,38 @@ public final class TGChatMemberAdministrator: Codable {
         self.canManageTopics = canManageTopics
         self.customTitle = customTitle
     }
+
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let status = try container.decode(String.self, forKey: .status)
+        guard status == "administrator" else {
+            throw DecodingError
+                .dataCorrupted(
+                    DecodingError.Context(
+                        codingPath: decoder.codingPath,
+                        debugDescription: "Wrong status value"
+                    )
+                )
+        }
+        self.status = status
+        self.user = try container.decode(TGUser.self, forKey: .user)
+        self.canBeEdited = try container.decode(Bool.self, forKey: .canBeEdited)
+        self.isAnonymous = try container.decode(Bool.self, forKey: .isAnonymous)
+        self.canManageChat = try container.decode(Bool.self, forKey: .canManageChat)
+        self.canDeleteMessages = try container.decode(Bool.self, forKey: .canDeleteMessages)
+        self.canManageVideoChats = try container.decode(Bool.self, forKey: .canManageVideoChats)
+        self.canRestrictMembers = try container.decode(Bool.self, forKey: .canRestrictMembers)
+        self.canPromoteMembers = try container.decode(Bool.self, forKey: .canPromoteMembers)
+        self.canChangeInfo = try container.decode(Bool.self, forKey: .canChangeInfo)
+        self.canInviteUsers = try container.decode(Bool.self, forKey: .canInviteUsers)
+        self.canPostStories = try container.decode(Bool.self, forKey: .canPostStories)
+        self.canEditStories = try container.decode(Bool.self, forKey: .canEditStories)
+        self.canDeleteStories = try container.decode(Bool.self, forKey: .canDeleteStories)
+        self.canPostMessages = try container.decodeIfPresent(Bool.self, forKey: .canPostMessages)
+        self.canEditMessages = try container.decodeIfPresent(Bool.self, forKey: .canEditMessages)
+        self.canPinMessages = try container.decodeIfPresent(Bool.self, forKey: .canPinMessages)
+        self.canManageTopics = try container.decodeIfPresent(Bool.self, forKey: .canManageTopics)
+        self.customTitle = try container.decodeIfPresent(String.self, forKey: .customTitle)
+    }
+
 }
