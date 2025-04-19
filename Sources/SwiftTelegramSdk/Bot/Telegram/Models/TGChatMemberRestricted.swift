@@ -104,4 +104,37 @@ public final class TGChatMemberRestricted: Codable {
         self.canManageTopics = canManageTopics
         self.untilDate = untilDate
     }
+
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let status = try container.decode(String.self, forKey: .status)
+        guard status == "restricted" else {
+            throw DecodingError
+                .dataCorrupted(
+                    DecodingError.Context(
+                        codingPath: decoder.codingPath,
+                        debugDescription: "Wrong status value"
+                    )
+                )
+        }
+        self.status = status
+        self.user = try container.decode(TGUser.self, forKey: .user)
+        self.isMember = try container.decode(Bool.self, forKey: .isMember)
+        self.canSendMessages = try container.decode(Bool.self, forKey: .canSendMessages)
+        self.canSendAudios = try container.decode(Bool.self, forKey: .canSendAudios)
+        self.canSendDocuments = try container.decode(Bool.self, forKey: .canSendDocuments)
+        self.canSendPhotos = try container.decode(Bool.self, forKey: .canSendPhotos)
+        self.canSendVideos = try container.decode(Bool.self, forKey: .canSendVideos)
+        self.canSendVideoNotes = try container.decode(Bool.self, forKey: .canSendVideoNotes)
+        self.canSendVoiceNotes = try container.decode(Bool.self, forKey: .canSendVoiceNotes)
+        self.canSendPolls = try container.decode(Bool.self, forKey: .canSendPolls)
+        self.canSendOtherMessages = try container.decode(Bool.self, forKey: .canSendOtherMessages)
+        self.canAddWebPagePreviews = try container.decode(Bool.self, forKey: .canAddWebPagePreviews)
+        self.canChangeInfo = try container.decode(Bool.self, forKey: .canChangeInfo)
+        self.canInviteUsers = try container.decode(Bool.self, forKey: .canInviteUsers)
+        self.canPinMessages = try container.decode(Bool.self, forKey: .canPinMessages)
+        self.canManageTopics = try container.decode(Bool.self, forKey: .canManageTopics)
+        self.untilDate = try container.decode(Int.self, forKey: .untilDate)
+    }
+
 }
