@@ -7,36 +7,30 @@
 
 import Foundation
 
-public protocol TGErrorCommon: ErrorCommonMessage {
+public protocol TGErrorCommon: ErrorCommonMessage {}
+
+public protocol ErrorCommonMessage: LocalizedError, Error, Decodable {
     var title: String { get set }
     var reason: String { get set }
     
     init()
+    init(_ reason: String)
     init(reason: String)
-    init(_ reason: String)
     init(_ error: Error)
-}
-
-public protocol ErrorCommonMessage: LocalizedError, Error, Decodable {
-    init(_ reason: String)
     static func mess(_ reason: String) -> Self
 }
 
 public extension ErrorCommonMessage {
-    static func mess(_ reason: String) -> Self {
-        Self(reason)
-    }
-}
-
-public extension TGErrorCommon {
-    var title: String { "" }
-    var reason: String { "" }
     var description: String { "[\(title)] \(reason)" }
     var errorDescription: String? { self.description }
     var failureReason: String? { self.description }
     var recoverySuggestion: String? { self.description }
     var helpAnchor: String? { self.description }
     var localizedDescription: String { self.description }
+    
+    static func mess(_ reason: String) -> Self {
+        Self(reason)
+    }
     
     init(_ reason: String) {
         self.init()
