@@ -36,6 +36,7 @@ public extension TGErrorCommon {
     var failureReason: String? { self.description }
     var recoverySuggestion: String? { self.description }
     var helpAnchor: String? { self.description }
+    var localizedDescription: String { self.description }
     
     init(_ reason: String) {
         self.init()
@@ -51,7 +52,6 @@ public extension TGErrorCommon {
         self.init()
         self.reason = error.localizedDescription
     }
-    
 }
 
 func makeError<T: ErrorCommonMessage>(_ error: T, _ funcName: String = #function, _ line: Int = #line) -> T {
