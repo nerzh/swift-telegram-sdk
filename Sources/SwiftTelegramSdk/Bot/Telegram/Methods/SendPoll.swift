@@ -27,7 +27,7 @@ public struct TGSendPollParams: Encodable {
     /// A JSON-serialized list of special entities that appear in the poll question. It can be specified instead of question_parse_mode
     public var questionEntities: [TGMessageEntity]?
 
-    /// A JSON-serialized list of 2-10 answer options
+    /// A JSON-serialized list of 2-12 answer options
     public var options: [TGInputPollOption]
 
     /// True, if the poll needs to be anonymous, defaults to True

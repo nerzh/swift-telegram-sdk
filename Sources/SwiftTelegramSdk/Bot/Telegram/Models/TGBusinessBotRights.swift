@@ -12,7 +12,7 @@ public final class TGBusinessBotRights: Codable {
     public enum CodingKeys: String, CodingKey {
         case canReply = "can_reply"
         case canReadMessages = "can_read_messages"
-        case canDeleteOutgoingMessages = "can_delete_outgoing_messages"
+        case canDeleteSentMessages = "can_delete_sent_messages"
         case canDeleteAllMessages = "can_delete_all_messages"
         case canEditName = "can_edit_name"
         case canEditBio = "can_edit_bio"
@@ -33,7 +33,7 @@ public final class TGBusinessBotRights: Codable {
     public var canReadMessages: Bool?
 
     /// Optional. True, if the bot can delete messages sent by the bot
-    public var canDeleteOutgoingMessages: Bool?
+    public var canDeleteSentMessages: Bool?
 
     /// Optional. True, if the bot can delete all private messages in managed chats
     public var canDeleteAllMessages: Bool?
@@ -68,10 +68,10 @@ public final class TGBusinessBotRights: Codable {
     /// Optional. True, if the bot can post, edit and delete stories on behalf of the business account
     public var canManageStories: Bool?
 
-    public init (canReply: Bool? = nil, canReadMessages: Bool? = nil, canDeleteOutgoingMessages: Bool? = nil, canDeleteAllMessages: Bool? = nil, canEditName: Bool? = nil, canEditBio: Bool? = nil, canEditProfilePhoto: Bool? = nil, canEditUsername: Bool? = nil, canChangeGiftSettings: Bool? = nil, canViewGiftsAndStars: Bool? = nil, canConvertGiftsToStars: Bool? = nil, canTransferAndUpgradeGifts: Bool? = nil, canTransferStars: Bool? = nil, canManageStories: Bool? = nil) {
+    public init (canReply: Bool? = nil, canReadMessages: Bool? = nil, canDeleteSentMessages: Bool? = nil, canDeleteAllMessages: Bool? = nil, canEditName: Bool? = nil, canEditBio: Bool? = nil, canEditProfilePhoto: Bool? = nil, canEditUsername: Bool? = nil, canChangeGiftSettings: Bool? = nil, canViewGiftsAndStars: Bool? = nil, canConvertGiftsToStars: Bool? = nil, canTransferAndUpgradeGifts: Bool? = nil, canTransferStars: Bool? = nil, canManageStories: Bool? = nil) {
         self.canReply = canReply
         self.canReadMessages = canReadMessages
-        self.canDeleteOutgoingMessages = canDeleteOutgoingMessages
+        self.canDeleteSentMessages = canDeleteSentMessages
         self.canDeleteAllMessages = canDeleteAllMessages
         self.canEditName = canEditName
         self.canEditBio = canEditBio

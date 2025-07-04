@@ -143,6 +143,11 @@ public protocol TGBotPrtcl {
 
 
     @discardableResult
+    func sendChecklist(params: TGSendChecklistParams) async throws -> TGMessage
+
+
+
+    @discardableResult
     func sendDice(params: TGSendDiceParams) async throws -> TGMessage
 
 
@@ -493,6 +498,11 @@ public protocol TGBotPrtcl {
 
 
     @discardableResult
+    func editMessageChecklist(params: TGEditMessageChecklistParams) async throws -> TGMessage
+
+
+
+    @discardableResult
     func editMessageReplyMarkup(params: TGEditMessageReplyMarkupParams?) async throws -> TGMessageOrBool
 
 
@@ -744,6 +754,11 @@ public protocol TGBotPrtcl {
 
     @discardableResult
     func answerPreCheckoutQuery(params: TGAnswerPreCheckoutQueryParams) async throws -> Bool
+
+
+
+    @discardableResult
+    func getMyStarBalance() async throws -> TGStarAmount
 
 
 

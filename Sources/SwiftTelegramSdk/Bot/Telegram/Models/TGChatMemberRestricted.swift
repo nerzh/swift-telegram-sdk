@@ -60,7 +60,7 @@ public final class TGChatMemberRestricted: Codable {
     /// True, if the user is allowed to send voice notes
     public var canSendVoiceNotes: Bool
 
-    /// True, if the user is allowed to send polls
+    /// True, if the user is allowed to send polls and checklists
     public var canSendPolls: Bool
 
     /// True, if the user is allowed to send animations, games, stickers and use inline bots
