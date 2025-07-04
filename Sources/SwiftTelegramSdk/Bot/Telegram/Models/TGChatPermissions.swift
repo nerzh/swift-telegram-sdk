@@ -47,7 +47,7 @@ public final class TGChatPermissions: Codable {
     /// Optional. True, if the user is allowed to send voice notes
     public var canSendVoiceNotes: Bool?
 
-    /// Optional. True, if the user is allowed to send polls
+    /// Optional. True, if the user is allowed to send polls and checklists
     public var canSendPolls: Bool?
 
     /// Optional. True, if the user is allowed to send animations, games, stickers and use inline bots
